@@ -153,7 +153,7 @@ const Dancefloor = () => {
 
       const data = await res.json();
       if (res.ok) {
-        // Update the song request status locally
+        // update the song request status locally
         setSongRequests((prevRequests) =>
           prevRequests.map((req) =>
             req.id === requestId ? { ...req, status: 'completed' } : req
