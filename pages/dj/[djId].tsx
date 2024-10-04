@@ -9,43 +9,111 @@ interface DancefloorStatus {
 
 const DjIdPage: React.FC = () => {
   const router = useRouter();
-  const { djId } = router.query; // djId might be undefined or a string | string[]
+  const { djId } = router.query;
 
   // State to manage the status message
   const [status, setStatus] = useState<string>('Loading...');
+  const [dancefloorId, setDancefloorId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL; 
 
   useEffect(() => {
-    let isMounted = true;  // Flag to check if component is still mounted
+    let isMounted = true;
 
-    // Ensure djId is a string before making the fetch request
-    if (typeof djId === 'string') {
-      fetch(`/api/dj/${djId}`)
+    // need to ensure djId is a string before making the fetch request
+    if (typeof djId === 'string' && backendUrl) {
+      fetch(`${backendUrl}/api/dj/${djId}`)
         .then((res) => res.json())
         .then((data: DancefloorStatus) => {
-          if (isMounted) {  // Only update state if component is mounted
-            if (data.is_active) {
-              router.push(`/dancefloor/${data.id}`);
+          if (isMounted) {
+            if (!data.is_active) {
+              setStatus('No active dancefloor at the moment.');
+              setDancefloorId(null);
             } else {
-              setStatus('No active dancefloor.');
+              setDancefloorId(data.id);
+              setStatus('Active dancefloor is live.');
             }
           }
         })
-        .catch(() => {
+        .catch((error) => {
           if (isMounted) {
+            console.error('Error fetching DJ data:', error);
             setStatus('Error fetching data.');
           }
         });
     }
 
     return () => {
-      isMounted = false;  // Cleanup function to prevent state updates after unmount
+      isMounted = false;
     };
-  }, [djId, router]);
+  }, [djId, backendUrl]);
+
+
+  const startDancefloor = () => {
+    if (typeof djId === 'string' && backendUrl) {
+      setIsLoading(true);
+      fetch(`${backendUrl}/api/start-dancefloor`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ djId }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setDancefloorId(data.dancefloorId);
+          setStatus('Dancefloor started successfully!');
+        })
+        .catch(() => {
+          setStatus('Error starting dancefloor.');
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  };
+
+
+  const stopDancefloor = () => {
+    if (typeof djId === 'string' && backendUrl) {
+      setIsLoading(true);
+      fetch(`${backendUrl}/api/stop-dancefloor`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ djId }),
+      })
+        .then(() => {
+          setDancefloorId(null);
+          setStatus('Dancefloor stopped.');
+        })
+        .catch(() => {
+          setStatus('Error stopping dancefloor.');
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  };
 
   return (
     <div>
       <h1>DJ Page</h1>
       <p>{status}</p>
+
+      {dancefloorId ? (
+        <>
+          <button onClick={stopDancefloor} disabled={isLoading}>
+            {isLoading ? 'Stopping...' : 'Stop Dancefloor'}
+          </button>
+          {/* Link to the dancefloor */}
+          <a href={`/dancefloor/${dancefloorId}`} style={{ marginLeft: '10px' }}>
+            Go to Active Dancefloor
+          </a>
+        </>
+      ) : (
+        <button onClick={startDancefloor} disabled={isLoading}>
+          {isLoading ? 'Starting...' : 'Start Dancefloor'}
+        </button>
+      )}
     </div>
   );
 };
