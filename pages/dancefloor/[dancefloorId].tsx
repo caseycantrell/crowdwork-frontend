@@ -4,50 +4,51 @@ import { io, Socket } from 'socket.io-client';
 
 const Dancefloor = () => {
   const router = useRouter();
-  const { dancefloorId } = router.query; 
+  const { dancefloorId } = router.query;
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [message, setMessage] = useState<string>(''); 
-  const [messages, setMessages] = useState<string[]>([]); 
-  const [songRequest, setSongRequest] = useState<string>(''); 
+  const [songRequest, setSongRequest] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
   const [songRequests, setSongRequests] = useState<any[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
   const [voteErrors, setVoteErrors] = useState<{ [key: string]: string | null }>({});
+  const [messageError, setMessageError] = useState<string>('');
 
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL; 
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-  // fetch existing song requests when component mounts
+  // fetch existing song requests and messages when the component mounts
   useEffect(() => {
     if (typeof dancefloorId === 'string') {
-      fetch(`${backendUrl}/api/dancefloor/${dancefloorId}/song-requests`)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log('Fetched song requests:', data);
-          setSongRequests(data);
-        })
-        .catch((error) => {
-          console.error('Error fetching song requests:', error);
-        });
+      fetchSongRequests();
+      fetchMessages(); // fetch messages when component mounts
     }
   }, [dancefloorId, backendUrl]);
 
-  // connect to the WebSocket server when component mounts
+  // connect to websocket server when component mounts
   useEffect(() => {
     if (typeof dancefloorId === 'string') {
-      console.log('Establishing WebSocket connection...');
-      const newSocket = io('http://localhost:3002', {
-        withCredentials: true,
-      });
+      const newSocket = io('http://localhost:3002', { withCredentials: true });
 
       newSocket.on('connect', () => {
-        console.log('WebSocket connected:', newSocket.id);
         newSocket.emit('joinDancefloor', dancefloorId);
       });
 
-      newSocket.on('message', (message) => {
-        setMessages((prevMessages) => [...prevMessages, message]);
-      });
-
+      // listen for new song requests
       newSocket.on('songRequest', (data) => {
         setSongRequests((prevRequests) => [...prevRequests, data]);
+      });
+
+      // listen for status updates
+      newSocket.on('statusUpdate', (data) => {
+        setSongRequests((prevRequests) =>
+          prevRequests.map((song) =>
+            song.id === data.requestId ? { ...song, status: data.status } : song
+          )
+        );
+      });
+
+      // listen for new messages
+      newSocket.on('message', (message) => {
+        setMessages((prevMessages) => [...prevMessages, message]);
       });
 
       newSocket.on('disconnect', () => {
@@ -56,84 +57,88 @@ const Dancefloor = () => {
 
       setSocket(newSocket);
       return () => {
-        newSocket.close();
+        newSocket.close(); // clean up the socket on unmount
       };
     }
   }, [dancefloorId]);
 
 
-  const handleSendMessage = () => {
-    if (socket && message.trim()) {
-      socket.emit('sendMessage', { dancefloorId, message });
-      setMessage(''); // clear the input after sending
-    }
-  };
-
-
-  const handleSendSongRequest = () => {
-    if (socket && songRequest.trim()) {
-      socket.emit('songRequest', { dancefloorId, song: songRequest });
-      setSongRequest(''); // clear the input after sending
-    }
-  };
-
-
-  const handleVote = async (requestId: string) => {
-    setVoteErrors((prevErrors) => ({ ...prevErrors, [requestId]: null })); // reset error for this request
-    if (socket) {
+  const fetchSongRequests = async () => {
+    if (typeof dancefloorId === 'string') {
       try {
-        const res = await fetch(`${backendUrl}/api/song-request/${requestId}/vote`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ userId: socket.id }), // pass the userId (socket ID)
-        });
-
+        const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}/song-requests`);
         const data = await res.json();
-
-        if (res.ok) {
-          // update the vote count locally
-          const updatedRequest = { ...songRequests.find(req => req.id === requestId), votes: data.votes };
-          setSongRequests((prevRequests) => {
-            // create a new array including the updated request
-            const updatedRequests = prevRequests.map((req) =>
-              req.id === requestId ? updatedRequest : req
-            );
-
-            // sort the updated requests based on # of votes
-            return updatedRequests.sort((a, b) => b.votes - a.votes);
-          });
-        } else {
-          // user has already voted, display the error for the specific song request
-          setVoteErrors((prevErrors) => ({ ...prevErrors, [requestId]: data.error }));
-        }
+        setSongRequests(data);
       } catch (error) {
-        console.error('Error voting for song request:', error);
+        console.error('Error fetching song requests:', error);
       }
     }
   };
 
+  const fetchMessages = async () => {
+    if (typeof dancefloorId === 'string') {
+      try {
+        const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}/messages`);
+        const data = await res.json();
+        setMessages(data);
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+      }
+    }
+  };
 
+  // sending song requests
+  const handleSendSongRequest = () => {
+    if (socket && songRequest.trim()) {
+      socket.emit('songRequest', { dancefloorId, song: songRequest });
+      setSongRequest(''); // clear input after sending
+    }
+  };
+
+  // sending messages
+  const handleSendMessage = async () => {
+    if (socket && message.trim()) {
+      if (message.length > 300) {
+        setMessageError('Message exceeds maximum length of 300 characters.');
+        return;
+      } else {
+        setMessageError('');
+      }
+
+      try {
+        const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}/message`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message }), // Send the message in the request body
+        });
+
+        if (res.ok) {
+          setMessage(''); // clear input after sending
+          const newMessage = { id: Date.now(), message, created_at: new Date() };
+          setMessages((prevMessages) => [...prevMessages, newMessage]);
+        } else {
+          const data = await res.json();
+          console.error(data.error);
+        }
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
+    }
+  };
+
+  // playing a song
   const handlePlay = async (requestId: string) => {
     try {
       const res = await fetch(`${backendUrl}/api/song-request/${requestId}/play`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
       });
 
-      const data = await res.json();
       if (res.ok) {
-        // update the song request status locally
-        setSongRequests((prevRequests) =>
-          prevRequests.map((req) =>
-            req.id === requestId ? { ...req, status: 'playing' } : req
-          )
-        );
-        console.log(data.message);
+        console.log('Song is now playing:', requestId);
+        fetchSongRequests(); // refresh song requests after playing
       } else {
+        const data = await res.json();
         console.error(data.error);
       }
     } catch (error) {
@@ -141,26 +146,19 @@ const Dancefloor = () => {
     }
   };
 
-
+  // completing a song
   const handleComplete = async (requestId: string) => {
     try {
       const res = await fetch(`${backendUrl}/api/song-request/${requestId}/complete`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
       });
 
-      const data = await res.json();
       if (res.ok) {
-        // update the song request status locally
-        setSongRequests((prevRequests) =>
-          prevRequests.map((req) =>
-            req.id === requestId ? { ...req, status: 'completed' } : req
-          )
-        );
-        console.log(data.message);
+        console.log('Song has been marked as completed.');
+        fetchSongRequests(); // refresh song requests after completing
       } else {
+        const data = await res.json();
         console.error(data.error);
       }
     } catch (error) {
@@ -168,26 +166,19 @@ const Dancefloor = () => {
     }
   };
 
-
+  // declining a song request
   const handleDecline = async (requestId: string) => {
     try {
       const res = await fetch(`${backendUrl}/api/song-request/${requestId}/decline`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
       });
-  
-      const data = await res.json();
+
       if (res.ok) {
-        // update the song request status locally to 'declined'
-        setSongRequests((prevRequests) =>
-          prevRequests.map((req) =>
-            req.id === requestId ? { ...req, status: 'declined' } : req // update the status of the declined request
-          )
-        );
-        console.log(data.message);
+        console.log('Song request declined.');
+        fetchSongRequests(); // refresh song requests after declining
       } else {
+        const data = await res.json();
         console.error(data.error);
       }
     } catch (error) {
@@ -195,20 +186,64 @@ const Dancefloor = () => {
     }
   };
 
+  // voting for a song request
+  const handleVote = async (requestId: string) => {
+    try {
+      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/vote`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: socket?.id }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setSongRequests((prevRequests) =>
+          prevRequests.map((req) =>
+            req.id === requestId ? { ...req, votes: data.votes } : req
+          )
+        );
+      } else {
+        setVoteErrors((prevErrors) => ({
+          ...prevErrors,
+          [requestId]: data.error,
+        }));
+      }
+    } catch (error) {
+      console.error('Error voting for song:', error);
+    }
+  };
+
+  // requeuing a song
+  const handleRequeue = async (requestId: string) => {
+    try {
+      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'queued' }),
+      });
+
+      if (res.ok) {
+        console.log('Song has been requeued.');
+        fetchSongRequests(); // refresh song requests after requeuing
+      } else {
+        const data = await res.json();
+        console.error(data.error);
+      }
+    } catch (error) {
+      console.error('Error requeuing song:', error);
+    }
+  };
+
+  const activeRequests = songRequests.filter((request) => request.status === 'queued');
+  const nowPlayingSong = songRequests.find((request) => request.status === 'playing');
+  const completedRequests = songRequests.filter((request) => request.status === 'completed');
+  const declinedRequests = songRequests.filter((request) => request.status === 'declined');
+
   return (
     <div>
       <h1>Dancefloor {dancefloorId}</h1>
 
-      {/* input field for messages */}
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        placeholder="Enter your message"
-      />
-      <button onClick={handleSendMessage}>Send Message</button>
-
-      {/* input field for song requests */}
+      {/* placeholder input for song requests */}
       <input
         type="text"
         value={songRequest}
@@ -217,69 +252,94 @@ const Dancefloor = () => {
       />
       <button onClick={handleSendSongRequest}>Send Song Request</button>
 
-      {/* Display received messages */}
+      {/* placeholder input for messages */}
+      <input
+        type="text"
+        value={message}
+        onChange={(e) => {
+          setMessage(e.target.value);
+          if (e.target.value.length > 300) {
+            setMessageError('Message exceeds maximum length of 300 characters.');
+          } else {
+            setMessageError('');
+          }
+        }}
+        placeholder="Enter your message"
+      />
+      <button onClick={handleSendMessage}>Send Message</button>
+
+      {/* messages input error message display */}
+      {messageError && <p style={{ color: 'red' }}>{messageError}</p>}
+
       <div>
         <h2>Messages</h2>
         {messages.length > 0 ? (
-          messages.map((msg, index) => (
-            <p key={index}>{msg}</p>
-          ))
+          messages.map((msg, index) => <p key={index}>{msg.message}</p>)
         ) : (
           <p>No messages yet.</p>
         )}
       </div>
 
+      {nowPlayingSong ? (
+        <div>
+          <h2>Now Playing</h2>
+          <p>
+            {nowPlayingSong.song} (Votes: {nowPlayingSong.votes})
+          </p>
+          <button onClick={() => handleComplete(nowPlayingSong.id)}>Complete</button>
+          <button onClick={() => handleRequeue(nowPlayingSong.id)}>Requeue</button>
+        </div>
+      ) : (
+        <p>No song is currently playing.</p>
+      )}
 
       <div>
         <h2>Active Requests</h2>
-        {songRequests.length > 0 ? (
-          songRequests
-            .filter(request => request.status === 'queued' || request.status === 'playing') // show only active requests
-            .sort((a, b) => b.votes - a.votes) // sort by votes
-            .map((request, index) => (
-              <div key={index}>
-                <p>
-                  {request.song} (Votes: {request.votes}) (Status: {request.status})
-                </p>
-                <button onClick={() => handleVote(request.id)}>Vote</button>
-                {request.status === 'queued' && (
-                  <>
-                    <button onClick={() => handlePlay(request.id)}>Play</button>
-                    <button onClick={() => handleDecline(request.id)}>Decline</button>
-                  </>
-                )}
-                {request.status === 'playing' && (
-                  <button onClick={() => handleComplete(request.id)}>Complete</button>
-                )}
-                {/* display error message only for this specific song request */}
-                {voteErrors[request.id] && <p style={{ color: 'red' }}>{voteErrors[request.id]}</p>}
-              </div>
-            ))
+        {activeRequests.length > 0 ? (
+          activeRequests.map((request, index) => (
+            <div key={index}>
+              <p>
+                {request.song} (Votes: {request.votes}) (Status: {request.status})
+              </p>
+              <button onClick={() => handleVote(request.id)}>Vote</button>
+              <button onClick={() => handlePlay(request.id)}>Play</button>
+              <button onClick={() => handleDecline(request.id)}>Decline</button>
+              {voteErrors[request.id] && <p style={{ color: 'red' }}>{voteErrors[request.id]}</p>}
+            </div>
+          ))
         ) : (
           <p>No active requests.</p>
         )}
+      </div>
 
-        <h3>Completed Requests</h3>
-        {songRequests
-          .filter(request => request.status === 'completed')
-          .map((request, index) => (
+      <div>
+        <h2>Completed Requests</h2>
+        {completedRequests.length > 0 ? (
+          completedRequests.map((request, index) => (
             <div key={index}>
               <p>
                 {request.song} (Votes: {request.votes}) (Status: {request.status})
               </p>
             </div>
-          ))}
+          ))
+        ) : (
+          <p>No completed requests.</p>
+        )}
+      </div>
 
-        <h3>Declined Requests</h3>
-        {songRequests
-          .filter(request => request.status === 'declined')
-          .map((request, index) => (
+      <div>
+        <h2>Declined Requests</h2>
+        {declinedRequests.length > 0 ? (
+          declinedRequests.map((request, index) => (
             <div key={index}>
               <p>
                 {request.song} (Votes: {request.votes}) (Status: {request.status})
               </p>
             </div>
-          ))}
+          ))
+        ) : (
+          <p>No declined requests.</p>
+        )}
       </div>
     </div>
   );
