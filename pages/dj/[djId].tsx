@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import LogoutButton from '../../components/LogoutButton';
 
 // Define the interface for the fetched data
 interface DancefloorStatus {
@@ -114,6 +115,9 @@ const DjIdPage: React.FC = () => {
           {isLoading ? 'Starting...' : 'Start Dancefloor'}
         </button>
       )}
+      <div>
+      <LogoutButton />
+      </div>
     </div>
   );
 };
