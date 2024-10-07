@@ -20,10 +20,10 @@ const SignupPage = () => {
 
     const data = await response.json();
     if (response.ok) {
-      // If signup is successful, redirect to login page
+      // if signup is successful, redirect to login page
       setMessage('Signup successful! Redirecting to login...');
       setTimeout(() => {
-        router.push('/login'); // Redirect to login after 2 seconds
+        router.push('/login'); // redirect to login after 2 seconds
       }, 2000);
     } else {
       setMessage(data.message || 'Signup failed');

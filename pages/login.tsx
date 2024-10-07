@@ -1,4 +1,3 @@
-// pages/login.tsx
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
@@ -16,7 +15,7 @@ const LoginPage = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: 'include', // Include cookies in the request
+      credentials: 'include',
       body: JSON.stringify({ email, password }),
     });
 
@@ -25,10 +24,8 @@ const LoginPage = () => {
     console.log("data", data)
 
     if (response.ok) {
-      const djId = data.dj.id; // Assuming the response sends back a 'dj' object with 'id'
+      const djId = data.dj.id;
       setMessage('Login successful');
-
-      // Redirect the user to the [djId] page
       router.push(`/dj/${djId}`);
     } else {
       setMessage(data.message || 'Login failed');
