@@ -1,10 +1,13 @@
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
+import Link from 'next/link';
 
 const Dancefloor = () => {
   const router = useRouter();
-  const { dancefloorId } = router.query;
+  const { dancefloorId, djId } = router.query;
+  console.log("dancefloorId",dancefloorId )
+  console.log("djId",djId )
   const [socket, setSocket] = useState<Socket | null>(null);
   const [songRequest, setSongRequest] = useState<string>('');
   const [message, setMessage] = useState<string>('');
@@ -241,8 +244,17 @@ const Dancefloor = () => {
 
   return (
     <div>
-      <h1>Dancefloor {dancefloorId}</h1>
+     {djId && 
+      <Link 
+        href={{
+          pathname: `/dj/${djId}`
+        }} 
+        style={{ marginLeft: '10px' }}
+      >
+        Go to DJ Page
+      </Link>}
 
+      <h1>Dancefloor {dancefloorId}</h1>
       {/* placeholder input for song requests */}
       <input
         type="text"

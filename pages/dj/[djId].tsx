@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import LogoutButton from '../../components/LogoutButton';
+import Link from 'next/link';
 
 // Define the interface for the fetched data
 interface DancefloorStatus {
@@ -17,7 +18,7 @@ const DjIdPage: React.FC = () => {
   const [dancefloorId, setDancefloorId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL; 
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     let isMounted = true;
@@ -63,6 +64,10 @@ const DjIdPage: React.FC = () => {
         .then((data) => {
           setDancefloorId(data.dancefloorId);
           setStatus('Dancefloor started successfully!');
+          router.push({
+            pathname: `/dancefloor/${data.dancefloorId}`,
+            query: { djId: djId }
+          });
         })
         .catch(() => {
           setStatus('Error starting dancefloor.');
@@ -105,10 +110,15 @@ const DjIdPage: React.FC = () => {
           <button onClick={stopDancefloor} disabled={isLoading}>
             {isLoading ? 'Stopping...' : 'Stop Dancefloor'}
           </button>
-          {/* Link to the dancefloor */}
-          <a href={`/dancefloor/${dancefloorId}`} style={{ marginLeft: '10px' }}>
-            Go to Active Dancefloor
-          </a>
+          {/* Link to the live dancefloor if one exists */}
+          <Link 
+          href={{
+            pathname: `/dancefloor/${dancefloorId}`, 
+            query: { djId: djId }
+          }} 
+          style={{ marginLeft: '10px' }}>
+          Go to Active Dancefloor
+        </Link>
         </>
       ) : (
         <button onClick={startDancefloor} disabled={isLoading}>
@@ -116,7 +126,7 @@ const DjIdPage: React.FC = () => {
         </button>
       )}
       <div>
-      <LogoutButton />
+        <LogoutButton />
       </div>
     </div>
   );

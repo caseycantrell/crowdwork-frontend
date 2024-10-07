@@ -1,4 +1,3 @@
-// pages/signup.tsx
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
@@ -20,11 +19,12 @@ const SignupPage = () => {
 
     const data = await response.json();
     if (response.ok) {
-      // if signup is successful, redirect to login page
-      setMessage('Signup successful! Redirecting to login...');
+      // Show success message and add a delay before redirect
+      setMessage('Signup successful! Redirecting...');
+
       setTimeout(() => {
-        router.push('/login'); // redirect to login after 2 seconds
-      }, 2000);
+        router.push(`/dj/${data.djId}`); // Redirect after 2 seconds
+      }, 2000); // 2-second delay
     } else {
       setMessage(data.message || 'Signup failed');
     }
