@@ -1,41 +1,53 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import LogoutButton from '../../components/LogoutButton';
 import Link from 'next/link';
 
-// Define the interface for the fetched data
-interface DancefloorStatus {
-  id: string;
-  is_active: boolean;
-}
+// define the interface for the fetched data
+// interface DancefloorStatus {
+//   qrCode: SetStateAction<string | null>;
+//   id: string;
+//   is_active: boolean;
+// }
 
 const DjIdPage: React.FC = () => {
   const router = useRouter();
   const { djId } = router.query;
 
-  // State to manage the status message
   const [status, setStatus] = useState<string>('Loading...');
   const [dancefloorId, setDancefloorId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     let isMounted = true;
-
-    // need to ensure djId is a string before making the fetch request
+  
     if (typeof djId === 'string' && backendUrl) {
-      fetch(`${backendUrl}/api/dj/${djId}`)
+      fetch(`${backendUrl}/api/dj/${djId}`, {
+        method: 'GET',
+        credentials: 'include', 
+      })
         .then((res) => res.json())
-        .then((data: DancefloorStatus) => {
+        .then((data: { qrCode: string, isActive: boolean, dancefloorId: string | null, isDjLoggedIn: boolean }) => {
+  
           if (isMounted) {
-            if (!data.is_active) {
+            if (!data.isActive) {
               setStatus('No active dancefloor at the moment.');
               setDancefloorId(null);
             } else {
-              setDancefloorId(data.id);
+              setDancefloorId(data.dancefloorId);
               setStatus('Active dancefloor is live.');
+  
+              // only redirect if the user is not logged in as the DJ
+              if (!data.isDjLoggedIn) {
+                router.push({
+                  pathname: `/dancefloor/${data.dancefloorId}`,
+                  query: { djId: djId }
+                });
+              }
             }
+            setQrCodeUrl(data.qrCode);
           }
         })
         .catch((error) => {
@@ -45,12 +57,12 @@ const DjIdPage: React.FC = () => {
           }
         });
     }
-
+  
     return () => {
       isMounted = false;
     };
-  }, [djId, backendUrl]);
-
+  }, [djId, backendUrl]);  
+  
 
   const startDancefloor = () => {
     if (typeof djId === 'string' && backendUrl) {
@@ -104,7 +116,13 @@ const DjIdPage: React.FC = () => {
     <div>
       <h1>DJ Page</h1>
       <p>{status}</p>
-
+   {/* Display the QR code if available */}
+      {qrCodeUrl && (
+            <div>
+              <h3>Your QR Code</h3>
+              <img src={qrCodeUrl} alt="DJ QR Code" style={{ width: '200px', height: '200px' }} />
+            </div>
+          )}
       {dancefloorId ? (
         <>
           <button onClick={stopDancefloor} disabled={isLoading}>

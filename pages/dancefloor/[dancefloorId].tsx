@@ -90,6 +90,27 @@ const Dancefloor = () => {
     }
   };
 
+  // stop dancefloor
+  const handleStopDancefloor = async () => {
+    try {
+      const res = await fetch(`${backendUrl}/api/stop-dancefloor`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ djId }),  // Assuming djId is available from the query
+      });
+  
+      if (res.ok) {
+        console.log('Dancefloor stopped.');
+        router.push(`/dj/${djId}`); // Redirect back to DJ page after stopping
+      } else {
+        const data = await res.json();
+        console.error(data.error);
+      }
+    } catch (error) {
+      console.error('Error stopping dancefloor:', error);
+    }
+  };
+  
   // sending song requests
   const handleSendSongRequest = () => {
     if (socket && songRequest.trim()) {
@@ -256,6 +277,9 @@ const Dancefloor = () => {
 
       <h1>Dancefloor {dancefloorId}</h1>
       {/* placeholder input for song requests */}
+      <button onClick={handleStopDancefloor}>Stop Dancefloor</button>
+      <br/>
+      <br/>
       <input
         type="text"
         value={songRequest}
