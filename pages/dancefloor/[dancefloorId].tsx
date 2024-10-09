@@ -29,7 +29,7 @@ const Dancefloor = () => {
   // connect to websocket server when component mounts
   useEffect(() => {
     if (typeof dancefloorId === 'string') {
-      const newSocket = io('http://localhost:3002', { withCredentials: true });
+      const newSocket = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}`, { withCredentials: true });
 
       newSocket.on('connect', () => {
         newSocket.emit('joinDancefloor', dancefloorId);
@@ -65,7 +65,6 @@ const Dancefloor = () => {
     }
   }, [dancefloorId]);
 
-
   const fetchSongRequests = async () => {
     if (typeof dancefloorId === 'string') {
       try {
@@ -96,12 +95,12 @@ const Dancefloor = () => {
       const res = await fetch(`${backendUrl}/api/stop-dancefloor`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ djId }),  // Assuming djId is available from the query
+        body: JSON.stringify({ djId }), 
       });
   
       if (res.ok) {
         console.log('Dancefloor stopped.');
-        router.push(`/dj/${djId}`); // Redirect back to DJ page after stopping
+        router.push(`/dj/${djId}`); // redirect back to DJ page after stopping
       } else {
         const data = await res.json();
         console.error(data.error);
@@ -133,7 +132,7 @@ const Dancefloor = () => {
         const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}/message`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message }), // Send the message in the request body
+          body: JSON.stringify({ message }),
         });
 
         if (res.ok) {
@@ -212,20 +211,35 @@ const Dancefloor = () => {
 
   // voting for a song request
   const handleVote = async (requestId: string) => {
+    // check if the user has already voted for this request in their cookies
+    if (document.cookie.includes(`voted_for_${requestId}`)) {
+      setVoteErrors((prevErrors) => ({
+        ...prevErrors,
+        [requestId]: 'You have already voted for this song request.',
+      }));
+      return;
+    }
+  
     try {
       const res = await fetch(`${backendUrl}/api/song-request/${requestId}/vote`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: socket?.id }),
       });
-
+  
       const data = await res.json();
       if (res.ok) {
+        // set a cookie to record the vote (expires in 24 hours)
+        document.cookie = `voted_for_${requestId}=true; max-age=86400;`;
+  
         setSongRequests((prevRequests) =>
           prevRequests.map((req) =>
             req.id === requestId ? { ...req, votes: data.votes } : req
           )
         );
+        setVoteErrors((prevErrors) => ({
+          ...prevErrors,
+          [requestId]: null, // clear any previous error
+        }));
       } else {
         setVoteErrors((prevErrors) => ({
           ...prevErrors,
@@ -233,10 +247,13 @@ const Dancefloor = () => {
         }));
       }
     } catch (error) {
-      console.error('Error voting for song:', error);
+      setVoteErrors((prevErrors) => ({
+        ...prevErrors,
+        [requestId]: 'Error voting for this song.',
+      }));
     }
   };
-
+  
   // requeuing a song
   const handleRequeue = async (requestId: string) => {
     try {
@@ -347,7 +364,6 @@ const Dancefloor = () => {
           <p>No active requests.</p>
         )}
       </div>
-
       <div>
         <h2>Completed Requests</h2>
         {completedRequests.length > 0 ? (
@@ -356,6 +372,7 @@ const Dancefloor = () => {
               <p>
                 {request.song} (Votes: {request.votes}) (Status: {request.status})
               </p>
+              <button onClick={() => handleRequeue(request.id)}>Requeue</button>
             </div>
           ))
         ) : (
@@ -371,6 +388,7 @@ const Dancefloor = () => {
               <p>
                 {request.song} (Votes: {request.votes}) (Status: {request.status})
               </p>
+              <button onClick={() => handleRequeue(request.id)}>Requeue</button>
             </div>
           ))
         ) : (
