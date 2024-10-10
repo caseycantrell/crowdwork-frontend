@@ -20,7 +20,8 @@ const Dancefloor = () => {
   const [songRequestsError, setSongRequestsError] = useState<string | null>(null);
   const [messagesError, setMessagesError] = useState<string | null>(null);
   const [djInfo, setDjInfo] = useState<any>(null); // State for DJ info
-  const [djError, setDjError] = useState<string | null>(null); 
+  const [djError, setDjError] = useState<string | null>(null);
+  const [notification, setNotification] = useState<string | null>(null);
 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -66,6 +67,7 @@ const Dancefloor = () => {
 
       // listen for new song requests
       newSocket.on('songRequest', (data) => {
+        setNotification('New song request received!');
         setSongRequests((prevRequests) => [...prevRequests, data]);
       });
 
@@ -80,6 +82,7 @@ const Dancefloor = () => {
 
       // listen for new messages
       newSocket.on('message', (message) => {
+        setNotification('New message received!');
         setMessages((prevMessages) => [...prevMessages, message]);
       });
 
@@ -332,6 +335,16 @@ const Dancefloor = () => {
     }
   };
 
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => {
+        setNotification(null);
+      }, 3000);
+  
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
+
   const activeRequests = songRequests.filter((request) => request.status === 'queued');
   const nowPlayingSong = songRequests.find((request) => request.status === 'playing');
   const completedRequests = songRequests.filter((request) => request.status === 'completed');
@@ -339,6 +352,8 @@ const Dancefloor = () => {
 
   return (
     <div>
+       {notification && <div className="notification">{notification}</div>}
+
       {djInfo ? (
         <div>
           <h2>DJ Information</h2>
