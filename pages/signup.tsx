@@ -10,25 +10,31 @@ const SignupPage = () => {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/signup`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password }),
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      // Show success message and add a delay before redirect
-      setMessage('Signup successful! Redirecting...');
-
-      setTimeout(() => {
-        router.push(`/dj/${data.djId}`); // Redirect after 2 seconds
-      }, 2000); // 2-second delay
-    } else {
-      setMessage(data.message || 'Signup failed');
+  
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        setMessage('Signup successful! Redirecting...');
+  
+        setTimeout(() => {
+          router.push(`/dj/${data.djId}`); // redirect after 2 seconds
+        }, 2000);
+      } else {
+        setMessage(data.error || 'Signup failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('An unexpected error occurred:', error);
+      setMessage('An unexpected error occurred. Please try again later.');
     }
   };
+  
 
   return (
     <div>

@@ -15,14 +15,43 @@ const Dancefloor = () => {
   const [messages, setMessages] = useState<any[]>([]);
   const [voteErrors, setVoteErrors] = useState<{ [key: string]: string | null }>({});
   const [messageError, setMessageError] = useState<string>('');
+  const [isLoadingRequests, setIsLoadingRequests] = useState<boolean>(true);
+  const [isLoadingMessages, setIsLoadingMessages] = useState<boolean>(true);
+  const [songRequestsError, setSongRequestsError] = useState<string | null>(null);
+  const [messagesError, setMessagesError] = useState<string | null>(null);
+  const [djInfo, setDjInfo] = useState<any>(null); // State for DJ info
+  const [djError, setDjError] = useState<string | null>(null); 
 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
+  // Fetch DJ info
+  const fetchDjInfo = async () => {
+    if (typeof djId === 'string') {
+      try {
+        const res = await fetch(`${backendUrl}/api/dj/${djId}`);
+        const data = await res.json();
+
+        if (res.ok) {
+          setDjInfo(data);
+          setDjError(null); // Clear error
+        } else {
+          setDjError(data.message || 'Failed to load DJ info.');
+        }
+      } catch (error) {
+        console.error('Error fetching DJ info:', error);
+        setDjError('Failed to load DJ info.');
+      }
+    }
+  };
   // fetch existing song requests and messages when the component mounts
   useEffect(() => {
     if (typeof dancefloorId === 'string') {
       fetchSongRequests();
-      fetchMessages(); // fetch messages when component mounts
+      fetchMessages(); 
+    
+    if (typeof djId === 'string') {
+      fetchDjInfo(); // Fetch DJ info when component mounts
+    }// fetch messages when component mounts
     }
   }, [dancefloorId, backendUrl]);
 
@@ -59,32 +88,60 @@ const Dancefloor = () => {
       });
 
       setSocket(newSocket);
+
+      // cleanup the socket connection
       return () => {
-        newSocket.close(); // clean up the socket on unmount
+        if (newSocket && newSocket.connected) {
+          newSocket.close();
+        }
       };
     }
   }, [dancefloorId]);
 
   const fetchSongRequests = async () => {
     if (typeof dancefloorId === 'string') {
+      setIsLoadingRequests(true);
       try {
         const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}/song-requests`);
         const data = await res.json();
-        setSongRequests(data);
+
+        if (res.ok) {
+          setSongRequests(Array.isArray(data) ? data : []);
+          setSongRequestsError(null);
+        } else {
+          setSongRequestsError(data.message || 'Failed to load song requests.');
+          setSongRequests([]);
+        }
       } catch (error) {
         console.error('Error fetching song requests:', error);
+        setSongRequestsError('Failed to load song requests.');
+        setSongRequests([]);
+      } finally {
+        setIsLoadingRequests(false);
       }
     }
   };
 
   const fetchMessages = async () => {
     if (typeof dancefloorId === 'string') {
+      setIsLoadingMessages(true);
       try {
         const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}/messages`);
         const data = await res.json();
-        setMessages(data);
+
+        if (res.ok) {
+          setMessages(Array.isArray(data) ? data : []);
+          setMessagesError(null); // Clear any previous errors if successful
+        } else {
+          setMessagesError(data.message || 'Failed to load messages.');
+          setMessages([]); // Default to empty array on error
+        }
       } catch (error) {
         console.error('Error fetching messages:', error);
+        setMessagesError('Failed to load messages.');
+        setMessages([]); // Default to empty array on error
+      } finally {
+        setIsLoadingMessages(false);
       }
     }
   };
@@ -282,6 +339,23 @@ const Dancefloor = () => {
 
   return (
     <div>
+      {djInfo ? (
+        <div>
+          <h2>DJ Information</h2>
+          <p>Name: {djInfo.name}</p>
+          <p>Bio: {djInfo.bio}</p>
+          <p>Website: <a href={djInfo.website} target="_blank" rel="noopener noreferrer">{djInfo.website}</a></p>
+          <p>Instagram: {djInfo.instagramHandle}</p>
+          <p>Twitter: {djInfo.twitterHandle}</p>
+          <p>Venmo: {djInfo.venmoHandle}</p>
+          <p>CashApp: {djInfo.cashappHandle}</p>
+        </div>
+      ) : djError ? (
+        <p style={{ color: 'red' }}>{djError}</p>
+      ) : (
+        <p>Loading DJ information...</p>
+      )}
+
      {djId && 
       <Link 
         href={{
@@ -297,6 +371,7 @@ const Dancefloor = () => {
       <button onClick={handleStopDancefloor}>Stop Dancefloor</button>
       <br/>
       <br/>
+
       <input
         type="text"
         value={songRequest}
@@ -326,7 +401,11 @@ const Dancefloor = () => {
 
       <div>
         <h2>Messages</h2>
-        {messages.length > 0 ? (
+        {isLoadingMessages ? (
+          <p>Loading messages...</p>
+        ) : messagesError ? (
+          <p style={{ color: 'red' }}>{messagesError}</p>
+        ) : messages.length > 0 ? (
           messages.map((msg, index) => <p key={index}>{msg.message}</p>)
         ) : (
           <p>No messages yet.</p>
@@ -346,53 +425,70 @@ const Dancefloor = () => {
         <p>No song is currently playing.</p>
       )}
 
-      <div>
-        <h2>Active Requests</h2>
-        {activeRequests.length > 0 ? (
-          activeRequests.map((request, index) => (
-            <div key={index}>
-              <p>
-                {request.song} (Votes: {request.votes}) (Status: {request.status})
-              </p>
-              <button onClick={() => handleVote(request.id)}>Vote</button>
-              <button onClick={() => handlePlay(request.id)}>Play</button>
-              <button onClick={() => handleDecline(request.id)}>Decline</button>
-              {voteErrors[request.id] && <p style={{ color: 'red' }}>{voteErrors[request.id]}</p>}
-            </div>
-          ))
+<div>
+        <h2>Song Requests</h2>
+        {isLoadingRequests ? (
+          <p>Loading song requests...</p>
+        ) : songRequestsError ? (
+          <p style={{ color: 'red' }}>{songRequestsError}</p>
         ) : (
-          <p>No active requests.</p>
-        )}
-      </div>
-      <div>
-        <h2>Completed Requests</h2>
-        {completedRequests.length > 0 ? (
-          completedRequests.map((request, index) => (
-            <div key={index}>
-              <p>
-                {request.song} (Votes: {request.votes}) (Status: {request.status})
-              </p>
-              <button onClick={() => handleRequeue(request.id)}>Requeue</button>
-            </div>
-          ))
-        ) : (
-          <p>No completed requests.</p>
-        )}
-      </div>
+          <>
+            {nowPlayingSong ? (
+              <div>
+                <h2>Now Playing</h2>
+                <p>{nowPlayingSong.song} (Votes: {nowPlayingSong.votes})</p>
+                <button onClick={() => handleComplete(nowPlayingSong.id)}>Complete</button>
+                <button onClick={() => handleRequeue(nowPlayingSong.id)}>Requeue</button>
+              </div>
+            ) : (
+              <p>No song is currently playing.</p>
+            )}
 
-      <div>
-        <h2>Declined Requests</h2>
-        {declinedRequests.length > 0 ? (
-          declinedRequests.map((request, index) => (
-            <div key={index}>
-              <p>
-                {request.song} (Votes: {request.votes}) (Status: {request.status})
-              </p>
-              <button onClick={() => handleRequeue(request.id)}>Requeue</button>
+            <div>
+              <h2>Active Requests</h2>
+              {activeRequests.length > 0 ? (
+                activeRequests.map((request, index) => (
+                  <div key={index}>
+                    <p>{request.song} (Votes: {request.votes})</p>
+                    <button onClick={() => handleVote(request.id)}>Vote</button>
+                    <button onClick={() => handlePlay(request.id)}>Play</button>
+                    <button onClick={() => handleDecline(request.id)}>Decline</button>
+                    {voteErrors[request.id] && <p style={{ color: 'red' }}>{voteErrors[request.id]}</p>}
+                  </div>
+                ))
+              ) : (
+                <p>No active requests.</p>
+              )}
             </div>
-          ))
-        ) : (
-          <p>No declined requests.</p>
+
+            <div>
+              <h2>Completed Requests</h2>
+              {completedRequests.length > 0 ? (
+                completedRequests.map((request, index) => (
+                  <div key={index}>
+                    <p>{request.song} (Votes: {request.votes})</p>
+                    <button onClick={() => handleRequeue(request.id)}>Requeue</button>
+                  </div>
+                ))
+              ) : (
+                <p>No completed requests.</p>
+              )}
+            </div>
+
+            <div>
+              <h2>Declined Requests</h2>
+              {declinedRequests.length > 0 ? (
+                declinedRequests.map((request, index) => (
+                  <div key={index}>
+                    <p>{request.song} (Votes: {request.votes})</p>
+                    <button onClick={() => handleRequeue(request.id)}>Requeue</button>
+                  </div>
+                ))
+              ) : (
+                <p>No declined requests.</p>
+              )}
+            </div>
+          </>
         )}
       </div>
     </div>

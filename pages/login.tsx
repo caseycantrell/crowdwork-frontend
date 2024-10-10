@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import LogoutButton from '../components/LogoutButton';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -49,6 +50,7 @@ const LoginPage = () => {
         <button type="submit">Login</button>
       </form>
       <p>{message}</p>
+      <LogoutButton />
     </div>
   );
 };
