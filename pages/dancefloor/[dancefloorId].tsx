@@ -6,8 +6,6 @@ import Link from 'next/link';
 const Dancefloor = () => {
   const router = useRouter();
   const { dancefloorId, djId } = router.query;
-  console.log("dancefloorId",dancefloorId )
-  console.log("djId",djId )
   const [socket, setSocket] = useState<Socket | null>(null);
   const [songRequest, setSongRequest] = useState<string>('');
   const [message, setMessage] = useState<string>('');
@@ -81,7 +79,7 @@ const Dancefloor = () => {
       });
 
       // listen for new messages
-      newSocket.on('message', (message) => {
+      newSocket.on('sendMessage', (message) => {
         setNotification('New message received!');
         setMessages((prevMessages) => [...prevMessages, message]);
       });
@@ -179,7 +177,7 @@ const Dancefloor = () => {
   };
 
   // sending messages
-  const handleSendMessage = async () => {
+  const handleSendMessage = () => {
     if (socket && message.trim()) {
       if (message.length > 300) {
         setMessageError('Message exceeds maximum length of 300 characters.');
@@ -187,25 +185,9 @@ const Dancefloor = () => {
       } else {
         setMessageError('');
       }
-
-      try {
-        const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}/message`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message }),
-        });
-
-        if (res.ok) {
-          setMessage(''); // clear input after sending
-          const newMessage = { id: Date.now(), message, created_at: new Date() };
-          setMessages((prevMessages) => [...prevMessages, newMessage]);
-        } else {
-          const data = await res.json();
-          console.error(data.error);
-        }
-      } catch (error) {
-        console.error('Error sending message:', error);
-      }
+  
+      socket.emit('sendMessage', { dancefloorId, message });
+      setMessage(''); // clear input after sending
     }
   };
 
