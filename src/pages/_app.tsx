@@ -1,5 +1,6 @@
 import Layout from '../components/Layout';
 import { AppProps } from 'next/app';
+import '../styles/globals.css'
 // import { useEffect, useState } from 'react';
 
 function MyApp({ Component, pageProps }: AppProps) {
