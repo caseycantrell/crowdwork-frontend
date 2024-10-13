@@ -2,22 +2,25 @@ import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
 import Link from 'next/link';
+import DJView from '@/components/Dancefloor/DJView';
 
 const Dancefloor = () => {
   const router = useRouter();
   const { dancefloorId, djId } = router.query;
+  const validDjId = typeof djId === 'string' ? djId : undefined;
+  const validDancefloorId = typeof dancefloorId === 'string' ? dancefloorId : undefined;
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [songRequest, setSongRequest] = useState<string>('');
   const [message, setMessage] = useState<string>('');
-  const [songRequests, setSongRequests] = useState<any[]>([]);
   const [messages, setMessages] = useState<any[]>([]);
-  const [voteErrors, setVoteErrors] = useState<{ [key: string]: string | null }>({});
   const [messageError, setMessageError] = useState<string>('');
-  const [isLoadingRequests, setIsLoadingRequests] = useState<boolean>(true);
-  const [isLoadingMessages, setIsLoadingMessages] = useState<boolean>(true);
-  const [songRequestsError, setSongRequestsError] = useState<string | null>(null);
   const [messagesError, setMessagesError] = useState<string | null>(null);
-  const [djInfo, setDjInfo] = useState<any>(null); // State for DJ info
+  const [isLoadingMessages, setIsLoadingMessages] = useState<boolean>(true);
+  const [songRequest, setSongRequest] = useState<string>('');
+  const [songRequests, setSongRequests] = useState<any[]>([]);
+  const [songRequestsError, setSongRequestsError] = useState<string | null>(null);
+  const [isLoadingRequests, setIsLoadingRequests] = useState<boolean>(true);
+  const [voteErrors, setVoteErrors] = useState<{ [key: string]: string | null }>({});
+  const [djInfo, setDjInfo] = useState<any>(null);
   const [djError, setDjError] = useState<string | null>(null);
   const [notification, setNotification] = useState<string | null>(null);
 
@@ -333,162 +336,35 @@ const Dancefloor = () => {
   const declinedRequests = songRequests.filter((request) => request.status === 'declined');
 
   return (
-    <div>
-       {notification && <div className="notification">{notification}</div>}
-
-      {djInfo ? (
-        <div>
-          <h2>DJ Information</h2>
-          <p>Name: {djInfo.name}</p>
-          <p>Bio: {djInfo.bio}</p>
-          <p>Website: <a href={djInfo.website} target="_blank" rel="noopener noreferrer">{djInfo.website}</a></p>
-          <p>Instagram: {djInfo.instagramHandle}</p>
-          <p>Twitter: {djInfo.twitterHandle}</p>
-          <p>Venmo: {djInfo.venmoHandle}</p>
-          <p>CashApp: {djInfo.cashappHandle}</p>
-        </div>
-      ) : djError ? (
-        <p style={{ color: 'red' }}>{djError}</p>
-      ) : (
-        <p>Loading DJ information...</p>
-      )}
-
-     {djId && 
-      <Link 
-        href={{
-          pathname: `/dj/${djId}`
-        }} 
-        style={{ marginLeft: '10px' }}
-      >
-        Go to DJ Page
-      </Link>}
-
-      <h1>Dancefloor {dancefloorId}</h1>
-      {/* placeholder input for song requests */}
-      <button onClick={handleStopDancefloor}>Stop Dancefloor</button>
-      <br/>
-      <br/>
-
-      <input
-        type="text"
-        value={songRequest}
-        onChange={(e) => setSongRequest(e.target.value)}
-        placeholder="Enter your song request"
-      />
-      <button onClick={handleSendSongRequest}>Send Song Request</button>
-
-      {/* placeholder input for messages */}
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => {
-          setMessage(e.target.value);
-          if (e.target.value.length > 300) {
-            setMessageError('Message exceeds maximum length of 300 characters.');
-          } else {
-            setMessageError('');
-          }
-        }}
-        placeholder="Enter your message"
-      />
-      <button onClick={handleSendMessage}>Send Message</button>
-
-      {/* messages input error message display */}
-      {messageError && <p style={{ color: 'red' }}>{messageError}</p>}
-
-      <div>
-        <h2>Messages</h2>
-        {isLoadingMessages ? (
-          <p>Loading messages...</p>
-        ) : messagesError ? (
-          <p style={{ color: 'red' }}>{messagesError}</p>
-        ) : messages.length > 0 ? (
-          messages.map((msg, index) => <p key={index}>{msg.message}</p>)
-        ) : (
-          <p>No messages yet.</p>
-        )}
-      </div>
-
-      {nowPlayingSong ? (
-        <div>
-          <h2>Now Playing</h2>
-          <p>
-            {nowPlayingSong.song} (Votes: {nowPlayingSong.votes})
-          </p>
-          <button onClick={() => handleComplete(nowPlayingSong.id)}>Complete</button>
-          <button onClick={() => handleRequeue(nowPlayingSong.id)}>Requeue</button>
-        </div>
-      ) : (
-        <p>No song is currently playing.</p>
-      )}
-
-<div>
-        <h2>Song Requests</h2>
-        {isLoadingRequests ? (
-          <p>Loading song requests...</p>
-        ) : songRequestsError ? (
-          <p style={{ color: 'red' }}>{songRequestsError}</p>
-        ) : (
-          <>
-            {nowPlayingSong ? (
-              <div>
-                <h2>Now Playing</h2>
-                <p>{nowPlayingSong.song} (Votes: {nowPlayingSong.votes})</p>
-                <button onClick={() => handleComplete(nowPlayingSong.id)}>Complete</button>
-                <button onClick={() => handleRequeue(nowPlayingSong.id)}>Requeue</button>
-              </div>
-            ) : (
-              <p>No song is currently playing.</p>
-            )}
-
-            <div>
-              <h2>Active Requests</h2>
-              {activeRequests.length > 0 ? (
-                activeRequests.map((request, index) => (
-                  <div key={index}>
-                    <p>{request.song} (Votes: {request.votes})</p>
-                    <button onClick={() => handleVote(request.id)}>Vote</button>
-                    <button onClick={() => handlePlay(request.id)}>Play</button>
-                    <button onClick={() => handleDecline(request.id)}>Decline</button>
-                    {voteErrors[request.id] && <p style={{ color: 'red' }}>{voteErrors[request.id]}</p>}
-                  </div>
-                ))
-              ) : (
-                <p>No active requests.</p>
-              )}
-            </div>
-
-            <div>
-              <h2>Completed Requests</h2>
-              {completedRequests.length > 0 ? (
-                completedRequests.map((request, index) => (
-                  <div key={index}>
-                    <p>{request.song} (Votes: {request.votes})</p>
-                    <button onClick={() => handleRequeue(request.id)}>Requeue</button>
-                  </div>
-                ))
-              ) : (
-                <p>No completed requests.</p>
-              )}
-            </div>
-
-            <div>
-              <h2>Declined Requests</h2>
-              {declinedRequests.length > 0 ? (
-                declinedRequests.map((request, index) => (
-                  <div key={index}>
-                    <p>{request.song} (Votes: {request.votes})</p>
-                    <button onClick={() => handleRequeue(request.id)}>Requeue</button>
-                  </div>
-                ))
-              ) : (
-                <p>No declined requests.</p>
-              )}
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+    <DJView 
+      djId={validDjId} 
+      dancefloorId={validDancefloorId}
+      notification={notification} 
+      djInfo={djInfo} 
+      djError={djError}
+      songRequest={songRequest}
+      setSongRequest={setSongRequest}
+      handleSendSongRequest={handleSendSongRequest} 
+      songRequestsError={songRequestsError} 
+      isLoadingRequests={isLoadingRequests} 
+      nowPlayingSong={nowPlayingSong}
+      activeRequests={activeRequests}
+      completedRequests={completedRequests} 
+      declinedRequests={declinedRequests}
+      message={message}
+      messages={messages} 
+      setMessage={setMessage}
+      handleSendMessage={handleSendMessage} 
+      messagesError={messagesError} 
+      isLoadingMessages={isLoadingMessages}
+      handleStopDancefloor={handleStopDancefloor} 
+      handlePlay={handlePlay} 
+      handleDecline={handleDecline} 
+      handleComplete={handleComplete} 
+      handleRequeue={handleRequeue}  
+      handleVote={handleVote} 
+      voteErrors={voteErrors} 
+    />
   );
 };
 
