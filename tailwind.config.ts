@@ -8,7 +8,12 @@ module.exports = {
     './src/styles/**/*.{css}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        main: '#0ec58e',
+        mainhover: '#0de0a0',
+      },
+    },
   },
   plugins: [],
 };

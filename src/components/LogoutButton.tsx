@@ -7,7 +7,7 @@ const LogoutButton = () => {
   const router = useRouter();
 
   const handleLogout = async () => {
-    const response = await fetch('http://localhost:3002/api/logout', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/logout`, {
       method: 'POST',
       credentials: 'include', // Include cookies for session handling
     });
