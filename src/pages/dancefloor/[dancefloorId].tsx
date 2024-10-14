@@ -135,15 +135,15 @@ const Dancefloor = () => {
 
         if (res.ok) {
           setMessages(Array.isArray(data) ? data : []);
-          setMessagesError(null); // Clear any previous errors if successful
+          setMessagesError(null); // clear any previous errors if successful
         } else {
           setMessagesError(data.message || 'Failed to load messages.');
-          setMessages([]); // Default to empty array on error
+          setMessages([]);
         }
       } catch (error) {
         console.error('Error fetching messages:', error);
         setMessagesError('Failed to load messages.');
-        setMessages([]); // Default to empty array on error
+        setMessages([]);
       } finally {
         setIsLoadingMessages(false);
       }
@@ -329,6 +329,27 @@ const Dancefloor = () => {
       return () => clearTimeout(timer);
     }
   }, [notification]);
+
+  useEffect(() => {
+    const timers: NodeJS.Timeout[] = [];
+  
+    Object.keys(voteErrors).forEach((requestId) => {
+      if (voteErrors[requestId]) {
+        const timer = setTimeout(() => {
+          setVoteErrors((prevErrors) => ({
+            ...prevErrors,
+            [requestId]: null,
+          }));
+        }, 3000);
+  
+        timers.push(timer);
+      }
+    });
+  
+    return () => {
+      timers.forEach((timer) => clearTimeout(timer));
+    };
+  }, [voteErrors]);
 
   const activeRequests = songRequests.filter((request) => request.status === 'queued');
   const nowPlayingSong = songRequests.find((request) => request.status === 'playing');

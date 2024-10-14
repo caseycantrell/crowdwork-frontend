@@ -1,4 +1,4 @@
-import Chat from './Chat';
+import Chat from './Chat/Chat';
 import DJInfo from './DJInfo';
 import SongRequests from './SongRequests';
 
@@ -10,6 +10,7 @@ interface DJInfo {
   twitterHandle: string;
   venmoHandle: string;
   cashappHandle: string;
+  qrCode: string;
 }
 
 interface SongRequest {
@@ -83,9 +84,9 @@ const DJView: React.FC<Props> = ({
   voteErrors
 }) => {
   return (
-    <div className="min-h-screen bg-white">
-        {notification && <div className="notification">{notification}</div>}
-        <div className="min-h-screen grid grid-cols-1 lg:grid-cols-4 lg:grid-rows-4 lg:grid-flow-col gap-4 bg-red-400">
+    <div className="min-h-screen bg-white relative">
+        {notification && <div className="notification absolute top-0 right-0 left-0 justify-center flex items-center bg-orange-400 h-24 bg-opacity-75">{notification}</div>}
+        <div className="min-h-screen grid grid-cols-1 lg:grid-cols-4 lg:grid-rows-5 lg:grid-flow-col gap-4 bg-red-400">
             <DJInfo
                 djId={djId}
                 djInfo={djInfo}

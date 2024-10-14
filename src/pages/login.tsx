@@ -30,8 +30,8 @@ const LoginPage: React.FC = () => {
       if (response.ok) {
         const djId = data.dj.id;
         setMessage('Login successful, noice.');
-        setShowMessage(true);
         setIsError(false);
+        setShowMessage(true);
         setTimeout(() => {
           router.push(`/dj/${djId}`);
         }, 2000);
@@ -89,7 +89,7 @@ const LoginPage: React.FC = () => {
         <AnimatePresence>
         {showMessage && (
             <motion.div  
-              className={`flex text-red-400 font-bold mt-4 absolute top-6 ${isError ? 'text-red-400' : 'text-green-400'}`}
+              className={`flex font-bold mt-4 absolute top-6 ${isError ? 'text-red-400' : 'text-green-400'}`}
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 100 }}
