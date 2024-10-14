@@ -1,4 +1,6 @@
 import React from 'react';
+import Request from './Request';
+import NowPlaying from './NowPlaying';
 
 interface SongRequest {
   id: string;
@@ -47,30 +49,31 @@ const SongRequests: React.FC<Props> = ({
   voteErrors
 }) => {
   return (
-    <div className="row-span-3 col-span-1 lg:col-span-3 bg-green-400">
-      <h1>Dancefloor {dancefloorId}</h1>
+    <div className="row-span-4 col-span-1 lg:col-span-3 bg-green-400">
+      <p className='text-2xl font-bold my-4 ml-2'>Dancefloor {dancefloorId}</p>
       <input
         type="text"
         value={songRequest}
         onChange={(e) => setSongRequest(e.target.value)}
-        placeholder="Enter your song request"
+        placeholder="Enter your song request here brotha"
+        className='h-10 w-1/3 rounded-md px-2 font-bold ml-2 text-gray-500'
       />
-      <button onClick={handleSendSongRequest}>Send Song Request</button>
-      <button onClick={handleStopDancefloor}>Stop Dancefloor</button>
+      <button onClick={handleSendSongRequest} className='bg-purple-500 rounded-lg p-2 font-bold mx-3'>Send Song Request</button>
+      <button onClick={handleStopDancefloor} className='bg-red-500 rounded-lg p-2 font-bold'>Stop Dancefloor</button>
 
       {nowPlayingSong ? (
-        <div>
-          <h2>Now Playing</h2>
-          <p>{nowPlayingSong.song} (Votes: {nowPlayingSong.votes})</p>
-          <button onClick={() => handleComplete(nowPlayingSong.id)}>Complete</button>
-          <button onClick={() => handleRequeue(nowPlayingSong.id)}>Requeue</button>
+        <div>  
+          <NowPlaying id={nowPlayingSong.id} song={nowPlayingSong.song} votes={nowPlayingSong.votes} handleRequeue={handleRequeue} handleComplete={handleComplete} />
         </div>
       ) : (
-        <p>No song is currently playing.</p>
+        <div className='py-4 ml-8'>  
+          <p className='text-xl italic'>No song is currently playing.</p>
+        </div>
       )}
 
       <div>
-        <h2>Song Requests</h2>
+        <p className='text-4xl font-bold ml-2'>Song Requests</p>
+        <br/>
         {isLoadingRequests ? (
           <p>Loading song requests...</p>
         ) : songRequestsError ? (
@@ -78,46 +81,40 @@ const SongRequests: React.FC<Props> = ({
         ) : (
           <>
             <div>
-              <h2>Active Requests</h2>
+            <p className='text-2xl font-bold ml-4'>Active Requests</p>
               {activeRequests.length > 0 ? (
                 activeRequests.map((request, index) => (
                   <div key={index}>
-                    <p>
-                      {request.song} (Votes: {request.votes})
-                    </p>
-                    <button onClick={() => handleVote(request.id)}>Vote</button>
-                    <button onClick={() => handlePlay(request.id)}>Play</button>
-                    <button onClick={() => handleDecline(request.id)}>Decline</button>
-                    {voteErrors[request.id] && <p style={{ color: 'red' }}>{voteErrors[request.id]}</p>}
+                    <Request id={request.id} song={request.song} votes={request.votes} voteErrors={voteErrors} handlePlay={handlePlay} handleDecline={handleDecline} handleVote={handleVote} handleRequeue={handleRequeue} />
                   </div>
                 ))
               ) : (
-                <p>No active requests.</p>
+                <p className='italic ml-8'>No active requests.</p>
               )}
             </div>
-
             <div>
-              <h2>Completed Requests</h2>
-              {completedRequests.map((request, index) => (
-                <div key={index}>
-                  <p>
-                    {request.song} (Votes: {request.votes})
-                  </p>
-                  <button onClick={() => handleRequeue(request.id)}>Requeue</button>
-                </div>
-              ))}
+              <p className='text-2xl font-bold ml-4'>Completed Requests</p>
+              {completedRequests.length > 0 ? (
+                completedRequests.map((request, index) => (
+                  <div key={index}>
+                    <Request id={request.id} song={request.song} votes={request.votes} voteErrors={voteErrors} handlePlay={handlePlay} handleDecline={handleDecline} handleVote={handleVote} handleRequeue={handleRequeue} />
+                  </div>
+                ))
+              ) : (
+                <p className='italic ml-8'>No completed requests.</p>
+              )}
             </div>
-
             <div>
-              <h2>Declined Requests</h2>
-              {declinedRequests.map((request, index) => (
-                <div key={index}>
-                  <p>
-                    {request.song} (Votes: {request.votes})
-                  </p>
-                  <button onClick={() => handleRequeue(request.id)}>Requeue</button>
-                </div>
-              ))}
+            <p className='text-2xl font-bold ml-4'>Declined Requests</p>
+            {declinedRequests.length > 0 ? (
+                declinedRequests.map((request, index) => (
+                  <div key={index}>
+                    <Request id={request.id} song={request.song} votes={request.votes} voteErrors={voteErrors} handlePlay={handlePlay} handleDecline={handleDecline} handleVote={handleVote} handleRequeue={handleRequeue} />
+                  </div>
+                ))
+              ) : (
+                <p className='italic ml-8'>No declined requests.</p>
+              )}
             </div>
           </>
         )}
