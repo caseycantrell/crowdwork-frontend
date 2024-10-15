@@ -1,6 +1,7 @@
 import React from 'react';
 import Request from './Request';
 import NowPlaying from './NowPlaying';
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface SongRequest {
   id: string;
@@ -27,6 +28,8 @@ interface Props {
   handleRequeue: (requestId: string) => void;
   handleVote: (requestId: string) => void;
   voteErrors: { [key: string]: string | null };
+  isChatVisible: boolean;
+  setIsChatVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SongRequests: React.FC<Props> = ({
@@ -46,11 +49,32 @@ const SongRequests: React.FC<Props> = ({
   handleComplete,
   handleRequeue,
   handleVote,
-  voteErrors
+  voteErrors,
+  setIsChatVisible,
+  isChatVisible
 }) => {
   return (
     <div className="row-span-4 col-span-1 lg:col-span-3 bg-green-400">
-      <p className='text-2xl font-bold my-4 ml-2'>Dancefloor {dancefloorId}</p>
+     <div className='flex flex-row items-center justify-between my-2 mx-2'>
+     <p className='text-2xl font-bold'>Dancefloor {dancefloorId}</p>
+     <AnimatePresence>
+    {!isChatVisible && (
+          <motion.div
+          initial={{ opacity: 0 }}  // Start invisible when the button is rendered
+          animate={{ opacity: 1 }}  // Fade in to full opacity
+          exit={{ opacity: 0 }}  // Fade out when the button is removed
+          transition={{ duration: 0.5 }}  // Set the duration for both fade-in and fade-out
+        >
+          <button
+            onClick={() => setIsChatVisible(true)}
+            className="bg-purple-500 text-white font-semibold py-2 px-4 rounded"
+          >
+            Show Chat
+          </button>
+        </motion.div>
+    )}
+  </AnimatePresence>
+     </div>
       <input
         type="text"
         value={songRequest}
