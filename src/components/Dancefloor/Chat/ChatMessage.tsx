@@ -1,16 +1,15 @@
-import React from 'react';
+import { formatDistanceToNow } from 'date-fns';
 
-interface Props {
-  message: string;
-}
-
-const ChatMessage: React.FC<Props> = ({ message }) => {
+const ChatMessage: React.FC<{ message: string; createdAt: string }> = ({ message, createdAt }) => {
   return (
-    <div className="flex justify-end my-4">
-      <div className="relative bg-blue-500 text-white rounded-2xl p-3 break-words shadow-md">
-        <p className="text-lg">{message}</p>
-        {/* tail for the bubble */}
-        <div className="absolute -bottom-0 -right-1.5 w-0 h-0 border-t-[20px] border-t-transparent border-l-[20px] border-l-blue-500 border-b-[0px]"></div>
+    <div className="flex justify-end my-3">
+      <div className="relative bg-gradient-to-r from-emerald-400 to-cyan-400 text-white rounded-t-xl rounded-l-xl px-2.5 py-1.5 shadow-md  text-right ">
+        <p className="text-lg break-words" style={{ overflowWrap: 'anywhere', margin: 0 }}>
+          {message}
+        </p>
+        <p className="text-xs italic text-gray-600 mt-0">
+          {"- "}{formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+        </p>
       </div>
     </div>
   );
