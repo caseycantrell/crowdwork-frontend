@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
-import Link from 'next/link';
 import DJView from '@/components/Dancefloor/DJView';
 
 const Dancefloor = () => {
@@ -12,7 +11,7 @@ const Dancefloor = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [message, setMessage] = useState<string>('');
   const [messages, setMessages] = useState<any[]>([]);
-  const [messageError, setMessageError] = useState<string>('');
+  const [messageError, setMessageError] = useState<string | null>('');
   const [messagesError, setMessagesError] = useState<string | null>(null);
   const [isLoadingMessages, setIsLoadingMessages] = useState<boolean>(true);
   const [songRequest, setSongRequest] = useState<string>('');
@@ -376,6 +375,8 @@ const Dancefloor = () => {
       messages={messages} 
       setMessage={setMessage}
       handleSendMessage={handleSendMessage} 
+      messageError={messageError}
+      setMessageError={setMessageError}
       messagesError={messagesError} 
       isLoadingMessages={isLoadingMessages}
       handleStopDancefloor={handleStopDancefloor} 
