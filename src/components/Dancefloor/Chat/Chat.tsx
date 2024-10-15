@@ -42,7 +42,6 @@ const Chat: React.FC<{
         </button>
       </div>
       
-      {/* Chat messages area */}
       <div className="flex-1 bg-gray-200 rounded-md mx-2 p-2 overflow-y-auto">
         {isLoadingMessages ? (
           <p>Loading messages...</p>
@@ -61,7 +60,6 @@ const Chat: React.FC<{
         )}
       </div>
 
-      {/* Sticky input section */}
       <div className="flex-none flex flex-row items-center m-1 px-2 py-5 sticky bottom-0 bg-black">
         <input
           type="text"

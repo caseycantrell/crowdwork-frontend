@@ -89,72 +89,62 @@ const DJView: React.FC<Props> = ({
   const [isChatVisible, setIsChatVisible] = useState<boolean>(true);
 
   return (
-    <div className="min-h-screen bg-white relative">
-      {notification && (
-        <div className="notification absolute top-0 right-0 left-0 justify-center flex items-center bg-orange-400 h-24 bg-opacity-75">
-          {notification}
-        </div>
-      )}
+    <div className="flex min-h-screen gap-4 bg-red-500">
+      <motion.div
+        className="flex-grow flex flex-col h-screen overflow-y-auto scrollbar-hide"
+        animate={{ width: isChatVisible ? '75%' : '100%' }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+      >
+        <DJInfo
+          djId={djId}
+          djInfo={djInfo}
+          djError={djError}
+        />
+        <SongRequests
+          dancefloorId={dancefloorId}
+          songRequest={songRequest}
+          setSongRequest={setSongRequest}
+          handleSendSongRequest={handleSendSongRequest}
+          handleStopDancefloor={handleStopDancefloor}
+          nowPlayingSong={nowPlayingSong}
+          activeRequests={activeRequests}
+          completedRequests={completedRequests}
+          declinedRequests={declinedRequests}
+          handlePlay={handlePlay}
+          handleComplete={handleComplete}
+          handleDecline={handleDecline}
+          handleRequeue={handleRequeue}
+          handleVote={handleVote}
+          voteErrors={voteErrors}
+          isLoadingRequests={isLoadingRequests}
+          songRequestsError={songRequestsError}
+          isChatVisible={isChatVisible}
+          setIsChatVisible={setIsChatVisible}
+        />
+      </motion.div>
 
-      <div className="flex min-h-screen gap-4 bg-red-500">
-        <motion.div
-          className="flex-grow flex flex-col"
-          animate={{ width: isChatVisible ? '75%' : '100%' }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-        >
-          <DJInfo
-            djId={djId}
-            djInfo={djInfo}
-            djError={djError}
-          />
-          <SongRequests
-            dancefloorId={dancefloorId}
-            songRequest={songRequest}
-            setSongRequest={setSongRequest}
-            handleSendSongRequest={handleSendSongRequest}
-            handleStopDancefloor={handleStopDancefloor}
-            nowPlayingSong={nowPlayingSong}
-            activeRequests={activeRequests}
-            completedRequests={completedRequests}
-            declinedRequests={declinedRequests}
-            handlePlay={handlePlay}
-            handleComplete={handleComplete}
-            handleDecline={handleDecline}
-            handleRequeue={handleRequeue}
-            handleVote={handleVote}
-            voteErrors={voteErrors}
-            isLoadingRequests={isLoadingRequests}
-            songRequestsError={songRequestsError}
-            isChatVisible={isChatVisible}
-            setIsChatVisible={setIsChatVisible}
-          />
-        </motion.div>
-
-        <AnimatePresence>
-          {isChatVisible && (
-            <motion.div
-              className="flex-shrink-0 flex-grow-0"
-              initial={{ width: 0 }}  
-              animate={{ width: '25%' }} 
-              exit={{ width: 0 }} 
-              transition={{
-                duration: 0.5,  
-                ease: "easeInOut"
-              }}
-            >
-              <Chat
-                message={message}
-                setMessage={setMessage}
-                handleSendMessage={handleSendMessage}
-                messages={messages}
-                messagesError={messagesError}
-                isLoadingMessages={isLoadingMessages}
-                setIsChatVisible={setIsChatVisible}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+      {/* Chat Section */}
+      <AnimatePresence>
+        {isChatVisible && (
+          <motion.div
+            className="flex-shrink-0 flex-grow-0 w-[25%] flex flex-col h-screen overflow-y-auto"
+            initial={{ width: 0 }}
+            animate={{ width: '25%' }}
+            exit={{ width: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          >
+            <Chat
+              message={message}
+              setMessage={setMessage}
+              handleSendMessage={handleSendMessage}
+              messages={messages}
+              messagesError={messagesError}
+              isLoadingMessages={isLoadingMessages}
+              setIsChatVisible={setIsChatVisible}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
