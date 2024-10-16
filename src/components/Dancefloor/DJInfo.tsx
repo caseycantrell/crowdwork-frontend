@@ -22,24 +22,32 @@ const DJInfoComponent: React.FC<{
 }) => {
 
   const djInfoWebsiteUrl =
-    djInfo && (djInfo.website.startsWith("http://") || djInfo.website.startsWith("https://"))
+    djInfo && (djInfo.website?.startsWith("http://") || djInfo.website?.startsWith("https://"))
       ? djInfo.website
       : djInfo
       ? `http://${djInfo.website}`
       : "";
 
   return (
-    <div className="col-span-1 lg:col-span-3 bg-gray-600 p-8">
+    <div className="col-span-1 lg:col-span-3 bg-gray-700 p-4">
       {djInfo ? (
         <div className="flex flex-row items-center justify-between h-full">
           <div className="flex flex-row items-center">
-            {djInfo.qrCode && (
+              <div className="flex flex-col items-center">
               <img
                 src={djInfo.qrCode}
                 alt="DJ QR Code"
-                className="w-40 h-40"
+                className="w-36 h-36"
               />
-            )}
+             <div className="mt-4">
+              <Link
+                href={`/dj/${djId}`}
+                className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-md px-5 py-3 font-semibold"
+              >
+                Go to DJ Page
+              </Link>
+            </div>
+              </div>
             <div className="flex flex-col justify-center ml-6">
               <p className="text-3xl font-bold">{djInfo.name ?  djInfo.name : "No name for this DJ yet."}</p>
               {djInfo.website && (
@@ -68,16 +76,8 @@ const DJInfoComponent: React.FC<{
             <img
               src={djInfo.qrCode}
               alt="Profile Pic"
-              className="w-36 h-36"
+              className="w-48 h-48"
             />
-            <div className="mt-2">
-              <Link
-                href={`/dj/${djId}`}
-                className="bg-purple-500 text-white rounded-md p-2"
-              >
-                Go to DJ Page
-              </Link>
-            </div>
           </div>
         </div>
       ) : djError ? (

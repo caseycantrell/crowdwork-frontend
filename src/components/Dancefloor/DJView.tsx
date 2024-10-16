@@ -91,10 +91,10 @@ const DJView: React.FC<Props> = ({
   voteErrors
 }) => {
 
-  const [isChatVisible, setIsChatVisible] = useState<boolean>(true);
+  const [isChatVisible, setIsChatVisible] = useState<boolean>(false);
 
   return (
-    <div className="flex min-h-screen gap-4 bg-red-500">
+    <div className="flex min-h-screen bg-gray-800">
           {notification && (
         <div className="z-50 notification absolute top-0 right-0 left-0 justify-center flex items-center bg-orange-400 h-24 bg-opacity-75">
           {notification}
