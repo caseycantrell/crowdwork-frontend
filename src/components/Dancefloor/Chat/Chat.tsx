@@ -39,7 +39,7 @@ const Chat: React.FC<{
         <p className="text-xl 2xl:text-2xl font-bold text-white">Dancefloor Chat</p>
         <button
           onClick={() => setIsChatVisible(false)}
-          className="bg-purple-500 text-white font-semibold py-2 px-4 rounded"
+          className="bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold py-2 px-4 rounded"
         >
           Hide Chat
         </button>
@@ -63,8 +63,8 @@ const Chat: React.FC<{
         )}
       </div>
 
-      <div className="flex-none flex flex-row items-center m-1 px-2 py-5 sticky bottom-0 bg-black relative">
-        {messageError && <div className="flex flex-row w-full justify-center items-center absolute bg-purple-500 h-12 -top-12 left-0 right-0 text-white text-lg">{messageError}</div>}
+      <div className="flex-none flex flex-row items-center m-0 px-2 py-5 sticky bottom-0 bg-black relative">
+        {messageError && <div className="flex flex-row w-full justify-center items-center absolute bg-gradient-to-r from-red-500 to-orange-500 h-12 -top-12 left-0 right-0 text-white text-lg font-semibold">{messageError}</div>}
         <input
           type="text"
           value={message}
@@ -78,13 +78,13 @@ const Chat: React.FC<{
           }}
           onKeyDown={handleKeyDown}
           placeholder="Enter your message"
-          className="w-full mr-2 rounded-md h-14 p-2 text-gray-700 text-lg"
+          className="w-full mr-2 rounded-md h-12 p-2 text-gray-800 text-xl font-semibold focus:outline-none"
         />
         <button
           onClick={handleSendMessage}
-          className="bg-green-500 font-bold rounded-lg h-14 w-48"
+          className="bg-gradient-to-r from-cyan-500 to-blue-500 font-bold rounded-lg h-12 w-32 text-xl"
         >
-          Send Message
+          Send
         </button>
       </div>
     </div>
