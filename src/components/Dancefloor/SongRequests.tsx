@@ -1,7 +1,10 @@
 import React from 'react';
-import Request from './Request';
-import NowPlaying from './NowPlaying';
+import Request from './Requests/Request';
+import ActiveRequest from './Requests/ActiveRequest';
+import CompletedRequest from './Requests/CompletedRequest';
+import NowPlaying from './Requests/NowPlaying';
 import { motion, AnimatePresence } from 'framer-motion'
+import DeclinedRequest from './Requests/DeclinedRequest';
 
 interface SongRequest {
   id: string;
@@ -54,16 +57,16 @@ const SongRequests: React.FC<Props> = ({
   isChatVisible
 }) => {
   return (
-    <div className="row-span-4 col-span-1 lg:col-span-3 bg-green-400">
-     <div className='flex flex-row items-center justify-between my-2 mx-2'>
+    <div className="row-span-4 col-span-1 lg:col-span-3 bg-gray-800">
+     <div className='flex flex-row items-center justify-between m-4'>
      <p className='text-2xl font-bold'>Dancefloor {dancefloorId}</p>
      <AnimatePresence>
     {!isChatVisible && (
           <motion.div
-          initial={{ opacity: 0 }}  // Start invisible when the button is rendered
-          animate={{ opacity: 1 }}  // Fade in to full opacity
-          exit={{ opacity: 0 }}  // Fade out when the button is removed
-          transition={{ duration: 0.5 }}  // Set the duration for both fade-in and fade-out
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
         >
           <button
             onClick={() => setIsChatVisible(true)}
@@ -80,7 +83,7 @@ const SongRequests: React.FC<Props> = ({
         value={songRequest}
         onChange={(e) => setSongRequest(e.target.value)}
         placeholder="Enter your song request here brotha"
-        className='h-10 w-1/3 rounded-md px-2 font-bold ml-2 text-gray-500'
+        className='h-10 w-1/3 rounded-md px-2 font-bold ml-2 mb-4 text-gray-500'
       />
       <button onClick={handleSendSongRequest} className='bg-purple-500 rounded-lg p-2 font-bold mx-3'>Send Song Request</button>
       <button onClick={handleStopDancefloor} className='bg-red-500 rounded-lg p-2 font-bold'>Stop Dancefloor</button>
@@ -90,14 +93,12 @@ const SongRequests: React.FC<Props> = ({
           <NowPlaying id={nowPlayingSong.id} song={nowPlayingSong.song} votes={nowPlayingSong.votes} handleRequeue={handleRequeue} handleComplete={handleComplete} />
         </div>
       ) : (
-        <div className='py-4 ml-8'>  
+        <div className='pt-4 pb-8 ml-8'>  
           <p className='text-xl italic'>No song is currently playing.</p>
         </div>
       )}
 
       <div>
-        <p className='text-4xl font-bold ml-2'>Song Requests</p>
-        <br/>
         {isLoadingRequests ? (
           <p>Loading song requests...</p>
         ) : songRequestsError ? (
@@ -105,11 +106,11 @@ const SongRequests: React.FC<Props> = ({
         ) : (
           <>
             <div>
-            <p className='text-2xl font-bold ml-4'>Active Requests</p>
+            <p className='text-xl font-bold ml-4 py-1'>Active Requests</p>
               {activeRequests.length > 0 ? (
                 activeRequests.map((request, index) => (
                   <div key={index}>
-                    <Request id={request.id} song={request.song} votes={request.votes} voteErrors={voteErrors} handlePlay={handlePlay} handleDecline={handleDecline} handleVote={handleVote} handleRequeue={handleRequeue} />
+                    <ActiveRequest id={request.id} song={request.song} votes={request.votes} voteErrors={voteErrors} handlePlay={handlePlay} handleDecline={handleDecline} handleVote={handleVote} />
                   </div>
                 ))
               ) : (
@@ -117,11 +118,11 @@ const SongRequests: React.FC<Props> = ({
               )}
             </div>
             <div>
-              <p className='text-2xl font-bold ml-4'>Completed Requests</p>
+              <p className='text-xl font-bold ml-4 py-1'>Completed Requests</p>
               {completedRequests.length > 0 ? (
                 completedRequests.map((request, index) => (
                   <div key={index}>
-                    <Request id={request.id} song={request.song} votes={request.votes} voteErrors={voteErrors} handlePlay={handlePlay} handleDecline={handleDecline} handleVote={handleVote} handleRequeue={handleRequeue} />
+                    <CompletedRequest id={request.id} song={request.song} votes={request.votes} voteErrors={voteErrors} handleRequeue={handleRequeue} />
                   </div>
                 ))
               ) : (
@@ -129,11 +130,11 @@ const SongRequests: React.FC<Props> = ({
               )}
             </div>
             <div>
-            <p className='text-2xl font-bold ml-4'>Declined Requests</p>
+            <p className='text-xl font-bold ml-4 py-1'>Declined Requests</p>
             {declinedRequests.length > 0 ? (
                 declinedRequests.map((request, index) => (
                   <div key={index}>
-                    <Request id={request.id} song={request.song} votes={request.votes} voteErrors={voteErrors} handlePlay={handlePlay} handleDecline={handleDecline} handleVote={handleVote} handleRequeue={handleRequeue} />
+                    <DeclinedRequest id={request.id} song={request.song} votes={request.votes} voteErrors={voteErrors} handleVote={handleVote} handleRequeue={handleRequeue} />
                   </div>
                 ))
               ) : (

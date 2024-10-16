@@ -22,14 +22,14 @@ const DJInfoComponent: React.FC<{
 }) => {
 
   const djInfoWebsiteUrl =
-    djInfo && (djInfo.website.startsWith("http://") || djInfo.website.startsWith("https://"))
+    djInfo && (djInfo.website?.startsWith("http://") || djInfo.website?.startsWith("https://"))
       ? djInfo.website
       : djInfo
       ? `http://${djInfo.website}`
       : "";
 
   return (
-    <div className="col-span-1 lg:col-span-3 bg-gray-600 p-8">
+    <div className="col-span-1 lg:col-span-3 bg-gray-700 p-8">
       {djInfo ? (
         <div className="flex flex-row items-center justify-between h-full">
           <div className="flex flex-row items-center">
