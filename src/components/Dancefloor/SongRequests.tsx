@@ -27,8 +27,6 @@ interface Props {
   handleRequeue: (requestId: string) => void;
   handleVote: (requestId: string) => void;
   voteErrors: { [key: string]: string | null };
-  isChatVisible: boolean;
-  setIsChatVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SongRequests: React.FC<Props> = ({
@@ -45,14 +43,12 @@ const SongRequests: React.FC<Props> = ({
   handleRequeue,
   handleVote,
   voteErrors,
-  setIsChatVisible,
-  isChatVisible
 }) => {
   return (
     <div className="row-span-4 col-span-1 lg:col-span-3 bg-gray-800 pb-96">
      <div className='flex flex-row items-center justify-between m-4'>
      <p className='text-2xl font-bold'>Dancefloor {dancefloorId}</p>
-     <AnimatePresence>
+     {/* <AnimatePresence>
       {!isChatVisible && (
             <motion.div
           initial={{ opacity: 0 }}
@@ -68,7 +64,7 @@ const SongRequests: React.FC<Props> = ({
             </button>
           </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence> */}
      </div>
       {/* <input
         type="text"

@@ -14,7 +14,6 @@ const Chat: React.FC<{
   setMessageError: React.Dispatch<React.SetStateAction<string | null>>;
   messagesError: string | null;
   isLoadingMessages: boolean;
-  setIsChatVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({
   message,
   setMessage,
@@ -24,7 +23,6 @@ const Chat: React.FC<{
   setMessageError,
   messagesError,
   isLoadingMessages,
-  setIsChatVisible
 }) => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -35,14 +33,8 @@ const Chat: React.FC<{
 
   return (
     <div className="bg-gray-900 flex flex-col h-full">
-      <div className="flex flex-row items-center justify-between m-3">
+      <div className="flex flex-row items-center justify-between m-2">
         <p className="text-xl 2xl:text-2xl font-bold text-white">Dancefloor Chat</p>
-        <button
-          onClick={() => setIsChatVisible(false)}
-          className="bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold py-2 px-4 rounded"
-        >
-          Hide Chat
-        </button>
       </div>
       
       <div className="flex-1 bg-gray-800 rounded-md mx-2 p-2 overflow-y-auto">
