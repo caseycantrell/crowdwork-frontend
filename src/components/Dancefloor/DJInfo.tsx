@@ -45,15 +45,6 @@ const DJInfoComponent: React.FC<{
     setHoveredButton(null);
   };
 
-  const djInfoWebsiteUrl =
-    djInfo &&
-    (djInfo.website?.startsWith("http://") ||
-      djInfo.website?.startsWith("https://"))
-      ? djInfo.website
-      : djInfo
-      ? `http://${djInfo.website}`
-      : "";
-
   return (
     <div className="col-span-1 lg:col-span-3 bg-gray-700 p-4">
       {djInfo ? (
@@ -80,7 +71,7 @@ const DJInfoComponent: React.FC<{
               </p>
               {djInfo.website && (
                 <a
-                  href={djInfoWebsiteUrl}
+                  href={djInfo.website || ""}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
