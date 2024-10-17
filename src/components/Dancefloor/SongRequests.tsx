@@ -76,14 +76,14 @@ const SongRequests: React.FC<Props> = ({
       )}
     </AnimatePresence>
      </div>
-      <input
+      {/* <input
         type="text"
         value={songRequest}
         onChange={(e) => setSongRequest(e.target.value)}
         placeholder="Enter your song request here brotha"
         className='h-10 w-1/3 rounded-md px-2 font-bold ml-2 mb-4 text-gray-500'
       />
-      <button onClick={handleSendSongRequest} className='bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg p-2 font-bold mx-3'>Send Song Request</button>
+      <button onClick={handleSendSongRequest} className='bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg p-2 font-bold mx-3'>Send Song Request</button> */}
       
 
       {nowPlayingSong ? (

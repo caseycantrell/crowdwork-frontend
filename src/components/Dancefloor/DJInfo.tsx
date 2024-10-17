@@ -27,6 +27,7 @@ const DJInfoComponent: React.FC<{
 }) => {
 
 const [isStopHovered, setIsStopHovered] = useState(false);
+let handleSendSongRequest
 
 const handleMouseEnter = () => {
     setIsStopHovered(true);
@@ -74,6 +75,26 @@ djInfo && (djInfo.website?.startsWith("http://") || djInfo.website?.startsWith("
                     <p>Bio: {djInfo.bio || "No bio for this DJ yet."}</p>
                 </div>
                 </div>
+
+
+
+                {/* SONG REQUEST PLACEHOLDER, DELETE ME */}
+               <div className="flex flex-col">
+                {"**ignore me i am a placeholder**"}
+               <input
+                    type="text"
+                    // value={songRequest}
+                    // onChange={(e) => setSongRequest(e.target.value)}
+                    placeholder="Enter your song request here brotha"
+                    className='h-10 rounded-md px-2 font-bold text-gray-500'
+                />
+                <button onClick={handleSendSongRequest} className='bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg p-2 font-bold mx-3'>Send Song Request</button>
+               </div>
+                  {/* SONG REQUEST PLACEHOLDER, DELETE ME */}
+
+
+
+
                 <div className="flex flex-row items-center">
                     <AnimatePresence>
                         {isStopHovered && (
