@@ -46,35 +46,7 @@ const SongRequests: React.FC<Props> = ({
 }) => {
   return (
     <div className="row-span-4 col-span-1 lg:col-span-3 bg-gray-800 pb-96">
-     <div className='flex flex-row items-center justify-between m-4'>
-     <p className='text-2xl font-bold'>Dancefloor {dancefloorId}</p>
-     {/* <AnimatePresence>
-      {!isChatVisible && (
-            <motion.div
-          initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <button
-              onClick={() => setIsChatVisible(true)}
-              className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold py-2 px-4 rounded"
-            >
-              Show Chat
-            </button>
-          </motion.div>
-      )}
-    </AnimatePresence> */}
-     </div>
-      {/* <input
-        type="text"
-        value={songRequest}
-        onChange={(e) => setSongRequest(e.target.value)}
-        placeholder="Enter your song request here brotha"
-        className='h-10 w-1/3 rounded-md px-2 font-bold ml-2 mb-4 text-gray-500'
-      />
-      <button onClick={handleSendSongRequest} className='bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg p-2 font-bold mx-3'>Send Song Request</button> */}
-      
+       <p className='text-xl font-bold ml-4 py-1'>Now Playing</p>
 
       {nowPlayingSong ? (
         <div>  
