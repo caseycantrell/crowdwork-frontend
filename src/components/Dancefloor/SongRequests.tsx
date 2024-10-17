@@ -15,9 +15,6 @@ interface SongRequest {
 
 interface Props {
   dancefloorId: string | undefined;
-  songRequest: string;
-  setSongRequest: (value: string) => void;
-  handleSendSongRequest: () => void;
   songRequestsError: string | null;
   isLoadingRequests: boolean;
   nowPlayingSong: SongRequest | null;
@@ -36,9 +33,6 @@ interface Props {
 
 const SongRequests: React.FC<Props> = ({
   dancefloorId,
-  songRequest,
-  setSongRequest,
-  handleSendSongRequest,
   songRequestsError,
   isLoadingRequests,
   nowPlayingSong,

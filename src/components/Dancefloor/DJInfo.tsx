@@ -19,15 +19,20 @@ const DJInfoComponent: React.FC<{
     djError: string | null;
     djId: string | undefined;
     handleStopDancefloor: () => void;
+    songRequest: string;
+    setSongRequest: (value: string) => void;
+    handleSendSongRequest: () => void;
 }> = ({
     djId,
     djInfo,
     djError,
-    handleStopDancefloor
+    handleStopDancefloor,
+    songRequest,
+    setSongRequest,
+    handleSendSongRequest
 }) => {
 
 const [isStopHovered, setIsStopHovered] = useState(false);
-let handleSendSongRequest
 
 const handleMouseEnter = () => {
     setIsStopHovered(true);
@@ -83,8 +88,8 @@ djInfo && (djInfo.website?.startsWith("http://") || djInfo.website?.startsWith("
                 {"**ignore me i am a placeholder**"}
                <input
                     type="text"
-                    // value={songRequest}
-                    // onChange={(e) => setSongRequest(e.target.value)}
+                    value={songRequest}
+                    onChange={(e) => setSongRequest(e.target.value)}
                     placeholder="Enter your song request here brotha"
                     className='h-10 rounded-md px-2 font-bold text-gray-500'
                 />

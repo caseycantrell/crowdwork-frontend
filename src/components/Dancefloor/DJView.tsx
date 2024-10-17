@@ -111,12 +111,12 @@ const DJView: React.FC<Props> = ({
           djInfo={djInfo}
           djError={djError}
           handleStopDancefloor={handleStopDancefloor}
-        />
-        <SongRequests
-          dancefloorId={dancefloorId}
           songRequest={songRequest}
           setSongRequest={setSongRequest}
           handleSendSongRequest={handleSendSongRequest}
+        />
+        <SongRequests
+          dancefloorId={dancefloorId}
           nowPlayingSong={nowPlayingSong}
           activeRequests={activeRequests}
           completedRequests={completedRequests}
