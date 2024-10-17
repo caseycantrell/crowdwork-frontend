@@ -24,7 +24,6 @@ interface Props {
   activeRequests: SongRequest[];
   completedRequests: SongRequest[];
   declinedRequests: SongRequest[];
-  handleStopDancefloor: () => void;
   handlePlay: (requestId: string) => void;
   handleDecline: (requestId: string) => void;
   handleComplete: (requestId: string) => void;
@@ -46,7 +45,6 @@ const SongRequests: React.FC<Props> = ({
   activeRequests,
   completedRequests,
   declinedRequests,
-  handleStopDancefloor,
   handlePlay,
   handleDecline,
   handleComplete,
@@ -61,22 +59,22 @@ const SongRequests: React.FC<Props> = ({
      <div className='flex flex-row items-center justify-between m-4'>
      <p className='text-2xl font-bold'>Dancefloor {dancefloorId}</p>
      <AnimatePresence>
-    {!isChatVisible && (
-          <motion.div
-        initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <button
-            onClick={() => setIsChatVisible(true)}
-            className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold py-2 px-4 rounded"
+      {!isChatVisible && (
+            <motion.div
+          initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
           >
-            Show Chat
-          </button>
-        </motion.div>
-    )}
-  </AnimatePresence>
+            <button
+              onClick={() => setIsChatVisible(true)}
+              className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold py-2 px-4 rounded"
+            >
+              Show Chat
+            </button>
+          </motion.div>
+      )}
+    </AnimatePresence>
      </div>
       <input
         type="text"
@@ -86,7 +84,7 @@ const SongRequests: React.FC<Props> = ({
         className='h-10 w-1/3 rounded-md px-2 font-bold ml-2 mb-4 text-gray-500'
       />
       <button onClick={handleSendSongRequest} className='bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg p-2 font-bold mx-3'>Send Song Request</button>
-      <button onClick={handleStopDancefloor} className='bg-gradient-to-r from-red-500 to-orange-500 rounded-lg p-2 font-bold'>Stop Dancefloor</button>
+      
 
       {nowPlayingSong ? (
         <div>  
