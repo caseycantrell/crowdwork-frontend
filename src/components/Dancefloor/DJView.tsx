@@ -8,11 +8,12 @@ interface DJInfo {
   name: string;
   bio: string;
   website: string;
-  instagramHandle: string;
-  twitterHandle: string;
-  venmoHandle: string;
-  cashappHandle: string;
-  qrCode: string;
+  instagram_handle: string;
+  twitter_handle: string;
+  venmo_handle: string;
+  cashapp_handle: string;
+  qr_code: string;
+  profile_pic_url: string;
 }
 
 interface SongRequest {
@@ -28,60 +29,54 @@ interface Message {
 }
 
 interface Props {
-    djId: string | undefined;
-    dancefloorId: string | undefined;
-    notification: string | null;
-    djInfo: DJInfo | null;
-    djError: string | null;
-    songRequest: string;
-    setSongRequest: (value: string) => void;
-    handleSendSongRequest: () => void;
-    songRequestsError: string | null;
-    isLoadingRequests: boolean;
-    nowPlayingSong: SongRequest | null;
-    activeRequests: SongRequest[];
-    completedRequests: SongRequest[];
-    declinedRequests: SongRequest[];
-    message: string;
-    messages: Message[];
-    setMessage: (value: string) => void;
-    handleSendMessage: () => void;
-    messageError: string | null;
-    setMessageError: React.Dispatch<React.SetStateAction<string | null>>;
-    messagesError: string | null;
-    isLoadingMessages: boolean;
-    handleStopDancefloor: () => void;
-    handlePlay: (requestId: string) => void;
-    handleDecline: (requestId: string) => void;
-    handleComplete: (requestId: string) => void;
-    handleRequeue: (requestId: string) => void;
-    handleVote: (requestId: string) => void;
-    voteErrors: { [key: string]: string | null };
-  }
+  djId: string | undefined;
+  notification: string | null;
+  djInfo: DJInfo | null;
+  djInfoError: string | null;
+  songRequest: string;
+  setSongRequest: (value: string) => void;
+  handleSendSongRequest: () => void;
+  songRequestsError: string | null;
+  nowPlayingSong: SongRequest | null;
+  activeRequests: SongRequest[];
+  completedRequests: SongRequest[];
+  declinedRequests: SongRequest[];
+  message: string;
+  setMessage: (value: string) => void;
+  messageError: string | null;
+  setMessageError: React.Dispatch<React.SetStateAction<string | null>>;
+  messages: Message[];
+  messagesError: string | null;
+  handleSendMessage: () => void;
+  handleStopDancefloor: () => void;
+  handlePlay: (requestId: string) => void;
+  handleDecline: (requestId: string) => void;
+  handleComplete: (requestId: string) => void;
+  handleRequeue: (requestId: string) => void;
+  handleVote: (requestId: string) => void;
+  voteErrors: { [key: string]: string | null };
+}
 
 const DJView: React.FC<Props> = ({
   djId,
-  dancefloorId,
   notification,
   djInfo,
-  djError,
+  djInfoError,
   songRequest,
   setSongRequest,
   handleSendSongRequest,
   songRequestsError,
-  isLoadingRequests,
   nowPlayingSong,
   activeRequests,
   completedRequests,
   declinedRequests,
   message,
-  messages,
   setMessage,
-  handleSendMessage,
   messageError,
   setMessageError,
+  messages,
   messagesError,
-  isLoadingMessages,
+  handleSendMessage,
   handleStopDancefloor,
   handlePlay,
   handleDecline,
@@ -109,7 +104,7 @@ const DJView: React.FC<Props> = ({
         <DJInfo
           djId={djId}
           djInfo={djInfo}
-          djError={djError}
+          djInfoError={djInfoError}
           handleStopDancefloor={handleStopDancefloor}
           songRequest={songRequest}
           setSongRequest={setSongRequest}
@@ -118,7 +113,6 @@ const DJView: React.FC<Props> = ({
           setIsChatVisible={setIsChatVisible}
         />
         <SongRequests
-          dancefloorId={dancefloorId}
           nowPlayingSong={nowPlayingSong}
           activeRequests={activeRequests}
           completedRequests={completedRequests}
@@ -129,7 +123,6 @@ const DJView: React.FC<Props> = ({
           handleRequeue={handleRequeue}
           handleVote={handleVote}
           voteErrors={voteErrors}
-          isLoadingRequests={isLoadingRequests}
           songRequestsError={songRequestsError}
         />
       </motion.div>
@@ -151,7 +144,6 @@ const DJView: React.FC<Props> = ({
               messageError={messageError}
               setMessageError={setMessageError}
               messagesError={messagesError}
-              isLoadingMessages={isLoadingMessages}
             />
           </motion.div>
         )}

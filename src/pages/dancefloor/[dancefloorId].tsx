@@ -7,52 +7,60 @@ const Dancefloor = () => {
   const router = useRouter();
   const { dancefloorId, djId } = router.query;
   const validDjId = typeof djId === 'string' ? djId : undefined;
-  const validDancefloorId = typeof dancefloorId === 'string' ? dancefloorId : undefined;
-  const [socket, setSocket] = useState<Socket | null>(null);
-  const [message, setMessage] = useState<string>('');
-  const [messages, setMessages] = useState<any[]>([]);
-  const [messageError, setMessageError] = useState<string | null>('');
-  const [messagesError, setMessagesError] = useState<string | null>(null);
-  const [isLoadingMessages, setIsLoadingMessages] = useState<boolean>(true);
-  const [songRequest, setSongRequest] = useState<string>('');
-  const [songRequests, setSongRequests] = useState<any[]>([]);
-  const [songRequestsError, setSongRequestsError] = useState<string | null>(null);
-  const [isLoadingRequests, setIsLoadingRequests] = useState<boolean>(true);
-  const [voteErrors, setVoteErrors] = useState<{ [key: string]: string | null }>({});
-  const [djInfo, setDjInfo] = useState<any>(null);
-  const [djError, setDjError] = useState<string | null>(null);
-  const [notification, setNotification] = useState<string | null>(null);
-
+  const [ socket, setSocket ] = useState<Socket | null>(null);
+  const [ message, setMessage ] = useState<string>('');
+  const [ messageError, setMessageError ] = useState<string | null>('');
+  const [ messages, setMessages ] = useState<any[]>([]);
+  const [ messagesError, setMessagesError ] = useState<string | null>(null);
+  const [ songRequest, setSongRequest ] = useState<string>('');
+  const [ songRequests, setSongRequests ] = useState<any[]>([]);
+  const [ songRequestsError, setSongRequestsError ] = useState<string | null>(null);
+  const [ voteErrors, setVoteErrors ] = useState<{ [key: string]: string | null }>({});
+  const [ djInfo, setDjInfo ] = useState<any>(null);
+  const [ djInfoError, setDjInfoError ] = useState<string | null>(null);
+  const [ notification, setNotification ] = useState<string | null>(null);
+  const [ requestsCount, setRequestsCount ] = useState<number>(0);
+  const [ messagesCount, setMessagesCount ] = useState<number>(0);
+ 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-  // Fetch DJ info
-  const fetchDjInfo = async () => {
-    if (typeof djId === 'string') {
-      try {
-        const res = await fetch(`${backendUrl}/api/dj/${djId}`);
-        const data = await res.json();
+  console.log("requestsCount", requestsCount)
+  console.log("messagesCount", messagesCount)
 
+  // fetch dancefloor & DJ info
+  const fetchDancefloorInfo = async () => {
+    if (typeof dancefloorId === 'string') {
+      try {
+        const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}`);
+        const data = await res.json();
+  
         if (res.ok) {
-          setDjInfo(data);
-          setDjError(null); // Clear error
+          setDjInfo(data.dj);
+          setSongRequests(data.songRequests || []);
+          setMessages(data.messages || []);
+          setRequestsCount(data.requests_count || 0);
+          setMessagesCount(data.messages_count || 0);
+          setDjInfoError(null);
+          setSongRequestsError(null);
+          setMessagesError(null);
         } else {
-          setDjError(data.message || 'Failed to load DJ info.');
+          setDjInfoError('Failed to load DJ info.');
+          setSongRequestsError('Failed to load dancefloor data.');
+          setMessagesError('Failed to load messages.');
         }
       } catch (error) {
-        console.error('Error fetching DJ info:', error);
-        setDjError('Failed to load DJ info.');
+        console.error('Error fetching dancefloor and DJ info:', error);
+        setDjInfoError('Failed to load DJ info.');
+        setSongRequestsError('Failed to load dancefloor data.');
+        setMessagesError('Failed to load messages.');
       }
     }
   };
+  
   // fetch existing song requests and messages when the component mounts
   useEffect(() => {
     if (typeof dancefloorId === 'string') {
-      fetchSongRequests();
-      fetchMessages(); 
-    
-    if (typeof djId === 'string') {
-      fetchDjInfo(); // Fetch DJ info when component mounts
-    }// fetch messages when component mounts
+      fetchDancefloorInfo();
     }
   }, [dancefloorId, backendUrl]);
 
@@ -80,10 +88,19 @@ const Dancefloor = () => {
         );
       });
 
+       // Listen for updated total requests count
+      newSocket.on('updateRequestsCount', ({ requestsCount }) => {
+        setRequestsCount(requestsCount);
+      });
+
       // listen for new messages
       newSocket.on('sendMessage', (message) => {
         setNotification('New message received!');
         setMessages((prevMessages) => [...prevMessages, message]);
+      });
+
+      newSocket.on('updateMessagesCount', ({ messagesCount }) => {
+        setMessagesCount(messagesCount);
       });
 
       newSocket.on('disconnect', () => {
@@ -101,53 +118,6 @@ const Dancefloor = () => {
     }
   }, [dancefloorId]);
 
-  const fetchSongRequests = async () => {
-    if (typeof dancefloorId === 'string') {
-      setIsLoadingRequests(true);
-      try {
-        const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}/song-requests`);
-        const data = await res.json();
-
-        if (res.ok) {
-          setSongRequests(Array.isArray(data) ? data : []);
-          setSongRequestsError(null);
-        } else {
-          setSongRequestsError(data.message || 'Failed to load song requests.');
-          setSongRequests([]);
-        }
-      } catch (error) {
-        console.error('Error fetching song requests:', error);
-        setSongRequestsError('Failed to load song requests.');
-        setSongRequests([]);
-      } finally {
-        setIsLoadingRequests(false);
-      }
-    }
-  };
-
-  const fetchMessages = async () => {
-    if (typeof dancefloorId === 'string') {
-      setIsLoadingMessages(true);
-      try {
-        const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}/messages`);
-        const data = await res.json();
-
-        if (res.ok) {
-          setMessages(Array.isArray(data) ? data : []);
-          setMessagesError(null); // clear any previous errors if successful
-        } else {
-          setMessagesError(data.message || 'Failed to load messages.');
-          setMessages([]);
-        }
-      } catch (error) {
-        console.error('Error fetching messages:', error);
-        setMessagesError('Failed to load messages.');
-        setMessages([]);
-      } finally {
-        setIsLoadingMessages(false);
-      }
-    }
-  };
 
   // stop dancefloor
   const handleStopDancefloor = async () => {
@@ -170,6 +140,7 @@ const Dancefloor = () => {
     }
   };
   
+
   // sending song requests
   const handleSendSongRequest = () => {
     if (socket && songRequest.trim()) {
@@ -177,6 +148,7 @@ const Dancefloor = () => {
       setSongRequest(''); // clear input after sending
     }
   };
+
 
   // sending messages
   const handleSendMessage = () => {
@@ -193,6 +165,7 @@ const Dancefloor = () => {
     }
   };
 
+
   // playing a song
   const handlePlay = async (requestId: string) => {
     try {
@@ -203,7 +176,7 @@ const Dancefloor = () => {
 
       if (res.ok) {
         console.log('Song is now playing:', requestId);
-        fetchSongRequests(); // refresh song requests after playing
+        fetchDancefloorInfo(); // refresh song requests after playing
       } else {
         const data = await res.json();
         console.error(data.error);
@@ -212,6 +185,7 @@ const Dancefloor = () => {
       console.error('Error starting song:', error);
     }
   };
+
 
   // completing a song
   const handleComplete = async (requestId: string) => {
@@ -223,7 +197,7 @@ const Dancefloor = () => {
 
       if (res.ok) {
         console.log('Song has been marked as completed.');
-        fetchSongRequests(); // refresh song requests after completing
+        fetchDancefloorInfo(); // refresh song requests after completing
       } else {
         const data = await res.json();
         console.error(data.error);
@@ -232,6 +206,7 @@ const Dancefloor = () => {
       console.error('Error completing song:', error);
     }
   };
+
 
   // declining a song request
   const handleDecline = async (requestId: string) => {
@@ -243,7 +218,7 @@ const Dancefloor = () => {
 
       if (res.ok) {
         console.log('Song request declined.');
-        fetchSongRequests(); // refresh song requests after declining
+        fetchDancefloorInfo(); // refresh song requests after declining
       } else {
         const data = await res.json();
         console.error(data.error);
@@ -252,6 +227,7 @@ const Dancefloor = () => {
       console.error('Error declining song request:', error);
     }
   };
+
 
   // voting for a song request
   const handleVote = async (requestId: string) => {
@@ -298,6 +274,7 @@ const Dancefloor = () => {
     }
   };
   
+
   // requeuing a song
   const handleRequeue = async (requestId: string) => {
     try {
@@ -309,7 +286,7 @@ const Dancefloor = () => {
 
       if (res.ok) {
         console.log('Song has been requeued.');
-        fetchSongRequests(); // refresh song requests after requeuing
+        fetchDancefloorInfo(); // refresh song requests after requeuing
       } else {
         const data = await res.json();
         console.error(data.error);
@@ -318,6 +295,7 @@ const Dancefloor = () => {
       console.error('Error requeuing song:', error);
     }
   };
+
 
   useEffect(() => {
     if (notification) {
@@ -328,6 +306,7 @@ const Dancefloor = () => {
       return () => clearTimeout(timer);
     }
   }, [notification]);
+
 
   useEffect(() => {
     const timers: NodeJS.Timeout[] = [];
@@ -357,28 +336,25 @@ const Dancefloor = () => {
 
   return (
     <DJView 
-      djId={validDjId} 
-      dancefloorId={validDancefloorId}
+      djId={validDjId}
       notification={notification} 
       djInfo={djInfo} 
-      djError={djError}
+      djInfoError={djInfoError}
       songRequest={songRequest}
       setSongRequest={setSongRequest}
       handleSendSongRequest={handleSendSongRequest} 
       songRequestsError={songRequestsError} 
-      isLoadingRequests={isLoadingRequests} 
       nowPlayingSong={nowPlayingSong}
       activeRequests={activeRequests}
       completedRequests={completedRequests} 
       declinedRequests={declinedRequests}
       message={message}
-      messages={messages} 
       setMessage={setMessage}
-      handleSendMessage={handleSendMessage} 
       messageError={messageError}
       setMessageError={setMessageError}
+      messages={messages}
       messagesError={messagesError} 
-      isLoadingMessages={isLoadingMessages}
+      handleSendMessage={handleSendMessage} 
       handleStopDancefloor={handleStopDancefloor} 
       handlePlay={handlePlay} 
       handleDecline={handleDecline} 

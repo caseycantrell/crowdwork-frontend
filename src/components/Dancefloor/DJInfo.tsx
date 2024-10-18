@@ -7,16 +7,17 @@ interface DJInfo {
   name: string;
   bio: string;
   website: string;
-  instagramHandle: string;
-  twitterHandle: string;
-  venmoHandle: string;
-  cashappHandle: string;
-  qrCode: string;
+  instagram_handle: string;
+  twitter_handle: string;
+  venmo_handle: string;
+  cashapp_handle: string;
+  qr_code: string;
+  profile_pic_url: string;
 }
 
 const DJInfoComponent: React.FC<{
   djInfo: DJInfo | null;
-  djError: string | null;
+  djInfoError: string | null;
   djId: string | undefined;
   handleStopDancefloor: () => void;
   songRequest: string;
@@ -27,7 +28,7 @@ const DJInfoComponent: React.FC<{
 }> = ({
   djId,
   djInfo,
-  djError,
+  djInfoError,
   handleStopDancefloor,
   songRequest,
   setSongRequest,
@@ -50,21 +51,25 @@ const DJInfoComponent: React.FC<{
       {djInfo ? (
         <div className="flex flex-row items-center justify-between h-full">
           <div className="flex flex-row items-center">
-            <div className="flex flex-col items-center">
-              <img
-                src={djInfo.qrCode}
-                alt="DJ QR Code"
-                className="w-36 h-36"
+          <div className="flex flex-col items-center">
+            <div className="w-36 h-36 overflow-hidden rounded-lg">
+              <Image
+                src={djInfo.profile_pic_url || '/images/profile_placeholder.jpg'}
+                width={160}
+                height={160}
+                alt="Profile Pic"
+                className="object-cover w-full h-full"
               />
-              <div className="mt-4">
-                <Link
-                  href={`/dj/${djId}`}
-                  className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-md px-5 py-3 font-semibold"
-                >
-                  Go to DJ Page
-                </Link>
-              </div>
             </div>
+            <div className="mt-4">
+              <Link
+                href={`/dj/${djId}`}
+                className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-md px-5 py-3 font-semibold"
+              >
+                Go to DJ Page
+              </Link>
+            </div>
+          </div>
             <div className="flex flex-col justify-center ml-6">
               <p className="text-3xl font-bold">
                 {djInfo.name ? djInfo.name : "No name for this DJ yet."}
@@ -78,10 +83,10 @@ const DJInfoComponent: React.FC<{
                   {djInfo.website}
                 </a>
               )}
-              {djInfo.instagramHandle && <p>IG: {djInfo.instagramHandle}</p>}
-              {djInfo.twitterHandle && <p>Twitter: {djInfo.twitterHandle}</p>}
-              {djInfo.venmoHandle && <p>Venmo: {djInfo.venmoHandle}</p>}
-              {djInfo.cashappHandle && <p>CashApp: {djInfo.cashappHandle}</p>}
+              {djInfo.instagram_handle && <p>IG: {djInfo.instagram_handle}</p>}
+              {djInfo.twitter_handle && <p>Twitter: {djInfo.twitter_handle}</p>}
+              {djInfo.venmo_handle && <p>Venmo: {djInfo.venmo_handle}</p>}
+              {djInfo.cashapp_handle && <p>CashApp: {djInfo.cashapp_handle}</p>}
               <p>Bio: {djInfo.bio || "No bio for this DJ yet."}</p>
             </div>
           </div>
@@ -170,14 +175,14 @@ const DJInfoComponent: React.FC<{
                 </div>
             </div>
             <img
-              src={djInfo.qrCode}
+              src={djInfo.qr_code}
               alt="Profile Pic"
               className="w-48 h-48 ml-8"
             />
           </div>
         </div>
-      ) : djError ? (
-        <p style={{ color: "red" }}>{djError}</p>
+      ) : djInfoError ? (
+        <p style={{ color: "red" }}>{djInfoError}</p>
       ) : (
         <p>Loading DJ information...</p>
       )}

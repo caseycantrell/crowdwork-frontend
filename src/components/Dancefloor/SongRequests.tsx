@@ -1,9 +1,6 @@
-import React from 'react';
-import Request from './Requests/Request';
 import ActiveRequest from './Requests/ActiveRequest';
 import CompletedRequest from './Requests/CompletedRequest';
 import NowPlaying from './Requests/NowPlaying';
-import { motion, AnimatePresence } from 'framer-motion'
 import DeclinedRequest from './Requests/DeclinedRequest';
 
 interface SongRequest {
@@ -14,9 +11,7 @@ interface SongRequest {
 }
 
 interface Props {
-  dancefloorId: string | undefined;
   songRequestsError: string | null;
-  isLoadingRequests: boolean;
   nowPlayingSong: SongRequest | null;
   activeRequests: SongRequest[];
   completedRequests: SongRequest[];
@@ -30,9 +25,7 @@ interface Props {
 }
 
 const SongRequests: React.FC<Props> = ({
-  dancefloorId,
   songRequestsError,
-  isLoadingRequests,
   nowPlayingSong,
   activeRequests,
   completedRequests,
@@ -59,9 +52,7 @@ const SongRequests: React.FC<Props> = ({
       )}
 
       <div>
-        {isLoadingRequests ? (
-          <p>Loading song requests...</p>
-        ) : songRequestsError ? (
+        {songRequestsError ? (
           <p style={{ color: 'red' }}>{songRequestsError}</p>
         ) : (
           <>
