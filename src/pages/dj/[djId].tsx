@@ -489,7 +489,7 @@ const DjIdPage: React.FC = () => {
           </div>
 
           <p className="text-2xl font-bold pt-4">Past Dancefloors</p>
-          <ul className="list-disc list-inside space-y-2 h-96 pb-16 overflow-y-scroll">
+          <ul className="space-y-2 h-96 pb-16 overflow-y-scroll">
             {pastDancefloors.length > 0 ? (
               pastDancefloors.map((dancefloor) => (
                 <li key={dancefloor.id}>
@@ -499,9 +499,11 @@ const DjIdPage: React.FC = () => {
                   >
                     Dancefloor {dancefloor.id}
                   </Link>
-                  <div className='ml-0 md:ml-64'>
-                    <p className='italic'> - started {format(new Date(dancefloor.created_at), 'MMMM d, yyyy, h:mm a')}</p>
-                    <p className='italic'> - ended {format(new Date(dancefloor.ended_at), 'MMMM d, yyyy, h:mm a')}</p>
+                  <div className='ml-0 md:ml-0'>
+                    <p className='italic'>- Started: {format(new Date(dancefloor.created_at), 'MMMM d, yyyy, h:mm a')}</p>
+                    <p className='italic'>- Ended: {format(new Date(dancefloor.ended_at), 'MMMM d, yyyy, h:mm a')}</p>
+                    <p className='italic'>- Requests: {dancefloor.requests_count}</p>
+                    <p className='italic'>- Messages: {dancefloor.messages_count}</p>
                   </div>
                 </li>
               ))

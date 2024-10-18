@@ -61,7 +61,7 @@ const Dancefloor = () => {
           setSongRequests(data.songRequests || []);
   
           // Update counts
-          setTotalRequests(data.total_requests || 0);
+          setTotalRequests(data.requests_count || 0);
           setMessagesCount(data.messages_count || 0);
   
           setSongRequestsError(null); // Clear any errors

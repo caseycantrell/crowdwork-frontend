@@ -5,11 +5,12 @@ import Link from 'next/link';
 import LogoutButton from '@/components/LogoutButton';
 
 const SignupPage: React.FC = () => {
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
-  const [showMessage, setShowMessage] = useState<boolean>(false);
+  const [ name, setName ] = useState<string>('');
+  const [ email, setEmail ] = useState<string>('');
+  const [ password, setPassword ] = useState<string>('');
+  const [ message, setMessage ] = useState<string>('');
+  const [ showMessage, setShowMessage ] = useState<boolean>(false);
+  const [ isMessageError, setIsMessageError ] = useState<boolean>(false);
   const router = useRouter();
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -25,6 +26,7 @@ const SignupPage: React.FC = () => {
       const data = await response.json();
   
       if (response.ok) {
+        setIsMessageError(false);
         setMessage('Signup successful! Redirecting...');
         setShowMessage(true);
   
@@ -32,11 +34,13 @@ const SignupPage: React.FC = () => {
           router.push(`/dj/${data.djId}`); // redirect after 2 seconds
         }, 2000);
       } else {
+        setIsMessageError(true);
         setMessage(data.error || 'Signup failed. Please try again.');
         setShowMessage(true);
       }
     } catch (error) {
       console.error('An unexpected error occurred:', error);
+      setIsMessageError(true);
       setMessage('An unexpected error occurred. Please try again later.');
       setShowMessage(true);
     }
@@ -90,7 +94,7 @@ const SignupPage: React.FC = () => {
         <AnimatePresence>
         {showMessage && (
             <motion.div  
-              className='flex text-red-400 font-bold mt-4 absolute top-6 max-w-lg'
+              className={`flex font-bold mt-4 absolute top-6 max-w-lg ${isMessageError ? 'text-red-400 ' : 'text-green-400'}`}
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 100 }}

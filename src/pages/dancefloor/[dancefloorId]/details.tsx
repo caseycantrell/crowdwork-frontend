@@ -49,7 +49,7 @@ const DancefloorDetails = () => {
             <strong>Ended At:</strong> {new Date(dancefloor.ended_at).toLocaleString()}
             </div>
             <div>
-            <strong>Total Requests:</strong> {dancefloor.total_requests}
+            <strong>Total Requests:</strong> {dancefloor.requests_count}
             </div>
             <div>
             <strong>Total Messages:</strong> {dancefloor.messages_count}
@@ -66,7 +66,7 @@ const DancefloorDetails = () => {
               {dancefloor.songRequests && dancefloor.songRequests.length > 0 ? (
                 <ul className="list-disc list-inside space-y-2">
                   {dancefloor.songRequests.map((request: any) => (
-                    <li key={request.id} className="p-2 bg-gray-500 shadow rounded">
+                    <li key={request.id} className="p-3 bg-gray-500 shadow rounded">
                       {request.song} (Votes: {request.votes})
                     </li>
                   ))}
