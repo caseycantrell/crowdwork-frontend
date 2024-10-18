@@ -489,7 +489,7 @@ const DjIdPage: React.FC = () => {
           </div>
 
           <p className="text-2xl font-bold pt-4">Past Dancefloors</p>
-          <ul className="space-y-2 h-96 pb-16 overflow-y-scroll">
+          <ul className="space-y-2 h-96 pb-16 overflow-y-scroll scrollbar-thin">
             {pastDancefloors.length > 0 ? (
               pastDancefloors.map((dancefloor) => (
                 <li key={dancefloor.id}>
