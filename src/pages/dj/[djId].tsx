@@ -178,6 +178,7 @@ const DjIdPage: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           bio,
+          name: djName,
           website: formattedWebsite,
           instagramHandle,
           twitterHandle,
@@ -290,7 +291,7 @@ const DjIdPage: React.FC = () => {
           <img
             src={profilePic || '/images/profile_placeholder.jpg'} 
             alt="Profile Picture"
-            className="w-40 h-40 rounded-full object-cover mb-4"
+            className="w-60 h-60 rounded-sm object-cover mb-4"
           />
 
           {!isEditingProfilePic ? (
@@ -332,11 +333,14 @@ const DjIdPage: React.FC = () => {
           )}
 
           {qrCodeUrl && (
-            <img
-              src={qrCodeUrl}
-              alt="DJ QR Code"
-              className="w-40 h-40 object-contain mt-4"
-            />
+            <div className='flex flex-col items-center mt-16'>
+              <p className='font-semibold text-lg mb-2'>Your QR code</p>
+              <img
+                src={qrCodeUrl}
+                alt="DJ QR Code"
+                className="w-60 h-60 object-contain"
+              />
+            </div>
           )}
 
           <AnimatePresence>
@@ -355,6 +359,19 @@ const DjIdPage: React.FC = () => {
         </div>
 
         <div className="flex-1 space-y-6">
+        <div>
+            {isEditing && 
+            <>
+             <p className="text-2xl font-bold">Name</p>
+              <textarea
+                value={djName || ''}
+                onChange={(e) => setDjName(e.target.value)}
+                className="w-full p-2 text-gray-600 font-semibold border border-gray-300 rounded-md"
+              />
+            </>
+           }
+          </div>
+
           <div>
             <p className="text-2xl font-bold">Bio</p>
             {isEditing ? (
