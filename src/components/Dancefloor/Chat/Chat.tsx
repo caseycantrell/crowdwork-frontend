@@ -13,7 +13,6 @@ const Chat: React.FC<{
   messageError: string | null;
   setMessageError: React.Dispatch<React.SetStateAction<string | null>>;
   messagesError: string | null;
-  isLoadingMessages: boolean;
 }> = ({
   message,
   setMessage,
@@ -22,7 +21,6 @@ const Chat: React.FC<{
   messageError,
   setMessageError,
   messagesError,
-  isLoadingMessages,
 }) => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -38,9 +36,7 @@ const Chat: React.FC<{
       </div>
       
       <div className="flex-1 bg-gray-800 rounded-md mx-2 p-2 overflow-y-auto">
-        {isLoadingMessages ? (
-          <p>Loading messages...</p>
-        ) : messagesError ? (
+        {messagesError ? (
           <p style={{ color: 'red' }}>{messagesError}</p>
         ) : (
           messages.length > 0 ? (
