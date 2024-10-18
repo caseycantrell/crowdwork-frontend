@@ -25,7 +25,7 @@ const CompletedRequest: React.FC<Props> = ({
     };
 
     return (
-        <div className="bg-gradient-to-r from-teal-500 to-teal-600 border border-black p-4 relative">
+        <div className="bg-gradient-to-r from-indigo-400 to-cyan-400 border border-black p-4 relative">
             <div className="flex flex-row items-center justify-between">
                 <div className='italic line-through'>
                     <div className="flex flex-row items-center text-xs">

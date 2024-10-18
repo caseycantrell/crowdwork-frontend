@@ -110,13 +110,15 @@ const DJView: React.FC<Props> = ({
           djId={djId}
           djInfo={djInfo}
           djError={djError}
-        />
-        <SongRequests
-          dancefloorId={dancefloorId}
+          handleStopDancefloor={handleStopDancefloor}
           songRequest={songRequest}
           setSongRequest={setSongRequest}
           handleSendSongRequest={handleSendSongRequest}
-          handleStopDancefloor={handleStopDancefloor}
+          isChatVisible={isChatVisible}
+          setIsChatVisible={setIsChatVisible}
+        />
+        <SongRequests
+          dancefloorId={dancefloorId}
           nowPlayingSong={nowPlayingSong}
           activeRequests={activeRequests}
           completedRequests={completedRequests}
@@ -129,8 +131,6 @@ const DJView: React.FC<Props> = ({
           voteErrors={voteErrors}
           isLoadingRequests={isLoadingRequests}
           songRequestsError={songRequestsError}
-          isChatVisible={isChatVisible}
-          setIsChatVisible={setIsChatVisible}
         />
       </motion.div>
 
@@ -152,7 +152,6 @@ const DJView: React.FC<Props> = ({
               setMessageError={setMessageError}
               messagesError={messagesError}
               isLoadingMessages={isLoadingMessages}
-              setIsChatVisible={setIsChatVisible}
             />
           </motion.div>
         )}
