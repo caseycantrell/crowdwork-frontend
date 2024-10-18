@@ -12,6 +12,7 @@ interface DJInfo {
   venmoHandle: string;
   cashappHandle: string;
   qrCode: string;
+  profilePicUrl: string;
 }
 
 const DJInfoComponent: React.FC<{
@@ -50,21 +51,25 @@ const DJInfoComponent: React.FC<{
       {djInfo ? (
         <div className="flex flex-row items-center justify-between h-full">
           <div className="flex flex-row items-center">
-            <div className="flex flex-col items-center">
-              <img
-                src={djInfo.qrCode}
-                alt="DJ QR Code"
-                className="w-36 h-36"
+          <div className="flex flex-col items-center">
+            <div className="w-36 h-36 overflow-hidden rounded-lg">
+              <Image
+                src={djInfo.profilePicUrl}
+                width={160}
+                height={160}
+                alt="Profile Pic"
+                className="object-cover w-full h-full"
               />
-              <div className="mt-4">
-                <Link
-                  href={`/dj/${djId}`}
-                  className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-md px-5 py-3 font-semibold"
-                >
-                  Go to DJ Page
-                </Link>
-              </div>
             </div>
+            <div className="mt-4">
+              <Link
+                href={`/dj/${djId}`}
+                className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-md px-5 py-3 font-semibold"
+              >
+                Go to DJ Page
+              </Link>
+            </div>
+          </div>
             <div className="flex flex-col justify-center ml-6">
               <p className="text-3xl font-bold">
                 {djInfo.name ? djInfo.name : "No name for this DJ yet."}
