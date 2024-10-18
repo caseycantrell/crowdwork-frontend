@@ -7,8 +7,6 @@ interface Props {
     song: string;
     votes: number | 0;
     handleRequeue: (requestId: string) => void;
-    handleVote: (requestId: string) => void;
-    voteErrors: { [key: string]: string | null };
 }
 
 const DeclinedRequest: React.FC<Props> = ({
@@ -16,8 +14,6 @@ const DeclinedRequest: React.FC<Props> = ({
     song,
     votes,
     handleRequeue,
-    handleVote,
-    voteErrors,
 }) => {
     const [isHovered, setIsHovered] = useState(false);
 
@@ -76,8 +72,6 @@ const DeclinedRequest: React.FC<Props> = ({
                     </div>
                 </div>
             </div>
-
-            {voteErrors[id] && <p style={{ color: 'red' }}>{voteErrors[id]}</p>}
         </div>
     );
 };

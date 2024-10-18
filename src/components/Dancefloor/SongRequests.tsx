@@ -94,7 +94,7 @@ const SongRequests: React.FC<Props> = ({
             {declinedRequests.length > 0 ? (
                 declinedRequests.map((request, index) => (
                   <div key={index}>
-                    <DeclinedRequest id={request.id} song={request.song} votes={request.votes} voteErrors={voteErrors} handleVote={handleVote} handleRequeue={handleRequeue} />
+                    <DeclinedRequest id={request.id} song={request.song} votes={request.votes} handleRequeue={handleRequeue} />
                   </div>
                 ))
               ) : (
