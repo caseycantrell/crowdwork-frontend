@@ -9,14 +9,14 @@ const LogoutButton = () => {
   const handleLogout = async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/logout`, {
       method: 'POST',
-      credentials: 'include', // Include cookies for session handling
+      credentials: 'include', // include cookies for session handling
     });
 
     const data = await response.json();
     
     if (response.ok) {
       setMessage(data.message);
-      // Redirect to login page after logout
+      // redirect to login page after logout
       router.push('/login');
     } else {
       setMessage('Logout failed');
@@ -25,7 +25,7 @@ const LogoutButton = () => {
 
   return (
     <div>
-      <button onClick={handleLogout}>Logout</button>
+      <button onClick={handleLogout} className='text-xl font-bold'>Logout</button>
       <p>{message}</p>
     </div>
   );
