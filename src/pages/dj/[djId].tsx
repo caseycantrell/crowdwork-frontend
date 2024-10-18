@@ -384,7 +384,7 @@ const DjIdPage: React.FC = () => {
                     </Link>
                     <div className='ml-0 md:ml-64'>
                     <p className='italic'> - started {format(new Date(dancefloor.created_at), 'MMMM d, yyyy, h:mm a')}</p>
-                    <p className='italic'> - ended {format(new Date(dancefloor.end_time), 'MMMM d, yyyy, h:mm a')}</p>
+                    <p className='italic'> - ended {format(new Date(dancefloor.ended_at), 'MMMM d, yyyy, h:mm a')}</p>
                     </div>
                   </li>
                 ))

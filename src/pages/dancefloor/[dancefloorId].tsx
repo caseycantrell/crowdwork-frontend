@@ -22,6 +22,11 @@ const Dancefloor = () => {
   const [djInfo, setDjInfo] = useState<any>(null);
   const [djError, setDjError] = useState<string | null>(null);
   const [notification, setNotification] = useState<string | null>(null);
+  const [totalRequests, setTotalRequests] = useState<number>(0);
+  const [messagesCount, setMessagesCount] = useState<number>(0);
+
+  console.log("totalRequests", totalRequests)
+  console.log("messagesCount", messagesCount)
 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -44,9 +49,35 @@ const Dancefloor = () => {
       }
     }
   };
+
+  const fetchDancefloorInfo = async () => {
+    if (typeof dancefloorId === 'string') {
+      try {
+        const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}`);
+        const data = await res.json();
+  
+        if (res.ok) {
+          // Update song requests
+          setSongRequests(data.songRequests || []);
+  
+          // Update counts
+          setTotalRequests(data.total_requests || 0);
+          setMessagesCount(data.messages_count || 0);
+  
+          setSongRequestsError(null); // Clear any errors
+        } else {
+          setSongRequestsError(data.message || 'Failed to load dancefloor data.');
+        }
+      } catch (error) {
+        console.error('Error fetching dancefloor info:', error);
+        setSongRequestsError('Failed to load dancefloor data.');
+      }
+    }
+  };
   // fetch existing song requests and messages when the component mounts
   useEffect(() => {
     if (typeof dancefloorId === 'string') {
+      fetchDancefloorInfo();
       fetchSongRequests();
       fetchMessages(); 
     
@@ -80,10 +111,20 @@ const Dancefloor = () => {
         );
       });
 
+       // Listen for updated total requests count
+    newSocket.on('updateTotalRequests', ({ totalRequests }) => {
+      setTotalRequests(totalRequests);
+    });
+
+
       // listen for new messages
       newSocket.on('sendMessage', (message) => {
         setNotification('New message received!');
         setMessages((prevMessages) => [...prevMessages, message]);
+      });
+
+      newSocket.on('updateMessagesCount', ({ messagesCount }) => {
+        setMessagesCount(messagesCount);
       });
 
       newSocket.on('disconnect', () => {
