@@ -47,7 +47,7 @@ const SongRequests: React.FC<Props> = ({
         </div>
       ) : (
         <div className='pt-4 pb-8 ml-8'>  
-          <p className='text-xl italic'>No song is currently playing.</p>
+          <p className='text-xl italic'>No song is currently set as playing.</p>
         </div>
       )}
 

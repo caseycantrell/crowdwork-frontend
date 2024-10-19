@@ -28,9 +28,9 @@ const NowPlaying: React.FC<Props> = ({
         hoveredButton === 'requeue' ? 'Requeue' : 'Mark as Complete';
 
     return (
-        <div className="bg-gradient-to-r from-amber-500 to-pink-500 border border-black p-4 relative">
+        <div className="bg-gradient-to-r from-amber-500 to-pink-500 border border-black px-4 py-6 relative">
             <div className="flex flex-row items-center justify-between">
-                <div>
+                <div className='space-y-2'>
                     <div className="flex flex-row items-center text-xs">
                         <p className="mr-0.5">Request</p>
                         <p className="ml-1">{id}</p>
