@@ -42,7 +42,7 @@ const ActiveRequest: React.FC<Props> = ({
     };
 
     return (
-        <div className="bg-gradient-to-r from-purple-600 to-fuchsia-600 border border-black p-4 relative">
+        <div className="bg-gradient-to-r from-purple-600 to-fuchsia-600 border border-black px-4 py-3 relative">
             <div className="flex flex-row items-center justify-between">
                 <div>
                     <div className="flex flex-row items-center text-xs">

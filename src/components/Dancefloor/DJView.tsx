@@ -57,6 +57,21 @@ interface Props {
   voteErrors: { [key: string]: string | null };
 }
 
+const variants = {
+  hidden: { y: '-100%', opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { type: 'spring', stiffness: 100, damping: 10 },
+  },
+  exit: {
+    y: '-100%',
+    opacity: 0,
+    transition: { type: 'spring', stiffness: 80, damping: 12 },
+  },
+};
+
+
 const DJView: React.FC<Props> = ({
   djId,
   notification,
@@ -90,12 +105,21 @@ const DJView: React.FC<Props> = ({
 
   return (
     <div className="flex min-h-screen bg-gray-800">
-          {notification && (
-        <div className="z-50 notification absolute top-0 right-0 left-0 justify-center flex items-center bg-orange-400 h-24 bg-opacity-75">
-          {notification}
-        </div>
-      )}
-
+      <AnimatePresence>
+        {notification && (
+          <motion.div
+            className="z-50 fixed inset-x-0 top-16 mt-4 mx-auto bg-gradient-to-r from-teal-500/40 to-blue-500/40 backdrop-blur-md backdrop-brightness-75 text-white p-4 text-center rounded-lg shadow-lg border border-gray-700"
+            style={{ maxWidth: '22rem' }}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={variants}
+            key="notification"
+          >
+            <p className='font-semibold text-xl'>{notification}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <motion.div
         className="flex-grow flex flex-col h-screen overflow-y-auto scrollbar-hide"
         animate={{ width: isChatVisible ? '75%' : '100%' }}
