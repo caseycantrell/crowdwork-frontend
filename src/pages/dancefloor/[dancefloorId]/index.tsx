@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
 import DJView from '@/components/Dancefloor/DJView';
 import { checkAuth } from '@/utils/checkAuth';
+import MobileView from '@/components/Dancefloor/Mobile/MobileView';
 
 const Dancefloor = () => {
   const router = useRouter();
@@ -375,6 +376,24 @@ const Dancefloor = () => {
       handleVote={handleVote} 
       voteErrors={voteErrors} 
     />
+    // <MobileView 
+    //   isAuthenticated={isAuthenticated}
+    //   djInfo={djInfo} 
+    //   songRequestsError={songRequestsError} 
+    //   nowPlayingSong={nowPlayingSong}
+    //   activeRequests={activeRequests}
+    //   completedRequests={completedRequests} 
+    //   declinedRequests={declinedRequests}
+    //   message={message}
+    //   setMessage={setMessage}
+    //   messageError={messageError}
+    //   setMessageError={setMessageError}
+    //   messages={messages}
+    //   messagesError={messagesError} 
+    //   handleSendMessage={handleSendMessage} 
+    //   handleVote={handleVote} 
+    //   voteErrors={voteErrors} 
+    // />
   );
 };
 
