@@ -5,6 +5,7 @@ import SongRequests from './SongRequests';
 import { AnimatePresence, motion } from 'framer-motion';
 
 interface DJInfo {
+  id: string;
   name: string;
   bio: string;
   website: string;
@@ -29,8 +30,8 @@ interface Message {
 }
 
 interface Props {
-  djId: string | undefined;
   notification: string | null;
+  isAuthenticated: boolean | null;
   djInfo: DJInfo | null;
   djInfoError: string | null;
   songRequest: string;
@@ -73,8 +74,8 @@ const variants = {
 
 
 const DJView: React.FC<Props> = ({
-  djId,
   notification,
+  isAuthenticated,
   djInfo,
   djInfoError,
   songRequest,
@@ -103,12 +104,14 @@ const DJView: React.FC<Props> = ({
 
   const [isChatVisible, setIsChatVisible] = useState<boolean>(false);
 
+  console.log("isAuthenticated", isAuthenticated)
+
   return (
     <div className="flex min-h-screen bg-gray-800">
       <AnimatePresence>
         {notification && (
           <motion.div
-            className="z-50 fixed inset-x-0 top-16 mt-4 mx-auto bg-gradient-to-r from-teal-500/40 to-blue-500/40 backdrop-blur-md backdrop-brightness-75 text-white p-4 text-center rounded-lg shadow-lg border border-gray-700"
+            className="z-50 fixed inset-x-0 top-16 mt-4 mx-auto bg-gradient-to-r from-teal-500/40 to-blue-500/40 backdrop-blur-md backdrop-brightness-75 text-white p-4 text-center rounded-lg shadow-lg"
             style={{ maxWidth: '22rem' }}
             initial="hidden"
             animate="visible"
@@ -126,7 +129,6 @@ const DJView: React.FC<Props> = ({
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         <DJInfo
-          djId={djId}
           djInfo={djInfo}
           djInfoError={djInfoError}
           handleStopDancefloor={handleStopDancefloor}

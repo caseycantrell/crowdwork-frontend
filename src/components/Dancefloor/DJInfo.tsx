@@ -2,8 +2,10 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
+import Button from '../UI/Button'
 
 interface DJInfo {
+  id: string;
   name: string;
   bio: string;
   website: string;
@@ -18,7 +20,6 @@ interface DJInfo {
 const DJInfoComponent: React.FC<{
   djInfo: DJInfo | null;
   djInfoError: string | null;
-  djId: string | undefined;
   handleStopDancefloor: () => void;
   songRequest: string;
   setSongRequest: (value: string) => void;
@@ -26,7 +27,6 @@ const DJInfoComponent: React.FC<{
   isChatVisible: boolean;
   setIsChatVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({
-  djId,
   djInfo,
   djInfoError,
   handleStopDancefloor,
@@ -59,14 +59,12 @@ const DJInfoComponent: React.FC<{
                 height={160}
                 alt="Profile Pic"
                 className="object-cover w-full h-full"
+                priority
               />
             </div>
             <div className="mt-4">
-              <Link
-                href={`/dj/${djId}`}
-                className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-md px-5 py-3 font-semibold"
-              >
-                Go to DJ Page
+              <Link href={`/dj/${djInfo.id}`}>
+                <Button>Go to DJ Page</Button>
               </Link>
             </div>
           </div>
@@ -103,12 +101,14 @@ const DJInfoComponent: React.FC<{
               placeholder="Enter your song request here brotha"
               className="h-10 rounded-md px-2 font-bold text-gray-500"
             />
-            <button
+            <Button
               onClick={handleSendSongRequest}
-              className="bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg p-2 font-bold mx-3"
+              bgColor="bg-gradient-to-r from-cyan-500 to-blue-500"
+              fontWeight="font-bold"
+              className="mt-2"
             >
               Send Song Request
-            </button>
+            </Button>
           </div>
           {/* END SONG REQUEST PLACEHOLDER */}
 
@@ -130,20 +130,22 @@ const DJInfoComponent: React.FC<{
                         </motion.p>
                     )}
                     </AnimatePresence>
-                    <button
-                        className="overflow-visible"
-                        onClick={handleStopDancefloor}
-                        onMouseEnter={() => handleMouseEnter("stop")}
-                        onMouseLeave={handleMouseLeave}
+                    <Button
+                      bgColor="" 
+                      padding=""
+                      className=""
+                      onClick={handleStopDancefloor}
+                      onMouseEnter={() => handleMouseEnter("stop")}
+                      onMouseLeave={handleMouseLeave}
                     >
-                    <Image
+                      <Image
                         src={"/icons/stop.png"}
                         height={60}
                         width={60}
                         alt="Stop Dancefloor"
                         className="invert"
-                    />
-                    </button>
+                      />
+                    </Button>
                 </div>
                 <div className="relative flex items-center">
                     <AnimatePresence>
@@ -159,19 +161,22 @@ const DJInfoComponent: React.FC<{
                         </motion.p>
                     )}
                     </AnimatePresence>
-                    <button
-                        onClick={() => setIsChatVisible(!isChatVisible)}
-                        onMouseEnter={() => handleMouseEnter("chat")}
-                        onMouseLeave={handleMouseLeave}
+                    <Button
+                      bgColor=""
+                      padding=""
+                      className=""
+                      onClick={() => setIsChatVisible(!isChatVisible)}
+                      onMouseEnter={() => handleMouseEnter("chat")}
+                      onMouseLeave={handleMouseLeave}
                     >
-                    <Image
+                      <Image
                         src={"/icons/chat.png"}
                         height={60}
                         width={60}
                         alt="Open Chat"
                         className="invert"
-                    />
-                    </button>
+                      />
+                    </Button>
                 </div>
             </div>
             <img

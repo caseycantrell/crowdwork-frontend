@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import Button from '../../UI/Button';
 
 interface Props {
     id: string;
@@ -15,7 +16,7 @@ const DeclinedRequest: React.FC<Props> = ({
     votes,
     handleRequeue,
 }) => {
-    const [isHovered, setIsHovered] = useState(false);
+    const [isHovered, setIsHovered] = useState<boolean>(false);
 
     const handleMouseEnter = () => {
         setIsHovered(true);
@@ -57,7 +58,9 @@ const DeclinedRequest: React.FC<Props> = ({
                     </AnimatePresence>
 
                     <div style={{ width: 30, height: 30 }}>
-                        <button
+                        <Button
+                            padding=""
+                            bgColor=""
                             className="overflow-visible"
                             onClick={() => handleRequeue(id)}
                             onMouseEnter={handleMouseEnter}
@@ -68,7 +71,7 @@ const DeclinedRequest: React.FC<Props> = ({
                                 width={50}
                                 alt="Requeue Icon"
                             />
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>

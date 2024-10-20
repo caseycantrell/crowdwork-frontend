@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import Button from '../../UI/Button';
 
 interface Props {
     id: string;
@@ -60,7 +61,7 @@ const ActiveRequest: React.FC<Props> = ({
                     <AnimatePresence>
                     {hoveredButton && (
                         <motion.p
-                            className="text-gray-300 font-bold mr-2"
+                            className="text-white font-semibold mr-2"
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -10 }}
@@ -76,7 +77,9 @@ const ActiveRequest: React.FC<Props> = ({
                     </AnimatePresence>
 
                     <div style={{ width: 30, height: 30 }}>
-                        <button
+                        <Button
+                            padding=""
+                            bgColor=""
                             className="overflow-visible"
                             onClick={() => handlePlay(id)}
                             onMouseEnter={() => handleMouseEnter('play')}
@@ -87,10 +90,12 @@ const ActiveRequest: React.FC<Props> = ({
                                 width={50}
                                 alt="Play Icon"
                             />
-                        </button>
+                        </Button>
                     </div>
                     <div style={{ width: 30, height: 30 }}>
-                        <button
+                        <Button
+                            padding=""
+                            bgColor=""
                             className="overflow-visible"
                             onClick={() => handleDecline(id)}
                             onMouseEnter={() => handleMouseEnter('decline')}
@@ -101,10 +106,12 @@ const ActiveRequest: React.FC<Props> = ({
                                 width={50}
                                 alt="Decline Icon"
                             />
-                        </button>
+                        </Button>
                     </div>
                     <div style={{ width: 30, height: 30 }}>
-                        <button
+                        <Button
+                            padding=""
+                            bgColor=""
                             className="overflow-visible"
                             onClick={() => handleVote(id)}
                             onMouseEnter={() => handleMouseEnter('vote')}
@@ -115,7 +122,7 @@ const ActiveRequest: React.FC<Props> = ({
                                 width={50}
                                 alt="Vote Icon"
                             />
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>

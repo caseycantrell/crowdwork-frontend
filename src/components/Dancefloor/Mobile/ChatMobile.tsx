@@ -1,4 +1,4 @@
-import ChatMessage from "./ChatMessage";
+import ChatMessage from "../Chat/ChatMessage";
 import Button from '../../UI/Button';
 
 interface Message {
@@ -6,7 +6,7 @@ interface Message {
   created_at: string;
 }
 
-const Chat: React.FC<{
+const ChatMobile: React.FC<{
   message: string;
   setMessage: (value: string) => void;
   handleSendMessage: () => void;
@@ -81,4 +81,4 @@ const Chat: React.FC<{
   );
 };
 
-export default Chat;
+export default ChatMobile;

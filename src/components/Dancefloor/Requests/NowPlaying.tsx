@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import Button from '../../UI/Button';
 
 interface Props {
     id: string;
@@ -46,7 +47,7 @@ const NowPlaying: React.FC<Props> = ({
                     <AnimatePresence>
                         {hoveredButton && (
                             <motion.p
-                                className="text-gray-300 font-bold mr-2"
+                                className="text-white font-bold mr-2"
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -10 }}
@@ -62,7 +63,9 @@ const NowPlaying: React.FC<Props> = ({
                     </AnimatePresence>
 
                     <div style={{ width: 30, height: 30 }}>
-                        <button
+                        <Button
+                            padding=""
+                            bgColor=""
                             className="overflow-visible"
                             onClick={() => handleRequeue(id)}
                             onMouseEnter={() => handleMouseEnter('requeue')}
@@ -73,10 +76,12 @@ const NowPlaying: React.FC<Props> = ({
                                 width={50}
                                 alt="Requeue Icon"
                             />
-                        </button>
+                        </Button>
                     </div>
                     <div style={{ width: 30, height: 30 }}>
-                        <button
+                        <Button
+                            padding=""
+                            bgColor=""
                             className="overflow-visible"
                             onClick={() => handleComplete(id)}
                             onMouseEnter={() => handleMouseEnter('complete')}
@@ -87,7 +92,7 @@ const NowPlaying: React.FC<Props> = ({
                                 width={50}
                                 alt="Complete Icon"
                             />
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>

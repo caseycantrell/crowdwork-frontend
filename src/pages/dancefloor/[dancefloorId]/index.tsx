@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
 import DJView from '@/components/Dancefloor/DJView';
+import { checkAuth } from '@/utils/checkAuth';
+import MobileView from '@/components/Dancefloor/Mobile/MobileView';
 
 const Dancefloor = () => {
   const router = useRouter();
-  const { dancefloorId, djId } = router.query;
-  const validDjId = typeof djId === 'string' ? djId : undefined;
+  const { dancefloorId } = router.query;
   const [ socket, setSocket ] = useState<Socket | null>(null);
   const [ message, setMessage ] = useState<string>('');
   const [ messageError, setMessageError ] = useState<string | null>('');
@@ -21,9 +22,11 @@ const Dancefloor = () => {
   const [ notification, setNotification ] = useState<string | null>(null);
   const [ requestsCount, setRequestsCount ] = useState<number>(0);
   const [ messagesCount, setMessagesCount ] = useState<number>(0);
+  const [ isAuthenticated, setIsAuthenticated ] = useState<boolean | null>(null);
  
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
+  // TODO: decide to show these or not
   console.log("requestsCount", requestsCount)
   console.log("messagesCount", messagesCount)
 
@@ -125,12 +128,12 @@ const Dancefloor = () => {
       const res = await fetch(`${backendUrl}/api/stop-dancefloor`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ djId }), 
+        body: JSON.stringify({ id: djInfo.id }), 
       });
   
       if (res.ok) {
         console.log('Dancefloor stopped.');
-        router.push(`/dj/${djId}`); // redirect back to DJ page after stopping
+        router.push(`/dj/${djInfo.id}`); // redirect back to DJ page after stopping
       } else {
         const data = await res.json();
         console.error(data.error);
@@ -329,20 +332,53 @@ const Dancefloor = () => {
     };
   }, [voteErrors]);
 
+  useEffect(() => {
+    const authenticateUser = async () => {
+      const { isAuthenticated, dj } = await checkAuth();
+      setIsAuthenticated(isAuthenticated);
+      if (dj) setDjInfo(dj);
+    };
+
+    authenticateUser();
+  }, []);
+
   const activeRequests = songRequests.filter((request) => request.status === 'queued');
   const nowPlayingSong = songRequests.find((request) => request.status === 'playing');
   const completedRequests = songRequests.filter((request) => request.status === 'completed');
   const declinedRequests = songRequests.filter((request) => request.status === 'declined');
 
   return (
-    <DJView 
-      djId={validDjId}
-      notification={notification} 
+    // <DJView 
+    //   notification={notification} 
+    //   isAuthenticated={isAuthenticated}
+    //   djInfo={djInfo} 
+    //   djInfoError={djInfoError}
+    //   songRequest={songRequest}
+    //   setSongRequest={setSongRequest}
+    //   handleSendSongRequest={handleSendSongRequest} 
+    //   songRequestsError={songRequestsError} 
+    //   nowPlayingSong={nowPlayingSong}
+    //   activeRequests={activeRequests}
+    //   completedRequests={completedRequests} 
+    //   declinedRequests={declinedRequests}
+    //   message={message}
+    //   setMessage={setMessage}
+    //   messageError={messageError}
+    //   setMessageError={setMessageError}
+    //   messages={messages}
+    //   messagesError={messagesError} 
+    //   handleSendMessage={handleSendMessage} 
+    //   handleStopDancefloor={handleStopDancefloor} 
+    //   handlePlay={handlePlay} 
+    //   handleDecline={handleDecline} 
+    //   handleComplete={handleComplete} 
+    //   handleRequeue={handleRequeue}  
+    //   handleVote={handleVote} 
+    //   voteErrors={voteErrors} 
+    // />
+    <MobileView 
+      isAuthenticated={isAuthenticated}
       djInfo={djInfo} 
-      djInfoError={djInfoError}
-      songRequest={songRequest}
-      setSongRequest={setSongRequest}
-      handleSendSongRequest={handleSendSongRequest} 
       songRequestsError={songRequestsError} 
       nowPlayingSong={nowPlayingSong}
       activeRequests={activeRequests}
@@ -355,11 +391,6 @@ const Dancefloor = () => {
       messages={messages}
       messagesError={messagesError} 
       handleSendMessage={handleSendMessage} 
-      handleStopDancefloor={handleStopDancefloor} 
-      handlePlay={handlePlay} 
-      handleDecline={handleDecline} 
-      handleComplete={handleComplete} 
-      handleRequeue={handleRequeue}  
       handleVote={handleVote} 
       voteErrors={voteErrors} 
     />

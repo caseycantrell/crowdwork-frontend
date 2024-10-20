@@ -4,6 +4,7 @@ import LogoutButton from '../../components/LogoutButton';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
+import Button from '../../components/UI/Button'
 
 const DjIdPage: React.FC = () => {
   const router = useRouter();
@@ -70,10 +71,7 @@ const DjIdPage: React.FC = () => {
               setStatus('Active dancefloor is live.');
 
               if (!data.isDjLoggedIn) {
-                router.push({
-                  pathname: `/dancefloor/${data.dancefloorId}`,
-                  query: { djId: djId },
-                });
+                router.push(`/dancefloor/${data.dancefloorId}`);
               }
             }
             setQrCodeUrl(data.qrCode);
@@ -81,7 +79,7 @@ const DjIdPage: React.FC = () => {
           }
         })
         .then(() => {
-          // Fetch past dancefloors
+          // fetch past dancefloors
           return fetch(`${backendUrl}/api/dj/${djId}/past-dancefloors`, {
             method: 'GET',
             credentials: 'include',
@@ -121,10 +119,7 @@ const DjIdPage: React.FC = () => {
           setDancefloorId(data.dancefloorId);
           setIsStatusError(false);
           setStatus('Dancefloor started successfully.');
-          router.push({
-            pathname: `/dancefloor/${data.dancefloorId}`,
-            query: { djId: djId },
-          });
+          router.push(`/dancefloor/${data.dancefloorId}`);
         })
         .catch(() => {
           setIsStatusError(true);
@@ -148,12 +143,12 @@ const DjIdPage: React.FC = () => {
 
     let formattedWebsite = website.trim();
 
-    // Add protocol if it's missing
+    // add protocol if it's missing
     if (!formattedWebsite.startsWith('http://') && !formattedWebsite.startsWith('https://')) {
       formattedWebsite = `http://${formattedWebsite}`;
     }
 
-    // Validate the URL without the protocol for regex matching
+    // validate the URL w/o the protocol for regex matching
     const withoutProtocol = formattedWebsite.replace(/(^\w+:|^)\/\//, '');
     if (!domainRegex.test(withoutProtocol)) {
       setIsStatusError(true);
@@ -162,10 +157,10 @@ const DjIdPage: React.FC = () => {
       return;
     }
 
-    // Remove unnecessary trailing slashes
+    // remove unnecessary trailing slashes
     try {
       const url = new URL(formattedWebsite);
-      formattedWebsite = url.origin + url.pathname; // Avoid double slashes
+      formattedWebsite = url.origin + url.pathname; // avoid double slashes
     } catch (err) {
       setIsStatusError(true);
       setStatus('Please enter a valid website (e.g., www.example.com).');
@@ -265,7 +260,7 @@ const DjIdPage: React.FC = () => {
       if (res.ok) {
         setStatus('Profile picture updated successfully.');
         setIsStatusVisible(true);
-        setIsEditingProfilePic(false); // Reset to view mode
+        setIsEditingProfilePic(false);
       } else {
         setStatus('Failed to save profile picture.');
         setIsStatusVisible(true);
@@ -279,14 +274,15 @@ const DjIdPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-800 flex items-center justify-center px-6 py-8 relative">
-      <div className="absolute top-0 right-2 md:top-7 md:right-12">
+      
+      
+      <div className="hidden xl:block absolute top-0 right-2 md:top-10 md:right-14">
         <LogoutButton />
       </div>
 
       <div className="w-full max-w-6xl bg-gray-700 shadow-xl rounded-lg p-8 space-y-8 md:flex md:space-x-8 relative">
         <div className="flex flex-col items-center md:w-1/3">
           <p className="text-4xl font-semibold text-center mb-8">{djName || 'DJ Profile'}</p>
-
 
           <img
             src={profilePic || '/images/profile_placeholder.jpg'} 
@@ -295,12 +291,13 @@ const DjIdPage: React.FC = () => {
           />
 
           {!isEditingProfilePic ? (
-            <button
+            <Button
               onClick={() => setIsEditingProfilePic(true)}
-              className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-2 px-4 rounded font-semibold"
+              className="w-60"
+              bgColor="bg-gradient-to-r from-cyan-500 to-blue-500"
             >
               Update Profile Pic
-            </button>
+            </Button>
           ) : (
             <>
               {/* hidden file input for styling outside of browser/OS default */}
@@ -312,23 +309,24 @@ const DjIdPage: React.FC = () => {
               />
               <label
                 htmlFor="file-upload"
-                className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white py-2 px-4 rounded mb-4 cursor-pointer"
+                className="flex justify-center bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white font-semibold py-2 px-4 rounded mb-4 cursor-pointer w-60"
               >
                 Choose File
               </label>
-              <button
+              <Button
                 onClick={saveProfilePic}
-                className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white py-2 px-4 rounded"
                 disabled={uploading}
+                className='w-60'
               >
                 {uploading ? 'Uploading...' : 'Save Profile Picture'}
-              </button>
-              <button
-                onClick={() => setIsEditingProfilePic(false)} // Cancel button
-                className="bg-red-500 text-white py-2 px-4 rounded mt-2"
+              </Button>
+              <Button
+                onClick={() => setIsEditingProfilePic(false)}
+                bgColor="bg-red-500"
+                className="mt-4 w-60"
               >
                 Cancel
-              </button>
+              </Button>
             </>
           )}
 
@@ -462,46 +460,51 @@ const DjIdPage: React.FC = () => {
 
           <div className="flex text-white font-bold text-xl">
             {isEditing ? (
-              <button
+              <Button
                 onClick={handleEditInfo}
-                className="w-full bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 p-4 rounded-lg"
+                padding="p-4"
+                bgColor="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500"
+                className="w-full"
               >
                 Save Info
-              </button>
+              </Button>
             ) : (
-              <button
+              <Button
                 onClick={() => setIsEditing(true)}
-                className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 p-4 rounded-lg"
+                padding="p-4"
+                bgColor="bg-gradient-to-r from-blue-500 to-cyan-500"
+                className="w-full"
               >
                 Edit Info
-              </button>
+              </Button>
             )}
           </div>
 
           <div className="flex text-xl text-white font-bold">
             {dancefloorId ? (
               <Link
-                href={{
-                  pathname: `/dancefloor/${dancefloorId}`,
-                  query: { djId },
-                }}
+                href={`/dancefloor/${dancefloorId}`}
                 className="w-full"
               >
-                <button
-                  className="w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 py-4 px-4 rounded-lg"
+                <Button
                   disabled={isLoading}
+                  padding="p-4"
+                  bgColor="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500"
+                  className="w-full"
                 >
                   Go to Active Dancefloor
-                </button>
+                </Button>
               </Link>
             ) : (
-              <button
+              <Button
                 onClick={startDancefloor}
-                className="w-full bg-gradient-to-r from-emerald-400 to-cyan-400 py-4 px-4 rounded-lg"
+                className="w-full"
+                padding="p-4"
+                bgColor="bg-gradient-to-r from-emerald-400 to-cyan-400"
                 disabled={isLoading}
               >
-                {isLoading ? 'Starting...' : 'Start Dancefloor'}
-              </button>
+                {isLoading ? "Starting..." : "Start Dancefloor"}
+              </Button>
             )}
           </div>
 
@@ -528,6 +531,9 @@ const DjIdPage: React.FC = () => {
               <p>No past dancefloors found.</p>
             )}
           </ul>
+          <div className='block xl:hidden'>
+            <LogoutButton />
+          </div>
         </div>
       </div>
     </div>
