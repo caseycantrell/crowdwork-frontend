@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import Button from '../../UI/Button';
 
 interface Props {
     id: string;
@@ -17,7 +18,7 @@ const CompletedRequest: React.FC<Props> = ({
     handleRequeue,
     voteErrors,
 }) => {
-    const [isHovered, setIsHovered] = useState(false);
+    const [isHovered, setIsHovered] = useState<boolean>(false);
 
     const handleMouseEnter = () => {
         setIsHovered(true);
@@ -43,7 +44,7 @@ const CompletedRequest: React.FC<Props> = ({
                     <AnimatePresence>
                         {isHovered && (
                             <motion.p
-                                className="text-gray-300 font-bold mr-2"
+                                className="text-white font-bold mr-2"
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -10 }}
@@ -59,7 +60,9 @@ const CompletedRequest: React.FC<Props> = ({
                     </AnimatePresence>
 
                     <div style={{ width: 30, height: 30 }}>
-                        <button
+                        <Button
+                            padding=""
+                            bgColor=""
                             className="overflow-visible"
                             onClick={() => handleRequeue(id)}
                             onMouseEnter={handleMouseEnter}
@@ -70,7 +73,7 @@ const CompletedRequest: React.FC<Props> = ({
                                 width={50}
                                 alt="Requeue Icon"
                             />
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>

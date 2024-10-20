@@ -1,12 +1,11 @@
 import { useRouter } from 'next/router';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
 import DJView from '@/components/Dancefloor/DJView';
 
 const Dancefloor = () => {
   const router = useRouter();
-  const { dancefloorId, djId } = router.query;
-  const validDjId = typeof djId === 'string' ? djId : undefined;
+  const { dancefloorId } = router.query;
   const [ socket, setSocket ] = useState<Socket | null>(null);
   const [ message, setMessage ] = useState<string>('');
   const [ messageError, setMessageError ] = useState<string | null>('');
@@ -24,6 +23,7 @@ const Dancefloor = () => {
  
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
+  // TODO: decide to show these or not
   console.log("requestsCount", requestsCount)
   console.log("messagesCount", messagesCount)
 
@@ -125,12 +125,12 @@ const Dancefloor = () => {
       const res = await fetch(`${backendUrl}/api/stop-dancefloor`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ djId }), 
+        body: JSON.stringify({ id: djInfo.id }), 
       });
   
       if (res.ok) {
         console.log('Dancefloor stopped.');
-        router.push(`/dj/${djId}`); // redirect back to DJ page after stopping
+        router.push(`/dj/${djInfo.id}`); // redirect back to DJ page after stopping
       } else {
         const data = await res.json();
         console.error(data.error);
@@ -336,7 +336,6 @@ const Dancefloor = () => {
 
   return (
     <DJView 
-      djId={validDjId}
       notification={notification} 
       djInfo={djInfo} 
       djInfoError={djInfoError}

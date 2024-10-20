@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import Button from '../components/UI/Button';
 import LogoutButton from '@/components/LogoutButton';
 
 const LoginPage: React.FC = () => {
@@ -76,12 +77,13 @@ const LoginPage: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
           className="w-full px-4 h-20 text-4xl font-bold rounded-md text-gray-600 focus:outline-none focus:ring-2 focus:ring-main"
         />
-        <button
+        <Button
           type="submit"
-          className="w-full h-20 bg-main text-white font-bold text-4xl rounded-md hover:bg-mainhover ease-in-out duration-500"
+          fontWeight="font-bold"
+          className="w-full h-20 text-4xl"
         >
           Log Me The F**k In
-        </button>
+        </Button>
       </form>
       <div className='flex flex-row items-center justify-center mt-6 text-xl relative w-full'>
         <p className='mr-3'>Don't have an account yet?</p>
@@ -109,10 +111,9 @@ const LoginPage: React.FC = () => {
       </div>
 
          {/* delete me eventually, just for testing */}
-         <div className='absolute top-5 right-24 pt-16'>
+         <div className='absolute top-12 right-16'>
           <LogoutButton />
         </div>
-
 
     </div>
   );

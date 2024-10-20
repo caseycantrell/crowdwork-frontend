@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Button from '../../../components/UI/Button'
 
-const DancefloorDetails = () => {
+const DancefloorDetails: React.FC = () => {
   const router = useRouter();
   const { dancefloorId } = router.query;
 
@@ -25,43 +26,47 @@ const DancefloorDetails = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-800 p-6">
       <div className="w-full max-w-5xl bg-gray-700 shadow-lg rounded-lg p-8 space-y-8">
-        {/* Header Section */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-4 md:space-y-0">
-          <h1 className="text-2xl font-bold text-white">Dancefloor ID: {dancefloorId}</h1>
+          <p className="text-2xl font-bold text-white">Dancefloor ID: {dancefloorId}</p>
           <Link href={`/dj/${dancefloor.dj_id}`}>
-            <button className="px-5 py-3 bg-gradient-to-r from-indigo-400 to-cyan-400 text-white font-semibold rounded-md">
+            <Button 
+              bgColor='bg-gradient-to-r from-indigo-400 to-cyan-400'
+              padding='px-5 py-3'
+            >
               Back to DJ Page
-            </button>
+            </Button>
           </Link>
         </div>
 
-        {/* Info Section */}
         <div className="p-6 bg-gray-600 rounded-lg text-white">
-          <h2 className="text-2xl font-semibold mb-4">Dancefloor Info</h2>
-          <p>
-            <strong>Status:</strong> {dancefloor.status}
-          </p>
-          <p className="flex flex-col">
-            <div>
-            <strong>Created At:</strong> {new Date(dancefloor.created_at).toLocaleString()}
+          <p className="text-2xl font-semibold mb-4">Dancefloor Info</p>
+            <div className='flex flex-row items-center'>
+              <p className='font-bold'>Status:</p> 
+              <p className='font-medium ml-1'>{dancefloor.status}</p>
             </div>
-            <div>
-            <strong>Ended At:</strong> {new Date(dancefloor.ended_at).toLocaleString()}
+          <div className="flex flex-col">
+            <div className='flex flex-row items-center'>
+              <p className='font-bold'>Created At:</p> 
+              <p className='font-medium ml-1'>{new Date(dancefloor.created_at).toLocaleString()}</p>
             </div>
-            <div>
-            <strong>Total Requests:</strong> {dancefloor.requests_count}
+            <div className='flex flex-row items-center'>
+              <p className='font-bold'>Ended At:</p> 
+              <p className='font-medium ml-1'>{new Date(dancefloor.ended_at).toLocaleString()}</p>
             </div>
-            <div>
-            <strong>Total Messages:</strong> {dancefloor.messages_count}
+            <div className='flex flex-row items-center'>
+              <p className='font-bold'>Total Requests:</p> 
+              <p className='font-medium ml-1'>{dancefloor.requests_count}</p>
             </div>
-          </p>
+            <div className='flex flex-row items-center'>
+              <p className='font-bold'>Total Messages:</p> 
+              <p className='font-medium ml-1'>{dancefloor.messages_count}</p>
+            </div>
+          </div>
         </div>
 
-        {/* Messages and Song Requests Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Song Requests Section */}
           <div className="py-6 pl-6 pr-3 bg-gray-600 rounded-lg">
-            <h2 className="text-2xl font-semibold mb-4">Song Requests</h2>
+            <p className="text-2xl font-semibold mb-4">Song Requests</p>
             <div className="max-h-[24rem] overflow-y-auto space-y-2 pb-8 pr-3 scrollbar-thin">
               {dancefloor.songRequests && dancefloor.songRequests.length > 0 ? (
                 <ul className="list-disc list-inside space-y-2">
@@ -76,9 +81,8 @@ const DancefloorDetails = () => {
               )}
             </div>
           </div>
-          {/* Messages Section */}
           <div className="py-6 pl-6 pr-3 bg-gray-600 rounded-lg">
-            <h2 className="text-2xl font-semibold mb-4">Messages</h2>
+            <p className="text-2xl font-semibold mb-4">Messages</p>
             <div className="max-h-[24rem] overflow-y-auto space-y-2 pb-8 pr-3 scrollbar-thin">
               {dancefloor.messages && dancefloor.messages.length > 0 ? (
                 <ul className="space-y-2">
@@ -93,8 +97,8 @@ const DancefloorDetails = () => {
               )}
             </div>
           </div>
-
         </div>
+
       </div>
     </div>
   );

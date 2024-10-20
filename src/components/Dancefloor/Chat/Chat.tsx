@@ -1,4 +1,5 @@
 import ChatMessage from "./ChatMessage";
+import Button from '../../UI/Button';
 
 interface Message {
   message: string;
@@ -22,7 +23,6 @@ const Chat: React.FC<{
   setMessageError,
   messagesError,
 }) => {
-
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && message.trim()) {
       handleSendMessage();
@@ -35,7 +35,7 @@ const Chat: React.FC<{
         <p className="text-xl 2xl:text-2xl font-bold text-white">Dancefloor Chat</p>
       </div>
       
-      <div className="flex-1 bg-gray-800 rounded-md mx-2 p-2 overflow-y-auto">
+      <div className="flex-1 bg-gray-800 rounded-md mx-2 p-2 overflow-y-auto scrollbar-thin">
         {messagesError ? (
           <p style={{ color: 'red' }}>{messagesError}</p>
         ) : (
@@ -46,7 +46,7 @@ const Chat: React.FC<{
               </div>
             ))
           ) : (
-            <p className="text-gray-400">No messages yet</p>
+            <p className="font-semibold text-gray-400 m-2">No messages yet...</p>
           )
         )}
       </div>
@@ -68,12 +68,14 @@ const Chat: React.FC<{
           placeholder="Enter your message"
           className="w-full mr-2 rounded-md h-12 p-2 text-gray-800 text-xl font-semibold focus:outline-none"
         />
-        <button
+        <Button
           onClick={handleSendMessage}
-          className="bg-gradient-to-r from-cyan-500 to-blue-500 font-bold rounded-lg h-12 w-32 text-xl"
+          bgColor="bg-gradient-to-r from-cyan-500 to-blue-500"
+          textSize="text-xl"
+          className="h-12 w-32"
         >
           Send
-        </button>
+        </Button>
       </div>
     </div>
   );
