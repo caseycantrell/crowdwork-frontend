@@ -31,6 +31,7 @@ interface Message {
 
 interface Props {
   notification: string | null;
+  isLoggedIn: boolean | null;
   djInfo: DJInfo | null;
   djInfoError: string | null;
   songRequest: string;
@@ -74,6 +75,7 @@ const variants = {
 
 const DJView: React.FC<Props> = ({
   notification,
+  isLoggedIn,
   djInfo,
   djInfoError,
   songRequest,
@@ -101,6 +103,8 @@ const DJView: React.FC<Props> = ({
 }) => {
 
   const [isChatVisible, setIsChatVisible] = useState<boolean>(false);
+
+  console.log("isLoggedIn", isLoggedIn)
 
   return (
     <div className="flex min-h-screen bg-gray-800">

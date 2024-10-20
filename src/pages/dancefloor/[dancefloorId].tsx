@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
 import DJView from '@/components/Dancefloor/DJView';
+import { checkAuth } from '@/utils/checkAuth';
 
 const Dancefloor = () => {
   const router = useRouter();
@@ -20,6 +21,7 @@ const Dancefloor = () => {
   const [ notification, setNotification ] = useState<string | null>(null);
   const [ requestsCount, setRequestsCount ] = useState<number>(0);
   const [ messagesCount, setMessagesCount ] = useState<number>(0);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
  
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -329,6 +331,16 @@ const Dancefloor = () => {
     };
   }, [voteErrors]);
 
+  useEffect(() => {
+    const authenticateUser = async () => {
+      const { isLoggedIn, dj } = await checkAuth();
+      setIsLoggedIn(isLoggedIn);
+      if (dj) setDjInfo(dj);
+    };
+
+    authenticateUser();
+  }, []);
+
   const activeRequests = songRequests.filter((request) => request.status === 'queued');
   const nowPlayingSong = songRequests.find((request) => request.status === 'playing');
   const completedRequests = songRequests.filter((request) => request.status === 'completed');
@@ -337,6 +349,7 @@ const Dancefloor = () => {
   return (
     <DJView 
       notification={notification} 
+      isLoggedIn={isLoggedIn}
       djInfo={djInfo} 
       djInfoError={djInfoError}
       songRequest={songRequest}

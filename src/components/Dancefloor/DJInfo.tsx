@@ -59,6 +59,7 @@ const DJInfoComponent: React.FC<{
                 height={160}
                 alt="Profile Pic"
                 className="object-cover w-full h-full"
+                priority
               />
             </div>
             <div className="mt-4">
