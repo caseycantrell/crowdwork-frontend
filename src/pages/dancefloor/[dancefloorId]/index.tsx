@@ -21,7 +21,7 @@ const Dancefloor = () => {
   const [ notification, setNotification ] = useState<string | null>(null);
   const [ requestsCount, setRequestsCount ] = useState<number>(0);
   const [ messagesCount, setMessagesCount ] = useState<number>(0);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const [ isAuthenticated, setIsAuthenticated ] = useState<boolean | null>(null);
  
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -333,8 +333,8 @@ const Dancefloor = () => {
 
   useEffect(() => {
     const authenticateUser = async () => {
-      const { isLoggedIn, dj } = await checkAuth();
-      setIsLoggedIn(isLoggedIn);
+      const { isAuthenticated, dj } = await checkAuth();
+      setIsAuthenticated(isAuthenticated);
       if (dj) setDjInfo(dj);
     };
 
@@ -349,7 +349,7 @@ const Dancefloor = () => {
   return (
     <DJView 
       notification={notification} 
-      isLoggedIn={isLoggedIn}
+      isAuthenticated={isAuthenticated}
       djInfo={djInfo} 
       djInfoError={djInfoError}
       songRequest={songRequest}

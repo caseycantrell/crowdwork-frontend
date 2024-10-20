@@ -5,13 +5,13 @@ export const checkAuth = async () => {
       });
       const data = await res.json();
   
-      if (data.loggedIn) {
-        return { isLoggedIn: true, dj: data.dj };
+      if (data.authenticated) {
+        return { isAuthenticated: true, dj: data.dj };
       } else {
-        return { isLoggedIn: false };
+        return { isAuthenticated: false };
       }
     } catch (error) {
       console.error('Error checking authentication status:', error);
-      return { isLoggedIn: false };
+      return { isAuthenticated: false };
     }
 };
