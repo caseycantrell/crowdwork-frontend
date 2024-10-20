@@ -348,37 +348,14 @@ const Dancefloor = () => {
   const declinedRequests = songRequests.filter((request) => request.status === 'declined');
 
   return (
-    <DJView 
-      notification={notification} 
-      isAuthenticated={isAuthenticated}
-      djInfo={djInfo} 
-      djInfoError={djInfoError}
-      songRequest={songRequest}
-      setSongRequest={setSongRequest}
-      handleSendSongRequest={handleSendSongRequest} 
-      songRequestsError={songRequestsError} 
-      nowPlayingSong={nowPlayingSong}
-      activeRequests={activeRequests}
-      completedRequests={completedRequests} 
-      declinedRequests={declinedRequests}
-      message={message}
-      setMessage={setMessage}
-      messageError={messageError}
-      setMessageError={setMessageError}
-      messages={messages}
-      messagesError={messagesError} 
-      handleSendMessage={handleSendMessage} 
-      handleStopDancefloor={handleStopDancefloor} 
-      handlePlay={handlePlay} 
-      handleDecline={handleDecline} 
-      handleComplete={handleComplete} 
-      handleRequeue={handleRequeue}  
-      handleVote={handleVote} 
-      voteErrors={voteErrors} 
-    />
-    // <MobileView 
+    // <DJView 
+    //   notification={notification} 
     //   isAuthenticated={isAuthenticated}
     //   djInfo={djInfo} 
+    //   djInfoError={djInfoError}
+    //   songRequest={songRequest}
+    //   setSongRequest={setSongRequest}
+    //   handleSendSongRequest={handleSendSongRequest} 
     //   songRequestsError={songRequestsError} 
     //   nowPlayingSong={nowPlayingSong}
     //   activeRequests={activeRequests}
@@ -391,9 +368,32 @@ const Dancefloor = () => {
     //   messages={messages}
     //   messagesError={messagesError} 
     //   handleSendMessage={handleSendMessage} 
+    //   handleStopDancefloor={handleStopDancefloor} 
+    //   handlePlay={handlePlay} 
+    //   handleDecline={handleDecline} 
+    //   handleComplete={handleComplete} 
+    //   handleRequeue={handleRequeue}  
     //   handleVote={handleVote} 
     //   voteErrors={voteErrors} 
     // />
+    <MobileView 
+      isAuthenticated={isAuthenticated}
+      djInfo={djInfo} 
+      songRequestsError={songRequestsError} 
+      nowPlayingSong={nowPlayingSong}
+      activeRequests={activeRequests}
+      completedRequests={completedRequests} 
+      declinedRequests={declinedRequests}
+      message={message}
+      setMessage={setMessage}
+      messageError={messageError}
+      setMessageError={setMessageError}
+      messages={messages}
+      messagesError={messagesError} 
+      handleSendMessage={handleSendMessage} 
+      handleVote={handleVote} 
+      voteErrors={voteErrors} 
+    />
   );
 };
 
