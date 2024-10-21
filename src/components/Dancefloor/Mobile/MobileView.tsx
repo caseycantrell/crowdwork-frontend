@@ -3,6 +3,7 @@ import Button from '../../UI/Button';
 import ChatMobile from './ChatMobile';
 import SongRequestsMobile from './SongRequestsMobile';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 interface DJInfo {
   id: string;
@@ -38,14 +39,18 @@ interface Props {
   completedRequests: SongRequest[];
   declinedRequests: SongRequest[];
   message: string;
+  songRequest: string;
+  setSongRequest: (value: string) => void;
   setMessage: (value: string) => void;
   messageError: string | null;
   setMessageError: React.Dispatch<React.SetStateAction<string | null>>;
   messages: Message[];
   messagesError: string | null;
   handleSendMessage: () => void;
+  handleSendSongRequest: () => void;
   handleLike: (requestId: string) => void;
   likeErrors: { [key: string]: string | null };
+  dancefloorId: string | string[] | undefined; 
 }
 
 const MobileView: React.FC<Props> = ({
@@ -63,12 +68,22 @@ const MobileView: React.FC<Props> = ({
   messages,
   messagesError,
   handleSendMessage,
+  songRequest, 
+  setSongRequest, 
+  handleSendSongRequest,
   handleLike,
-  likeErrors
+  likeErrors,
+  dancefloorId,
 }) => {
+
+  const router = useRouter();
 
   console.log("isAuthenticated", isAuthenticated)
   console.log("djInfo", djInfo)
+
+  const handleRequestNavigation = () => { // Replace with dynamic ID if available
+    router.push(`/dancefloor/${dancefloorId}/request`);
+  };
 
   return (
     <div className="xl:hidden min-h-screen flex flex-col bg-gray-800 pt-2">
@@ -105,13 +120,12 @@ const MobileView: React.FC<Props> = ({
           {djInfo?.cashapp_handle && <p>CashApp: {djInfo.cashapp_handle}</p>}
         </div>
         <div className='bg-gray-800 flex justify-center pt-2 pb-2'>
-            <Button 
-              padding='py-5'
-              className='w-full mx-2'
-              bgColor='bg-gradient-to-r from-emerald-400 to-cyan-500'
+            <button 
+              className='w-full mx-2 bg-gradient-to-r from-emerald-400 to-cyan-500'
+              onClick={() => router.push(`/dancefloor/${dancefloorId}/request`)}
             >
               Make a Song Request
-            </Button>
+            </button>
         </div>
         <SongRequestsMobile
             songRequestsError={songRequestsError}
