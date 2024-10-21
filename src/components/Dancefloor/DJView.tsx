@@ -38,7 +38,7 @@ interface Props {
   setSongRequest: (value: string) => void;
   handleSendSongRequest: () => void;
   songRequestsError: string | null;
-  nowPlayingSong: SongRequest | any | null;
+  nowPlayingSong: SongRequest | null;
   activeRequests: SongRequest[];
   completedRequests: SongRequest[];
   declinedRequests: SongRequest[];
