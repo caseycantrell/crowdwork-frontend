@@ -71,21 +71,17 @@ const MobileView: React.FC<Props> = ({
   console.log("djInfo", djInfo)
 
   return (
-    <div className="xl:hidden min-h-screen flex flex-col bg-gray-800">
-       <div>
-        <p className="text-md font-bold ml-2 py-0.5">DJ Info</p>
+    <div className="xl:hidden min-h-screen flex flex-col bg-gray-800 pt-2">
         <div className='flex flex-row items-center'>
           <div className='w-16 h-16 flex flex-col mx-2'>
-           {djInfo?.profile_pic_url && 
               <Image
-                  src={djInfo.profile_pic_url || '/images/profile_placeholder.jpg'}
+                  src={djInfo?.profile_pic_url || '/images/profile_placeholder.jpg'}
                   width={160}
                   height={160}
                   alt="Profile Pic"
                   className="object-cover w-full h-full rounded-sm"
                   priority
                 />
-            }
           </div>
           <div className='flex flex-col'>
           <p className="font-semibold">{djInfo?.name || 'No DJ name set.'}</p>
@@ -102,15 +98,20 @@ const MobileView: React.FC<Props> = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-2 m-2 font-semibold">
+        <div className="grid grid-cols-2 mt-2 mx-2 font-semibold">
           {djInfo?.instagram_handle && <p>IG: {djInfo.instagram_handle}</p>}
           {djInfo?.twitter_handle && <p>Twitter: {djInfo.twitter_handle}</p>}
           {djInfo?.venmo_handle && <p>Venmo: {djInfo.venmo_handle}</p>}
           {djInfo?.cashapp_handle && <p>CashApp: {djInfo.cashapp_handle}</p>}
         </div>
-      </div>
-        <div className='bg-gray-800 flex justify-center py-3'>
-            <Button padding='px-16 py-4'>Make a Song Request!</Button>
+        <div className='bg-gray-800 flex justify-center pt-2 pb-3'>
+            <Button 
+              padding='py-5'
+              className='w-full mx-2'
+              bgColor='bg-gradient-to-r from-emerald-400 to-cyan-500'
+            >
+              Make a Song Request
+            </Button>
         </div>
         <SongRequestsMobile
             songRequestsError={songRequestsError}

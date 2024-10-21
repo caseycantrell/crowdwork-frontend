@@ -30,12 +30,12 @@ const ChatMobile: React.FC<{
   };
 
   return (
-    <div className="bg-gray-800 flex flex-col h-full">
+    <div className="bg-gray-800 flex flex-col h-80">
       <div className="flex flex-row items-center justify-between">
-        <p className="text-md font-bold ml-2 py-0.5">Dancefloor Chat</p>
+        <p className="text-xl font-bold ml-2 py-0.5">Dancefloor Chat</p>
       </div>
       
-      <div className="flex-1 bg-gray-800 rounded-md mx-2 p-2 overflow-y-auto scrollbar-thin">
+      <div className="flex-1 bg-gray-800 rounded-md overflow-y-auto scrollbar-thin">
         {messagesError ? (
           <p style={{ color: 'red' }}>{messagesError}</p>
         ) : (
@@ -51,7 +51,7 @@ const ChatMobile: React.FC<{
         )}
       </div>
 
-      <div className="flex-none flex flex-row items-center m-0 px-2 py-5 sticky bottom-0 bg-black relative">
+      <div className="flex-none flex flex-row items-center m-0 px-2 py-2 sticky bottom-0 bg-black relative">
         {messageError && <div className="flex flex-row w-full justify-center items-center absolute bg-gradient-to-r from-red-500 to-orange-500 h-12 -top-12 left-0 right-0 text-white text-lg font-semibold">{messageError}</div>}
         <input
           type="text"
@@ -65,14 +65,14 @@ const ChatMobile: React.FC<{
             }
           }}
           onKeyDown={handleKeyDown}
-          placeholder="Enter your message"
-          className="w-full mr-2 rounded-md h-12 p-2 text-gray-800 text-xl font-semibold focus:outline-none"
+          placeholder="Enter your message..."
+          className="w-full mr-2 rounded-md h-12 p-2 text-gray-800 font-semibold focus:outline-none"
         />
         <Button
           onClick={handleSendMessage}
+          textSize="text-lg"
           bgColor="bg-gradient-to-r from-cyan-500 to-blue-500"
-          textSize="text-xl"
-          className="h-12 w-32"
+          className="h-12 w-24"
         >
           Send
         </Button>

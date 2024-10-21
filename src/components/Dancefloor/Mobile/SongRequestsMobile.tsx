@@ -29,8 +29,8 @@ const SongRequestsMobile: React.FC<Props> = ({
   voteErrors,
 }) => {    
   return (
-    <div className="row-span-4 col-span-1 lg:col-span-3 bg-gray-800 h-72 overflow-y-scroll scrollbar-hide pb-16">
-       <p className='text-md font-bold ml-2 py-0.5'>Now Playing</p>
+    <div className="row-span-4 col-span-1 lg:col-span-3 bg-gray-800 h-72 overflow-y-scroll scrollbar-thin pb-0">
+       <p className='text-sm font-bold ml-2 pb-0.5'>Now Playing</p>
 
       {nowPlayingSong ? (
           <div className="bg-gradient-to-r from-amber-500 to-pink-500 flex flex-row items-center justify-between px-2 py-1">
@@ -75,7 +75,7 @@ const SongRequestsMobile: React.FC<Props> = ({
         ) : (
           <>
             <div>
-            <p className='text-md font-bold ml-2 py-0.5'>Active Requests</p>
+            <p className='text-sm font-bold ml-2 py-0.5'>Active Requests</p>
               {activeRequests.length > 0 ? (
                 activeRequests.map((request, index) => (
                   <div key={index} className="bg-gradient-to-r from-purple-600 to-fuchsia-600 flex flex-row items-center justify-between px-2 py-1">
@@ -114,16 +114,16 @@ const SongRequestsMobile: React.FC<Props> = ({
               )}
             </div>
             <div>
-              <p className='text-md font-bold ml-2 py-0.5'>Completed Requests</p>
+              <p className='text-sm font-bold ml-2 py-0.5'>Completed Requests</p>
               {completedRequests.length > 0 ? (
                 completedRequests.map((request, index) => (
                   <div key={index} className="bg-gradient-to-r from-indigo-400 to-cyan-400 flex flex-row items-center justify-between px-2 py-1">
-                    <div className="flex flex-col font-medium italic line-through">
+                    <div className="flex flex-col font-medium">
                       <div className="flex flex-row items-center">
-                        <p className="text-sm"> Song: {request.song}</p>
+                        <p className="text-sm italic line-through"> Song: {request.song}</p>
                       </div>
                       <div className="flex flex-row items-center">
-                        <p className="text-xs"> Votes: {request.votes}</p>
+                        <p className="text-xs italic line-through"> Votes: {request.votes}</p>
                         <AnimatePresence>
                           {voteErrors[request.id] && (
                               <motion.p
@@ -153,16 +153,16 @@ const SongRequestsMobile: React.FC<Props> = ({
               )}
             </div>
             <div>
-            <p className='text-md font-bold ml-2 py-0.5'>Declined Requests</p>
+            <p className='text-sm font-bold ml-2 py-0.5'>Declined Requests</p>
             {declinedRequests.length > 0 ? (
                 declinedRequests.map((request, index) => (
                   <div key={index} className="bg-gradient-to-r from-red-500 to-orange-500 flex flex-row items-center justify-between px-2 py-1">
-                    <div className="flex flex-col font-medium italic line-through">
+                    <div className="flex flex-col font-medium">
                       <div className="flex flex-row items-center">
-                        <p className="text-sm"> Song: {request.song}</p>
+                        <p className="text-sm italic line-through"> Song: {request.song}</p>
                       </div>
                       <div className="flex flex-row items-center">
-                        <p className="text-xs"> Votes: {request.votes}</p>
+                        <p className="text-xs italic line-through"> Votes: {request.votes}</p>
                         <AnimatePresence>
                           {voteErrors[request.id] && (
                               <motion.p
