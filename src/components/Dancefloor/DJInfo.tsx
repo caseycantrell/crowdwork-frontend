@@ -89,31 +89,6 @@ const DJInfoComponent: React.FC<{
             </div>
           </div>
 
-
-
-          {/* SONG REQUEST PLACEHOLDER */}
-          <div className="flex flex-col">
-            {"**ignore me i am a placeholder**"}
-            <input
-              type="text"
-              value={songRequest}
-              onChange={(e) => setSongRequest(e.target.value)}
-              placeholder="Enter your song request here brotha"
-              className="h-10 rounded-md px-2 font-bold text-gray-500"
-            />
-            <Button
-              onClick={handleSendSongRequest}
-              bgColor="bg-gradient-to-r from-cyan-500 to-blue-500"
-              fontWeight="font-bold"
-              className="mt-2"
-            >
-              Send Song Request
-            </Button>
-          </div>
-          {/* END SONG REQUEST PLACEHOLDER */}
-
-
-
         <div className="flex flex-row items-center">
             <div className="flex flex-col items-center justify-center gap-y-8">
                 <div className="relative flex items-center">

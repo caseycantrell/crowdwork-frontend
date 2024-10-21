@@ -4,11 +4,13 @@ import { io, Socket } from 'socket.io-client';
 import DJView from '@/components/Dancefloor/DJView';
 import { checkAuth } from '@/utils/checkAuth';
 import MobileView from '@/components/Dancefloor/Mobile/MobileView';
+import { getSocket } from '@/utils/socket';
 
 const Dancefloor = () => {
   const router = useRouter();
   const { dancefloorId } = router.query;
-  const [ socket, setSocket ] = useState<Socket | null>(null);
+  const socket = getSocket();
+  // const [ socket, setSocket ] = useState<Socket | null>(null);
   const [ message, setMessage ] = useState<string>('');
   const [ messageError, setMessageError ] = useState<string | null>('');
   const [ messages, setMessages ] = useState<any[]>([]);
@@ -70,21 +72,14 @@ const Dancefloor = () => {
   // connect to websocket server when component mounts
   useEffect(() => {
     if (typeof dancefloorId === 'string') {
-      const newSocket = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}`, { withCredentials: true });
+      socket.emit('joinDancefloor', dancefloorId);
 
-      newSocket.on('connect', () => {
-        newSocket.emit('joinDancefloor', dancefloorId);
-      });
-
-      // listen for new song requests
-      newSocket.on('songRequest', (data) => {
+      socket.on('songRequest', (data) => {
         setNotification('New song request received!');
         setSongRequests((prevRequests) => [...prevRequests, data]);
       });
 
-      // listen for status updates
-      newSocket.on('statusUpdate', (data) => {
-        console.log('Received statusUpdate:', data);
+      socket.on('statusUpdate', (data) => {
         setSongRequests((prevRequests) =>
           prevRequests.map((song) =>
             song.id === data.requestId ? { ...song, status: data.status } : song
@@ -92,35 +87,32 @@ const Dancefloor = () => {
         );
       });
 
-       // Listen for updated total requests count
-      newSocket.on('updateRequestsCount', ({ requestsCount }) => {
+      socket.on('updateRequestsCount', ({ requestsCount }) => {
         setRequestsCount(requestsCount);
       });
 
-      // listen for new messages
-      newSocket.on('sendMessage', (message) => {
+      socket.on('sendMessage', (message) => {
         setNotification('New message received!');
         setMessages((prevMessages) => [...prevMessages, message]);
       });
 
-      newSocket.on('updateMessagesCount', ({ messagesCount }) => {
+      socket.on('updateMessagesCount', ({ messagesCount }) => {
         setMessagesCount(messagesCount);
       });
 
-      newSocket.on('disconnect', () => {
+      socket.on('disconnect', () => {
         console.log('WebSocket disconnected');
       });
 
-      setSocket(newSocket);
-
-      // cleanup the socket connection
       return () => {
-        if (newSocket && newSocket.connected) {
-          newSocket.close();
-        }
+        socket.off('songRequest');
+        socket.off('statusUpdate');
+        socket.off('updateRequestsCount');
+        socket.off('sendMessage');
+        socket.off('updateMessagesCount');
       };
     }
-  }, [dancefloorId]);
+  }, [dancefloorId, socket]);
 
 
   // stop dancefloor
@@ -311,6 +303,10 @@ const Dancefloor = () => {
       <MobileView 
         isAuthenticated={isAuthenticated}
         djInfo={djInfo} 
+        dancefloorId={dancefloorId}
+        handleSendSongRequest={handleSendSongRequest}
+        songRequest={songRequest}
+        setSongRequest={setSongRequest}
         songRequestsError={songRequestsError} 
         nowPlayingSong={nowPlayingSong}
         activeRequests={activeRequests}
