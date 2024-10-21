@@ -104,10 +104,14 @@ const MobileView: React.FC<Props> = ({
           {djInfo?.venmo_handle && <p>Venmo: {djInfo.venmo_handle}</p>}
           {djInfo?.cashapp_handle && <p>CashApp: {djInfo.cashapp_handle}</p>}
         </div>
-        <div className='bg-gray-800 flex justify-center py-3'>
+        <div className='bg-gray-800 flex justify-center pt-2 pb-3'>
             <Button 
-            bgColor='bg-gradient-to-r from-emerald-400 to-cyan-500'
-            padding='px-16 py-4'>Make a Song Request</Button>
+              padding='py-5'
+              className='w-full mx-2'
+              bgColor='bg-gradient-to-r from-emerald-400 to-cyan-500'
+            >
+              Make a Song Request
+            </Button>
         </div>
         <SongRequestsMobile
             songRequestsError={songRequestsError}

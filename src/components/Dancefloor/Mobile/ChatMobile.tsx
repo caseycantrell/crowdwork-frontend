@@ -32,7 +32,7 @@ const ChatMobile: React.FC<{
   return (
     <div className="bg-gray-800 flex flex-col h-80">
       <div className="flex flex-row items-center justify-between">
-        <p className="text-md font-bold ml-2 py-0.5">Dancefloor Chat</p>
+        <p className="text-xl font-bold ml-2 py-0.5">Dancefloor Chat</p>
       </div>
       
       <div className="flex-1 bg-gray-800 rounded-md overflow-y-auto scrollbar-thin">
