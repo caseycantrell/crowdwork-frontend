@@ -29,8 +29,8 @@ const SongRequestsMobile: React.FC<Props> = ({
   voteErrors,
 }) => {    
   return (
-    <div className="row-span-4 col-span-1 lg:col-span-3 bg-gray-800 h-72 overflow-y-scroll scrollbar-thin pb-0">
-       <p className='text-sm font-bold ml-2 pb-0.5'>Now Playing</p>
+    <div className="row-span-4 col-span-1 lg:col-span-3 bg-gray-900 h-72 overflow-y-scroll scrollbar-thin pb-0">
+       <p className='text-sm font-bold ml-2 py-0.5'>Now Playing</p>
 
       {nowPlayingSong ? (
           <div className="bg-gradient-to-r from-amber-500 to-pink-500 flex flex-row items-center justify-between px-2 py-1">
@@ -64,8 +64,8 @@ const SongRequestsMobile: React.FC<Props> = ({
             </Button>
         </div>
       ) : (
-        <div className='p-4 ml-8'>  
-          <p className='italic ml-6 text-xs text-gray-500'>No song is currently set as playing.</p>
+        <div className='p-4 bg-gray-800'>  
+          <p className='italic text-xs text-gray-500 text-center'>No song is currently set as playing.</p>
         </div>
       )}
 
@@ -110,7 +110,9 @@ const SongRequestsMobile: React.FC<Props> = ({
                   </div>
                 ))
               ) : (
-                <p className='italic ml-6 text-xs text-gray-500'>No active requests.</p>
+                <div className='p-4'>  
+                  <p className='italic text-xs text-gray-500 text-center'>No active requests.</p>
+                </div>
               )}
             </div>
             <div>
@@ -149,7 +151,9 @@ const SongRequestsMobile: React.FC<Props> = ({
                   </div>
                 ))
               ) : (
-                <p className='italic ml-6 text-xs text-gray-500'>No completed requests.</p>
+                <div className='p-4 bg-gray-800'>  
+                  <p className='italic text-xs text-gray-500 text-center'>No completed requests.</p>
+                </div>
               )}
             </div>
             <div>
@@ -188,7 +192,9 @@ const SongRequestsMobile: React.FC<Props> = ({
                   </div>
                 ))
               ) : (
-                <p className='italic ml-6 text-xs text-gray-500'>{"- No declined requests."}</p>
+                <div className='p-4 bg-gray-800'>  
+                  <p className='italic text-xs text-gray-500 text-center'>No declined requests.</p>
+                </div>
               )}
             </div>
           </>

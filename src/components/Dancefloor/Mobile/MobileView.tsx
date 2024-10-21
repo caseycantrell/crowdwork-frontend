@@ -104,7 +104,7 @@ const MobileView: React.FC<Props> = ({
           {djInfo?.venmo_handle && <p>Venmo: {djInfo.venmo_handle}</p>}
           {djInfo?.cashapp_handle && <p>CashApp: {djInfo.cashapp_handle}</p>}
         </div>
-        <div className='bg-gray-800 flex justify-center pt-2 pb-3'>
+        <div className='bg-gray-800 flex justify-center pt-2 pb-2'>
             <Button 
               padding='py-5'
               className='w-full mx-2'
