@@ -30,9 +30,9 @@ const ChatMobile: React.FC<{
   };
 
   return (
-    <div className="bg-gray-900 flex flex-col h-full">
-      <div className="flex flex-row items-center justify-between m-2">
-        <p className="text-xl 2xl:text-2xl font-bold text-white">Dancefloor Chat</p>
+    <div className="bg-gray-800 flex flex-col h-full">
+      <div className="flex flex-row items-center justify-between">
+        <p className="text-md font-bold ml-2 py-0.5">Dancefloor Chat</p>
       </div>
       
       <div className="flex-1 bg-gray-800 rounded-md mx-2 p-2 overflow-y-auto scrollbar-thin">

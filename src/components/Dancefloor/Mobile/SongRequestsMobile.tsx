@@ -1,4 +1,6 @@
-import React from "react";
+import Button from "../../UI/Button";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface SongRequest {
   id: string;
@@ -25,22 +27,45 @@ const SongRequestsMobile: React.FC<Props> = ({
   declinedRequests,
   handleVote,
   voteErrors,
-}) => {
-
-    console.log("voteErrors", voteErrors)
-    console.log("handleVote", handleVote)
-    
+}) => {    
   return (
-    <div className="row-span-4 col-span-1 lg:col-span-3 bg-gray-800 pb-96">
-       <p className='text-xl font-bold ml-4 py-1'>Now Playing</p>
+    <div className="row-span-4 col-span-1 lg:col-span-3 bg-gray-800 h-72 overflow-y-scroll scrollbar-hide pb-16">
+       <p className='text-md font-bold ml-2 py-0.5'>Now Playing</p>
 
       {nowPlayingSong ? (
-        <div>  
-          {/* <NowPlaying id={nowPlayingSong.id} song={nowPlayingSong.song} votes={nowPlayingSong.votes} handleRequeue={handleRequeue} handleComplete={handleComplete} /> */}
+          <div className="bg-gradient-to-r from-amber-500 to-pink-500 flex flex-row items-center justify-between px-2 py-1">
+          <div className="flex flex-col font-medium">
+            <div className="flex flex-row items-center">
+              <p className="text-sm"> Song: {nowPlayingSong.song}</p>
+            </div>
+            <div className="flex flex-row items-center">
+              <p className="text-xs"> Votes: {nowPlayingSong.votes}</p>
+              <AnimatePresence>
+                {voteErrors[nowPlayingSong.id] && (
+                  <motion.p
+                    className="text-gray-800 text-xs ml-16 font-semibold"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    transition={{
+                      type: 'tween',
+                      duration: 0.3,
+                      ease: 'easeInOut',
+                    }}
+                  >
+                    {voteErrors[nowPlayingSong.id]}
+                  </motion.p>
+              )}
+              </AnimatePresence>
+            </div>
+          </div>
+            <Button bgColor="" onClick={() => handleVote(nowPlayingSong.id)}>
+              <Image src={'/icons/vote.png'} width={25} height={25} alt="Vote" />
+            </Button>
         </div>
       ) : (
-        <div className='pt-4 pb-8 ml-8'>  
-          <p className='text-xl italic'>No song is currently set as playing.</p>
+        <div className='p-4 ml-8'>  
+          <p className='italic ml-6 text-xs text-gray-500'>No song is currently set as playing.</p>
         </div>
       )}
 
@@ -50,39 +75,120 @@ const SongRequestsMobile: React.FC<Props> = ({
         ) : (
           <>
             <div>
-            <p className='text-xl font-bold ml-4 py-1'>Active Requests</p>
+            <p className='text-md font-bold ml-2 py-0.5'>Active Requests</p>
               {activeRequests.length > 0 ? (
                 activeRequests.map((request, index) => (
-                  <div key={index}>
-                    {/* <ActiveRequest id={request.id} song={request.song} votes={request.votes} voteErrors={voteErrors} handlePlay={handlePlay} handleDecline={handleDecline} handleVote={handleVote} /> */}
+                  <div key={index} className="bg-gradient-to-r from-purple-600 to-fuchsia-600 flex flex-row items-center justify-between px-2 py-1">
+                    <div className="flex flex-col font-medium">
+                      <div className="flex flex-row items-center">
+                        <p className="text-sm"> Song: {request.song}</p>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <p className="text-xs"> Votes: {request.votes}</p>
+                        <AnimatePresence>
+                          {voteErrors[request.id] && (
+                            <motion.p
+                              className="text-gray-800 text-xs ml-16 font-semibold"
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: -10 }}
+                              transition={{
+                                  type: 'tween',
+                                  duration: 0.3,
+                                  ease: 'easeInOut',
+                              }}
+                            >
+                            {voteErrors[request.id]}
+                            </motion.p>
+                        )}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+                      <Button bgColor="" onClick={() => handleVote(request.id)}>
+                        <Image src={'/icons/vote.png'} width={25} height={25} alt="Vote" />
+                      </Button>
                   </div>
                 ))
               ) : (
-                <p className='italic ml-8'>No active requests.</p>
+                <p className='italic ml-6 text-xs text-gray-500'>No active requests.</p>
               )}
             </div>
             <div>
-              <p className='text-xl font-bold ml-4 py-1'>Completed Requests</p>
+              <p className='text-md font-bold ml-2 py-0.5'>Completed Requests</p>
               {completedRequests.length > 0 ? (
                 completedRequests.map((request, index) => (
-                  <div key={index}>
-                    {/* <CompletedRequest id={request.id} song={request.song} votes={request.votes} voteErrors={voteErrors} handleRequeue={handleRequeue} /> */}
+                  <div key={index} className="bg-gradient-to-r from-indigo-400 to-cyan-400 flex flex-row items-center justify-between px-2 py-1">
+                    <div className="flex flex-col font-medium italic line-through">
+                      <div className="flex flex-row items-center">
+                        <p className="text-sm"> Song: {request.song}</p>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <p className="text-xs"> Votes: {request.votes}</p>
+                        <AnimatePresence>
+                          {voteErrors[request.id] && (
+                              <motion.p
+                                  className="text-gray-800 text-xs ml-16 font-semibold"
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  exit={{ opacity: 0, x: -10 }}
+                                  transition={{
+                                      type: 'tween',
+                                      duration: 0.3,
+                                      ease: 'easeInOut',
+                                  }}
+                              >
+                            {voteErrors[request.id]}
+                            </motion.p>
+                        )}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+                      <Button bgColor="" onClick={() => handleVote(request.id)}>
+                        <Image src={'/icons/vote.png'} width={25} height={25} alt="Vote" />
+                      </Button>
                   </div>
                 ))
               ) : (
-                <p className='italic ml-8'>No completed requests.</p>
+                <p className='italic ml-6 text-xs text-gray-500'>No completed requests.</p>
               )}
             </div>
             <div>
-            <p className='text-xl font-bold ml-4 py-1'>Declined Requests</p>
+            <p className='text-md font-bold ml-2 py-0.5'>Declined Requests</p>
             {declinedRequests.length > 0 ? (
                 declinedRequests.map((request, index) => (
-                  <div key={index}>
-                    {/* <DeclinedRequest id={request.id} song={request.song} votes={request.votes} handleRequeue={handleRequeue} /> */}
+                  <div key={index} className="bg-gradient-to-r from-red-500 to-orange-500 flex flex-row items-center justify-between px-2 py-1">
+                    <div className="flex flex-col font-medium italic line-through">
+                      <div className="flex flex-row items-center">
+                        <p className="text-sm"> Song: {request.song}</p>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <p className="text-xs"> Votes: {request.votes}</p>
+                        <AnimatePresence>
+                          {voteErrors[request.id] && (
+                              <motion.p
+                                className="text-gray-800 text-xs ml-16 font-semibold"
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -10 }}
+                                transition={{
+                                    type: 'tween',
+                                    duration: 0.3,
+                                    ease: 'easeInOut',
+                                }}
+                              >
+                            {voteErrors[request.id]}
+                            </motion.p>
+                        )}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+                      <Button bgColor="" onClick={() => handleVote(request.id)}>
+                        <Image src={'/icons/vote.png'} width={25} height={25} alt="Vote" />
+                      </Button>
                   </div>
                 ))
               ) : (
-                <p className='italic ml-8'>No declined requests.</p>
+                <p className='italic ml-6 text-xs text-gray-500'>{"- No declined requests."}</p>
               )}
             </div>
           </>

@@ -2,6 +2,7 @@ import DJInfo from '../DJInfo';
 import Button from '../../UI/Button';
 import ChatMobile from './ChatMobile';
 import SongRequestsMobile from './SongRequestsMobile';
+import Image from 'next/image';
 
 interface DJInfo {
   id: string;
@@ -71,17 +72,45 @@ const MobileView: React.FC<Props> = ({
 
   return (
     <div className="xl:hidden min-h-screen flex flex-col bg-gray-800">
-        <div className='bg-red-500 p-2'>
-            <p className='font-semibold'>DJ Info</p>
-            <p className='font-semibold'>{djInfo && djInfo.name ? djInfo.name : 'casey butt'}</p>
-            {djInfo && djInfo.website && <p>Website: {djInfo.website}</p>}
-            {djInfo && djInfo.instagram_handle && <p>IG: {djInfo.instagram_handle}</p>}
-            {djInfo && djInfo.twitter_handle && <p>Twitter: {djInfo.twitter_handle}</p>}
-            {djInfo && djInfo.venmo_handle && <p>Venmo: {djInfo.venmo_handle}</p>}
-            {djInfo && djInfo.cashapp_handle && <p>CashApp: {djInfo.cashapp_handle}</p>}
+       <div>
+        <p className="text-md font-bold ml-2 py-0.5">DJ Info</p>
+        <div className='flex flex-row items-center'>
+          <div className='w-16 h-16 flex flex-col mx-2'>
+           {djInfo?.profile_pic_url && 
+              <Image
+                  src={djInfo.profile_pic_url || '/images/profile_placeholder.jpg'}
+                  width={160}
+                  height={160}
+                  alt="Profile Pic"
+                  className="object-cover w-full h-full rounded-sm"
+                  priority
+                />
+            }
+          </div>
+          <div className='flex flex-col'>
+          <p className="font-semibold">{djInfo?.name || 'No DJ name set.'}</p>
+            {djInfo?.website && 
+              <a
+                href={djInfo.website || ""}
+                className='font-semibold'
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {djInfo.website}
+              </a>
+            }
+          </div>
         </div>
-        <div className='bg-gray-600 flex justify-center py-3'>
-            <Button>Make a Song Request</Button>
+
+        <div className="grid grid-cols-2 m-2 font-semibold">
+          {djInfo?.instagram_handle && <p>IG: {djInfo.instagram_handle}</p>}
+          {djInfo?.twitter_handle && <p>Twitter: {djInfo.twitter_handle}</p>}
+          {djInfo?.venmo_handle && <p>Venmo: {djInfo.venmo_handle}</p>}
+          {djInfo?.cashapp_handle && <p>CashApp: {djInfo.cashapp_handle}</p>}
+        </div>
+      </div>
+        <div className='bg-gray-800 flex justify-center py-3'>
+            <Button padding='px-16 py-4'>Make a Song Request!</Button>
         </div>
         <SongRequestsMobile
             songRequestsError={songRequestsError}
@@ -101,7 +130,6 @@ const MobileView: React.FC<Props> = ({
             setMessageError={setMessageError}
             messagesError={messagesError}
         />
-
     </div>
   );
 };
