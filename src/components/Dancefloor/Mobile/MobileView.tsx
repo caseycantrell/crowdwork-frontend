@@ -109,8 +109,8 @@ const MobileView: React.FC<Props> = ({
           {djInfo?.cashapp_handle && <p>CashApp: {djInfo.cashapp_handle}</p>}
         </div>
       </div>
-        <div className='bg-gray-600 flex justify-center py-3'>
-            <Button>Make a Song Request</Button>
+        <div className='bg-gray-800 flex justify-center py-3'>
+            <Button padding='px-16 py-4'>Make a Song Request!</Button>
         </div>
         <SongRequestsMobile
             songRequestsError={songRequestsError}
@@ -130,7 +130,6 @@ const MobileView: React.FC<Props> = ({
             setMessageError={setMessageError}
             messagesError={messagesError}
         />
-
     </div>
   );
 };
