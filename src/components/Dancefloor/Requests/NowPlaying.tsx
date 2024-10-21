@@ -6,17 +6,19 @@ import Button from '../../UI/Button';
 interface Props {
     id: string;
     song: string;
-    votes: number | 0;
-    handleRequeue: (requestId: string) => void;
-    handleComplete: (requestId: string) => void;
+    likes: number | 0;
+    handleLike: (requestId: string) => void;
+    likeErrors: { [key: string]: string | null };
+    updateStatus: (requestId: string, status: 'queued' | 'playing' | 'completed' | 'declined') => Promise<void>;
 }
 
 const NowPlaying: React.FC<Props> = ({
     id,
     song,
-    votes,
-    handleRequeue,
-    handleComplete,
+    likes,
+    handleLike,
+    likeErrors,
+    updateStatus
 }) => {
     const [hoveredButton, setHoveredButton] = useState<string | null>(null);
 
@@ -25,8 +27,18 @@ const NowPlaying: React.FC<Props> = ({
         setTimeout(() => setHoveredButton(null), 1500); 
     };
 
-    const getHoverMessage = () => 
-        hoveredButton === 'requeue' ? 'Requeue' : 'Mark as Complete';
+    const getHoverMessage = () => {
+        switch (hoveredButton) {
+            case 'requeue':
+                return 'Requeue';
+            case 'like':
+                return 'Like';
+            case 'complete':
+                return 'Mark as Complete';
+            default:
+                return '';
+        }
+    };
 
     return (
         <div className="bg-gradient-to-r from-amber-500 to-pink-500 border border-black px-4 py-6 relative">
@@ -40,7 +52,7 @@ const NowPlaying: React.FC<Props> = ({
                         <p className="font-bold text-2xl mr-1">Now Playing:</p>
                         <p className="text-xl ml-1">{song}</p>
                     </div>
-                    <div>Votes: {votes}</div>
+                    <div>Likes: {likes}</div>
                 </div>
 
                 <div className="flex flex-row items-center gap-x-4 mr-64">
@@ -67,7 +79,7 @@ const NowPlaying: React.FC<Props> = ({
                             padding=""
                             bgColor=""
                             className="overflow-visible"
-                            onClick={() => handleRequeue(id)}
+                            onClick={() => updateStatus(id, 'queued')}
                             onMouseEnter={() => handleMouseEnter('requeue')}
                         >
                             <Image
@@ -83,7 +95,7 @@ const NowPlaying: React.FC<Props> = ({
                             padding=""
                             bgColor=""
                             className="overflow-visible"
-                            onClick={() => handleComplete(id)}
+                            onClick={() => updateStatus(id, 'completed')}
                             onMouseEnter={() => handleMouseEnter('complete')}
                         >
                             <Image
@@ -94,8 +106,25 @@ const NowPlaying: React.FC<Props> = ({
                             />
                         </Button>
                     </div>
+                    <div style={{ width: 30, height: 30 }}>
+                        <Button
+                            padding=""
+                            bgColor=""
+                            className="overflow-visible"
+                            onClick={() => handleLike(id)}
+                            onMouseEnter={() => handleMouseEnter('like')}
+                        >
+                            <Image
+                                src={'/icons/like.png'}
+                                height={50}
+                                width={50}
+                                alt="Like Icon"
+                            />
+                        </Button>
+                    </div>
                 </div>
             </div>
+            {likeErrors[id] && <p style={{ color: 'red' }}>{likeErrors[id]}</p>}
         </div>
     );
 };

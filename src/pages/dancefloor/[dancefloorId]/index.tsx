@@ -16,7 +16,7 @@ const Dancefloor = () => {
   const [ songRequest, setSongRequest ] = useState<string>('');
   const [ songRequests, setSongRequests ] = useState<any[]>([]);
   const [ songRequestsError, setSongRequestsError ] = useState<string | null>(null);
-  const [ voteErrors, setVoteErrors ] = useState<{ [key: string]: string | null }>({});
+  const [ likeErrors, setLikeErrors ] = useState<{ [key: string]: string | null }>({});
   const [ djInfo, setDjInfo ] = useState<any>(null);
   const [ djInfoError, setDjInfoError ] = useState<string | null>(null);
   const [ notification, setNotification ] = useState<string | null>(null);
@@ -84,6 +84,7 @@ const Dancefloor = () => {
 
       // listen for status updates
       newSocket.on('statusUpdate', (data) => {
+        console.log('Received statusUpdate:', data);
         setSongRequests((prevRequests) =>
           prevRequests.map((song) =>
             song.id === data.requestId ? { ...song, status: data.status } : song
@@ -168,138 +169,71 @@ const Dancefloor = () => {
     }
   };
 
-
-  // playing a song
-  const handlePlay = async (requestId: string) => {
+  // updating song request status
+  const updateStatus = async (requestId: any, status: any) => {
     try {
-      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/play`, {
+      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
       });
-
+  
       if (res.ok) {
-        console.log('Song is now playing:', requestId);
-        fetchDancefloorInfo(); // refresh song requests after playing
+        console.log(`Song status updated to ${status}`);
+        fetchDancefloorInfo()
       } else {
-        const data = await res.json();
-        console.error(data.error);
+        console.error('Failed to update song status.');
       }
     } catch (error) {
-      console.error('Error starting song:', error);
+      console.error('Error updating song status:', error);
     }
   };
-
-
-  // completing a song
-  const handleComplete = async (requestId: string) => {
-    try {
-      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/complete`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (res.ok) {
-        console.log('Song has been marked as completed.');
-        fetchDancefloorInfo(); // refresh song requests after completing
-      } else {
-        const data = await res.json();
-        console.error(data.error);
-      }
-    } catch (error) {
-      console.error('Error completing song:', error);
-    }
-  };
-
-
-  // declining a song request
-  const handleDecline = async (requestId: string) => {
-    try {
-      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/decline`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (res.ok) {
-        console.log('Song request declined.');
-        fetchDancefloorInfo(); // refresh song requests after declining
-      } else {
-        const data = await res.json();
-        console.error(data.error);
-      }
-    } catch (error) {
-      console.error('Error declining song request:', error);
-    }
-  };
-
 
   // voting for a song request
-  const handleVote = async (requestId: string) => {
-    // check if the user has already voted for this request in their cookies
-    if (document.cookie.includes(`voted_for_${requestId}`)) {
-      setVoteErrors((prevErrors) => ({
+  const handleLike = async (requestId: string) => {
+    // check if the user has already liked this request in their cookies
+    if (document.cookie.includes(`liked_${requestId}`)) {
+      setLikeErrors((prevErrors) => ({
         ...prevErrors,
-        [requestId]: "Only one vote per track is allowed!",
+        [requestId]: "Only one like per track is allowed!",
       }));
       return;
     }
   
     try {
-      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/vote`, {
+      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/like`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
       });
   
       const data = await res.json();
       if (res.ok) {
-        // set a cookie to record the vote (expires in 24 hours)
-        document.cookie = `voted_for_${requestId}=true; max-age=86400;`;
+        // set a cookie to record the like (expires in 24 hours)
+        document.cookie = `liked_${requestId}=true; max-age=86400;`;
   
         setSongRequests((prevRequests) =>
           prevRequests.map((req) =>
-            req.id === requestId ? { ...req, votes: data.votes } : req
+            req.id === requestId ? { ...req, likes: data.likes } : req
           )
         );
-        setVoteErrors((prevErrors) => ({
+        setLikeErrors((prevErrors) => ({
           ...prevErrors,
           [requestId]: null, // clear any previous error
         }));
       } else {
-        setVoteErrors((prevErrors) => ({
+        setLikeErrors((prevErrors) => ({
           ...prevErrors,
           [requestId]: data.error,
         }));
       }
     } catch (error) {
-      setVoteErrors((prevErrors) => ({
+      setLikeErrors((prevErrors) => ({
         ...prevErrors,
-        [requestId]: 'Error voting for this song.',
+        [requestId]: 'Error liking this song.',
       }));
     }
   };
   
-
-  // requeuing a song
-  const handleRequeue = async (requestId: string) => {
-    try {
-      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/status`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: 'queued' }),
-      });
-
-      if (res.ok) {
-        console.log('Song has been requeued.');
-        fetchDancefloorInfo(); // refresh song requests after requeuing
-      } else {
-        const data = await res.json();
-        console.error(data.error);
-      }
-    } catch (error) {
-      console.error('Error requeuing song:', error);
-    }
-  };
-
-
   useEffect(() => {
     if (notification) {
       const timer = setTimeout(() => {
@@ -310,14 +244,13 @@ const Dancefloor = () => {
     }
   }, [notification]);
 
-
   useEffect(() => {
     const timers: NodeJS.Timeout[] = [];
   
-    Object.keys(voteErrors).forEach((requestId) => {
-      if (voteErrors[requestId]) {
+    Object.keys(likeErrors).forEach((requestId) => {
+      if (likeErrors[requestId]) {
         const timer = setTimeout(() => {
-          setVoteErrors((prevErrors) => ({
+          setLikeErrors((prevErrors) => ({
             ...prevErrors,
             [requestId]: null,
           }));
@@ -330,7 +263,7 @@ const Dancefloor = () => {
     return () => {
       timers.forEach((timer) => clearTimeout(timer));
     };
-  }, [voteErrors]);
+  }, [likeErrors]);
 
   useEffect(() => {
     const authenticateUser = async () => {
@@ -346,8 +279,6 @@ const Dancefloor = () => {
   const nowPlayingSong = songRequests.find((request) => request.status === 'playing');
   const completedRequests = songRequests.filter((request) => request.status === 'completed');
   const declinedRequests = songRequests.filter((request) => request.status === 'declined');
-
-  console.log("isAuthenticated YO", isAuthenticated)
 
   return ( 
     isAuthenticated ? (
@@ -372,12 +303,9 @@ const Dancefloor = () => {
         messagesError={messagesError} 
         handleSendMessage={handleSendMessage} 
         handleStopDancefloor={handleStopDancefloor} 
-        handlePlay={handlePlay} 
-        handleDecline={handleDecline} 
-        handleComplete={handleComplete} 
-        handleRequeue={handleRequeue}  
-        handleVote={handleVote} 
-        voteErrors={voteErrors} 
+        handleLike={handleLike} 
+        likeErrors={likeErrors} 
+        updateStatus={updateStatus}
       />
     ) : (
       <MobileView 
@@ -395,8 +323,8 @@ const Dancefloor = () => {
         messages={messages}
         messagesError={messagesError} 
         handleSendMessage={handleSendMessage} 
-        handleVote={handleVote} 
-        voteErrors={voteErrors} 
+        handleLike={handleLike} 
+        likeErrors={likeErrors}
       />
     )
   );

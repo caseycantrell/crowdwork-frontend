@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 interface SongRequest {
   id: string;
   song: string;
-  votes: number;
+  likes: number;
   status: string;
 }
 
@@ -15,8 +15,8 @@ interface Props {
   activeRequests: SongRequest[];
   completedRequests: SongRequest[];
   declinedRequests: SongRequest[];
-  handleVote: (requestId: string) => void;
-  voteErrors: { [key: string]: string | null };
+  handleLike: (requestId: string) => void;
+  likeErrors: { [key: string]: string | null };
 }
 
 const SongRequestsMobile: React.FC<Props> = ({
@@ -25,8 +25,8 @@ const SongRequestsMobile: React.FC<Props> = ({
   activeRequests,
   completedRequests,
   declinedRequests,
-  handleVote,
-  voteErrors,
+  handleLike,
+  likeErrors,
 }) => {    
   return (
     <div className="row-span-4 col-span-1 lg:col-span-3 bg-gray-900 h-72 overflow-y-scroll scrollbar-thin pb-0">
@@ -39,9 +39,9 @@ const SongRequestsMobile: React.FC<Props> = ({
               <p className="text-sm"> Song: {nowPlayingSong.song}</p>
             </div>
             <div className="flex flex-row items-center">
-              <p className="text-xs"> Votes: {nowPlayingSong.votes}</p>
+              <p className="text-xs"> Likes: {nowPlayingSong.likes}</p>
               <AnimatePresence>
-                {voteErrors[nowPlayingSong.id] && (
+                {likeErrors[nowPlayingSong.id] && (
                   <motion.p
                     className="text-gray-800 text-xs ml-16 font-semibold"
                     initial={{ opacity: 0, x: -10 }}
@@ -53,14 +53,14 @@ const SongRequestsMobile: React.FC<Props> = ({
                       ease: 'easeInOut',
                     }}
                   >
-                    {voteErrors[nowPlayingSong.id]}
+                    {likeErrors[nowPlayingSong.id]}
                   </motion.p>
               )}
               </AnimatePresence>
             </div>
           </div>
-            <Button bgColor="" onClick={() => handleVote(nowPlayingSong.id)}>
-              <Image src={'/icons/vote.png'} width={25} height={25} alt="Vote" />
+            <Button bgColor="" onClick={() => handleLike(nowPlayingSong.id)}>
+              <Image src={'/icons/like.png'} width={25} height={25} alt="Like" />
             </Button>
         </div>
       ) : (
@@ -84,9 +84,9 @@ const SongRequestsMobile: React.FC<Props> = ({
                         <p className="text-sm"> Song: {request.song}</p>
                       </div>
                       <div className="flex flex-row items-center">
-                        <p className="text-xs"> Votes: {request.votes}</p>
+                        <p className="text-xs"> Likes: {request.likes}</p>
                         <AnimatePresence>
-                          {voteErrors[request.id] && (
+                          {likeErrors[request.id] && (
                             <motion.p
                               className="text-gray-800 text-xs ml-16 font-semibold"
                               initial={{ opacity: 0, x: -10 }}
@@ -98,19 +98,19 @@ const SongRequestsMobile: React.FC<Props> = ({
                                   ease: 'easeInOut',
                               }}
                             >
-                            {voteErrors[request.id]}
+                            {likeErrors[request.id]}
                             </motion.p>
                         )}
                         </AnimatePresence>
                       </div>
                     </div>
-                      <Button bgColor="" onClick={() => handleVote(request.id)}>
-                        <Image src={'/icons/vote.png'} width={25} height={25} alt="Vote" />
+                      <Button bgColor="" onClick={() => handleLike(request.id)}>
+                        <Image src={'/icons/like.png'} width={25} height={25} alt="Like" />
                       </Button>
                   </div>
                 ))
               ) : (
-                <div className='p-4'>  
+                <div className='p-4 bg-gray-800'>  
                   <p className='italic text-xs text-gray-500 text-center'>No active requests.</p>
                 </div>
               )}
@@ -125,9 +125,9 @@ const SongRequestsMobile: React.FC<Props> = ({
                         <p className="text-sm italic line-through"> Song: {request.song}</p>
                       </div>
                       <div className="flex flex-row items-center">
-                        <p className="text-xs italic line-through"> Votes: {request.votes}</p>
+                        <p className="text-xs italic line-through"> Likes: {request.likes}</p>
                         <AnimatePresence>
-                          {voteErrors[request.id] && (
+                          {likeErrors[request.id] && (
                               <motion.p
                                   className="text-gray-800 text-xs ml-16 font-semibold"
                                   initial={{ opacity: 0, x: -10 }}
@@ -139,14 +139,14 @@ const SongRequestsMobile: React.FC<Props> = ({
                                       ease: 'easeInOut',
                                   }}
                               >
-                            {voteErrors[request.id]}
+                            {likeErrors[request.id]}
                             </motion.p>
                         )}
                         </AnimatePresence>
                       </div>
                     </div>
-                      <Button bgColor="" onClick={() => handleVote(request.id)}>
-                        <Image src={'/icons/vote.png'} width={25} height={25} alt="Vote" />
+                      <Button bgColor="" onClick={() => handleLike(request.id)}>
+                        <Image src={'/icons/like.png'} width={25} height={25} alt="Like" />
                       </Button>
                   </div>
                 ))
@@ -166,9 +166,9 @@ const SongRequestsMobile: React.FC<Props> = ({
                         <p className="text-sm italic line-through"> Song: {request.song}</p>
                       </div>
                       <div className="flex flex-row items-center">
-                        <p className="text-xs italic line-through"> Votes: {request.votes}</p>
+                        <p className="text-xs italic line-through"> Likes: {request.likes}</p>
                         <AnimatePresence>
-                          {voteErrors[request.id] && (
+                          {likeErrors[request.id] && (
                               <motion.p
                                 className="text-gray-800 text-xs ml-16 font-semibold"
                                 initial={{ opacity: 0, x: -10 }}
@@ -180,14 +180,14 @@ const SongRequestsMobile: React.FC<Props> = ({
                                     ease: 'easeInOut',
                                 }}
                               >
-                            {voteErrors[request.id]}
+                            {likeErrors[request.id]}
                             </motion.p>
                         )}
                         </AnimatePresence>
                       </div>
                     </div>
-                      <Button bgColor="" onClick={() => handleVote(request.id)}>
-                        <Image src={'/icons/vote.png'} width={25} height={25} alt="Vote" />
+                      <Button bgColor="" onClick={() => handleLike(request.id)}>
+                        <Image src={'/icons/like.png'} width={25} height={25} alt="Like" />
                       </Button>
                   </div>
                 ))

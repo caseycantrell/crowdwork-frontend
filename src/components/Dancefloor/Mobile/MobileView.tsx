@@ -20,7 +20,7 @@ interface DJInfo {
 interface SongRequest {
   id: string;
   song: string;
-  votes: number;
+  likes: number;
   status: string;
 }
 
@@ -44,8 +44,8 @@ interface Props {
   messages: Message[];
   messagesError: string | null;
   handleSendMessage: () => void;
-  handleVote: (requestId: string) => void;
-  voteErrors: { [key: string]: string | null };
+  handleLike: (requestId: string) => void;
+  likeErrors: { [key: string]: string | null };
 }
 
 const MobileView: React.FC<Props> = ({
@@ -63,8 +63,8 @@ const MobileView: React.FC<Props> = ({
   messages,
   messagesError,
   handleSendMessage,
-  handleVote,
-  voteErrors
+  handleLike,
+  likeErrors
 }) => {
 
   console.log("isAuthenticated", isAuthenticated)
@@ -119,8 +119,8 @@ const MobileView: React.FC<Props> = ({
             activeRequests={activeRequests}
             completedRequests={completedRequests}
             declinedRequests={declinedRequests}
-            handleVote={handleVote}
-            voteErrors={voteErrors}
+            handleLike={handleLike}
+            likeErrors={likeErrors}
         />
          <ChatMobile
             message={message}

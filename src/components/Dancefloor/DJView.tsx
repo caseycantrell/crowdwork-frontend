@@ -20,7 +20,7 @@ interface DJInfo {
 interface SongRequest {
   id: string;
   song: string;
-  votes: number;
+  likes: number;
   status: string;
 }
 
@@ -50,12 +50,9 @@ interface Props {
   messagesError: string | null;
   handleSendMessage: () => void;
   handleStopDancefloor: () => void;
-  handlePlay: (requestId: string) => void;
-  handleDecline: (requestId: string) => void;
-  handleComplete: (requestId: string) => void;
-  handleRequeue: (requestId: string) => void;
-  handleVote: (requestId: string) => void;
-  voteErrors: { [key: string]: string | null };
+  handleLike: (requestId: string) => void;
+  likeErrors: { [key: string]: string | null };
+  updateStatus: (requestId: string, status: 'queued' | 'playing' | 'completed' | 'declined') => Promise<void>;
 }
 
 const variants = {
@@ -94,12 +91,9 @@ const DJView: React.FC<Props> = ({
   messagesError,
   handleSendMessage,
   handleStopDancefloor,
-  handlePlay,
-  handleDecline,
-  handleComplete,
-  handleRequeue,
-  handleVote,
-  voteErrors
+  handleLike,
+  likeErrors,
+  updateStatus
 }) => {
 
   const [isChatVisible, setIsChatVisible] = useState<boolean>(false);
@@ -143,13 +137,11 @@ const DJView: React.FC<Props> = ({
           activeRequests={activeRequests}
           completedRequests={completedRequests}
           declinedRequests={declinedRequests}
-          handlePlay={handlePlay}
-          handleComplete={handleComplete}
-          handleDecline={handleDecline}
-          handleRequeue={handleRequeue}
-          handleVote={handleVote}
-          voteErrors={voteErrors}
+          handleLike={handleLike}
+          likeErrors={likeErrors}
           songRequestsError={songRequestsError}
+          updateStatus={updateStatus}
+          
         />
       </motion.div>
 

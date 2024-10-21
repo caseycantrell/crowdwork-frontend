@@ -6,7 +6,7 @@ import DeclinedRequest from './Requests/DeclinedRequest';
 interface SongRequest {
   id: string;
   song: string;
-  votes: number;
+  likes: number;
   status: string;
 }
 
@@ -16,12 +16,9 @@ interface Props {
   activeRequests: SongRequest[];
   completedRequests: SongRequest[];
   declinedRequests: SongRequest[];
-  handlePlay: (requestId: string) => void;
-  handleDecline: (requestId: string) => void;
-  handleComplete: (requestId: string) => void;
-  handleRequeue: (requestId: string) => void;
-  handleVote: (requestId: string) => void;
-  voteErrors: { [key: string]: string | null };
+  handleLike: (requestId: string) => void;
+  likeErrors: { [key: string]: string | null };
+  updateStatus: (requestId: string, status: 'queued' | 'playing' | 'completed' | 'declined') => Promise<void>;
 }
 
 const SongRequests: React.FC<Props> = ({
@@ -30,12 +27,9 @@ const SongRequests: React.FC<Props> = ({
   activeRequests,
   completedRequests,
   declinedRequests,
-  handlePlay,
-  handleDecline,
-  handleComplete,
-  handleRequeue,
-  handleVote,
-  voteErrors,
+  handleLike,
+  likeErrors,
+  updateStatus
 }) => {
   return (
     <div className="row-span-4 col-span-1 lg:col-span-3 bg-gray-800 pb-96">
@@ -43,7 +37,7 @@ const SongRequests: React.FC<Props> = ({
 
       {nowPlayingSong ? (
         <div>  
-          <NowPlaying id={nowPlayingSong.id} song={nowPlayingSong.song} votes={nowPlayingSong.votes} handleRequeue={handleRequeue} handleComplete={handleComplete} />
+          <NowPlaying id={nowPlayingSong.id} song={nowPlayingSong.song} likes={nowPlayingSong.likes} handleLike={handleLike} likeErrors={likeErrors} updateStatus={updateStatus}/>
         </div>
       ) : (
         <div className='pt-4 pb-8 ml-8'>  
@@ -61,7 +55,7 @@ const SongRequests: React.FC<Props> = ({
               {activeRequests.length > 0 ? (
                 activeRequests.map((request, index) => (
                   <div key={index}>
-                    <ActiveRequest id={request.id} song={request.song} votes={request.votes} voteErrors={voteErrors} handlePlay={handlePlay} handleDecline={handleDecline} handleVote={handleVote} />
+                    <ActiveRequest id={request.id} song={request.song} likes={request.likes} updateStatus={updateStatus} handleLike={handleLike} likeErrors={likeErrors} />
                   </div>
                 ))
               ) : (
@@ -73,7 +67,8 @@ const SongRequests: React.FC<Props> = ({
               {completedRequests.length > 0 ? (
                 completedRequests.map((request, index) => (
                   <div key={index}>
-                    <CompletedRequest id={request.id} song={request.song} votes={request.votes} voteErrors={voteErrors} handleRequeue={handleRequeue} />
+                    <CompletedRequest id={request.id} song={request.song} likes={request.likes} updateStatus={updateStatus} />
+                    {/* <CompletedRequest id={request.id} song={request.song} likes={request.likes} handleLike={handleLike} likeErrors={likeErrors} handleRequeue={handleRequeue} /> */}
                   </div>
                 ))
               ) : (
@@ -85,7 +80,7 @@ const SongRequests: React.FC<Props> = ({
             {declinedRequests.length > 0 ? (
                 declinedRequests.map((request, index) => (
                   <div key={index}>
-                    <DeclinedRequest id={request.id} song={request.song} votes={request.votes} handleRequeue={handleRequeue} />
+                    <DeclinedRequest id={request.id} song={request.song} likes={request.likes} updateStatus={updateStatus} />
                   </div>
                 ))
               ) : (
