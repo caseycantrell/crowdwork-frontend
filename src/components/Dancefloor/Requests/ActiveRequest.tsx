@@ -6,21 +6,21 @@ import Button from '../../UI/Button';
 interface Props {
     id: string;
     song: string;
-    votes: number | 0;
+    likes: number | 0;
     handleDecline: (requestId: string) => void;
     handlePlay: (requestId: string) => void;
-    handleVote: (requestId: string) => void;
-    voteErrors: { [key: string]: string | null };
+    handleLike: (requestId: string) => void;
+    likeErrors: { [key: string]: string | null };
 }
 
 const ActiveRequest: React.FC<Props> = ({
     id,
     song,
-    votes,
+    likes,
     handleDecline,
     handlePlay,
-    handleVote,
-    voteErrors,
+    handleLike,
+    likeErrors,
 }) => {
     const [hoveredButton, setHoveredButton] = useState<string | null>(null);
 
@@ -35,8 +35,8 @@ const ActiveRequest: React.FC<Props> = ({
                 return 'Set as Now Playing';
             case 'decline':
                 return 'Decline';
-            case 'vote':
-                return 'Vote';
+            case 'like':
+                return 'Like';
             default:
                 return '';
         }
@@ -54,7 +54,7 @@ const ActiveRequest: React.FC<Props> = ({
                         <p className="font-bold text-2xl mr-1">Song:</p>
                         <p className="text-xl ml-1">{song}</p>
                     </div>
-                    <div>Votes: {votes}</div>
+                    <div>Likes: {likes}</div>
                 </div>
 
                 <div className="flex flex-row items-center gap-x-4 mr-64">
@@ -113,21 +113,21 @@ const ActiveRequest: React.FC<Props> = ({
                             padding=""
                             bgColor=""
                             className="overflow-visible"
-                            onClick={() => handleVote(id)}
-                            onMouseEnter={() => handleMouseEnter('vote')}
+                            onClick={() => handleLike(id)}
+                            onMouseEnter={() => handleMouseEnter('like')}
                         >
                             <Image
-                                src={'/icons/vote.png'}
+                                src={'/icons/like.png'}
                                 height={50}
                                 width={50}
-                                alt="Vote Icon"
+                                alt="Like Icon"
                             />
                         </Button>
                     </div>
                 </div>
             </div>
 
-            {voteErrors[id] && <p style={{ color: 'red' }}>{voteErrors[id]}</p>}
+            {likeErrors[id] && <p style={{ color: 'red' }}>{likeErrors[id]}</p>}
         </div>
     );
 };

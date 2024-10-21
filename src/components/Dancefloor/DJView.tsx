@@ -20,7 +20,7 @@ interface DJInfo {
 interface SongRequest {
   id: string;
   song: string;
-  votes: number;
+  likes: number;
   status: string;
 }
 
@@ -54,8 +54,8 @@ interface Props {
   handleDecline: (requestId: string) => void;
   handleComplete: (requestId: string) => void;
   handleRequeue: (requestId: string) => void;
-  handleVote: (requestId: string) => void;
-  voteErrors: { [key: string]: string | null };
+  handleLike: (requestId: string) => void;
+  likeErrors: { [key: string]: string | null };
 }
 
 const variants = {
@@ -98,8 +98,8 @@ const DJView: React.FC<Props> = ({
   handleDecline,
   handleComplete,
   handleRequeue,
-  handleVote,
-  voteErrors
+  handleLike,
+  likeErrors
 }) => {
 
   const [isChatVisible, setIsChatVisible] = useState<boolean>(false);
@@ -147,8 +147,8 @@ const DJView: React.FC<Props> = ({
           handleComplete={handleComplete}
           handleDecline={handleDecline}
           handleRequeue={handleRequeue}
-          handleVote={handleVote}
-          voteErrors={voteErrors}
+          handleLike={handleLike}
+          likeErrors={likeErrors}
           songRequestsError={songRequestsError}
         />
       </motion.div>

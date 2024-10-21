@@ -16,7 +16,7 @@ const Dancefloor = () => {
   const [ songRequest, setSongRequest ] = useState<string>('');
   const [ songRequests, setSongRequests ] = useState<any[]>([]);
   const [ songRequestsError, setSongRequestsError ] = useState<string | null>(null);
-  const [ voteErrors, setVoteErrors ] = useState<{ [key: string]: string | null }>({});
+  const [ likeErrors, setLikeErrors ] = useState<{ [key: string]: string | null }>({});
   const [ djInfo, setDjInfo ] = useState<any>(null);
   const [ djInfoError, setDjInfoError ] = useState<string | null>(null);
   const [ notification, setNotification ] = useState<string | null>(null);
@@ -233,46 +233,46 @@ const Dancefloor = () => {
 
 
   // voting for a song request
-  const handleVote = async (requestId: string) => {
-    // check if the user has already voted for this request in their cookies
-    if (document.cookie.includes(`voted_for_${requestId}`)) {
-      setVoteErrors((prevErrors) => ({
+  const handleLike = async (requestId: string) => {
+    // check if the user has already liked this request in their cookies
+    if (document.cookie.includes(`liked_${requestId}`)) {
+      setLikeErrors((prevErrors) => ({
         ...prevErrors,
-        [requestId]: "Only one vote per track is allowed!",
+        [requestId]: "Only one like per track is allowed!",
       }));
       return;
     }
   
     try {
-      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/vote`, {
+      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/like`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
       });
   
       const data = await res.json();
       if (res.ok) {
-        // set a cookie to record the vote (expires in 24 hours)
-        document.cookie = `voted_for_${requestId}=true; max-age=86400;`;
+        // set a cookie to record the like (expires in 24 hours)
+        document.cookie = `liked_${requestId}=true; max-age=86400;`;
   
         setSongRequests((prevRequests) =>
           prevRequests.map((req) =>
-            req.id === requestId ? { ...req, votes: data.votes } : req
+            req.id === requestId ? { ...req, likes: data.likes } : req
           )
         );
-        setVoteErrors((prevErrors) => ({
+        setLikeErrors((prevErrors) => ({
           ...prevErrors,
           [requestId]: null, // clear any previous error
         }));
       } else {
-        setVoteErrors((prevErrors) => ({
+        setLikeErrors((prevErrors) => ({
           ...prevErrors,
           [requestId]: data.error,
         }));
       }
     } catch (error) {
-      setVoteErrors((prevErrors) => ({
+      setLikeErrors((prevErrors) => ({
         ...prevErrors,
-        [requestId]: 'Error voting for this song.',
+        [requestId]: 'Error liking this song.',
       }));
     }
   };
@@ -314,10 +314,10 @@ const Dancefloor = () => {
   useEffect(() => {
     const timers: NodeJS.Timeout[] = [];
   
-    Object.keys(voteErrors).forEach((requestId) => {
-      if (voteErrors[requestId]) {
+    Object.keys(likeErrors).forEach((requestId) => {
+      if (likeErrors[requestId]) {
         const timer = setTimeout(() => {
-          setVoteErrors((prevErrors) => ({
+          setLikeErrors((prevErrors) => ({
             ...prevErrors,
             [requestId]: null,
           }));
@@ -330,7 +330,7 @@ const Dancefloor = () => {
     return () => {
       timers.forEach((timer) => clearTimeout(timer));
     };
-  }, [voteErrors]);
+  }, [likeErrors]);
 
   useEffect(() => {
     const authenticateUser = async () => {
@@ -376,8 +376,8 @@ const Dancefloor = () => {
         handleDecline={handleDecline} 
         handleComplete={handleComplete} 
         handleRequeue={handleRequeue}  
-        handleVote={handleVote} 
-        voteErrors={voteErrors} 
+        handleLike={handleLike} 
+        likeErrors={likeErrors} 
       />
     ) : (
       <MobileView 
@@ -395,8 +395,8 @@ const Dancefloor = () => {
         messages={messages}
         messagesError={messagesError} 
         handleSendMessage={handleSendMessage} 
-        handleVote={handleVote} 
-        voteErrors={voteErrors} 
+        handleLike={handleLike} 
+        likeErrors={likeErrors} 
       />
     )
   );

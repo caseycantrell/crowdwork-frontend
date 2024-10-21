@@ -6,14 +6,14 @@ import Button from '../../UI/Button';
 interface Props {
     id: string;
     song: string;
-    votes: number | 0;
+    likes: number | 0;
     handleRequeue: (requestId: string) => void;
 }
 
 const DeclinedRequest: React.FC<Props> = ({
     id,
     song,
-    votes,
+    likes,
     handleRequeue,
 }) => {
     const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -35,7 +35,7 @@ const DeclinedRequest: React.FC<Props> = ({
                         <p className="font-bold text-2xl mr-1">Song:</p>
                         <p className="text-xl ml-1">{song}</p>
                     </div>
-                    <div>Votes: {votes}</div>
+                    <div>Likes: {likes}</div>
                 </div>
 
                 <div className="flex flex-row items-center gap-x-4 mr-64">

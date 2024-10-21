@@ -72,7 +72,7 @@ const DancefloorDetails: React.FC = () => {
                 <ul className="list-disc list-inside space-y-2">
                   {dancefloor.songRequests.map((request: any) => (
                     <li key={request.id} className="p-3 bg-gray-500 shadow rounded">
-                      {request.song} (Votes: {request.votes})
+                      {request.song} (Likes: {request.likes})
                     </li>
                   ))}
                 </ul>
