@@ -238,7 +238,7 @@ const Dancefloor = () => {
     if (document.cookie.includes(`voted_for_${requestId}`)) {
       setVoteErrors((prevErrors) => ({
         ...prevErrors,
-        [requestId]: 'You have already voted for this song request.',
+        [requestId]: "Only one vote per track is allowed!",
       }));
       return;
     }
@@ -347,54 +347,59 @@ const Dancefloor = () => {
   const completedRequests = songRequests.filter((request) => request.status === 'completed');
   const declinedRequests = songRequests.filter((request) => request.status === 'declined');
 
-  return (
-    // <DJView 
-    //   notification={notification} 
-    //   isAuthenticated={isAuthenticated}
-    //   djInfo={djInfo} 
-    //   djInfoError={djInfoError}
-    //   songRequest={songRequest}
-    //   setSongRequest={setSongRequest}
-    //   handleSendSongRequest={handleSendSongRequest} 
-    //   songRequestsError={songRequestsError} 
-    //   nowPlayingSong={nowPlayingSong}
-    //   activeRequests={activeRequests}
-    //   completedRequests={completedRequests} 
-    //   declinedRequests={declinedRequests}
-    //   message={message}
-    //   setMessage={setMessage}
-    //   messageError={messageError}
-    //   setMessageError={setMessageError}
-    //   messages={messages}
-    //   messagesError={messagesError} 
-    //   handleSendMessage={handleSendMessage} 
-    //   handleStopDancefloor={handleStopDancefloor} 
-    //   handlePlay={handlePlay} 
-    //   handleDecline={handleDecline} 
-    //   handleComplete={handleComplete} 
-    //   handleRequeue={handleRequeue}  
-    //   handleVote={handleVote} 
-    //   voteErrors={voteErrors} 
-    // />
-    <MobileView 
-      isAuthenticated={isAuthenticated}
-      djInfo={djInfo} 
-      songRequestsError={songRequestsError} 
-      nowPlayingSong={nowPlayingSong}
-      activeRequests={activeRequests}
-      completedRequests={completedRequests} 
-      declinedRequests={declinedRequests}
-      message={message}
-      setMessage={setMessage}
-      messageError={messageError}
-      setMessageError={setMessageError}
-      messages={messages}
-      messagesError={messagesError} 
-      handleSendMessage={handleSendMessage} 
-      handleVote={handleVote} 
-      voteErrors={voteErrors} 
-    />
+  console.log("isAuthenticated YO", isAuthenticated)
+
+  return ( 
+    isAuthenticated ? (
+      <DJView 
+        notification={notification} 
+        isAuthenticated={isAuthenticated}
+        djInfo={djInfo} 
+        djInfoError={djInfoError}
+        songRequest={songRequest}
+        setSongRequest={setSongRequest}
+        handleSendSongRequest={handleSendSongRequest} 
+        songRequestsError={songRequestsError} 
+        nowPlayingSong={nowPlayingSong}
+        activeRequests={activeRequests}
+        completedRequests={completedRequests} 
+        declinedRequests={declinedRequests}
+        message={message}
+        setMessage={setMessage}
+        messageError={messageError}
+        setMessageError={setMessageError}
+        messages={messages}
+        messagesError={messagesError} 
+        handleSendMessage={handleSendMessage} 
+        handleStopDancefloor={handleStopDancefloor} 
+        handlePlay={handlePlay} 
+        handleDecline={handleDecline} 
+        handleComplete={handleComplete} 
+        handleRequeue={handleRequeue}  
+        handleVote={handleVote} 
+        voteErrors={voteErrors} 
+      />
+    ) : (
+      <MobileView 
+        isAuthenticated={isAuthenticated}
+        djInfo={djInfo} 
+        songRequestsError={songRequestsError} 
+        nowPlayingSong={nowPlayingSong}
+        activeRequests={activeRequests}
+        completedRequests={completedRequests} 
+        declinedRequests={declinedRequests}
+        message={message}
+        setMessage={setMessage}
+        messageError={messageError}
+        setMessageError={setMessageError}
+        messages={messages}
+        messagesError={messagesError} 
+        handleSendMessage={handleSendMessage} 
+        handleVote={handleVote} 
+        voteErrors={voteErrors} 
+      />
+    )
   );
-};
+};  
 
 export default Dancefloor;
