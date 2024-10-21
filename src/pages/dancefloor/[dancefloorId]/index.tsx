@@ -84,6 +84,7 @@ const Dancefloor = () => {
 
       // listen for status updates
       newSocket.on('statusUpdate', (data) => {
+        console.log('Received statusUpdate:', data);
         setSongRequests((prevRequests) =>
           prevRequests.map((song) =>
             song.id === data.requestId ? { ...song, status: data.status } : song
@@ -168,69 +169,25 @@ const Dancefloor = () => {
     }
   };
 
-
-  // playing a song
-  const handlePlay = async (requestId: string) => {
+  // updating song request status
+  const updateStatus = async (requestId: any, status: any) => {
     try {
-      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/play`, {
+      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
       });
-
+  
       if (res.ok) {
-        console.log('Song is now playing:', requestId);
-        fetchDancefloorInfo(); // refresh song requests after playing
+        console.log(`Song status updated to ${status}`);
+        fetchDancefloorInfo()
       } else {
-        const data = await res.json();
-        console.error(data.error);
+        console.error('Failed to update song status.');
       }
     } catch (error) {
-      console.error('Error starting song:', error);
+      console.error('Error updating song status:', error);
     }
   };
-
-
-  // completing a song
-  const handleComplete = async (requestId: string) => {
-    try {
-      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/complete`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (res.ok) {
-        console.log('Song has been marked as completed.');
-        fetchDancefloorInfo(); // refresh song requests after completing
-      } else {
-        const data = await res.json();
-        console.error(data.error);
-      }
-    } catch (error) {
-      console.error('Error completing song:', error);
-    }
-  };
-
-
-  // declining a song request
-  const handleDecline = async (requestId: string) => {
-    try {
-      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/decline`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (res.ok) {
-        console.log('Song request declined.');
-        fetchDancefloorInfo(); // refresh song requests after declining
-      } else {
-        const data = await res.json();
-        console.error(data.error);
-      }
-    } catch (error) {
-      console.error('Error declining song request:', error);
-    }
-  };
-
 
   // voting for a song request
   const handleLike = async (requestId: string) => {
@@ -277,29 +234,6 @@ const Dancefloor = () => {
     }
   };
   
-
-  // requeuing a song
-  const handleRequeue = async (requestId: string) => {
-    try {
-      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/status`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: 'queued' }),
-      });
-
-      if (res.ok) {
-        console.log('Song has been requeued.');
-        fetchDancefloorInfo(); // refresh song requests after requeuing
-      } else {
-        const data = await res.json();
-        console.error(data.error);
-      }
-    } catch (error) {
-      console.error('Error requeuing song:', error);
-    }
-  };
-
-
   useEffect(() => {
     if (notification) {
       const timer = setTimeout(() => {
@@ -309,7 +243,6 @@ const Dancefloor = () => {
       return () => clearTimeout(timer);
     }
   }, [notification]);
-
 
   useEffect(() => {
     const timers: NodeJS.Timeout[] = [];
@@ -347,8 +280,6 @@ const Dancefloor = () => {
   const completedRequests = songRequests.filter((request) => request.status === 'completed');
   const declinedRequests = songRequests.filter((request) => request.status === 'declined');
 
-  console.log("isAuthenticated YO", isAuthenticated)
-
   return ( 
     isAuthenticated ? (
       <DJView 
@@ -372,12 +303,9 @@ const Dancefloor = () => {
         messagesError={messagesError} 
         handleSendMessage={handleSendMessage} 
         handleStopDancefloor={handleStopDancefloor} 
-        handlePlay={handlePlay} 
-        handleDecline={handleDecline} 
-        handleComplete={handleComplete} 
-        handleRequeue={handleRequeue}  
         handleLike={handleLike} 
         likeErrors={likeErrors} 
+        updateStatus={updateStatus}
       />
     ) : (
       <MobileView 
@@ -396,7 +324,7 @@ const Dancefloor = () => {
         messagesError={messagesError} 
         handleSendMessage={handleSendMessage} 
         handleLike={handleLike} 
-        likeErrors={likeErrors} 
+        likeErrors={likeErrors}
       />
     )
   );

@@ -7,20 +7,18 @@ interface Props {
     id: string;
     song: string;
     likes: number | 0;
-    handleRequeue: (requestId: string) => void;
-    handleComplete: (requestId: string) => void;
     handleLike: (requestId: string) => void;
     likeErrors: { [key: string]: string | null };
+    updateStatus: (requestId: string, status: 'queued' | 'playing' | 'completed' | 'declined') => Promise<void>;
 }
 
 const NowPlaying: React.FC<Props> = ({
     id,
     song,
     likes,
-    handleRequeue,
-    handleComplete,
     handleLike,
     likeErrors,
+    updateStatus
 }) => {
     const [hoveredButton, setHoveredButton] = useState<string | null>(null);
 
@@ -28,9 +26,6 @@ const NowPlaying: React.FC<Props> = ({
         setHoveredButton(button);
         setTimeout(() => setHoveredButton(null), 1500); 
     };
-
-    // const getHoverMessage = () => 
-    //     hoveredButton === 'requeue' ? 'Requeue' : 'Mark as Complete';
 
     const getHoverMessage = () => {
         switch (hoveredButton) {
@@ -84,7 +79,7 @@ const NowPlaying: React.FC<Props> = ({
                             padding=""
                             bgColor=""
                             className="overflow-visible"
-                            onClick={() => handleRequeue(id)}
+                            onClick={() => updateStatus(id, 'queued')}
                             onMouseEnter={() => handleMouseEnter('requeue')}
                         >
                             <Image
@@ -100,7 +95,7 @@ const NowPlaying: React.FC<Props> = ({
                             padding=""
                             bgColor=""
                             className="overflow-visible"
-                            onClick={() => handleComplete(id)}
+                            onClick={() => updateStatus(id, 'completed')}
                             onMouseEnter={() => handleMouseEnter('complete')}
                         >
                             <Image

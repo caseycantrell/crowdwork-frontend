@@ -7,20 +7,18 @@ interface Props {
     id: string;
     song: string;
     likes: number | 0;
-    handleDecline: (requestId: string) => void;
-    handlePlay: (requestId: string) => void;
     handleLike: (requestId: string) => void;
     likeErrors: { [key: string]: string | null };
+    updateStatus: (requestId: string, status: 'queued' | 'playing' | 'completed' | 'declined') => Promise<void>;
 }
 
 const ActiveRequest: React.FC<Props> = ({
     id,
     song,
     likes,
-    handleDecline,
-    handlePlay,
     handleLike,
     likeErrors,
+    updateStatus
 }) => {
     const [hoveredButton, setHoveredButton] = useState<string | null>(null);
 
@@ -81,7 +79,7 @@ const ActiveRequest: React.FC<Props> = ({
                             padding=""
                             bgColor=""
                             className="overflow-visible"
-                            onClick={() => handlePlay(id)}
+                            onClick={() => updateStatus(id, 'playing')}
                             onMouseEnter={() => handleMouseEnter('play')}
                         >
                             <Image
@@ -97,7 +95,7 @@ const ActiveRequest: React.FC<Props> = ({
                             padding=""
                             bgColor=""
                             className="overflow-visible"
-                            onClick={() => handleDecline(id)}
+                            onClick={() => updateStatus(id, 'declined')}
                             onMouseEnter={() => handleMouseEnter('decline')}
                         >
                             <Image

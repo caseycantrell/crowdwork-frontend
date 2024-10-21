@@ -7,14 +7,14 @@ interface Props {
     id: string;
     song: string;
     likes: number | 0;
-    handleRequeue: (requestId: string) => void;
+    updateStatus: (requestId: string, status: 'queued' | 'playing' | 'completed' | 'declined') => Promise<void>;
 }
 
 const DeclinedRequest: React.FC<Props> = ({
     id,
     song,
     likes,
-    handleRequeue,
+    updateStatus,
 }) => {
     const [isHovered, setIsHovered] = useState<boolean>(false);
 
@@ -62,7 +62,7 @@ const DeclinedRequest: React.FC<Props> = ({
                             padding=""
                             bgColor=""
                             className="overflow-visible"
-                            onClick={() => handleRequeue(id)}
+                            onClick={() => updateStatus(id, 'queued')}
                             onMouseEnter={handleMouseEnter}
                         >
                             <Image
