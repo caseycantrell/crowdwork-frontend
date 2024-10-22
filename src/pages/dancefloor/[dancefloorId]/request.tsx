@@ -47,6 +47,7 @@ const SongRequestPage: React.FC = () => {
   const [selectedSong, setSelectedSong] = useState<SongOption | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -58,15 +59,15 @@ const SongRequestPage: React.FC = () => {
 
   const loadOptions = async (inputValue: string) => {
     if (!inputValue) return [];
-  
+
     try {
       const response = await fetch(`/api/spotify-search?query=${encodeURIComponent(inputValue)}`);
       const options = await response.json();
-  
+
       if (!response.ok) {
         throw new Error(options.error || 'Failed to fetch songs');
       }
-  
+
       return options;
     } catch (error) {
       console.error('Error fetching songs:', error);
@@ -83,6 +84,7 @@ const SongRequestPage: React.FC = () => {
     socket.emit('songRequest', { dancefloorId, song: selectedSong.label });
     setSelectedSong(null);
     setError(null);
+    setSubmitted(true); // show success content
 
     setTimeout(() => {
       router.back();
@@ -93,29 +95,39 @@ const SongRequestPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-800 flex flex-col justify-center items-center relative">
-      <Button className="absolute top-8 left-8" onClick={() => router.back()}>
-        Back
-      </Button>
-      <h1 className="text-white text-2xl font-bold mb-4">Request a Song</h1>
+      {submitted ? (
+        <div className="flex flex-col items-center">
+          <h1 className="text-emerald-400 text-3xl mb-4">Success!</h1>
+          <p className="text-white mb-4">Your song request has been sent.</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-emerald-400"></div>
+        </div>
+      ) : (
+        <div>
+          <Button className="absolute top-8 left-8" onClick={() => router.back()}>
+            Back
+          </Button>
+          <h1 className="text-white text-2xl font-bold mb-4">Request a Song</h1>
 
-      {error && <p className="text-red-500 mb-2">{error}</p>}
+          {error && <p className="text-red-500 mb-2">{error}</p>}
 
-      <div className="w-full max-w-sm px-4">
-        <AsyncSelect
-            cacheOptions
-            loadOptions={loadOptions}
-            onChange={handleChange}
-            placeholder="Search for a song..."
-            styles={customStyles}
-            isClearable
-        />
-        <button
-          onClick={handleSendSongRequest}
-          className="w-full bg-gradient-to-r from-emerald-400 to-cyan-500 text-white py-4 mt-4 rounded-md"
-        >
-          Submit Request
-        </button>
-      </div>
+          <div className="w-full max-w-sm px-4">
+            <AsyncSelect
+              cacheOptions
+              loadOptions={loadOptions}
+              onChange={handleChange}
+              placeholder="Search for a song..."
+              styles={customStyles}
+              isClearable
+            />
+            <button
+              onClick={handleSendSongRequest}
+              className="w-full bg-gradient-to-r from-emerald-400 to-cyan-500 text-white py-4 mt-4 rounded-md"
+            >
+              Submit Request
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

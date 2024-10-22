@@ -120,12 +120,15 @@ const MobileView: React.FC<Props> = ({
           {djInfo?.cashapp_handle && <p>CashApp: {djInfo.cashapp_handle}</p>}
         </div>
         <div className='bg-gray-800 flex justify-center pt-2 pb-2'>
-            <button 
-              className='w-full mx-2 bg-gradient-to-r from-emerald-400 to-cyan-500'
-              onClick={() => router.push(`/dancefloor/${dancefloorId}/request`)}
+            <Button 
+              className='w-full mx-2 bg-gradient-to-r from-emerald-400 to-cyan-500 py-3 rounded font-semibold'
+              onClick={(e) => {
+                e.preventDefault();
+                void router.push(`/dancefloor/${dancefloorId}/request`);
+              }}
             >
               Make a Song Request
-            </button>
+            </Button>
         </div>
         <SongRequestsMobile
             songRequestsError={songRequestsError}
