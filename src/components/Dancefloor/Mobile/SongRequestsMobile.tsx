@@ -29,7 +29,7 @@ const SongRequestsMobile: React.FC<Props> = ({
   likeErrors,
 }) => {    
   return (
-    <div className="row-span-4 col-span-1 lg:col-span-3 bg-gray-900 h-72 overflow-y-scroll scrollbar-thin pb-0">
+    <div className="bg-gray-900 overflow-y-scroll scrollbar-thin pb-0">
        <p className='text-sm font-bold ml-2 py-0.5'>Now Playing</p>
 
       {nowPlayingSong ? (
@@ -79,12 +79,14 @@ const SongRequestsMobile: React.FC<Props> = ({
               {activeRequests.length > 0 ? (
                 activeRequests.map((request, index) => (
                   <div key={index} className="bg-gradient-to-r from-purple-600 to-fuchsia-600 flex flex-row items-center justify-between px-2 py-1">
-                    <div className="flex flex-col font-medium">
+                    <div className="flex flex-col">
                       <div className="flex flex-row items-center">
-                        <p className="text-sm"> Song: {request.song}</p>
+                        <p className="font-bold mr-1.5 text-sm">Song:</p>
+                        <p className="font-semibold text-xs">{request.song}</p>
                       </div>
-                      <div className="flex flex-row items-center">
-                        <p className="text-xs"> Likes: {request.likes}</p>
+                      <div className="flex flex-row items-center text-xs ">
+                        <p className="font-bold mr-1.5">Likes:</p>
+                        <p className="font-semibold">{request.likes}</p>
                         <AnimatePresence>
                           {likeErrors[request.id] && (
                             <motion.p

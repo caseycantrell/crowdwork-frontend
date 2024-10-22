@@ -1,5 +1,5 @@
 interface ButtonProps {
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void | Promise<void>;
   onMouseEnter?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onMouseLeave?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children: React.ReactNode;

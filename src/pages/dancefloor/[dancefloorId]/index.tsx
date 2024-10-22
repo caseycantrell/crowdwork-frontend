@@ -301,12 +301,8 @@ const Dancefloor = () => {
       />
     ) : (
       <MobileView 
-        isAuthenticated={isAuthenticated}
         djInfo={djInfo} 
         dancefloorId={dancefloorId}
-        handleSendSongRequest={handleSendSongRequest}
-        songRequest={songRequest}
-        setSongRequest={setSongRequest}
         songRequestsError={songRequestsError} 
         nowPlayingSong={nowPlayingSong}
         activeRequests={activeRequests}
