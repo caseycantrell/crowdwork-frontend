@@ -102,7 +102,7 @@ const SongRequestPage: React.FC = () => {
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-emerald-400"></div>
         </div>
       ) : (
-        <div>
+        <>
           <Button className="absolute top-8 left-8" onClick={() => router.back()}>
             Back
           </Button>
@@ -126,7 +126,7 @@ const SongRequestPage: React.FC = () => {
               Submit Request
             </button>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
