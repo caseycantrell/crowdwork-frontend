@@ -8,7 +8,7 @@ const getSpotifyToken = async (): Promise<string> => {
     const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
   
     if (!clientId || !clientSecret) {
-      throw new Error('Missing Spotify client credentials');
+      throw new Error('Missing Spotify client credentials.');
     }
   
     if (accessToken && Date.now() < tokenExpiresAt) {
@@ -35,7 +35,7 @@ const getSpotifyToken = async (): Promise<string> => {
     tokenExpiresAt = Date.now() + data.expires_in * 1000;
   
     if (!accessToken) {
-      throw new Error('Failed to retrieve a valid access token');
+      throw new Error('Failed to retrieve a valid access token.');
     }
   
     return accessToken;
@@ -61,7 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     if (!spotifyResponse.ok) {
-      throw new Error('Failed to search Spotify');
+      throw new Error('Failed to search Spotify.');
     }
 
     const data = await spotifyResponse.json();
@@ -73,5 +73,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(200).json(tracks);
   } catch (error) {
     console.error('Error fetching from Spotify:', error);
-    res.status(500).json({ error: 'Failed to fetch songs' });
-  }}
+    res.status(500).json({ error: 'Failed to fetch songs.' });
+}};

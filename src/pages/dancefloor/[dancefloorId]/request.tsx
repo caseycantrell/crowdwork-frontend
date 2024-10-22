@@ -94,7 +94,7 @@ const SongRequestPage: React.FC = () => {
   if (!isMounted) return null;
 
   return (
-    <div className="min-h-screen bg-gray-800 flex flex-col justify-center items-center relative">
+    <div className="min-h-screen bg-gray-900 flex flex-col justify-center items-center relative">
       {submitted ? (
         <div className="flex flex-col items-center">
           <h1 className="text-emerald-400 text-3xl mb-4">Success!</h1>
@@ -103,8 +103,8 @@ const SongRequestPage: React.FC = () => {
         </div>
       ) : (
         <>
-          <Button className="absolute top-8 left-8" onClick={() => router.back()}>
-            Back
+          <Button bgColor='' className="absolute top-6 left-6" onClick={() => router.back()}>
+            Cancel
           </Button>
           <h1 className="text-white text-2xl font-bold mb-4">Request a Song</h1>
 
@@ -119,12 +119,12 @@ const SongRequestPage: React.FC = () => {
               styles={customStyles}
               isClearable
             />
-            <button
+            <Button
               onClick={handleSendSongRequest}
               className="w-full bg-gradient-to-r from-emerald-400 to-cyan-500 text-white py-4 mt-4 rounded-md"
             >
               Submit Request
-            </button>
+            </Button>
           </div>
         </>
       )}
