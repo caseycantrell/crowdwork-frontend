@@ -79,10 +79,10 @@ const SongRequestsMobile: React.FC<Props> = ({
               {activeRequests.length > 0 ? (
                 activeRequests.map((request, index) => (
                   <div key={index} className="bg-gradient-to-r from-purple-600 to-fuchsia-600 flex flex-row items-center justify-between px-2 py-1">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col max-w-[85%]">
                       <div className="flex flex-row items-center">
                         <p className="font-bold mr-1.5 text-sm">Song:</p>
-                        <p className="font-semibold text-xs">{request.song}</p>
+                        <p className="font-semibold text-xs truncate">{request.song}</p>
                       </div>
                       <div className="flex flex-row items-center text-xs ">
                         <p className="font-bold mr-1.5">Likes:</p>
@@ -122,9 +122,9 @@ const SongRequestsMobile: React.FC<Props> = ({
               {completedRequests.length > 0 ? (
                 completedRequests.map((request, index) => (
                   <div key={index} className="bg-gradient-to-r from-indigo-400 to-cyan-400 flex flex-row items-center justify-between px-2 py-1">
-                    <div className="flex flex-col font-medium">
+                    <div className="flex flex-col max-w-[85%] font-medium">
                       <div className="flex flex-row items-center">
-                        <p className="text-sm italic line-through"> Song: {request.song}</p>
+                        <p className="text-sm italic line-through truncate"> Song: {request.song}</p>
                       </div>
                       <div className="flex flex-row items-center">
                         <p className="text-xs italic line-through"> Likes: {request.likes}</p>
@@ -163,9 +163,9 @@ const SongRequestsMobile: React.FC<Props> = ({
             {declinedRequests.length > 0 ? (
                 declinedRequests.map((request, index) => (
                   <div key={index} className="bg-gradient-to-r from-red-500 to-orange-500 flex flex-row items-center justify-between px-2 py-1">
-                    <div className="flex flex-col font-medium">
+                    <div className="flex flex-col max-w-[85%] font-medium">
                       <div className="flex flex-row items-center">
-                        <p className="text-sm italic line-through"> Song: {request.song}</p>
+                        <p className="text-sm italic line-through truncate"> Song: {request.song}</p>
                       </div>
                       <div className="flex flex-row items-center">
                         <p className="text-xs italic line-through"> Likes: {request.likes}</p>
