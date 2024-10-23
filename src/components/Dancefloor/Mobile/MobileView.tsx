@@ -122,11 +122,94 @@ const MobileView: React.FC<Props> = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-2 mt-2 mx-2 font-semibold mb-2">
-              {djInfo?.instagram_handle && <p>IG: {djInfo.instagram_handle}</p>}
-              {djInfo?.twitter_handle && <p>Twitter: {djInfo.twitter_handle}</p>}
-              {djInfo?.venmo_handle && <p>Venmo: {djInfo.venmo_handle}</p>}
-              {djInfo?.cashapp_handle && <p>CashApp: {djInfo.cashapp_handle}</p>}
+            <div className="grid grid-cols-2 mt-1.5 gap-1.5 mx-2 font-semibold mb-1.5">
+              <div className="flex flex-row items-center">
+                <Image 
+                  src={'/icons/instagram.png'} 
+                  className="invert" 
+                  width={24} 
+                  height={24} 
+                  alt="Instagram" 
+                />
+                {djInfo?.instagram_handle ? (
+                  <a 
+                    href={`https://www.instagram.com/${djInfo.instagram_handle.replace(/^@/, '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="ml-2 text-white truncate"
+                    style={{ maxWidth: '155px' }}
+                  >
+                    {djInfo.instagram_handle}
+                  </a>
+                ) : (
+                  <p className="ml-2 text-gray-400 text-xs italic">No IG info.</p>
+                )}
+              </div>
+              <div className="flex flex-row items-center">
+                <Image 
+                  src={'/icons/twitter.png'} 
+                  className="invert" 
+                  width={24} 
+                  height={24} 
+                  alt="Twitter" 
+                />
+                {djInfo?.twitter_handle ? (
+                  <a 
+                    href={`https://x.com/${djInfo.twitter_handle.replace(/^@/, '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="ml-2 text-white truncate"
+                    style={{ maxWidth: '155px' }}
+                  >
+                    {djInfo.twitter_handle}
+                  </a>
+                ) : (
+                  <p className="ml-2 text-gray-400 text-xs italic">No Twitter info.</p>
+                )}
+              </div>
+              <div className="flex flex-row items-center">
+                <Image 
+                  src={'/icons/venmo.png'} 
+                  className="invert rounded-md" 
+                  width={24} 
+                  height={24} 
+                  alt="Venmo" 
+                />
+                {djInfo?.venmo_handle ? (
+                  <a 
+                    href={`https://account.venmo.com/u/${djInfo.venmo_handle.replace(/^@/, '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="ml-2 text-white truncate"
+                    style={{ maxWidth: '155px' }}
+                  >
+                    {djInfo.venmo_handle}
+                  </a>
+                ) : (
+                  <p className="ml-2 text-gray-400 text-xs italic">No Venmo info.</p>
+                )}
+              </div>
+              <div className="flex flex-row items-center">
+                  <Image 
+                    src={'/icons/cashapp.png'} 
+                    width={24} 
+                    height={24} 
+                    alt="Cash App" 
+                  />
+                  {djInfo?.cashapp_handle ? (
+                    <a 
+                      href={`https://cash.app/${djInfo.cashapp_handle.replace(/^\$/, '')}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="ml-2.5 text-white truncate"
+                      style={{ maxWidth: '155px' }}
+                    >
+                      {djInfo.cashapp_handle}
+                    </a>
+                  ) : (
+                    <p className="ml-2.5 text-gray-400 text-xs italic">No Cash App info.</p>
+                  )}
+              </div>
             </div>
 
             <div className="bg-gray-800 flex justify-center pb-2">

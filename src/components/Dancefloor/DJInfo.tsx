@@ -30,9 +30,6 @@ const DJInfoComponent: React.FC<{
   djInfo,
   djInfoError,
   handleStopDancefloor,
-  songRequest,
-  setSongRequest,
-  handleSendSongRequest,
   isChatVisible,
   setIsChatVisible,
 }) => {
@@ -52,7 +49,7 @@ const DJInfoComponent: React.FC<{
         <div className="flex flex-row items-center justify-between h-full">
           <div className="flex flex-row items-center">
           <div className="flex flex-col items-center">
-            <div className="w-36 h-36 overflow-hidden rounded-lg">
+            <div className="w-40 h-40 overflow-hidden rounded-lg">
               <Image
                 src={djInfo.profile_pic_url || '/images/profile_placeholder.jpg'}
                 width={160}
@@ -62,13 +59,13 @@ const DJInfoComponent: React.FC<{
                 priority
               />
             </div>
-            <div className="mt-4">
+            <div className="mt-2">
               <Link href={`/dj/${djInfo.id}`}>
-                <Button>Go to DJ Page</Button>
+                <Button className="w-40">Go to DJ Page</Button>
               </Link>
             </div>
           </div>
-            <div className="flex flex-col justify-center ml-6 font-medium">
+            <div className="flex flex-col justify-center ml-6 font-medium gap-y-1">
               <p className="text-3xl font-bold">
                 {djInfo.name ? djInfo.name : "No name for this DJ yet."}
               </p>
@@ -78,14 +75,41 @@ const DJInfoComponent: React.FC<{
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {djInfo.website}
+                  <p className="font-semibold">{djInfo.website}</p>
                 </a>
               )}
-              {djInfo.instagram_handle && <p>IG: {djInfo.instagram_handle}</p>}
-              {djInfo.twitter_handle && <p>Twitter: {djInfo.twitter_handle}</p>}
-              {djInfo.venmo_handle && <p>Venmo: {djInfo.venmo_handle}</p>}
-              {djInfo.cashapp_handle && <p>CashApp: {djInfo.cashapp_handle}</p>}
-              <p>Bio: {djInfo.bio || "No bio for this DJ yet."}</p>
+              {djInfo.instagram_handle && 
+                <div>
+                  <a href={`https://www.instagram.com/${djInfo.instagram_handle.replace(/^@/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
+                    <Image src={'/icons/instagram.png'} className="invert" width={28} height={28} alt='Instagram' />
+                    <p className="font-semibold ml-2 text-lg">{djInfo.instagram_handle}</p>
+                  </a>
+                </div>
+              }
+              {djInfo.twitter_handle && 
+                <div>
+                  <a href={`https://x.com/${djInfo.twitter_handle.replace(/^@/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
+                    <Image src={'/icons/twitter.png'} className="invert rounded-md" width={28} height={28} alt='Twitter' />
+                    <p className="font-semibold ml-2 text-lg">{djInfo.twitter_handle}</p>
+                  </a>
+                </div>
+              }
+              {djInfo.venmo_handle && 
+                <div>
+                  <a href={`https://account.venmo.com/u/${djInfo.venmo_handle.replace(/^@/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
+                    <Image src={'/icons/venmo.png'} className="invert rounded-md" width={28} height={28} alt='Venmo' />
+                    <p className="font-semibold ml-2 text-lg">{djInfo.venmo_handle}</p>
+                  </a>
+                </div>
+              }
+              {djInfo.cashapp_handle && 
+                <div>
+                  <a href={`https://cash.app/${djInfo.cashapp_handle.replace(/^\$/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
+                    <Image src={'/icons/cashapp.png'} width={28} height={28} alt='CashApp' />
+                    <p className="font-semibold ml-2.5 text-lg">{djInfo.cashapp_handle}</p>
+                  </a>
+                </div>
+              }
             </div>
           </div>
 
