@@ -33,25 +33,23 @@ const SongRequests: React.FC<Props> = ({
 }) => {
   return (
     <div className="row-span-4 col-span-1 lg:col-span-3 bg-gray-800 pb-96">
-       <p className='text-xl font-bold ml-4 py-1'>Now Playing</p>
-
-      {nowPlayingSong ? (
-        <div>  
-          <NowPlaying id={nowPlayingSong.id} song={nowPlayingSong.song} likes={nowPlayingSong.likes} handleLike={handleLike} likeErrors={likeErrors} updateStatus={updateStatus}/>
-        </div>
-      ) : (
-        <div className='pt-4 pb-8 ml-8'>  
-          <p className='text-xl italic'>No song is currently set as playing.</p>
-        </div>
-      )}
-
+       <p className='text-xl font-bold pl-4 py-1 bg-gray-900'>Now Playing</p>
+        {nowPlayingSong ? (
+          <div>  
+            <NowPlaying id={nowPlayingSong.id} song={nowPlayingSong.song} likes={nowPlayingSong.likes} handleLike={handleLike} likeErrors={likeErrors} updateStatus={updateStatus}/>
+          </div>
+        ) : (
+          <div className='py-6 ml-8'>  
+            <p className='text-xl italic text-gray-500'>No song is currently set as playing.</p>
+          </div>
+        )}
       <div>
         {songRequestsError ? (
           <p style={{ color: 'red' }}>{songRequestsError}</p>
         ) : (
           <>
-            <div>
-            <p className='text-xl font-bold ml-4 py-1'>Active Requests</p>
+         <div className='bg-gray-800'>
+            <p className='text-xl font-bold pl-4 py-1 bg-gray-900'>Active Requests</p>
               {activeRequests.length > 0 ? (
                 activeRequests.map((request, index) => (
                   <div key={index}>
@@ -59,11 +57,11 @@ const SongRequests: React.FC<Props> = ({
                   </div>
                 ))
               ) : (
-                <p className='italic ml-8'>No active requests.</p>
+                <p className='italic ml-8 text-gray-500 my-6'>No active requests.</p>
               )}
             </div>
-            <div>
-              <p className='text-xl font-bold ml-4 py-1'>Completed Requests</p>
+            <div className='bg-gray-800'>
+              <p className='text-xl font-bold pl-4 py-1 bg-gray-900'>Completed Requests</p>
               {completedRequests.length > 0 ? (
                 completedRequests.map((request, index) => (
                   <div key={index}>
@@ -72,11 +70,11 @@ const SongRequests: React.FC<Props> = ({
                   </div>
                 ))
               ) : (
-                <p className='italic ml-8'>No completed requests.</p>
+                <p className='italic ml-8 text-gray-500 my-6'>No completed requests.</p>
               )}
             </div>
-            <div>
-            <p className='text-xl font-bold ml-4 py-1'>Declined Requests</p>
+            <div className='bg-gray-800'>
+            <p className='text-xl font-bold pl-4 py-1 bg-gray-900'>Declined Requests</p>
             {declinedRequests.length > 0 ? (
                 declinedRequests.map((request, index) => (
                   <div key={index}>
@@ -84,7 +82,7 @@ const SongRequests: React.FC<Props> = ({
                   </div>
                 ))
               ) : (
-                <p className='italic ml-8'>No declined requests.</p>
+                <p className='italic ml-8 text-gray-500 my-6'>No declined requests.</p>
               )}
             </div>
           </>
