@@ -98,8 +98,6 @@ const DJView: React.FC<Props> = ({
 
   const [isChatVisible, setIsChatVisible] = useState<boolean>(false);
 
-  console.log("isAuthenticated", isAuthenticated)
-
   return (
     <div className="flex min-h-screen bg-gray-800">
       <AnimatePresence>
