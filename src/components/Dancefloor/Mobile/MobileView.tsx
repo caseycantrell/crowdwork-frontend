@@ -228,7 +228,7 @@ const MobileView: React.FC<Props> = ({
           </div>
         </div>
 
-        <div className="flex-grow overflow-y-auto">
+        <div className="flex-grow overflow-y-auto bg-gray-800">
           <SongRequestsMobile
             songRequestsError={songRequestsError}
             nowPlayingSong={nowPlayingSong}
@@ -240,7 +240,7 @@ const MobileView: React.FC<Props> = ({
           />
         </div>
 
-        <div className="flex-none h-1/4 bg-red-500">
+        <div className="flex-none h-1/4">
           <ChatMobile
             message={message}
             setMessage={setMessage}
