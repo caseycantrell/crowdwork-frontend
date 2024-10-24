@@ -5,6 +5,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --color1: #ff6ec7; /* Neon Pink */
+  --color2: #f3a683; /* Soft Coral */
+  --color3: #82589f; /* Deep Purple */
+  --color4: #63cdda; /* Aqua */
+  --color5: #546de5; /* Vaporwave Blue */
+  --animation-speed: 120s;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -67,27 +73,27 @@ body {
 .animated-rainbow {
   background: linear-gradient(
     90deg,
-    #ff6ec7,  /* Neon Pink */
-    #f3a683,  /* Soft Coral */
-    #82589f,  /* Deep Purple */
-    #63cdda,  /* Aqua */
-    #182848,  /* Midnight Blue */
-    #f8a5c2,  /* Light Pink */
-    #546de5,  /* Vaporwave Blue */
-    #ff6ec7   /* Loop back to Neon Pink */
+    var(--color1),
+    var(--color2),
+    var(--color3),
+    var(--color4),
+    var(--color5),
+    var(--color1) /* loop back */
   );
   background-size: 800% 800%;
-  animation: rainbow-shift 120s ease infinite;
+  animation: rainbow-shift var(--animation-speed) ease infinite;
 }
 
 @keyframes rainbow-shift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.fast-rainbow {
+  --animation-speed: 60s;
+}
+
+.slow-rainbow {
+  --animation-speed: 120s;
 }

@@ -41,7 +41,7 @@ const NowPlaying: React.FC<Props> = ({
     };
 
     return (
-        <div className="bg-gradient-to-r from-amber-500 to-pink-500 border border-black px-4 py-6 relative">
+        <div className="animated-rainbow fast-rainbow border border-black px-4 py-6 relative">
             <div className="flex flex-row items-center justify-between">
                 <div className='space-y-2'>
                     <div className="flex flex-row items-center text-xs">
@@ -50,7 +50,7 @@ const NowPlaying: React.FC<Props> = ({
                     </div>
                     <div className="flex flex-row items-center">
                         <p className="font-bold text-2xl mr-1">Now Playing:</p>
-                        <p className="text-xl ml-1">{song}</p>
+                        <p className="text-xl font-semibold ml-1">{song}</p>
                     </div>
                     <div>Likes: {likes}</div>
                 </div>
