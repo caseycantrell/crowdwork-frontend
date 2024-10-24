@@ -63,3 +63,31 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #6b7280 #4b5563;
 }
+
+.animated-rainbow {
+  background: linear-gradient(
+    90deg,
+    #ff6ec7,  /* Neon Pink */
+    #f3a683,  /* Soft Coral */
+    #82589f,  /* Deep Purple */
+    #63cdda,  /* Aqua */
+    #182848,  /* Midnight Blue */
+    #f8a5c2,  /* Light Pink */
+    #546de5,  /* Vaporwave Blue */
+    #ff6ec7   /* Loop back to Neon Pink */
+  );
+  background-size: 800% 800%;
+  animation: rainbow-shift 120s ease infinite;
+}
+
+@keyframes rainbow-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
