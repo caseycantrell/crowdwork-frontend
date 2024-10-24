@@ -46,7 +46,7 @@ const SongRequestsMobile: React.FC<Props> = ({
     <div className="bg-gray-900 overflow-y-scroll scrollbar-thin pb-0">
        <p className='text-sm font-bold ml-2 py-'>Now Playing</p>
        {nowPlayingSong ? (
-          <div className="animated-rainbow slow-rainbow flex items-center justify-between px-2 py-4">
+          <div className="animated-rainbow flex items-center justify-between px-2 py-4">
             <div className="flex flex-col max-w-[88%] font-medium">
               <div className="flex items-center">
                 <div

@@ -5,11 +5,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --color1: #ff6ec7; /* Neon Pink */
-  --color2: #f3a683; /* Soft Coral */
-  --color3: #82589f; /* Deep Purple */
-  --color4: #63cdda; /* Aqua */
-  --color5: #546de5; /* Vaporwave Blue */
+  --color1: #ff6ec7; /* neon pink */
+  --color2: #f3a683; /* soft coral */
+  --color3: #82589f; /* deep purple */
+  --color4: #63cdda; /* aqua */
+  --color5: #546de5; /* vaporwave blue */
   --animation-speed: 120s;
 }
 
@@ -46,7 +46,7 @@ body {
 
 .scrollbar-hide {
   -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  scrollbar-width: none;  /* firefox */
 }
 
 .scrollbar-thin::-webkit-scrollbar {
@@ -54,17 +54,17 @@ body {
 }
 
 .scrollbar-thin::-webkit-scrollbar-track {
-  background: #4b5563; /* Gray-700 */
+  background: #4b5563; /* gray-700 */
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: #6b7280; /* Gray-500 */
+  background-color: #6b7280; /* gray-500 */
   border-radius: 8px;
   border: 2px solid transparent;
   background-clip: content-box;
 }
 
-/* Add support for Firefox */
+/* support for Firefox */
 .scrollbar-thin {
   scrollbar-width: thin;
   scrollbar-color: #6b7280 #4b5563;
@@ -92,8 +92,4 @@ body {
 
 .fast-rainbow {
   --animation-speed: 60s;
-}
-
-.slow-rainbow {
-  --animation-speed: 120s;
 }
