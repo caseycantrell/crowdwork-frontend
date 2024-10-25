@@ -66,7 +66,6 @@ const SongRequests: React.FC<Props> = ({
                 completedRequests.map((request, index) => (
                   <div key={index}>
                     <CompletedRequest id={request.id} song={request.song} likes={request.likes} updateStatus={updateStatus} />
-                    {/* <CompletedRequest id={request.id} song={request.song} likes={request.likes} handleLike={handleLike} likeErrors={likeErrors} handleRequeue={handleRequeue} /> */}
                   </div>
                 ))
               ) : (

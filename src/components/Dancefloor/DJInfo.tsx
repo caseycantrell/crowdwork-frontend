@@ -115,11 +115,11 @@ const DJInfoComponent: React.FC<{
 
         <div className="flex flex-row items-center">
             <div className="flex flex-col items-center justify-center gap-y-8">
-                <div className="relative flex items-center">
+                <div className="relative flex flex-row items-center">
                     <AnimatePresence>
                     {hoveredButton === "stop" && (
                         <motion.p
-                            className="absolute -left-36 text-white font-bold"
+                            className="absolute -left-40 text-white font-bold"
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -10 }}
@@ -138,19 +138,19 @@ const DJInfoComponent: React.FC<{
                       onMouseLeave={handleMouseLeave}
                     >
                       <Image
-                        src={"/icons/stop.png"}
+                        src={"/icons/stop2.png"}
                         height={60}
                         width={60}
                         alt="Stop Dancefloor"
-                        className="invert"
+                        className="invert mr-1"
                       />
                     </Button>
                 </div>
-                <div className="relative flex items-center">
+                <div className="relative flex flex-row items-center">
                     <AnimatePresence>
                     {hoveredButton === "chat" && (
                         <motion.p
-                            className="absolute -left-28 text-white font-bold"
+                            className="absolute ml-2 -left-32 text-white font-bold"
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -10 }}
@@ -169,7 +169,7 @@ const DJInfoComponent: React.FC<{
                       onMouseLeave={handleMouseLeave}
                     >
                       <Image
-                        src={"/icons/chat.png"}
+                        src={"/icons/chat2.png"}
                         height={60}
                         width={60}
                         alt="Open Chat"
