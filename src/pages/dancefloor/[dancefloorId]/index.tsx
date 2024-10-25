@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import { io, Socket } from 'socket.io-client';
 import DJView from '@/components/Dancefloor/DJView';
 import { checkAuth } from '@/utils/checkAuth';
 import MobileView from '@/components/Dancefloor/Mobile/MobileView';
