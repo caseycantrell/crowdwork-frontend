@@ -49,7 +49,7 @@ const SongRequests: React.FC<Props> = ({
         ) : (
           <>
          <div className='bg-gray-800'>
-            <p className='text-xl font-bold pl-4 py-1 bg-gray-900'>Active Requests</p>
+            <p className='text-xl font-bold pl-4 py-1 bg-gray-900'>Requests Queue</p>
               {activeRequests.length > 0 ? (
                 activeRequests.map((request, index) => (
                   <div key={index}>

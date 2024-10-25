@@ -40,6 +40,9 @@ const NowPlaying: React.FC<Props> = ({
         }
     };
 
+    // Determine the text to display based on error or hover state
+    const displayMessage = likeErrors[id] || getHoverMessage();
+
     return (
         <div className="animated-rainbow fast-rainbow border border-black px-4 py-6 relative">
             <div className="flex flex-row items-center justify-between">
@@ -51,11 +54,11 @@ const NowPlaying: React.FC<Props> = ({
                     <div>Likes: {likes}</div>
                 </div>
 
-                <div className="flex flex-row items-center gap-x-4 mr-64">
+                <div className="flex flex-row items-center gap-x-12 mr-12">
                     <AnimatePresence>
-                        {hoveredButton && (
+                        {displayMessage && (
                             <motion.p
-                                className="text-white font-bold mr-2"
+                                className={`font-bold text-lg ${likeErrors[id] && 'italic text-gray-800'}`}
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -10 }}
@@ -65,7 +68,7 @@ const NowPlaying: React.FC<Props> = ({
                                     ease: 'easeInOut',
                                 }}
                             >
-                                {getHoverMessage()}
+                                {displayMessage}
                             </motion.p>
                         )}
                     </AnimatePresence>
@@ -79,7 +82,7 @@ const NowPlaying: React.FC<Props> = ({
                             onMouseEnter={() => handleMouseEnter('requeue')}
                         >
                             <Image
-                                src={'/icons/requeue.png'}
+                                src={'/icons/requeue2.png'}
                                 height={50}
                                 width={50}
                                 alt="Requeue Icon"
@@ -90,7 +93,7 @@ const NowPlaying: React.FC<Props> = ({
                         <Button
                             padding=""
                             bgColor=""
-                            className="overflow-visible"
+                            className="overflow-visible" 
                             onClick={() => updateStatus(id, 'completed')}
                             onMouseEnter={() => handleMouseEnter('complete')}
                         >
@@ -111,7 +114,7 @@ const NowPlaying: React.FC<Props> = ({
                             onMouseEnter={() => handleMouseEnter('like')}
                         >
                             <Image
-                                src={'/icons/like.png'}
+                                src={'/icons/like2.png'}
                                 height={50}
                                 width={50}
                                 alt="Like Icon"
@@ -120,7 +123,6 @@ const NowPlaying: React.FC<Props> = ({
                     </div>
                 </div>
             </div>
-            {likeErrors[id] && <p style={{ color: 'red' }}>{likeErrors[id]}</p>}
         </div>
     );
 };

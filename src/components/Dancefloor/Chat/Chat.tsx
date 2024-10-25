@@ -46,7 +46,7 @@ const Chat: React.FC<{
               </div>
             ))
           ) : (
-            <p className="font-semibold text-gray-400 m-2">No messages yet...</p>
+            <p className="font-semibold text-gray-400 m-2 italic">No messages yet...</p>
           )
         )}
       </div>

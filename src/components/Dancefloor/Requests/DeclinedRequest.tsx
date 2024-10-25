@@ -34,11 +34,11 @@ const DeclinedRequest: React.FC<Props> = ({
                     <div>Likes: {likes}</div>
                 </div>
 
-                <div className="flex flex-row items-center gap-x-4 mr-64">
+                <div className="flex flex-row items-center gap-x-12 mr-12">
                     <AnimatePresence>
                         {isHovered && (
                             <motion.p
-                                className="text-white font-bold mr-2"
+                                className="text-white font-bold text-lg"
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -10 }}
@@ -62,7 +62,7 @@ const DeclinedRequest: React.FC<Props> = ({
                             onMouseEnter={handleMouseEnter}
                         >
                             <Image
-                                src={'/icons/requeue.png'}
+                                src={'/icons/requeue2.png'}
                                 height={40}
                                 width={50}
                                 alt="Requeue Icon"
