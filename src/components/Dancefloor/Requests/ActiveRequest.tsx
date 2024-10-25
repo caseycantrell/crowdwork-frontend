@@ -40,6 +40,8 @@ const ActiveRequest: React.FC<Props> = ({
         }
     };
 
+    const displayMessage = likeErrors[id] || getHoverMessage();
+
     return (
         <div className="bg-gradient-to-r from-purple-600 to-fuchsia-600 border border-black px-4 py-2 relative">
             <div className="flex flex-row items-center justify-between">
@@ -48,26 +50,28 @@ const ActiveRequest: React.FC<Props> = ({
                         <p className="font-bold text-2xl mr-1">Song:</p>
                         <p className="font-semibold text-xl ml-1 text-gray-200">{song}</p>
                     </div>
-                    <div>Likes: {likes}</div>
+                    <div className='flex flex-row items-center'> 
+                        Likes: {likes}
+                    </div>
                 </div>
 
-                <div className="flex flex-row items-center gap-x-4 mr-64">
+                <div className="flex flex-row items-center gap-x-12 mr-12">
                     <AnimatePresence>
-                    {hoveredButton && (
-                        <motion.p
-                            className="text-white font-semibold mr-2"
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -10 }}
-                            transition={{
-                                type: 'tween',
-                                duration: 0.5,
-                                ease: 'easeInOut',
-                            }}
-                        >
-                            {getHoverMessage()}
-                        </motion.p>
-                    )}
+                        {displayMessage && (
+                            <motion.p
+                                className={`font-semibold text-lg ${likeErrors[id] && 'italic text-gray-800'}`}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -10 }}
+                                transition={{
+                                    type: 'tween',
+                                    duration: 0.5,
+                                    ease: 'easeInOut',
+                                }}
+                            >
+                                {displayMessage}
+                            </motion.p>
+                        )}
                     </AnimatePresence>
 
                     <div style={{ width: 30, height: 30 }}>
@@ -111,7 +115,7 @@ const ActiveRequest: React.FC<Props> = ({
                             onMouseEnter={() => handleMouseEnter('like')}
                         >
                             <Image
-                                src={'/icons/like.png'}
+                                src={'/icons/like2.png'}
                                 height={50}
                                 width={50}
                                 alt="Like Icon"
@@ -120,8 +124,6 @@ const ActiveRequest: React.FC<Props> = ({
                     </div>
                 </div>
             </div>
-
-            {likeErrors[id] && <p style={{ color: 'red' }}>{likeErrors[id]}</p>}
         </div>
     );
 };

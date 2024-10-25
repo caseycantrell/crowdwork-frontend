@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import { io, Socket } from 'socket.io-client';
 import DJView from '@/components/Dancefloor/DJView';
 import { checkAuth } from '@/utils/checkAuth';
 import MobileView from '@/components/Dancefloor/Mobile/MobileView';
@@ -10,7 +9,6 @@ const Dancefloor = () => {
   const router = useRouter();
   const { dancefloorId } = router.query;
   const socket = getSocket();
-  // const [ socket, setSocket ] = useState<Socket | null>(null);
   const [ message, setMessage ] = useState<string>('');
   const [ messageError, setMessageError ] = useState<string | null>('');
   const [ messages, setMessages ] = useState<any[]>([]);
@@ -141,7 +139,7 @@ const Dancefloor = () => {
   const handleSendSongRequest = () => {
     if (socket && songRequest.trim()) {
       socket.emit('songRequest', { dancefloorId, song: songRequest });
-      setSongRequest(''); // clear input after sending
+      setSongRequest('');
     }
   };
 
@@ -157,7 +155,7 @@ const Dancefloor = () => {
       }
   
       socket.emit('sendMessage', { dancefloorId, message });
-      setMessage(''); // clear input after sending
+      setMessage('');
     }
   };
 

@@ -81,7 +81,7 @@ const DJInfoComponent: React.FC<{
               {djInfo.instagram_handle && 
                 <div>
                   <a href={`https://www.instagram.com/${djInfo.instagram_handle.replace(/^@/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
-                    <Image src={'/icons/instagram.png'} className="invert" width={28} height={28} alt='Instagram' />
+                    <Image src={'/icons/instagram.png'} className="invert" width={26} height={26} alt='Instagram' />
                     <p className="font-semibold ml-2 text-lg">{djInfo.instagram_handle}</p>
                   </a>
                 </div>
@@ -89,7 +89,7 @@ const DJInfoComponent: React.FC<{
               {djInfo.twitter_handle && 
                 <div>
                   <a href={`https://x.com/${djInfo.twitter_handle.replace(/^@/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
-                    <Image src={'/icons/twitter.png'} className="invert rounded-md" width={28} height={28} alt='Twitter' />
+                    <Image src={'/icons/twitter.png'} className="invert rounded-md" width={26} height={26} alt='Twitter' />
                     <p className="font-semibold ml-2 text-lg">{djInfo.twitter_handle}</p>
                   </a>
                 </div>
@@ -97,7 +97,7 @@ const DJInfoComponent: React.FC<{
               {djInfo.venmo_handle && 
                 <div>
                   <a href={`https://account.venmo.com/u/${djInfo.venmo_handle.replace(/^@/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
-                    <Image src={'/icons/venmo.png'} className="invert rounded-md" width={28} height={28} alt='Venmo' />
+                    <Image src={'/icons/venmo.png'} className="invert rounded-md" width={26} height={26} alt='Venmo' />
                     <p className="font-semibold ml-2 text-lg">{djInfo.venmo_handle}</p>
                   </a>
                 </div>
@@ -105,7 +105,7 @@ const DJInfoComponent: React.FC<{
               {djInfo.cashapp_handle && 
                 <div>
                   <a href={`https://cash.app/${djInfo.cashapp_handle.replace(/^\$/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
-                    <Image src={'/icons/cashapp.png'} width={28} height={28} alt='CashApp' />
+                    <Image src={'/icons/cashapp.png'} width={26} height={26} alt='CashApp' />
                     <p className="font-semibold ml-2.5 text-lg">{djInfo.cashapp_handle}</p>
                   </a>
                 </div>
@@ -115,11 +115,11 @@ const DJInfoComponent: React.FC<{
 
         <div className="flex flex-row items-center">
             <div className="flex flex-col items-center justify-center gap-y-8">
-                <div className="relative flex items-center">
+                <div className="relative flex flex-row items-center">
                     <AnimatePresence>
                     {hoveredButton === "stop" && (
                         <motion.p
-                            className="absolute -left-36 text-white font-bold"
+                            className="absolute -left-40 text-white font-bold"
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -10 }}
@@ -138,19 +138,19 @@ const DJInfoComponent: React.FC<{
                       onMouseLeave={handleMouseLeave}
                     >
                       <Image
-                        src={"/icons/stop.png"}
+                        src={"/icons/stop2.png"}
                         height={60}
                         width={60}
                         alt="Stop Dancefloor"
-                        className="invert"
+                        className="invert mr-1"
                       />
                     </Button>
                 </div>
-                <div className="relative flex items-center">
+                <div className="relative flex flex-row items-center">
                     <AnimatePresence>
                     {hoveredButton === "chat" && (
                         <motion.p
-                            className="absolute -left-28 text-white font-bold"
+                            className="absolute ml-2 -left-32 text-white font-bold"
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -10 }}
@@ -169,7 +169,7 @@ const DJInfoComponent: React.FC<{
                       onMouseLeave={handleMouseLeave}
                     >
                       <Image
-                        src={"/icons/chat.png"}
+                        src={"/icons/chat2.png"}
                         height={60}
                         width={60}
                         alt="Open Chat"
@@ -180,8 +180,8 @@ const DJInfoComponent: React.FC<{
             </div>
             <img
               src={djInfo.qr_code}
-              alt="Profile Pic"
-              className="w-48 h-48 ml-8"
+              alt="QR Code"
+              className="w-52 h-52 ml-8"
             />
           </div>
         </div>
