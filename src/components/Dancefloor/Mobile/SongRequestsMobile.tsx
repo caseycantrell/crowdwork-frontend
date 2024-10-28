@@ -97,7 +97,7 @@ const SongRequestsMobile: React.FC<Props> = ({
             </div>
 
             <Button bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(nowPlayingSong.id)}>
-              <Image src={"/icons/like2.png"} width={25} height={25} alt="Like" />
+              <Image src={"/icons/like.png"} width={25} height={25} alt="Like" />
             </Button>
           </div>
         ) : (
@@ -145,7 +145,7 @@ const SongRequestsMobile: React.FC<Props> = ({
                       </div>
                     </div>
                       <Button bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(request.id)}>
-                        <Image src={'/icons/like2.png'} width={25} height={25} alt="Like" />
+                        <Image src={'/icons/like.png'} width={25} height={25} alt="Like" />
                       </Button>
                   </div>
                 ))
@@ -186,7 +186,7 @@ const SongRequestsMobile: React.FC<Props> = ({
                       </div>
                     </div>
                       <Button bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(request.id)}>
-                        <Image src={'/icons/like2.png'} width={25} height={25} alt="Like" />
+                        <Image src={'/icons/like.png'} width={25} height={25} alt="Like" />
                       </Button>
                   </div>
                 ))
@@ -227,7 +227,7 @@ const SongRequestsMobile: React.FC<Props> = ({
                       </div>
                     </div>
                       <Button bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(request.id)}>
-                        <Image src={'/icons/like2.png'} width={25} height={25} alt="Like" />
+                        <Image src={'/icons/like.png'} width={25} height={25} alt="Like" />
                       </Button>
                   </div>
                 ))
