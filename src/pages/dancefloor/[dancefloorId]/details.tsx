@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Button from '../../../components/UI/Button'
+import { formatDate } from 'date-fns';
 
 const DancefloorDetails: React.FC = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const DancefloorDetails: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-800 p-6">
-      <div className="w-full max-w-5xl bg-gray-700 shadow-lg rounded-lg p-8 space-y-8">
+      <div className="w-full max-w-6xl bg-gray-700 shadow-lg rounded-lg p-8 space-y-8">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-4 md:space-y-0">
           <p className="text-2xl font-bold text-white">Dancefloor ID: {dancefloorId}</p>
           <Link href={`/dj/${dancefloor.dj_id}`}>
@@ -67,33 +68,36 @@ const DancefloorDetails: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="py-6 pl-6 pr-3 bg-gray-600 rounded-lg">
             <p className="text-2xl font-semibold mb-4">Song Requests</p>
-            <div className="max-h-[24rem] overflow-y-auto space-y-2 pb-8 pr-3 scrollbar-thin">
+            <div className="max-h-[24rem] overflow-y-auto space-y-2 pr-3 scrollbar-thin">
               {dancefloor.songRequests && dancefloor.songRequests.length > 0 ? (
                 <ul className="list-disc list-inside space-y-2">
                   {dancefloor.songRequests.map((request: any) => (
-                    <li key={request.id} className="p-3 bg-gray-500 shadow rounded">
-                      {request.song} (Likes: {request.likes})
+                    <li key={request.id} className="py-3 px-2 bg-gray-500 shadow rounded flex flex-row items-center">
+                      <p className='text-xs text-gray-700 mr-2 text-nowrap'>{formatDate(request.created_at, "h:mm a")} </p>
+                      <p className='flex-1 truncate overflow-hidden text-ellipsis whitespace-nowrap'>{request.song} </p>
+                      <p className='text-xs ml-2 text-gray-300 text-nowrap'>(Likes: {request.likes})</p>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p className="text-gray-500">No song requests for this dancefloor.</p>
+                <p className="text-gray-400 italic">No song requests for this dancefloor.</p>
               )}
             </div>
           </div>
           <div className="py-6 pl-6 pr-3 bg-gray-600 rounded-lg">
             <p className="text-2xl font-semibold mb-4">Messages</p>
-            <div className="max-h-[24rem] overflow-y-auto space-y-2 pb-8 pr-3 scrollbar-thin">
+            <div className="max-h-[24rem] overflow-y-auto space-y-2 pr-3 scrollbar-thin">
               {dancefloor.messages && dancefloor.messages.length > 0 ? (
                 <ul className="space-y-2">
                   {dancefloor.messages.map((msg: any) => (
-                    <li key={msg.id} className="p-3 bg-gray-500 shadow rounded">
-                      {msg.message}
+                    <li key={msg.id} className="py-3 px-2 bg-gray-500 shadow rounded flex flex-row items-center">
+                      <p className='text-xs text-gray-700 mr-2 text-nowrap'>{formatDate(msg.created_at, "h:mm a")} </p>
+                      <p>{msg.message}</p>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p className="text-gray-500">No messages for this dancefloor.</p>
+                <p className="text-gray-400 italic">No messages for this dancefloor.</p>
               )}
             </div>
           </div>
