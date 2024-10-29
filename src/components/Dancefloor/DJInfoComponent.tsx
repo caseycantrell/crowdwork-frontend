@@ -3,19 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import Button from '../UI/Button'
-
-interface DJInfo {
-  id: string;
-  name: string;
-  bio: string;
-  website: string;
-  instagram_handle: string;
-  twitter_handle: string;
-  venmo_handle: string;
-  cashapp_handle: string;
-  qr_code: string;
-  profile_pic_url: string;
-}
+import { DJInfo } from "@/types/types";
 
 const DJInfoComponent: React.FC<{
   djInfo: DJInfo | null;
@@ -178,13 +166,15 @@ const DJInfoComponent: React.FC<{
                     </Button>
                 </div>
             </div>
-            <Image
-              src={djInfo.qr_code}
-              width={150}
-              height={150}
-              alt="QR Code"
-              className="w-52 h-52 ml-8"
-            />
+            {djInfo?.qr_code && (
+              <Image
+                src={djInfo.qr_code}
+                width={150}
+                height={150}
+                alt="QR Code"
+                className="w-52 h-52 ml-8"
+              />
+            )}
           </div>
         </div>
       ) : djInfoError ? (

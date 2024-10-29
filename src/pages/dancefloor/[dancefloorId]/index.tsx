@@ -4,20 +4,55 @@ import DJView from '@/components/Dancefloor/DJView';
 import { checkAuth } from '@/utils/checkAuth';
 import MobileView from '@/components/Dancefloor/Mobile/MobileView';
 import { getSocket } from '@/utils/socket';
+import { DJInfo } from '@/types/types';
 
-const Dancefloor = () => {
+interface DJ {
+  id: string;
+  name: string;
+}
+
+interface Message {
+  id: string;
+  created_at: string;
+  message: string;
+}
+
+interface SongRequest {
+  id: string;
+  song: string;
+  artist: string;
+  likes: number;
+  created_at: string;
+  status: string;
+}
+
+interface Dancefloor {
+  id: string;
+  dj_id: string;
+  created_at: string;
+  ended_at: string;
+  status: string;
+  name: string | null;
+  requests_count: number;
+  messages_count: number;
+  messages: Message[];
+  songRequests: SongRequest[];
+  dj: DJ;
+}
+
+const Dancefloor: React.FC = () => {
   const router = useRouter();
   const { dancefloorId } = router.query;
   const socket = getSocket();
   const [ message, setMessage ] = useState<string>('');
   const [ messageError, setMessageError ] = useState<string | null>('');
-  const [ messages, setMessages ] = useState<any[]>([]);
+  const [ messages, setMessages ] = useState<Message[]>([]);
   const [ messagesError, setMessagesError ] = useState<string | null>(null);
   const [ songRequest, setSongRequest ] = useState<string>('');
-  const [ songRequests, setSongRequests ] = useState<any[]>([]);
+  const [ songRequests, setSongRequests ] = useState<SongRequest[]>([]);
   const [ songRequestsError, setSongRequestsError ] = useState<string | null>(null);
   const [ likeErrors, setLikeErrors ] = useState<{ [key: string]: string | null }>({});
-  const [ djInfo, setDjInfo ] = useState<any>(null);
+  const [ djInfo, setDjInfo ] = useState<DJInfo | null>(null);
   const [ djInfoError, setDjInfoError ] = useState<string | null>(null);
   const [ notification, setNotification ] = useState<string | null>(null);
   const [ requestsCount, setRequestsCount ] = useState<number>(0);
@@ -119,12 +154,12 @@ const Dancefloor = () => {
       const res = await fetch(`${backendUrl}/api/stop-dancefloor`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: djInfo.id }), 
+        body: JSON.stringify({ id: djInfo?.id }), 
       });
   
       if (res.ok) {
         console.log('Dancefloor stopped.');
-        router.push(`/dj/${djInfo.id}`); // redirect back to DJ page after stopping
+        router.push(`/dj/${djInfo?.id}`); // redirect back to DJ page after stopping
       } else {
         const data = await res.json();
         console.error(data.error);
@@ -160,7 +195,7 @@ const Dancefloor = () => {
   };
 
   // updating song request status
-  const updateStatus = async (requestId: any, status: any) => {
+  const updateStatus = async (requestId: string, status: string) => {
     try {
       const res = await fetch(`${backendUrl}/api/song-request/${requestId}/status`, {
         method: 'PUT',
@@ -216,7 +251,7 @@ const Dancefloor = () => {
           [requestId]: data.error,
         }));
       }
-    } catch (error) {
+    } catch {
       setLikeErrors((prevErrors) => ({
         ...prevErrors,
         [requestId]: 'Error liking this song.',

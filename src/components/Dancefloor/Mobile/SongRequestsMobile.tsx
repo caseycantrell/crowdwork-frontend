@@ -12,7 +12,7 @@ interface SongRequest {
 
 interface Props {
   songRequestsError: string | null;
-  nowPlayingSong: SongRequest | null;
+  nowPlayingSong: SongRequest | null | undefined;
   activeRequests: SongRequest[];
   completedRequests: SongRequest[];
   declinedRequests: SongRequest[];
