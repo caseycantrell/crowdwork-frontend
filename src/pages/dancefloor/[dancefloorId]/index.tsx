@@ -274,7 +274,6 @@ const Dancefloor = () => {
     isAuthenticated ? (
       <DJView 
         notification={notification} 
-        isAuthenticated={isAuthenticated}
         djInfo={djInfo} 
         djInfoError={djInfoError}
         songRequest={songRequest}

@@ -31,7 +31,6 @@ interface Message {
 
 interface Props {
   notification: string | null;
-  isAuthenticated: boolean | null;
   djInfo: DJInfo | null;
   djInfoError: string | null;
   songRequest: string;
@@ -72,7 +71,6 @@ const variants = {
 
 const DJView: React.FC<Props> = ({
   notification,
-  isAuthenticated,
   djInfo,
   djInfoError,
   songRequest,

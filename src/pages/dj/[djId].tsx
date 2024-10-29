@@ -2,9 +2,20 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import LogoutButton from '../../components/LogoutButton';
 import Link from 'next/link';
+import Image from 'next/image';
 import { format } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
 import Button from '../../components/UI/Button'
+
+interface Dancefloor {
+  id: string;
+  dj_id: string;
+  created_at: string;
+  ended_at: string;
+  status: string;
+  requests_count: number;
+  messages_count: number;
+}
 
 const DjIdPage: React.FC = () => {
   const router = useRouter();
@@ -25,7 +36,7 @@ const DjIdPage: React.FC = () => {
   const [cashappHandle, setCashappHandle] = useState<string>('');
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isEditingProfilePic, setIsEditingProfilePic] = useState<boolean>(false);
-  const [pastDancefloors, setPastDancefloors] = useState<any[]>([]);
+  const [pastDancefloors, setPastDancefloors] = useState<Dancefloor[]>([]);
   const [profilePic, setProfilePic] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -103,7 +114,7 @@ const DjIdPage: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, [djId, backendUrl]);
+  }, [djId, backendUrl, router]);
 
 
   const startDancefloor = () => {
@@ -161,7 +172,7 @@ const DjIdPage: React.FC = () => {
     try {
       const url = new URL(formattedWebsite);
       formattedWebsite = url.origin + url.pathname; // avoid double slashes
-    } catch (err) {
+    } catch {
       setIsStatusError(true);
       setStatus('Please enter a valid website (e.g., www.example.com).');
       setIsStatusVisible(true);
@@ -284,9 +295,11 @@ const DjIdPage: React.FC = () => {
         <div className="flex flex-col items-center md:w-1/3">
           <p className="text-4xl font-semibold text-center mb-8">{djName || 'DJ Profile'}</p>
 
-          <img
+          <Image
             src={profilePic || '/images/profile_placeholder.jpg'} 
             alt="Profile Picture"
+            width={200}
+            height={200}
             className="w-60 h-60 rounded-sm object-cover mb-4"
           />
 
@@ -333,9 +346,11 @@ const DjIdPage: React.FC = () => {
           {qrCodeUrl && (
             <div className='flex flex-col items-center mt-16'>
               <p className='font-semibold text-lg mb-2'>Your QR code</p>
-              <img
+              <Image
                 src={qrCodeUrl}
                 alt="DJ QR Code"
+                width={200}
+                height={200}
                 className="w-60 h-60 object-contain"
               />
             </div>
