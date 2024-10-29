@@ -1,5 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+interface SpotifyArtist {
+  name: string;
+}
+
+interface SpotifyTrack {
+  id: string;
+  name: string;
+  artists: SpotifyArtist[];
+}
+
+interface SpotifySearchResponse {
+  tracks: {
+    items: SpotifyTrack[];
+  };
+}
+
 let accessToken: string | null = null;
 let tokenExpiresAt: number = 0;
 
@@ -45,7 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { query } = req.query;
 
   if (typeof query !== 'string' || !query.trim()) {
-    return res.status(400).json({ error: 'Invalid search query' });
+    return res.status(400).json({ error: 'Invalid search query.' });
   }
 
   try {
@@ -64,14 +80,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       throw new Error('Failed to search Spotify.');
     }
 
-    const data = await spotifyResponse.json();
-    const tracks = data.tracks.items.map((track: any) => ({
+    const data: SpotifySearchResponse = await spotifyResponse.json();
+    
+    const tracks = data.tracks.items.map((track) => ({
       value: track.id,
-      label: `${track.name} - ${track.artists.map((artist: any) => artist.name).join(', ')}`,
+      label: `${track.name} - ${track.artists.map((artist) => artist.name).join(', ')}`,
     }));
 
     res.status(200).json(tracks);
   } catch (error) {
     console.error('Error fetching from Spotify:', error);
     res.status(500).json({ error: 'Failed to fetch songs.' });
-}};
+  }
+};

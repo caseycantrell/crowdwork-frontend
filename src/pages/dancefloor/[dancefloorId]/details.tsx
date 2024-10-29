@@ -4,11 +4,44 @@ import Link from 'next/link';
 import Button from '../../../components/UI/Button'
 import { formatDate } from 'date-fns';
 
+interface DJ {
+  id: string;
+  name: string;
+}
+
+interface SongRequest {
+  id: string;
+  song: string;
+  artist: string;
+  likes: number;
+  created_at: string;
+}
+
+interface Message {
+  id: string;
+  created_at: string;
+  message: string;
+}
+
+interface Dancefloor {
+  id: string;
+  dj_id: string;
+  created_at: string;
+  ended_at: string;
+  status: string;
+  name: string | null;
+  requests_count: number;
+  messages_count: number;
+  messages: Message[];
+  songRequests: SongRequest[];
+  dj: DJ;
+}
+
 const DancefloorDetails: React.FC = () => {
   const router = useRouter();
   const { dancefloorId } = router.query;
 
-  const [dancefloor, setDancefloor] = useState<any>(null);
+  const [dancefloor, setDancefloor] = useState<Dancefloor | null>(null);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
@@ -71,7 +104,7 @@ const DancefloorDetails: React.FC = () => {
             <div className="max-h-[24rem] overflow-y-auto space-y-2 pr-3 scrollbar-thin">
               {dancefloor.songRequests && dancefloor.songRequests.length > 0 ? (
                 <ul className="list-disc list-inside space-y-2">
-                  {dancefloor.songRequests.map((request: any) => (
+                  {dancefloor.songRequests.map((request: SongRequest) => (
                     <li key={request.id} className="py-3 px-2 bg-gray-500 shadow rounded flex flex-row items-center">
                       <p className='text-xs text-gray-700 mr-2 text-nowrap'>{formatDate(request.created_at, "h:mm a")} </p>
                       <p className='flex-1 truncate overflow-hidden text-ellipsis whitespace-nowrap'>{request.song} </p>
@@ -89,7 +122,7 @@ const DancefloorDetails: React.FC = () => {
             <div className="max-h-[24rem] overflow-y-auto space-y-2 pr-3 scrollbar-thin">
               {dancefloor.messages && dancefloor.messages.length > 0 ? (
                 <ul className="space-y-2">
-                  {dancefloor.messages.map((msg: any) => (
+                  {dancefloor.messages.map((msg: Message) => (
                     <li key={msg.id} className="py-3 px-2 bg-gray-500 shadow rounded flex flex-row items-center">
                       <p className='text-xs text-gray-700 mr-2 text-nowrap'>{formatDate(msg.created_at, "h:mm a")} </p>
                       <p>{msg.message}</p>

@@ -178,8 +178,10 @@ const DJInfoComponent: React.FC<{
                     </Button>
                 </div>
             </div>
-            <img
+            <Image
               src={djInfo.qr_code}
+              width={150}
+              height={150}
               alt="QR Code"
               className="w-52 h-52 ml-8"
             />
