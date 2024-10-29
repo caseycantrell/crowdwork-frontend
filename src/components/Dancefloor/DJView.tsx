@@ -1,21 +1,9 @@
 import { useState } from 'react';
 import Chat from './Chat/Chat';
-import DJInfo from './DJInfo';
+import DJInfoComponent from './DJInfoComponent';
 import SongRequests from './SongRequests';
 import { AnimatePresence, motion } from 'framer-motion';
-
-interface DJInfo {
-  id: string;
-  name: string;
-  bio: string;
-  website: string;
-  instagram_handle: string;
-  twitter_handle: string;
-  venmo_handle: string;
-  cashapp_handle: string;
-  qr_code: string;
-  profile_pic_url: string;
-}
+import { DJInfo } from '@/types/types';
 
 interface SongRequest {
   id: string;
@@ -31,14 +19,13 @@ interface Message {
 
 interface Props {
   notification: string | null;
-  isAuthenticated: boolean | null;
   djInfo: DJInfo | null;
   djInfoError: string | null;
   songRequest: string;
   setSongRequest: (value: string) => void;
   handleSendSongRequest: () => void;
   songRequestsError: string | null;
-  nowPlayingSong: SongRequest | null;
+  nowPlayingSong: SongRequest | null | undefined;
   activeRequests: SongRequest[];
   completedRequests: SongRequest[];
   declinedRequests: SongRequest[];
@@ -72,7 +59,6 @@ const variants = {
 
 const DJView: React.FC<Props> = ({
   notification,
-  isAuthenticated,
   djInfo,
   djInfoError,
   songRequest,
@@ -120,7 +106,7 @@ const DJView: React.FC<Props> = ({
         animate={{ width: isChatVisible ? '75%' : '100%' }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
-        <DJInfo
+        <DJInfoComponent
           djInfo={djInfo}
           djInfoError={djInfoError}
           handleStopDancefloor={handleStopDancefloor}

@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import AsyncSelect from 'react-select/async-creatable';
+import { StylesConfig, GroupBase } from 'react-select';
 import { getSocket } from '@/utils/socket';
 import Button from '@/components/UI/Button';
 
@@ -10,28 +11,29 @@ interface SongOption {
   isCustom?: boolean;
 }
 
-const customStyles = {
-  control: (provided: any) => ({
+const customStyles: StylesConfig<SongOption, false, GroupBase<SongOption>> = {
+  control: (provided, state) => ({
     ...provided,
     backgroundColor: '#1F2937',
     color: 'white',
     borderRadius: '0.375rem',
     border: '1px solid #4ADE80',
     padding: '0.25rem',
+    boxShadow: state.isFocused ? '0 0 0 1px #4ADE80' : undefined,
   }),
-  singleValue: (provided: any) => ({
+  singleValue: (provided) => ({
     ...provided,
     color: 'white',
   }),
-  input: (provided: any) => ({
+  input: (provided) => ({
     ...provided,
     color: 'white',
   }),
-  menu: (provided: any) => ({
+  menu: (provided) => ({
     ...provided,
     backgroundColor: '#1F2937',
   }),
-  option: (provided: any, state: any) => ({
+  option: (provided, state) => ({
     ...provided,
     backgroundColor: state.isFocused ? '#4ADE80' : '#1F2937',
     color: state.isFocused ? 'black' : 'white',
@@ -46,8 +48,9 @@ const SongRequestPage: React.FC = () => {
 
   const [selectedSong, setSelectedSong] = useState<SongOption | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [isMounted, setIsMounted] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+  let timeoutId: NodeJS.Timeout;
 
   useEffect(() => {
     setIsMounted(true);
@@ -57,15 +60,15 @@ const SongRequestPage: React.FC = () => {
     setSelectedSong(newValue);
   };
 
-  const loadOptions = async (inputValue: string) => {
+  const loadOptions = async (inputValue: string): Promise<SongOption[]> => {
     if (!inputValue) return [];
 
     try {
       const response = await fetch(`/api/spotify-search?query=${encodeURIComponent(inputValue)}`);
-      const options = await response.json();
+      const options: SongOption[] = await response.json();
 
       if (!response.ok) {
-        throw new Error(options.error || 'Failed to fetch songs');
+        throw new Error(options[0]?.label || 'Failed to fetch songs');
       }
 
       return options;
@@ -75,6 +78,7 @@ const SongRequestPage: React.FC = () => {
     }
   };
 
+  
   const handleSendSongRequest = () => {
     if (!selectedSong) {
       setError('Please select a song.');
@@ -86,10 +90,14 @@ const SongRequestPage: React.FC = () => {
     setError(null);
     setSubmitted(true); // show success content
 
-    setTimeout(() => {
+    timeoutId = setTimeout(() => {
       router.back();
     }, 2000);
   };
+
+  useEffect(() => {
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   if (!isMounted) return null;
 
@@ -103,7 +111,7 @@ const SongRequestPage: React.FC = () => {
         </div>
       ) : (
         <>
-          <Button bgColor='' className="absolute top-6 left-6" onClick={() => router.back()}>
+          <Button bgColor="" className="absolute top-6 left-6" onClick={() => router.back()}>
             Cancel
           </Button>
           <h1 className="text-white text-2xl font-bold mb-4">Request a Song</h1>

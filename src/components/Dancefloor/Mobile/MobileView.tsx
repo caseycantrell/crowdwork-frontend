@@ -1,23 +1,10 @@
-import DJInfo from '../DJInfo';
 import Button from '../../UI/Button';
 import ChatMobile from './ChatMobile';
 import SongRequestsMobile from './SongRequestsMobile';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-
-interface DJInfo {
-  id: string;
-  name: string;
-  bio: string;
-  website: string;
-  instagram_handle: string;
-  twitter_handle: string;
-  venmo_handle: string;
-  cashapp_handle: string;
-  qr_code: string;
-  profile_pic_url: string;
-}
+import { DJInfo } from '@/types/types';
 
 interface SongRequest {
   id: string;
@@ -34,7 +21,7 @@ interface Message {
 interface Props {
   djInfo: DJInfo | null;
   songRequestsError: string | null;
-  nowPlayingSong: SongRequest | null;
+  nowPlayingSong: SongRequest | null | undefined;
   activeRequests: SongRequest[];
   completedRequests: SongRequest[];
   declinedRequests: SongRequest[];
