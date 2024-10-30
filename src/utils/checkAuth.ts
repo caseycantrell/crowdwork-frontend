@@ -4,6 +4,7 @@ export const checkAuth = async () => {
         credentials: 'include', // include session cookies
       });
       const data = await res.json();
+      console.log("checkAuth data:", data)
   
       if (data.authenticated) {
         return { isAuthenticated: true, dj: data.dj };

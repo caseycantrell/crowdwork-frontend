@@ -80,10 +80,6 @@ const DjIdPage: React.FC = () => {
               setDancefloorId(data.dancefloorId);
               setIsStatusError(false);
               setStatus('Active dancefloor is live.');
-
-              if (!data.isDjLoggedIn) {
-                router.push(`/dancefloor/${data.dancefloorId}`);
-              }
             }
             setQrCodeUrl(data.qrCode);
             setProfilePic(data.profilePicUrl || null);
