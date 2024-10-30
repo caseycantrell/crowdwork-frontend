@@ -441,25 +441,33 @@ const DjIdPage: React.FC = () => {
               <div className='font-semibold'>
                 <div className='flex flex-row items-baseline'>
                   <p className='text-gray-400'>Instagram:</p>
-                    <a 
+                  {instagramHandle ? (
+                      <a 
                       href={`https://www.instagram.com/${instagramHandle.replace(/^@/, '')}`} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className={`ml-2 ${!instagramHandle ? "italic text-gray-400 text-xs" : "text-main"}`}
+                      className="ml-2 text-main"
                     >
-                    <p>{instagramHandle || "No IG info."}</p>
-                  </a>
+                      {twitterHandle}
+                    </a>
+                    ) : (
+                      <p className='text-gray-400 text-xs italic ml-2'>No IG info.</p>
+                    )}
                 </div>
                 <div className='flex flex-row items-baseline'>
                   <p className='text-gray-400'>Twitter: </p>
-                  <a 
-                    href={`https://x.com/${twitterHandle.replace(/^@/, '')}`} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className={`ml-2 ${!twitterHandle ? "italic text-gray-400 text-xs" : "text-main"}`}
-                  >
-                    {twitterHandle || "No Twitter info."}
-                  </a>
+                    {twitterHandle ? (
+                      <a 
+                      href={`https://x.com/${twitterHandle.replace(/^@/, '')}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="ml-2 text-main"
+                    >
+                      {twitterHandle}
+                    </a>
+                    ) : (
+                      <p className='text-gray-400 text-xs italic ml-2'>No Twitter info.</p>
+                    )}
                 </div>
               </div>
             )}
@@ -488,25 +496,33 @@ const DjIdPage: React.FC = () => {
               <div className='font-semibold'>
                 <div className='flex flex-row items-baseline'>
                   <p className='text-gray-400'>Venmo:</p>
-                  <a 
-                    href={`https://account.venmo.com/u/${venmoHandle.replace(/^@/, '')}`} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className={`ml-2 ${!venmoHandle ? "italic text-gray-400 text-xs" : "text-main"}`}
-                  >
-                    {venmoHandle || "No Venmo info."}
-                  </a>
+                  {venmoHandle ? (
+                    <a 
+                      href={`https://account.venmo.com/u/${venmoHandle.replace(/^@/, '')}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="ml-2 text-main"
+                    >
+                      {venmoHandle}
+                    </a>
+                    ) : (
+                      <p className='text-gray-400 text-xs italic ml-2'>No Venmo info.</p>
+                    )}
                 </div>
                <div className='flex flex-row items-baseline'>
                 <p className='text-gray-400'>CashApp:</p>
-                <a 
-                  href={`https://cash.app/${cashappHandle.replace(/^\$/, '')}`} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className={`ml-2 ${!cashappHandle ? "italic text-gray-400 text-xs" : "text-main"}`}
-                >
-                {cashappHandle || "No CashApp info."}
-                </a>
+                {cashappHandle ? (
+                  <a 
+                    href={`https://cash.app/${cashappHandle.replace(/^\$/, '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="ml-2 text-main"
+                  >
+                    {cashappHandle}
+                  </a>
+                  ) : (
+                    <p className='text-gray-400 text-xs italic ml-2'>No CashApp info.</p>
+                  )}
                </div>
               </div>
             )}
