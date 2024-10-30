@@ -40,17 +40,21 @@ const NowPlaying: React.FC<Props> = ({
         }
     };
 
-    // Determine the text to display based on error or hover state
     const displayMessage = likeErrors[id] || getHoverMessage();
 
     return (
         <div className="animated-rainbow fast-rainbow border border-black px-4 py-12 relative">
             <div className="flex items-center justify-between">
-                <div className="flex items-center flex-grow min-w-0">
-                    <p className="font-bold text-3xl mr-2 whitespace-nowrap">Current Track:</p>
-                    <p className="text-2xl font-semibold truncate overflow-hidden text-ellipsis min-w-0">
-                        {song}
-                    </p>
+                <div className="flex flex-col space-y-2 min-w-0">
+                    <div className="flex items-baseline min-w-0">
+                        <p className="font-bold text-3xl mr-1 whitespace-nowrap">Current Track:</p>
+                        <p className="font-semibold text-2xl text-gray-200 truncate overflow-hidden text-ellipsis min-w-0">
+                            {song}
+                        </p>
+                    </div>
+                    <div className="flex items-center text-xl font-semibold">
+                        Likes: {likes}
+                    </div>
                 </div>
                 <div className="flex flex-row items-center gap-x-12 mr-12">
                     <AnimatePresence>
