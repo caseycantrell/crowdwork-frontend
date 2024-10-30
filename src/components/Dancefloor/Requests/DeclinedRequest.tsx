@@ -26,15 +26,18 @@ const DeclinedRequest: React.FC<Props> = ({
     return (
         <div className="bg-gradient-to-r from-red-500 to-orange-500 border border-black px-4 py-2 relative">
             <div className="flex flex-row items-center justify-between">
-                <div className='italic line-through'>
-                    <div className="flex flex-row items-center">
-                        <p className="font-bold text-2xl mr-1">Song:</p>
-                        <p className="text-xl ml-1">{song}</p>
+                <div className="flex flex-col space-y-2 min-w-0 italic line-through">
+                    <div className="flex items-center min-w-0">
+                        <p className="font-bold text-2xl mr-1 whitespace-nowrap">Song:</p>
+                        <p className="font-semibold text-xl text-gray-200 truncate overflow-hidden text-ellipsis min-w-0">
+                            {song}
+                        </p>
                     </div>
-                    <div>Likes: {likes}</div>
+                    <div className="flex items-center">
+                        Likes: {likes}
+                    </div>
                 </div>
-
-                <div className="flex flex-row items-center gap-x-12 mr-12">
+                <div className="flex flex-row items-center gap-x-12 mr-12 ml-2">
                     <AnimatePresence>
                         {isHovered && (
                             <motion.p

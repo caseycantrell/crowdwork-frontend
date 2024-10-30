@@ -43,7 +43,7 @@ const SongRequestsMobile: React.FC<Props> = ({
   }, [nowPlayingSong?.song]);
 
   return (
-    <div className="bg-gray-900 overflow-y-scroll scrollbar-thin pb-0">
+    <div className="bg-gray-900 overflow-y-scroll scrollbar-hide pb-0">
        <p className='text-sm font-bold ml-2 py-'>Now Playing</p>
        {nowPlayingSong ? (
           <div className="animated-rainbow flex items-center justify-between px-2 py-4">

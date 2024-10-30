@@ -2,6 +2,7 @@ import Button from '../../UI/Button';
 import ChatMobile from './ChatMobile';
 import SongRequestsMobile from './SongRequestsMobile';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { DJInfo } from '@/types/types';
@@ -71,7 +72,7 @@ const MobileView: React.FC<Props> = ({
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
+console.log("djInfo",djInfo )
   return (
     <>
       <div className="hidden lg:flex min-h-screen items-center justify-center bg-gray-900">
@@ -81,21 +82,25 @@ const MobileView: React.FC<Props> = ({
       </div>
 
       <div className="lg:hidden h-screen overflow-hidden flex flex-col">
-        <div className="flex-none h-1/4 bg-gray-800">
+        <div className="flex-none h-[13rem] bg-gray-800">
           <div className="flex flex-col w-full h-full">
-            <div className="flex flex-row items-center mt-5">
+            <div className="flex flex-row items-center mt-2">
               <div className="w-16 h-16 flex flex-col mx-2">
-                <Image
-                  src={djInfo?.profile_pic_url || '/images/profile_placeholder.jpg'}
-                  width={160}
-                  height={160}
-                  alt="Profile Pic"
-                  className="object-cover w-full h-full rounded-sm"
-                  priority
-                />
+                <Link href={`/dj/${djInfo?.id}`}>
+                  <Image
+                    src={djInfo?.profile_pic_url || '/images/profile_placeholder.jpg'}
+                    width={160}
+                    height={160}
+                    alt="Profile Pic"
+                    className="object-cover w-full h-full rounded-sm"
+                    priority
+                  />
+                </Link>
               </div>
               <div className="flex flex-col">
-                <p className="font-semibold">{djInfo?.name || 'No DJ name set.'}</p>
+                <Link href={`/dj/${djInfo?.id}`}>
+                  <p className="font-semibold">{djInfo?.name || 'No DJ name set.'}</p>
+                </Link>
                 {djInfo?.website && (
                   <a
                     href={djInfo.website || ''}
@@ -109,7 +114,7 @@ const MobileView: React.FC<Props> = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-2 mt-1.5 gap-1.5 mx-2 font-semibold mb-1.5">
+            <div className="grid grid-cols-2 font-semibold mt-3.5 gap-1 mx-2">
               <div className="flex flex-row items-center">
                 <Image 
                   src={'/icons/instagram.png'} 
@@ -199,7 +204,7 @@ const MobileView: React.FC<Props> = ({
               </div>
             </div>
 
-            <div className="bg-gray-800 flex justify-center pb-2">
+            <div className="bg-gray-800 flex justify-center mt-2">
               <Button
                 padding="py-4"
                 fontWeight="font-semibold"
@@ -227,7 +232,7 @@ const MobileView: React.FC<Props> = ({
           />
         </div>
 
-        <div className="flex-none h-1/4">
+        <div className="flex-none">
           <ChatMobile
             message={message}
             setMessage={setMessage}

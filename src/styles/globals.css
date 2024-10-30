@@ -10,7 +10,7 @@
   --color3: #82589f; /* deep purple */
   --color4: #63cdda; /* aqua */
   --color5: #546de5; /* vaporwave blue */
-  --animation-speed: 120s;
+  --animation-speed: 60s;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -91,5 +91,5 @@ body {
 }
 
 .fast-rainbow {
-  --animation-speed: 60s;
+  --animation-speed: 30s;
 }

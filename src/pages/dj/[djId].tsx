@@ -542,7 +542,7 @@ const DjIdPage: React.FC = () => {
                 </li>
               ))
             ) : (
-              <p className='font-gray-500 italic'>No past dancefloors found.</p>
+              <p className='text-gray-500 italic ml-6'>No past dancefloors found yet...</p>
             )}
           </ul>
           <div className='block xl:hidden'>
