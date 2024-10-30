@@ -19,7 +19,7 @@ interface Dancefloor {
 
 const DjIdPage: React.FC = () => {
   const router = useRouter();
-  const { djId } = router.query;
+  const { djId, redirect } = router.query;
 
   const [status, setStatus] = useState<string>('Loading...');
   const [isStatusVisible, setIsStatusVisible] = useState<boolean>(false);
@@ -80,8 +80,7 @@ const DjIdPage: React.FC = () => {
               setDancefloorId(data.dancefloorId);
               setIsStatusError(false);
               setStatus('Active dancefloor is live.');
-
-              if (!data.isDjLoggedIn) {
+              if (redirect === 'dancefloor') {
                 router.push(`/dancefloor/${data.dancefloorId}`);
               }
             }
@@ -439,9 +438,29 @@ const DjIdPage: React.FC = () => {
                 />
               </>
             ) : (
-              <div className='font-semibold text-gray-400'>
-                <p>Instagram: {instagramHandle}</p>
-                <p>Twitter: {twitterHandle}</p>
+              <div className='font-semibold'>
+                <div className='flex flex-row items-baseline'>
+                  <p className='text-gray-400'>Instagram:</p>
+                    <a 
+                      href={`https://www.instagram.com/${instagramHandle.replace(/^@/, '')}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className={`ml-2 ${!instagramHandle ? "italic text-gray-400 text-xs" : "text-main"}`}
+                    >
+                    <p>{instagramHandle || "No IG info."}</p>
+                  </a>
+                </div>
+                <div className='flex flex-row items-baseline'>
+                  <p className='text-gray-400'>Twitter: </p>
+                  <a 
+                    href={`https://x.com/${twitterHandle.replace(/^@/, '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className={`ml-2 ${!twitterHandle ? "italic text-gray-400 text-xs" : "text-main"}`}
+                  >
+                    {twitterHandle || "No Twitter info."}
+                  </a>
+                </div>
               </div>
             )}
           </div>
@@ -466,9 +485,29 @@ const DjIdPage: React.FC = () => {
                 />
               </>
             ) : (
-              <div className='font-semibold text-gray-400'>
-                <p>Venmo: {venmoHandle}</p>
-                <p>CashApp: {cashappHandle}</p>
+              <div className='font-semibold'>
+                <div className='flex flex-row items-baseline'>
+                  <p className='text-gray-400'>Venmo:</p>
+                  <a 
+                    href={`https://account.venmo.com/u/${venmoHandle.replace(/^@/, '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className={`ml-2 ${!venmoHandle ? "italic text-gray-400 text-xs" : "text-main"}`}
+                  >
+                    {venmoHandle || "No Venmo info."}
+                  </a>
+                </div>
+               <div className='flex flex-row items-baseline'>
+                <p className='text-gray-400'>CashApp:</p>
+                <a 
+                  href={`https://cash.app/${cashappHandle.replace(/^\$/, '')}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className={`ml-2 ${!cashappHandle ? "italic text-gray-400 text-xs" : "text-main"}`}
+                >
+                {cashappHandle || "No CashApp info."}
+                </a>
+               </div>
               </div>
             )}
           </div>
@@ -523,7 +562,7 @@ const DjIdPage: React.FC = () => {
             )}
           </div>
 
-          <p className="text-2xl font-bold pt-4">Past Dancefloors</p>
+          <p className="text-2xl font-bold">Past Dancefloors</p>
           <ul className="space-y-2 h-96 pb-16 overflow-y-scroll scrollbar-thin">
             {pastDancefloors.length > 0 ? (
               pastDancefloors.map((dancefloor) => (
@@ -543,7 +582,7 @@ const DjIdPage: React.FC = () => {
                 </li>
               ))
             ) : (
-              <p>No past dancefloors found.</p>
+              <p className='text-gray-500 italic ml-6'>No past dancefloors found yet...</p>
             )}
           </ul>
           <div className='block xl:hidden'>

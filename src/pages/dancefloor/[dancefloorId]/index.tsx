@@ -305,6 +305,8 @@ const Dancefloor: React.FC = () => {
   const completedRequests = songRequests.filter((request) => request.status === 'completed');
   const declinedRequests = songRequests.filter((request) => request.status === 'declined');
 
+  console.log("isAuthenticated:", isAuthenticated)
+
   return ( 
     isAuthenticated ? (
       <DJView 

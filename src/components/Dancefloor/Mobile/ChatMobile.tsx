@@ -41,30 +41,38 @@ const ChatMobile: React.FC<{
   };
 
   return (
-    <div className="bg-gray-900 flex flex-col h-56">
+    <div className="bg-gray-900 flex flex-col h-[12.7rem]">
       <div className="flex flex-row items-center justify-between">
-        <p className="text-xl font-bold ml-2 py-0.5">Dancefloor Chat</p>
+        <p className="font-bold ml-2 py-0.5">Dancefloor Chat</p>
       </div>
 
       <div className="flex-1 bg-gray-800 overflow-y-auto scrollbar-thin">
-        {messagesError ? (
-          <p style={{ color: "red" }}>{messagesError}</p>
-        ) : messages.length > 0 ? (
-          messages.map((msg, index) => (
-            <div key={index} className="border-t border-gray-900 flex flex-row justify-end p-1">
-             <div className="flex flex-col items-end mx-1.5">
-                <p className="text-sm text-gray-300">{msg.message}</p>
-                <p className="text-xs italic text-gray-500">{"- "}{formatDistanceToNow(new Date(msg.created_at), { addSuffix: true })}</p>
-             </div>
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-500 mt-3 italic text-center text-xs">No messages yet.</p>
-        )}
+          {messagesError ? (
+            <p style={{ color: "red" }}>{messagesError}</p>
+          ) : messages.length > 0 ? (
+            messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`flex flex-row justify-end p-0.5 ${
+                  index !== 0 ? 'border-t border-gray-900' : ''
+                } ${index === messages.length - 1 ? 'border-b border-gray-900' : ''}`}
+              >
+                <div className="flex flex-col items-end mx-1.5">
+                  <p className="text-[0.8rem] text-gray-300">{msg.message}</p>
+                  <p className="text-[0.65rem] italic text-gray-500">
+                    {"- "}
+                    {formatDistanceToNow(new Date(msg.created_at), { addSuffix: true })}
+                  </p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500 mt-3 italic text-center text-xs">No messages yet.</p>
+          )}
 
-        {/* invisible div to track end of messages */}
-        <div ref={messagesEndRef} />
-      </div>
+          {/* invisible div to track end of messages */}
+          <div ref={messagesEndRef} />
+        </div>
 
       <div className="flex-none flex flex-row items-center px-2 py-2 sticky bottom-0 bg-gray-900 relative">
         {messageError && (
