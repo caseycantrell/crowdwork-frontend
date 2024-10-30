@@ -438,25 +438,25 @@ const DjIdPage: React.FC = () => {
                 />
               </>
             ) : (
-              <div className='font-semibold text-gray-400'>
+              <div className='font-semibold'>
                 <div className='flex flex-row items-baseline'>
-                  <p>Instagram:</p>
+                  <p className='text-gray-400'>Instagram:</p>
                     <a 
                       href={`https://www.instagram.com/${instagramHandle.replace(/^@/, '')}`} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className={`ml-2 ${!instagramHandle && "italic text-xs"}`}
+                      className={`ml-2 ${!instagramHandle ? "italic text-gray-400 text-xs" : "text-main"}`}
                     >
                     <p>{instagramHandle || "No IG info."}</p>
                   </a>
                 </div>
                 <div className='flex flex-row items-baseline'>
-                  <p>Twitter: </p>
+                  <p className='text-gray-400'>Twitter: </p>
                   <a 
                     href={`https://x.com/${twitterHandle.replace(/^@/, '')}`} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className={`ml-2 ${!twitterHandle && "italic text-xs"}`}
+                    className={`ml-2 ${!twitterHandle ? "italic text-gray-400 text-xs" : "text-main"}`}
                   >
                     {twitterHandle || "No Twitter info."}
                   </a>
@@ -485,25 +485,25 @@ const DjIdPage: React.FC = () => {
                 />
               </>
             ) : (
-              <div className='font-semibold text-gray-400'>
+              <div className='font-semibold'>
                 <div className='flex flex-row items-baseline'>
-                  <p>Venmo:</p>
+                  <p className='text-gray-400'>Venmo:</p>
                   <a 
                     href={`https://account.venmo.com/u/${venmoHandle.replace(/^@/, '')}`} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className={`ml-2 ${!venmoHandle && "italic text-xs"}`}
+                    className={`ml-2 ${!venmoHandle ? "italic text-gray-400 text-xs" : "text-main"}`}
                   >
                     {venmoHandle || "No Venmo info."}
                   </a>
                 </div>
                <div className='flex flex-row items-baseline'>
-                <p>CashApp:</p>
+                <p className='text-gray-400'>CashApp:</p>
                 <a 
                   href={`https://cash.app/${cashappHandle.replace(/^\$/, '')}`} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className={`ml-2 ${!cashappHandle && "italic text-xs"}`}
+                  className={`ml-2 ${!cashappHandle ? "italic text-gray-400 text-xs" : "text-main"}`}
                 >
                 {cashappHandle || "No CashApp info."}
                 </a>
@@ -562,7 +562,7 @@ const DjIdPage: React.FC = () => {
             )}
           </div>
 
-          <p className="text-2xl font-bold pt-4">Past Dancefloors</p>
+          <p className="text-2xl font-bold">Past Dancefloors</p>
           <ul className="space-y-2 h-96 pb-16 overflow-y-scroll scrollbar-thin">
             {pastDancefloors.length > 0 ? (
               pastDancefloors.map((dancefloor) => (
