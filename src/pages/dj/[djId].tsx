@@ -19,7 +19,7 @@ interface Dancefloor {
 
 const DjIdPage: React.FC = () => {
   const router = useRouter();
-  const { djId } = router.query;
+  const { djId, redirect } = router.query;
 
   const [status, setStatus] = useState<string>('Loading...');
   const [isStatusVisible, setIsStatusVisible] = useState<boolean>(false);
@@ -80,6 +80,9 @@ const DjIdPage: React.FC = () => {
               setDancefloorId(data.dancefloorId);
               setIsStatusError(false);
               setStatus('Active dancefloor is live.');
+              if (redirect === 'dancefloor') {
+                router.push(`/dancefloor/${data.dancefloorId}`);
+              }
             }
             setQrCodeUrl(data.qrCode);
             setProfilePic(data.profilePicUrl || null);
@@ -539,7 +542,7 @@ const DjIdPage: React.FC = () => {
                 </li>
               ))
             ) : (
-              <p>No past dancefloors found.</p>
+              <p className='font-gray-500 italic'>No past dancefloors found.</p>
             )}
           </ul>
           <div className='block xl:hidden'>
