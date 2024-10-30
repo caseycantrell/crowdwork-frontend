@@ -439,8 +439,28 @@ const DjIdPage: React.FC = () => {
               </>
             ) : (
               <div className='font-semibold text-gray-400'>
-                <p>Instagram: {instagramHandle}</p>
-                <p>Twitter: {twitterHandle}</p>
+                <div className='flex flex-row items-baseline'>
+                  <p>Instagram:</p>
+                    <a 
+                      href={`https://www.instagram.com/${instagramHandle.replace(/^@/, '')}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className={`ml-2 ${!instagramHandle && "italic text-xs"}`}
+                    >
+                    <p>{instagramHandle || "No IG info."}</p>
+                  </a>
+                </div>
+                <div className='flex flex-row items-baseline'>
+                  <p>Twitter: </p>
+                  <a 
+                    href={`https://x.com/${twitterHandle.replace(/^@/, '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className={`ml-2 ${!twitterHandle && "italic text-xs"}`}
+                  >
+                    {twitterHandle || "No Twitter info."}
+                  </a>
+                </div>
               </div>
             )}
           </div>
@@ -466,8 +486,28 @@ const DjIdPage: React.FC = () => {
               </>
             ) : (
               <div className='font-semibold text-gray-400'>
-                <p>Venmo: {venmoHandle}</p>
-                <p>CashApp: {cashappHandle}</p>
+                <div className='flex flex-row items-baseline'>
+                  <p>Venmo:</p>
+                  <a 
+                    href={`https://account.venmo.com/u/${venmoHandle.replace(/^@/, '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className={`ml-2 ${!venmoHandle && "italic text-xs"}`}
+                  >
+                    {venmoHandle || "No Venmo info."}
+                  </a>
+                </div>
+               <div className='flex flex-row items-baseline'>
+                <p>CashApp:</p>
+                <a 
+                  href={`https://cash.app/${cashappHandle.replace(/^\$/, '')}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className={`ml-2 ${!cashappHandle && "italic text-xs"}`}
+                >
+                {cashappHandle || "No CashApp info."}
+                </a>
+               </div>
               </div>
             )}
           </div>
