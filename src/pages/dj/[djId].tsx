@@ -309,7 +309,7 @@ const DjIdPage: React.FC = () => {
           <div className='flex flex-row items-baseline'>
             <p className='text-md font-bold whitespace-nowrap mr-2'>User View:</p>
             <p className='text-sm font-semibold'>Mobile users have a streamlined interface for sending song requests and messages. They can engage with the 
-            DJ's playlist and make custom song requests or use results from Spotify.</p>
+            DJ&apos;s playlist and make custom song requests or use results from Spotify.</p>
           </div>
         </div>
       }
