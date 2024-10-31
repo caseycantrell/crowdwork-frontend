@@ -66,6 +66,7 @@ body {
 
 /* support for Firefox */
 .scrollbar-thin {
+  overflow: auto;
   scrollbar-width: thin;
   scrollbar-color: #6b7280 #4b5563;
 }

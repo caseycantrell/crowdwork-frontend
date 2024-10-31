@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { format } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
 import Button from '../../components/UI/Button'
+import { useSession } from 'next-auth/react';
 
 interface Dancefloor {
   id: string;
@@ -20,9 +21,9 @@ interface Dancefloor {
 const DjIdPage: React.FC = () => {
   const router = useRouter();
   const { djId, redirect } = router.query;
-
-  const [status, setStatus] = useState<string>('Loading...');
-  const [isStatusVisible, setIsStatusVisible] = useState<boolean>(false);
+  const { data: session, status } = useSession();
+  const [statusMessage, setStatusMessage] = useState<string>('Loading...');
+  const [isStatusMessageVisible, setIsStatusMessageVisible] = useState<boolean>(false);
   const [isStatusError, setIsStatusError] = useState<boolean>(false);
   const [dancefloorId, setDancefloorId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -42,15 +43,15 @@ const DjIdPage: React.FC = () => {
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
-    if (status) {
-      setIsStatusVisible(true);
+    if (statusMessage) {
+      setIsStatusMessageVisible(true);
       const timer = setTimeout(() => {
-        setIsStatusVisible(false);
+        setIsStatusMessageVisible(false);
       }, 2000);
 
       return () => clearTimeout(timer);
     }
-  }, [status]);
+  }, [statusMessage]);
 
 
   useEffect(() => {
@@ -74,12 +75,12 @@ const DjIdPage: React.FC = () => {
 
             if (!data.isActive) {
               setIsStatusError(true);
-              setStatus('No active dancefloor at the moment.');
+              setStatusMessage('No active dancefloor at the moment.');
               setDancefloorId(null);
             } else {
               setDancefloorId(data.dancefloorId);
               setIsStatusError(false);
-              setStatus('Active dancefloor is live.');
+              setStatusMessage('Active dancefloor is live.');
               if (redirect === 'dancefloor') {
                 router.push(`/dancefloor/${data.dancefloorId}`);
               }
@@ -105,7 +106,7 @@ const DjIdPage: React.FC = () => {
           if (isMounted) {
             console.error('Error fetching DJ data:', error);
             setIsStatusError(true);
-            setStatus('Error fetching data.');
+            setStatusMessage('Error fetching data.');
           }
         });
     }
@@ -128,12 +129,12 @@ const DjIdPage: React.FC = () => {
         .then((data) => {
           setDancefloorId(data.dancefloorId);
           setIsStatusError(false);
-          setStatus('Dancefloor started successfully.');
+          setStatusMessage('Dancefloor started successfully.');
           router.push(`/dancefloor/${data.dancefloorId}`);
         })
         .catch(() => {
           setIsStatusError(true);
-          setStatus('Error starting dancefloor.');
+          setStatusMessage('Error starting dancefloor.');
         })
         .finally(() => {
           setIsLoading(false);
@@ -147,8 +148,8 @@ const DjIdPage: React.FC = () => {
   const handleEditInfo = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    setStatus('');
-    setIsStatusVisible(false);
+    setStatusMessage('');
+    setIsStatusMessageVisible(false);
     setIsStatusError(false);
 
     let formattedWebsite = website.trim();
@@ -162,8 +163,8 @@ const DjIdPage: React.FC = () => {
     const withoutProtocol = formattedWebsite.replace(/(^\w+:|^)\/\//, '');
     if (!domainRegex.test(withoutProtocol)) {
       setIsStatusError(true);
-      setStatus('Please enter a valid website (e.g., www.example.com).');
-      setIsStatusVisible(true);
+      setStatusMessage('Please enter a valid website (e.g., www.example.com).');
+      setIsStatusMessageVisible(true);
       return;
     }
 
@@ -173,8 +174,8 @@ const DjIdPage: React.FC = () => {
       formattedWebsite = url.origin + url.pathname; // avoid double slashes
     } catch {
       setIsStatusError(true);
-      setStatus('Please enter a valid website (e.g., www.example.com).');
-      setIsStatusVisible(true);
+      setStatusMessage('Please enter a valid website (e.g., www.example.com).');
+      setIsStatusMessageVisible(true);
       return;
     }
     try {
@@ -194,19 +195,19 @@ const DjIdPage: React.FC = () => {
 
       if (res.ok) {
         setIsStatusError(false);
-        setStatus('DJ info updated successfully.');
-        setIsStatusVisible(true);
+        setStatusMessage('DJ info updated successfully.');
+        setIsStatusMessageVisible(true);
         setIsEditing(false);
       } else {
         setIsStatusError(true);
-        setStatus('Error updating DJ info.');
-        setIsStatusVisible(true);
+        setStatusMessage('Error updating DJ info.');
+        setIsStatusMessageVisible(true);
       }
     } catch (error) {
       console.error('Error updating DJ info:', error);
       setIsStatusError(true);
-      setStatus('Error updating DJ info.');
-      setIsStatusVisible(true);
+      setStatusMessage('Error updating DJ info.');
+      setIsStatusMessageVisible(true);
     }
   };
 
@@ -240,23 +241,22 @@ const DjIdPage: React.FC = () => {
       if (res.ok) {
         setProfilePic(data.secure_url);
         setIsStatusError(false);
-        setStatus('Profile picture uploaded successfully.');
-        setIsStatusVisible(true);
+        setStatusMessage('Profile picture uploaded successfully.');
+        setIsStatusMessageVisible(true);
       } else {
         setIsStatusError(true);
-        setStatus('Upload failed.');
-        setIsStatusVisible(true);
+        setStatusMessage('Upload failed.');
+        setIsStatusMessageVisible(true);
       }
     } catch (error) {
       console.error('Error uploading profile picture:', error);
       setIsStatusError(true);
-      setStatus('Failed to upload profile picture.');
+      setStatusMessage('Failed to upload profile picture.');
     } finally {
       setUploading(false);
     }
   };
   
-
   const saveProfilePic = async () => {
     if (!profilePic || !djId) return;
 
@@ -268,27 +268,51 @@ const DjIdPage: React.FC = () => {
       });
 
       if (res.ok) {
-        setStatus('Profile picture updated successfully.');
-        setIsStatusVisible(true);
+        setStatusMessage('Profile picture updated successfully.');
+        setIsStatusMessageVisible(true);
         setIsEditingProfilePic(false);
       } else {
-        setStatus('Failed to save profile picture.');
-        setIsStatusVisible(true);
+        setStatusMessage('Failed to save profile picture.');
+        setIsStatusMessageVisible(true);
       }
     } catch (error) {
       console.error('Error saving profile picture:', error);
-      setStatus('Error saving profile picture.');
-      setIsStatusVisible(true);
+      setStatusMessage('Error saving profile picture.');
+      setIsStatusMessageVisible(true);
     }
   };
 
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <div className="min-h-screen bg-gray-800 flex items-center justify-center px-6 py-8 relative">
+    <div className="min-h-screen bg-gray-800 flex flex-col items-center justify-center px-6 py-8 relative">
       
       
       <div className="hidden xl:block absolute top-0 right-2 md:top-10 md:right-14">
         <LogoutButton />
       </div>
+
+      {session && 
+        <div className='bg-gray-700 mb-4 p-6 rounded-md w-full max-w-6xl flex flex-col items-center space-y-3'>
+          <p className='text-3xl font-bold'>Welcome to Crowdwork!</p>
+          <p className='text-lg font-semibold'>
+            Crowdwork is designed to be a platform where users can interact with DJs by 
+            sending song requests and messages in real-time.
+          </p>
+          <div className='flex flex-row items-baseline'>
+            <p className='text-md font-bold whitespace-nowrap mr-2'>DJ View:</p>
+            <p className='text-sm font-semibold'>Upon signing up, you will be given a QR code. You can start a dancefloor where you can recieve and view incoming song requests and messages 
+            from your guests, using your QR code. You also have a profile area where you can manage profile information, which can serve as a digital business card even if there are no dancefloors active.</p>
+          </div>
+          <div className='flex flex-row items-baseline'>
+            <p className='text-md font-bold whitespace-nowrap mr-2'>User View:</p>
+            <p className='text-sm font-semibold'>Mobile users have a streamlined interface for sending song requests and messages. They can engage with the 
+            DJ's playlist and make custom song requests or use results from Spotify.</p>
+          </div>
+        </div>
+      }
 
       <div className="w-full max-w-6xl bg-gray-700 shadow-xl rounded-lg p-8 space-y-8 md:flex md:space-x-8 relative">
         <div className="flex flex-col items-center md:w-1/3">
@@ -356,7 +380,7 @@ const DjIdPage: React.FC = () => {
           )}
 
           <AnimatePresence>
-            {isStatusVisible && (
+            {isStatusMessageVisible && (
               <motion.p
                 className={`font-bold absolute top-6 right-7 ${isStatusError ? 'text-red-400' : 'text-main'}`}
                 initial={{ opacity: 0, x: -20 }}
@@ -364,7 +388,7 @@ const DjIdPage: React.FC = () => {
                 exit={{ opacity: 0, x: -10 }}
                 transition={{ type: 'tween', duration: 0.5, ease: 'easeInOut' }}
               >
-                {status}
+                {statusMessage}
               </motion.p>
             )}
           </AnimatePresence>

@@ -97,7 +97,7 @@ const SongRequestsMobile: React.FC<Props> = ({
             </div>
 
             <Button bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(nowPlayingSong.id)}>
-              <Image src={"/icons/like.png"} width={25} height={25} alt="Like" />
+              <Image src={"/icons/like.png"} width={22} height={22} alt="Like" />
             </Button>
           </div>
         ) : (
@@ -116,7 +116,7 @@ const SongRequestsMobile: React.FC<Props> = ({
             <p className='text-sm font-bold ml-2 py-0.5'>Active Requests</p>
               {activeRequests.length > 0 ? (
                 activeRequests.map((request, index) => (
-                  <div key={index} className="bg-gradient-to-r from-purple-600 to-fuchsia-600 flex flex-row items-center justify-between px-2 py-1">
+                  <div key={index} className="bg-gradient-to-r from-purple-600 to-fuchsia-600 border-b-[0.5px] border-gray-900 flex flex-row items-center justify-between px-2 py-1">
                     <div className="flex flex-col max-w-[90%]">
                       <div className="flex flex-row items-center">
                         <p className="font-bold mr-1.5 text-sm">Song:</p>
@@ -145,7 +145,7 @@ const SongRequestsMobile: React.FC<Props> = ({
                       </div>
                     </div>
                       <Button bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(request.id)}>
-                        <Image src={'/icons/like.png'} width={25} height={25} alt="Like" />
+                        <Image src={'/icons/like.png'} width={22} height={22} alt="Like" />
                       </Button>
                   </div>
                 ))
@@ -159,7 +159,7 @@ const SongRequestsMobile: React.FC<Props> = ({
               <p className='text-sm font-bold ml-2 py-0.5'>Completed Requests</p>
               {completedRequests.length > 0 ? (
                 completedRequests.map((request, index) => (
-                  <div key={index} className="bg-gradient-to-r from-indigo-400 to-cyan-400 flex flex-row items-center justify-between px-2 py-1">
+                  <div key={index} className="bg-gradient-to-r from-indigo-400 to-cyan-400 border-b-[0.5px] border-gray-900 flex flex-row items-center justify-between px-2 py-1">
                     <div className="flex flex-col max-w-[90%] font-medium">
                       <div className="flex flex-row items-center">
                         <p className="text-sm italic line-through truncate"> Song: {request.song}</p>
@@ -186,7 +186,7 @@ const SongRequestsMobile: React.FC<Props> = ({
                       </div>
                     </div>
                       <Button bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(request.id)}>
-                        <Image src={'/icons/like.png'} width={25} height={25} alt="Like" />
+                        <Image src={'/icons/like.png'} width={22} height={22} alt="Like" />
                       </Button>
                   </div>
                 ))
@@ -200,7 +200,7 @@ const SongRequestsMobile: React.FC<Props> = ({
             <p className='text-sm font-bold ml-2 py-0.5'>Declined Requests</p>
             {declinedRequests.length > 0 ? (
                 declinedRequests.map((request, index) => (
-                  <div key={index} className="bg-gradient-to-r from-red-500 to-orange-500 flex flex-row items-center justify-between px-2 py-1">
+                  <div key={index} className="bg-gradient-to-r from-red-500 to-orange-500 border-b-[0.5px] border-gray-900 flex flex-row items-center justify-between px-2 py-1">
                     <div className="flex flex-col max-w-[90%] font-medium">
                       <div className="flex flex-row items-center">
                         <p className="text-sm italic line-through truncate"> Song: {request.song}</p>

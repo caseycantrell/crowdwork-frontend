@@ -99,9 +99,9 @@ const ChatMobile: React.FC<{
         />
         <Button
           onClick={handleSendMessage}
-          textSize="text-lg"
+          textSize="text-md"
           bgColor="bg-gradient-to-r from-cyan-500 to-blue-500"
-          className="h-10 w-24"
+          className="h-10 w-24 flex items-center justify-center"
         >
           Send
         </Button>
