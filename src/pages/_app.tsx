@@ -1,3 +1,4 @@
+import { SessionProvider } from "next-auth/react";
 import Head from 'next/head';
 import Layout from '../components/Layout';
 import { AppProps } from 'next/app';
@@ -20,9 +21,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta property="og:url" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <SessionProvider session={pageProps.session}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </SessionProvider>
     </>
   );
 }

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Button from '../components/UI/Button';
 import LogoutButton from '@/components/LogoutButton';
+import { signIn, useSession } from "next-auth/react";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -11,43 +12,39 @@ const LoginPage: React.FC = () => {
   const [message, setMessage] = useState<string>('');
   const [showMessage, setShowMessage] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ email, password }),
-      });
+    const result = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        const djId = data.dj.id;
-        setMessage('Login successful, noice.');
-        setIsError(false);
-        setShowMessage(true);
-        setTimeout(() => {
-          router.push(`/dj/${djId}`);
-        }, 2000);
-      } else {
-        setMessage(data.error || 'Login failed');
-        setIsError(true);
-        setShowMessage(true);
-      }
-    } catch (error) {
-      console.error('Login error:', error);
-      setMessage('An unexpected error occurred. Please try again.');
+    if (result?.error) {
+      setMessage(result.error);
       setIsError(true);
+      setShowMessage(true);
+    } else {
+      setMessage("Login successful, noice.");
+      setIsError(false);
       setShowMessage(true);
     }
   };
+
+  // redirect based on session data after login, with a short delay
+  useEffect(() => {
+    if (status === "authenticated" && session?.user?.id) {
+      const redirectTimeout = setTimeout(() => {
+        router.push(`/dj/${session.user.id}`);
+      }, 2000);
+
+      return () => clearTimeout(redirectTimeout); // cleanup on component unmount
+    }
+  }, [status, session, router]);
 
   useEffect(() => {
     if (showMessage) {

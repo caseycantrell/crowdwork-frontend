@@ -4,36 +4,41 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Button from '../components/UI/Button';
 import LogoutButton from '@/components/LogoutButton';
+import { signIn, useSession } from "next-auth/react";
 
 const SignupPage: React.FC = () => {
-  const [ name, setName ] = useState<string>('');
-  const [ email, setEmail ] = useState<string>('');
-  const [ password, setPassword ] = useState<string>('');
-  const [ message, setMessage ] = useState<string>('');
-  const [ showMessage, setShowMessage ] = useState<boolean>(false);
-  const [ isMessageError, setIsMessageError ] = useState<boolean>(false);
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+  const [showMessage, setShowMessage] = useState<boolean>(false);
+  const [isMessageError, setIsMessageError] = useState<boolean>(false);
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         setIsMessageError(false);
-        setMessage('Signup successful! Redirecting...');
+        setMessage('Signup successful, noice! Logging in...');
         setShowMessage(true);
-  
-        setTimeout(() => {
-          router.push(`/dj/${data.djId}`); // redirect after 2 seconds
-        }, 2000);
+
+        // auto log in after successful signup
+        await signIn("credentials", {
+          redirect: false,
+          email,
+          password,
+        });
       } else {
         setIsMessageError(true);
         setMessage(data.error || 'Signup failed. Please try again.');
@@ -46,6 +51,16 @@ const SignupPage: React.FC = () => {
       setShowMessage(true);
     }
   };
+
+  useEffect(() => {
+    if (status === "authenticated" && session?.user?.id) {
+      const redirectTimeout = setTimeout(() => {
+        router.push(`/dj/${session.user.id}`);
+      }, 2000);
+
+      return () => clearTimeout(redirectTimeout);
+    }
+  }, [status, session, router]);
 
   useEffect(() => {
     if (showMessage) {
