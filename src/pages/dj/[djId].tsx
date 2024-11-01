@@ -284,27 +284,27 @@ const DjIdPage: React.FC = () => {
     }
   };
 
+
   return (
-    <div className="min-h-screen bg-gray-800 flex items-center justify-center px-6 py-8 relative">
-      
-      
-      <div className="hidden xl:block absolute top-0 right-2 md:top-10 md:right-14">
-        <LogoutButton />
-      </div>
-
-      <div className="w-full max-w-6xl bg-gray-700 shadow-xl rounded-lg p-8 space-y-8 md:flex md:space-x-8 relative">
+    <div className="min-h-screen bg-gray-800 flex xl:items-center justify-center px-2 xl:px-6 py-2 xl:py-8 relative">
+      {!session && 
+        <div className="absolute top-8 right-14">
+          <LogoutButton />
+        </div>
+      }
+      <div className="w-full max-w-6xl bg-gray-700 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
         <div className="flex flex-col items-center md:w-1/3">
-          <p className="text-4xl font-semibold text-center mb-8">{djName || 'DJ Profile'}</p>
-
+         {session && <p className="text-4xl font-semibold text-center mb- xl:mb-8">{djName || 'DJ Profile'}</p>}
+  
           <Image
             src={profilePic || '/images/profile_placeholder.jpg'} 
             alt="Profile Picture"
             width={200}
             height={200}
-            className="w-60 h-60 rounded-sm object-cover mb-4"
+            className="w-60 h-60 rounded-sm object-cover mb-0 xl:mb-4"
           />
-
-          {!isEditingProfilePic ? (
+  
+          {session && !isEditingProfilePic ? (
             <Button
               onClick={() => setIsEditingProfilePic(true)}
               className="w-60"
@@ -312,9 +312,8 @@ const DjIdPage: React.FC = () => {
             >
               Update Profile Pic
             </Button>
-          ) : (
+          ) : session && isEditingProfilePic ? (
             <>
-              {/* hidden file input for styling outside of browser/OS default */}
               <input 
                 type="file" 
                 id="file-upload" 
@@ -330,7 +329,7 @@ const DjIdPage: React.FC = () => {
               <Button
                 onClick={saveProfilePic}
                 disabled={uploading}
-                className='w-60'
+                className="w-60"
               >
                 {uploading ? 'Uploading...' : 'Save Profile Picture'}
               </Button>
@@ -342,11 +341,11 @@ const DjIdPage: React.FC = () => {
                 Cancel
               </Button>
             </>
-          )}
-
-          {qrCodeUrl && (
-            <div className='flex flex-col items-center mt-16'>
-              <p className='font-semibold text-lg mb-2'>Your QR code</p>
+          ) : null}
+  
+          {session && qrCodeUrl && (
+            <div className="flex flex-col items-center mt-16">
+              <p className="font-semibold text-lg mb-2">Your QR code</p>
               <Image
                 src={qrCodeUrl}
                 alt="DJ QR Code"
@@ -356,9 +355,9 @@ const DjIdPage: React.FC = () => {
               />
             </div>
           )}
-
+  
           <AnimatePresence>
-            {isStatusVisible && (
+            {session && isStatusVisible && (
               <motion.p
                 className={`font-bold absolute top-6 right-7 ${isStatusError ? 'text-red-400' : 'text-main'}`}
                 initial={{ opacity: 0, x: -20 }}
@@ -371,148 +370,86 @@ const DjIdPage: React.FC = () => {
             )}
           </AnimatePresence>
         </div>
-
-        <div className="flex-1 space-y-6">
-        <div>
-            {isEditing && 
-            <>
-             <p className="text-2xl font-bold">Name</p>
-              <textarea
-                value={djName || ''}
-                onChange={(e) => setDjName(e.target.value)}
-                className="w-full p-2 text-gray-600 font-semibold border border-gray-300 rounded-md"
-              />
-            </>
-           }
-          </div>
-
+  
+        <div className="flex-1 space-y-4 xl:space-y-6">
           <div>
-            <p className="text-2xl font-bold">Bio</p>
-            {isEditing ? (
-              <textarea
-                value={bio || ''}
-                onChange={(e) => setBio(e.target.value)}
-                className="w-full p-2 text-gray-600 font-semibold border border-gray-300 rounded-md"
-              />
-            ) : (
-              <p className='font-semibold text-gray-400'>{bio || 'No bio available'}</p>
-            )}
+            <p className="text-xl xl:text-2xl font-bold">Name</p>
+            <p className="font-semibold text-gray-400">{djName || 'DJ Profile'}</p>
           </div>
-
+  
           <div>
-            <p className="text-2xl font-bold">Website</p>
-            {isEditing ? (
-              <input
-                type="text"
-                value={website || ''}
-                onChange={(e) => setWebsite(e.target.value)}
-                className="w-full p-2 text-gray-600 font-semibold border border-gray-300 rounded-md"
-              />
-            ) : (
-              <a
-                href={website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-main font-semibold"
-              >
-                {website || 'No website available'}
-              </a>
-            )}
+            <p className="text-xl xl:text-2xl font-bold">Bio</p>
+            <p className="font-semibold text-gray-400">{bio || 'No bio available'}</p>
           </div>
-
+  
           <div>
-            <p className="text-2xl font-bold">Social Media</p>
-            {isEditing ? (
-              <>
-                <input
-                  type="text"
-                  value={instagramHandle || ''}
-                  onChange={(e) => setInstagramHandle(e.target.value)}
-                  placeholder="Instagram"
-                  className="w-full p-2 text-gray-600 font-semibold border border-gray-300 rounded-md mb-2"
-                />
-                <input
-                  type="text"
-                  value={twitterHandle || ''}
-                  onChange={(e) => setTwitterHandle(e.target.value)}
-                  placeholder="Twitter"
-                  className="w-full p-2 text-gray-600 font-semibold border border-gray-300 rounded-md mb-2"
-                />
-              </>
-            ) : (
-              <div className='font-semibold'>
-                <div className='flex flex-row items-baseline'>
-                  <p className='text-gray-400'>Instagram:</p>
-                  {instagramHandle ? (
-                      <a 
-                      href={`https://www.instagram.com/${instagramHandle.replace(/^@/, '')}`} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="ml-2 text-main"
-                    >
-                      {twitterHandle}
-                    </a>
-                    ) : (
-                      <p className='text-gray-400 text-xs italic ml-2'>No IG info.</p>
-                    )}
-                </div>
-                <div className='flex flex-row items-baseline'>
-                  <p className='text-gray-400'>Twitter: </p>
-                    {twitterHandle ? (
-                      <a 
-                      href={`https://x.com/${twitterHandle.replace(/^@/, '')}`} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="ml-2 text-main"
-                    >
-                      {twitterHandle}
-                    </a>
-                    ) : (
-                      <p className='text-gray-400 text-xs italic ml-2'>No Twitter info.</p>
-                    )}
-                </div>
+            <p className="text-xl xl:text-2xl font-bold">Website</p>
+            <a
+              href={website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-main font-semibold"
+            >
+              {website || 'No website available'}
+            </a>
+          </div>
+  
+          <div>
+            <p className="text-xl xl:text-2xl font-bold">Social Media</p>
+            <div className="font-semibold">
+              <div className="flex flex-row items-baseline">
+                <p className="text-gray-400">Instagram:</p>
+                {instagramHandle ? (
+                  <a 
+                    href={`https://www.instagram.com/${instagramHandle.replace(/^@/, '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="ml-2 text-main"
+                  >
+                    {instagramHandle}
+                  </a>
+                ) : (
+                  <p className="text-gray-400 text-xs italic ml-2">No IG info.</p>
+                )}
               </div>
-            )}
+              <div className="flex flex-row items-baseline">
+                <p className="text-gray-400">Twitter:</p>
+                {twitterHandle ? (
+                  <a 
+                    href={`https://x.com/${twitterHandle.replace(/^@/, '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="ml-2 text-main"
+                  >
+                    {twitterHandle}
+                  </a>
+                ) : (
+                  <p className="text-gray-400 text-xs italic ml-2">No Twitter info.</p>
+                )}
+              </div>
+            </div>
           </div>
 
           <div>
-            <p className="text-2xl font-bold">Payment Handles</p>
-            {isEditing ? (
-              <>
-                <input
-                  type="text"
-                  value={venmoHandle || ''}
-                  onChange={(e) => setVenmoHandle(e.target.value)}
-                  placeholder="Venmo"
-                  className="w-full p-2 text-gray-600 font-semibold border border-gray-300 rounded-md mb-2"
-                />
-                <input
-                  type="text"
-                  value={cashappHandle || ''}
-                  onChange={(e) => setCashappHandle(e.target.value)}
-                  placeholder="CashApp"
-                  className="w-full p-2 text-gray-600 font-semibold border border-gray-300 rounded-md"
-                />
-              </>
-            ) : (
-              <div className='font-semibold'>
-                <div className='flex flex-row items-baseline'>
-                  <p className='text-gray-400'>Venmo:</p>
-                  {venmoHandle ? (
-                    <a 
-                      href={`https://account.venmo.com/u/${venmoHandle.replace(/^@/, '')}`} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="ml-2 text-main"
-                    >
-                      {venmoHandle}
-                    </a>
-                    ) : (
-                      <p className='text-gray-400 text-xs italic ml-2'>No Venmo info.</p>
-                    )}
-                </div>
-               <div className='flex flex-row items-baseline'>
-                <p className='text-gray-400'>CashApp:</p>
+            <p className="text-xl xl:text-2xl font-bold">Payment Handles</p>
+            <div className="font-semibold">
+              <div className="flex flex-row items-baseline">
+                <p className="text-gray-400">Venmo:</p>
+                {venmoHandle ? (
+                  <a 
+                    href={`https://account.venmo.com/u/${venmoHandle.replace(/^@/, '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="ml-2 text-main"
+                  >
+                    {venmoHandle}
+                  </a>
+                ) : (
+                  <p className="text-gray-400 text-xs italic ml-2">No Venmo info.</p>
+                )}
+              </div>
+              <div className="flex flex-row items-baseline">
+                <p className="text-gray-400">CashApp:</p>
                 {cashappHandle ? (
                   <a 
                     href={`https://cash.app/${cashappHandle.replace(/^\$/, '')}`} 
@@ -522,42 +459,40 @@ const DjIdPage: React.FC = () => {
                   >
                     {cashappHandle}
                   </a>
-                  ) : (
-                    <p className='text-gray-400 text-xs italic ml-2'>No CashApp info.</p>
-                  )}
-               </div>
+                ) : (
+                  <p className="text-gray-400 text-xs italic ml-2">No CashApp info.</p>
+                )}
               </div>
-            )}
+            </div>
           </div>
-
-          <div className="flex text-white font-bold text-xl">
-            {isEditing ? (
-              <Button
-                onClick={handleEditInfo}
-                padding="p-4"
-                bgColor="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500"
-                className="w-full"
-              >
-                Save Info
-              </Button>
-            ) : (
-              <Button
-                onClick={() => setIsEditing(true)}
-                padding="p-4"
-                bgColor="bg-gradient-to-r from-blue-500 to-cyan-500"
-                className="w-full"
-              >
-                Edit Info
-              </Button>
-            )}
-          </div>
-
+  
+          {session && (
+            <div className="flex text-white font-bold text-xl">
+              {isEditing ? (
+                <Button
+                  onClick={handleEditInfo}
+                  padding="p-4"
+                  bgColor="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500"
+                  className="w-full"
+                >
+                  Save Info
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => setIsEditing(true)}
+                  padding="p-4"
+                  bgColor="bg-gradient-to-r from-blue-500 to-cyan-500"
+                  className="w-full"
+                >
+                  Edit Info
+                </Button>
+              )}
+            </div>
+          )}
+  
           <div className="flex text-xl text-white font-bold">
             {dancefloorId ? (
-              <Link
-                href={`/dancefloor/${dancefloorId}`}
-                className="w-full"
-              >
+              <Link href={`/dancefloor/${dancefloorId}`} className="w-full">
                 <Button
                   disabled={isLoading}
                   padding="p-4"
@@ -579,33 +514,34 @@ const DjIdPage: React.FC = () => {
               </Button>
             )}
           </div>
-
-          <p className="text-2xl font-bold">Past Dancefloors</p>
-          <ul className="space-y-2 h-96 pb-16 overflow-y-scroll scrollbar-thin">
-            {pastDancefloors.length > 0 ? (
-              pastDancefloors.map((dancefloor) => (
-                <li key={dancefloor.id}>
-                  <Link
-                    href={`/dancefloor/${dancefloor.id}/details`}
-                    className="text-main font-bold text-xl"
-                  >
-                    Dancefloor {dancefloor.id}
-                  </Link>
-                  <div className='ml-0 md:ml-0'>
-                    <p className='italic'>- Started: {format(new Date(dancefloor.created_at), 'MMMM d, yyyy, h:mm a')}</p>
-                    <p className='italic'>- Ended: {format(new Date(dancefloor.ended_at), 'MMMM d, yyyy, h:mm a')}</p>
-                    <p className='italic'>- Requests: {dancefloor.requests_count}</p>
-                    <p className='italic'>- Messages: {dancefloor.messages_count}</p>
-                  </div>
-                </li>
-              ))
-            ) : (
-              <p className='text-gray-500 italic ml-6'>No past dancefloors found yet...</p>
-            )}
-          </ul>
-          <div className='block xl:hidden'>
-            <LogoutButton />
-          </div>
+  
+          {session && (
+            <>
+              <p className="text-2xl font-bold">Past Dancefloors</p>
+              <ul className="space-y-2 h-96 pb-16 overflow-y-scroll scrollbar-thin">
+                {pastDancefloors.length > 0 ? (
+                  pastDancefloors.map((dancefloor) => (
+                    <li key={dancefloor.id}>
+                      <Link
+                        href={`/dancefloor/${dancefloor.id}/details`}
+                        className="text-main font-bold text-xl"
+                      >
+                        Dancefloor {dancefloor.id}
+                      </Link>
+                      <div className="ml-0 md:ml-0">
+                        <p className="italic">- Started: {format(new Date(dancefloor.created_at), 'MMMM d, yyyy, h:mm a')}</p>
+                        <p className="italic">- Ended: {format(new Date(dancefloor.ended_at), 'MMMM d, yyyy, h:mm a')}</p>
+                        <p className="italic">- Requests: {dancefloor.requests_count}</p>
+                        <p className="italic">- Messages: {dancefloor.messages_count}</p>
+                      </div>
+                    </li>
+                  ))
+                ) : (
+                  <p className="text-gray-500 italic ml-6">No past dancefloors found yet...</p>
+                )}
+              </ul>
+            </>
+          )}
         </div>
       </div>
     </div>
