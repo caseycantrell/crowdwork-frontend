@@ -1,9 +1,10 @@
 import Head from 'next/head';
 import Layout from '../components/Layout';
 import { AppProps } from 'next/app';
+import { SessionProvider } from "next-auth/react";
 import '../styles/globals.css';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <>
       <Head>
@@ -20,9 +21,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta property="og:url" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <SessionProvider session={session}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </SessionProvider>
     </>
   );
 }

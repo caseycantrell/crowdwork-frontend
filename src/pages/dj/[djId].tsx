@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { format } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
 import Button from '../../components/UI/Button'
+import { useSession } from "next-auth/react";
 
 interface Dancefloor {
   id: string;
@@ -19,26 +20,27 @@ interface Dancefloor {
 
 const DjIdPage: React.FC = () => {
   const router = useRouter();
+  const { data: session } = useSession()
+  console.log("session", session)
   const { djId, redirect } = router.query;
-
-  const [status, setStatus] = useState<string>('Loading...');
-  const [isStatusVisible, setIsStatusVisible] = useState<boolean>(false);
-  const [isStatusError, setIsStatusError] = useState<boolean>(false);
-  const [dancefloorId, setDancefloorId] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
-  const [djName, setDjName] = useState<string>('');
-  const [bio, setBio] = useState<string>('');
-  const [website, setWebsite] = useState<string>('');
-  const [instagramHandle, setInstagramHandle] = useState<string>('');
-  const [twitterHandle, setTwitterHandle] = useState<string>('');
-  const [venmoHandle, setVenmoHandle] = useState<string>('');
-  const [cashappHandle, setCashappHandle] = useState<string>('');
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [isEditingProfilePic, setIsEditingProfilePic] = useState<boolean>(false);
-  const [pastDancefloors, setPastDancefloors] = useState<Dancefloor[]>([]);
-  const [profilePic, setProfilePic] = useState<string | null>(null);
-  const [uploading, setUploading] = useState<boolean>(false);
+  const [ status, setStatus ] = useState<string>('Loading...');
+  const [ isStatusVisible, setIsStatusVisible ] = useState<boolean>(false);
+  const [ isStatusError, setIsStatusError ] = useState<boolean>(false);
+  const [ dancefloorId, setDancefloorId ] = useState<string | null>(null);
+  const [ isLoading, setIsLoading ] = useState<boolean>(false);
+  const [ qrCodeUrl, setQrCodeUrl ] = useState<string | null>(null);
+  const [ djName, setDjName ] = useState<string>('');
+  const [ bio, setBio ] = useState<string>('');
+  const [ website, setWebsite ] = useState<string>('');
+  const [ instagramHandle, setInstagramHandle ] = useState<string>('');
+  const [ twitterHandle, setTwitterHandle ] = useState<string>('');
+  const [ venmoHandle, setVenmoHandle ] = useState<string>('');
+  const [ cashappHandle, setCashappHandle ] = useState<string>('');
+  const [ isEditing, setIsEditing ] = useState<boolean>(false);
+  const [ isEditingProfilePic, setIsEditingProfilePic ] = useState<boolean>(false);
+  const [ pastDancefloors, setPastDancefloors ] = useState<Dancefloor[]>([]);
+  const [ profilePic, setProfilePic ] = useState<string | null>(null);
+  const [ uploading, setUploading ] = useState<boolean>(false);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
