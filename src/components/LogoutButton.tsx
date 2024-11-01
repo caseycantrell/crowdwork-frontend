@@ -19,7 +19,7 @@ const LogoutButton: React.FC = () => {
       setTimeout(() => {
         router.push("/login");
       }, 2000);
-    } catch (error) {
+    } catch {
       setIsError(true);
       setMessage("An error occurred during logout. Please try again.");
       setShowMessage(true);
