@@ -16,11 +16,12 @@ export default NextAuth({
           body: JSON.stringify(credentials),
         });
 
-        const user = await res.json();
-        if (res.ok && user) {
-          return user; // returns user data to create a session
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Login failed. Please check your credentials.");
         }
-        return null;
+
+        return data;
       },
     }),
   ],

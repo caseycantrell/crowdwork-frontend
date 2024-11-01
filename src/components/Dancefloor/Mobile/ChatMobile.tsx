@@ -41,9 +41,9 @@ const ChatMobile: React.FC<{
   };
 
   return (
-    <div className="bg-gray-900 flex flex-col h-[12.7rem]">
+    <div className="bg-gray-900 flex flex-col h-[12.5rem]">
       <div className="flex flex-row items-center justify-between">
-        <p className="font-bold ml-2 py-0.5">Dancefloor Chat</p>
+        <p className="font-bold text-sm ml-2 py-0.5">Dancefloor Chat</p>
       </div>
 
       <div className="flex-1 bg-gray-800 overflow-y-auto scrollbar-thin">
@@ -99,7 +99,7 @@ const ChatMobile: React.FC<{
         />
         <Button
           onClick={handleSendMessage}
-          textSize="text-lg"
+          textSize=""
           bgColor="bg-gradient-to-r from-cyan-500 to-blue-500"
           className="h-10 w-24"
         >

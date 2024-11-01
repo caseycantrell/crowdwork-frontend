@@ -20,6 +20,7 @@ interface Message {
 }
 
 interface Props {
+  dancefloorId: string;
   djInfo: DJInfo | null;
   songRequestsError: string | null;
   nowPlayingSong: SongRequest | null | undefined;
@@ -33,9 +34,8 @@ interface Props {
   messages: Message[];
   messagesError: string | null;
   handleSendMessage: () => void;
-  handleLike: (requestId: string) => void;
+  handleLike: (requestId: string, dancefloorId: string) => void;
   likeErrors: { [key: string]: string | null };
-  dancefloorId: string | string[] | undefined;
 }
 
 const MobileView: React.FC<Props> = ({
@@ -222,6 +222,7 @@ console.log("djInfo",djInfo )
 
         <div className="flex-grow overflow-y-auto bg-gray-800">
           <SongRequestsMobile
+            dancefloorId={dancefloorId}
             songRequestsError={songRequestsError}
             nowPlayingSong={nowPlayingSong}
             activeRequests={activeRequests}

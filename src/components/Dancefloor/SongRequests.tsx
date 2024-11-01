@@ -11,17 +11,19 @@ interface SongRequest {
 }
 
 interface Props {
+  dancefloorId: string;
   songRequestsError: string | null;
   nowPlayingSong: SongRequest | null | undefined;
   activeRequests: SongRequest[];
   completedRequests: SongRequest[];
   declinedRequests: SongRequest[];
-  handleLike: (requestId: string) => void;
+  handleLike: (requestId: string, dancefloorId: string) => void;
   likeErrors: { [key: string]: string | null };
   updateStatus: (requestId: string, status: 'queued' | 'playing' | 'completed' | 'declined') => Promise<void>;
 }
 
 const SongRequests: React.FC<Props> = ({
+  dancefloorId,
   songRequestsError,
   nowPlayingSong,
   activeRequests,
@@ -36,7 +38,7 @@ const SongRequests: React.FC<Props> = ({
        <p className='text-xl font-bold pl-4 py-1 bg-gray-900'>Now Playing</p>
         {nowPlayingSong ? (
           <div>  
-            <NowPlaying id={nowPlayingSong.id} song={nowPlayingSong.song} likes={nowPlayingSong.likes} handleLike={handleLike} likeErrors={likeErrors} updateStatus={updateStatus}/>
+            <NowPlaying id={nowPlayingSong.id} dancefloorId={dancefloorId} song={nowPlayingSong.song} likes={nowPlayingSong.likes} handleLike={handleLike} likeErrors={likeErrors} updateStatus={updateStatus}/>
           </div>
         ) : (
           <div className='py-6 ml-8'>  
@@ -53,7 +55,7 @@ const SongRequests: React.FC<Props> = ({
               {activeRequests.length > 0 ? (
                 activeRequests.map((request, index) => (
                   <div key={index}>
-                    <ActiveRequest id={request.id} song={request.song} likes={request.likes} updateStatus={updateStatus} handleLike={handleLike} likeErrors={likeErrors} />
+                    <ActiveRequest id={request.id} dancefloorId={dancefloorId} song={request.song} likes={request.likes} updateStatus={updateStatus} handleLike={handleLike} likeErrors={likeErrors} />
                   </div>
                 ))
               ) : (

@@ -44,7 +44,9 @@ const Dancefloor: React.FC = () => {
   const router = useRouter();
   const socket = getSocket();
   const { data: session } = useSession();
-  const { dancefloorId } = router.query;
+  const dancefloorId = Array.isArray(router.query.dancefloorId)
+  ? router.query.dancefloorId[0]
+  : router.query.dancefloorId || '';
   const [ message, setMessage ] = useState<string>('');
   const [ messageError, setMessageError ] = useState<string | null>('');
   const [ messages, setMessages ] = useState<Message[]>([]);
@@ -133,6 +135,14 @@ const Dancefloor: React.FC = () => {
         setMessagesCount(messagesCount);
       });
 
+      socket.on('likeSongRequest', ({ requestId, likes }) => {
+        setSongRequests((prevRequests) =>
+          prevRequests.map((song) =>
+            song.id === requestId ? { ...song, likes } : song
+          )
+        );
+      });
+
       socket.on('disconnect', () => {
         console.log('WebSocket disconnected');
       });
@@ -143,6 +153,7 @@ const Dancefloor: React.FC = () => {
         socket.off('updateRequestsCount');
         socket.off('sendMessage');
         socket.off('updateMessagesCount');
+        socket.off('likeSongRequest');
       };
     }
   }, [dancefloorId, socket]);
@@ -214,8 +225,8 @@ const Dancefloor: React.FC = () => {
     }
   };
 
-  // voting for a song request
-  const handleLike = async (requestId: string) => {
+  // liking a song request
+  const handleLike = (requestId: string, dancefloorId: string) => {
     // check if the user has already liked this request in their cookies
     if (document.cookie.includes(`liked_${requestId}`)) {
       setLikeErrors((prevErrors) => ({
@@ -225,39 +236,12 @@ const Dancefloor: React.FC = () => {
       return;
     }
   
-    try {
-      const res = await fetch(`${backendUrl}/api/song-request/${requestId}/like`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-      });
+    socket.emit('likeSongRequest', { requestId, dancefloorId });
   
-      const data = await res.json();
-      if (res.ok) {
-        // set a cookie to record the like (expires in 24 hours)
-        document.cookie = `liked_${requestId}=true; max-age=86400;`;
-  
-        setSongRequests((prevRequests) =>
-          prevRequests.map((req) =>
-            req.id === requestId ? { ...req, likes: data.likes } : req
-          )
-        );
-        setLikeErrors((prevErrors) => ({
-          ...prevErrors,
-          [requestId]: null, // clear any previous error
-        }));
-      } else {
-        setLikeErrors((prevErrors) => ({
-          ...prevErrors,
-          [requestId]: data.error,
-        }));
-      }
-    } catch {
-      setLikeErrors((prevErrors) => ({
-        ...prevErrors,
-        [requestId]: 'Error liking this song.',
-      }));
-    }
+    // set a cookie to record the like (24hr exp)
+    document.cookie = `liked_${requestId}=true; max-age=86400;`;
   };
+
   
   useEffect(() => {
     if (notification) {
@@ -268,6 +252,7 @@ const Dancefloor: React.FC = () => {
       return () => clearTimeout(timer);
     }
   }, [notification]);
+  
 
   useEffect(() => {
     const timers: NodeJS.Timeout[] = [];
@@ -299,6 +284,7 @@ const Dancefloor: React.FC = () => {
     session ? (
       <DJView 
         notification={notification} 
+        dancefloorId={dancefloorId}
         djInfo={djInfo} 
         djInfoError={djInfoError}
         songRequest={songRequest}
