@@ -5,15 +5,17 @@ import Button from '../../UI/Button';
 
 interface Props {
     id: string;
+    dancefloorId: string;
     song: string;
     likes: number | 0;
-    handleLike: (requestId: string) => void;
+    handleLike: (requestId: string, dancefloorId: string) => void;
     likeErrors: { [key: string]: string | null };
     updateStatus: (requestId: string, status: 'queued' | 'playing' | 'completed' | 'declined') => Promise<void>;
 }
 
 const ActiveRequest: React.FC<Props> = ({
     id,
+    dancefloorId,
     song,
     likes,
     handleLike,
@@ -112,7 +114,7 @@ const ActiveRequest: React.FC<Props> = ({
                             padding=""
                             bgColor=""
                             className="overflow-visible"
-                            onClick={() => handleLike(id)}
+                            onClick={() => handleLike(id, dancefloorId)}
                             onMouseEnter={() => handleMouseEnter('like')}
                         >
                             <Image

@@ -19,6 +19,7 @@ interface Message {
 
 interface Props {
   notification: string | null;
+  dancefloorId: string;
   djInfo: DJInfo | null;
   djInfoError: string | null;
   songRequest: string;
@@ -37,7 +38,7 @@ interface Props {
   messagesError: string | null;
   handleSendMessage: () => void;
   handleStopDancefloor: () => void;
-  handleLike: (requestId: string) => void;
+  handleLike: (requestId: string, dancefloorId: string) => void;
   likeErrors: { [key: string]: string | null };
   updateStatus: (requestId: string, status: 'queued' | 'playing' | 'completed' | 'declined') => Promise<void>;
 }
@@ -59,6 +60,7 @@ const variants = {
 
 const DJView: React.FC<Props> = ({
   notification,
+  dancefloorId,
   djInfo,
   djInfoError,
   songRequest,
@@ -117,6 +119,7 @@ const DJView: React.FC<Props> = ({
           setIsChatVisible={setIsChatVisible}
         />
         <SongRequests
+          dancefloorId={dancefloorId}
           nowPlayingSong={nowPlayingSong}
           activeRequests={activeRequests}
           completedRequests={completedRequests}

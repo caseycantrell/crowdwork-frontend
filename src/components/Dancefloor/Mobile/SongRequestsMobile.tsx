@@ -11,16 +11,18 @@ interface SongRequest {
 }
 
 interface Props {
+  dancefloorId: string;
   songRequestsError: string | null;
   nowPlayingSong: SongRequest | null | undefined;
   activeRequests: SongRequest[];
   completedRequests: SongRequest[];
   declinedRequests: SongRequest[];
-  handleLike: (requestId: string) => void;
+  handleLike: (requestId: string, dancefloorId: string) => void;
   likeErrors: { [key: string]: string | null };
 }
 
 const SongRequestsMobile: React.FC<Props> = ({
+  dancefloorId,
   songRequestsError,
   nowPlayingSong,
   activeRequests,
@@ -96,7 +98,7 @@ const SongRequestsMobile: React.FC<Props> = ({
               </div>
             </div>
 
-            <Button bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(nowPlayingSong.id)}>
+            <Button bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(nowPlayingSong.id, dancefloorId)}>
               <Image src={"/icons/like.png"} width={25} height={25} alt="Like" />
             </Button>
           </div>
@@ -144,7 +146,7 @@ const SongRequestsMobile: React.FC<Props> = ({
                         </AnimatePresence>
                       </div>
                     </div>
-                      <Button bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(request.id)}>
+                      <Button bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(request.id, dancefloorId)}>
                         <Image src={'/icons/like.png'} width={25} height={25} alt="Like" />
                       </Button>
                   </div>
@@ -185,7 +187,7 @@ const SongRequestsMobile: React.FC<Props> = ({
                         </AnimatePresence>
                       </div>
                     </div>
-                      <Button bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(request.id)}>
+                      <Button bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(request.id, dancefloorId)}>
                         <Image src={'/icons/like.png'} width={25} height={25} alt="Like" />
                       </Button>
                   </div>
@@ -226,7 +228,7 @@ const SongRequestsMobile: React.FC<Props> = ({
                         </AnimatePresence>
                       </div>
                     </div>
-                      <Button bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(request.id)}>
+                      <Button bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(request.id, dancefloorId)}>
                         <Image src={'/icons/like.png'} width={25} height={25} alt="Like" />
                       </Button>
                   </div>
