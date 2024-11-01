@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import DJView from '@/components/Dancefloor/DJView';
-import { checkAuth } from '@/utils/checkAuth';
 import MobileView from '@/components/Dancefloor/Mobile/MobileView';
 import { getSocket } from '@/utils/socket';
 import { DJInfo } from '@/types/types';
+import { useSession } from "next-auth/react";
 
 interface DJ {
   id: string;
@@ -42,8 +42,9 @@ interface Dancefloor {
 
 const Dancefloor: React.FC = () => {
   const router = useRouter();
-  const { dancefloorId } = router.query;
   const socket = getSocket();
+  const { data: session } = useSession();
+  const { dancefloorId } = router.query;
   const [ message, setMessage ] = useState<string>('');
   const [ messageError, setMessageError ] = useState<string | null>('');
   const [ messages, setMessages ] = useState<Message[]>([]);
@@ -57,7 +58,6 @@ const Dancefloor: React.FC = () => {
   const [ notification, setNotification ] = useState<string | null>(null);
   const [ requestsCount, setRequestsCount ] = useState<number>(0);
   const [ messagesCount, setMessagesCount ] = useState<number>(0);
-  const [ isAuthenticated, setIsAuthenticated ] = useState<boolean | null>(null);
  
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -290,25 +290,13 @@ const Dancefloor: React.FC = () => {
     };
   }, [likeErrors]);
 
-  useEffect(() => {
-    const authenticateUser = async () => {
-      const { isAuthenticated, dj } = await checkAuth();
-      setIsAuthenticated(isAuthenticated);
-      if (dj) setDjInfo(dj);
-    };
-
-    authenticateUser();
-  }, []);
-
   const activeRequests = songRequests.filter((request) => request.status === 'queued');
   const nowPlayingSong = songRequests.find((request) => request.status === 'playing');
   const completedRequests = songRequests.filter((request) => request.status === 'completed');
   const declinedRequests = songRequests.filter((request) => request.status === 'declined');
 
-  console.log("isAuthenticated:", isAuthenticated)
-
   return ( 
-    isAuthenticated ? (
+    session ? (
       <DJView 
         notification={notification} 
         djInfo={djInfo} 

@@ -2,37 +2,45 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { signIn } from 'next-auth/react';
 import Button from '../components/UI/Button';
 import LogoutButton from '@/components/LogoutButton';
 
 const SignupPage: React.FC = () => {
+  const router = useRouter();
   const [ name, setName ] = useState<string>('');
   const [ email, setEmail ] = useState<string>('');
   const [ password, setPassword ] = useState<string>('');
   const [ message, setMessage ] = useState<string>('');
   const [ showMessage, setShowMessage ] = useState<boolean>(false);
   const [ isMessageError, setIsMessageError ] = useState<boolean>(false);
-  const router = useRouter();
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         setIsMessageError(false);
-        setMessage('Signup successful! Redirecting...');
+        setMessage('Signup successful, noice! Redirecting...');
         setShowMessage(true);
-  
+
+        // auto log in after signup
+        await signIn("credentials", {
+          redirect: false,
+          email,
+          password,
+        });
+
         setTimeout(() => {
-          router.push(`/dj/${data.djId}`); // redirect after 2 seconds
+          router.push(`/dj/${data.dj.id}`);
         }, 2000);
       } else {
         setIsMessageError(true);
@@ -90,12 +98,12 @@ const SignupPage: React.FC = () => {
           Sign Me The F**k Up
         </Button>
       </form>
-      <div className='flex flex-row items-center justify-center text-xl mt-6 relative w-full'>
-        <p className='mr-3'>Already have an account?</p>
-        <Link href='/login' className='font-bold hover:text-main ease-in-out duration-300'>Login</Link>
+      <div className="flex flex-row items-center justify-center text-xl mt-6 relative w-full">
+        <p className="mr-3">Already have an account?</p>
+        <Link href="/login" className="font-bold hover:text-main ease-in-out duration-300">Login</Link>
         <AnimatePresence>
-        {showMessage && (
-            <motion.div  
+          {showMessage && (
+            <motion.div
               className={`flex font-bold mt-4 absolute top-6 max-w-lg ${isMessageError ? 'text-red-400 ' : 'text-green-400'}`}
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
@@ -116,10 +124,9 @@ const SignupPage: React.FC = () => {
       </div>
 
       {/* delete me eventually, just for testing */}
-      <div className='absolute top-12 right-16'>
+      <div className="absolute top-12 right-16">
         <LogoutButton />
       </div>
-
     </div>
   );
 };

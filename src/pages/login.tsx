@@ -4,50 +4,47 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Button from '../components/UI/Button';
 import LogoutButton from '@/components/LogoutButton';
+import { signIn, useSession } from "next-auth/react";
 
 const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
-  const [showMessage, setShowMessage] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
   const router = useRouter();
+  const { data: session } = useSession();
+  const [ email, setEmail ] = useState<string>('');
+  const [ password, setPassword ] = useState<string>('');
+  const [ message, setMessage ] = useState<string>('');
+  const [ showMessage, setShowMessage ] = useState<boolean>(false);
+  const [ isError, setIsError ] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const result = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
 
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        const djId = data.dj.id;
-        setMessage('Login successful, noice.');
-        setIsError(false);
-        setShowMessage(true);
-        setTimeout(() => {
-          router.push(`/dj/${djId}`);
-        }, 2000);
-      } else {
-        setMessage(data.error || 'Login failed');
-        setIsError(true);
-        setShowMessage(true);
-      }
-    } catch (error) {
-      console.error('Login error:', error);
-      setMessage('An unexpected error occurred. Please try again.');
+    if (result?.ok) {
+      setMessage("Login successful, noice.");
+      setIsError(false);
+      setShowMessage(true);
+    } else {
+      setMessage(result?.error || "Login failed");
       setIsError(true);
       setShowMessage(true);
     }
   };
+
+  useEffect(() => {
+    if (session?.user?.id) {
+      const timer = setTimeout(() => {
+        router.push(`/dj/${session.user.id}`);
+      }, 2000);
+
+      // clear the timeout if the component unmounts
+      return () => clearTimeout(timer);
+    }
+  }, [session, router]);
+
 
   useEffect(() => {
     if (showMessage) {
