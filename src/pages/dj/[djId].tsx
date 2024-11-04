@@ -165,61 +165,60 @@ const DjIdPage: React.FC = () => {
     }
   };
 
-  const domainRegex = /^(https?:\/\/)?(www\.)?([\w-]+\.)+[\w-]{2,}\/?$/;
+  const strictDomainRegex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,3}$/;
 
   const handleEditInfo = async (e: React.FormEvent) => {
     e.preventDefault();
-
     setStatus('');
     setIsStatusVisible(false);
     setIsStatusError(false);
 
-    let formattedWebsite = website.trim();
-
-    if (!formattedWebsite.startsWith('http://') && !formattedWebsite.startsWith('https://')) {
-      formattedWebsite = `http://${formattedWebsite}`;
+    let formattedWebsite = typeof website === 'string' ? website.trim() : '';
+    if (formattedWebsite && !formattedWebsite.startsWith('http://') && !formattedWebsite.startsWith('https://')) {
+        formattedWebsite = `http://${formattedWebsite}`;
     }
 
     const withoutProtocol = formattedWebsite.replace(/(^\w+:|^)\/\//, '');
-    if (!domainRegex.test(withoutProtocol)) {
-      setIsStatusError(true);
-      setStatus('Please enter a valid website (e.g., www.example.com).');
-      setIsStatusVisible(true);
-      return;
+    if (formattedWebsite && !strictDomainRegex.test(withoutProtocol)) {
+        setIsStatusError(true);
+        setStatus('Please enter a valid website (e.g., www.example.com).');
+        setIsStatusVisible(true);
+        return;
     }
 
     try {
-      const res = await fetch(`${backendUrl}/api/dj/${djId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          bio,
-          name: djName,
-          website: formattedWebsite,
-          instagramHandle,
-          twitterHandle,
-          venmoHandle,
-          cashappHandle,
-        }),
-      });
+        const res = await fetch(`${backendUrl}/api/dj/${djId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                bio: bio || '',
+                name: djName || '',
+                website: formattedWebsite || '',
+                instagramHandle: instagramHandle || '',
+                twitterHandle: twitterHandle || '',
+                venmoHandle: venmoHandle || '',
+                cashappHandle: cashappHandle || '',
+            }),
+        });
 
-      if (res.ok) {
-        setIsStatusError(false);
-        setStatus('DJ info updated successfully.');
-        setIsStatusVisible(true);
-        setIsEditing(false);
-      } else {
+        if (res.ok) {
+            setIsStatusError(false);
+            setStatus('DJ info updated successfully.');
+            setIsStatusVisible(true);
+            setIsEditing(false);
+        } else {
+            setIsStatusError(true);
+            setStatus('Error updating DJ info.');
+            setIsStatusVisible(true);
+        }
+    } catch (error) {
+        console.error('Error updating DJ info:', error);
         setIsStatusError(true);
         setStatus('Error updating DJ info.');
         setIsStatusVisible(true);
-      }
-    } catch (error) {
-      console.error('Error updating DJ info:', error);
-      setIsStatusError(true);
-      setStatus('Error updating DJ info.');
-      setIsStatusVisible(true);
     }
-  };
+};
+
 
   const handleProfilePicUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
