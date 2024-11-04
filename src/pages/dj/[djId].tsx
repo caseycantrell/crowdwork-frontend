@@ -5,9 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
-import Button from '../../components/UI/Button'
-import Input from '../../components/UI/Input'
-import { useSession } from "next-auth/react";
+import Button from '../../components/UI/Button';
+import Input from '../../components/UI/Input';
+import { useSession } from 'next-auth/react';
 
 interface Dancefloor {
   id: string;
@@ -21,27 +21,27 @@ interface Dancefloor {
 
 const DjIdPage: React.FC = () => {
   const router = useRouter();
-  const { data: session } = useSession()
-  console.log("session", session)
+  const { data: session } = useSession();
+  console.log("session", session);
   const { djId, redirect } = router.query;
-  const [ status, setStatus ] = useState<string>('Loading...');
-  const [ isStatusVisible, setIsStatusVisible ] = useState<boolean>(false);
-  const [ isStatusError, setIsStatusError ] = useState<boolean>(false);
-  const [ dancefloorId, setDancefloorId ] = useState<string | null>(null);
-  const [ isLoading, setIsLoading ] = useState<boolean>(false);
-  const [ qrCodeUrl, setQrCodeUrl ] = useState<string | null>(null);
-  const [ djName, setDjName ] = useState<string>('');
-  const [ bio, setBio ] = useState<string>('');
-  const [ website, setWebsite ] = useState<string>('');
-  const [ instagramHandle, setInstagramHandle ] = useState<string>('');
-  const [ twitterHandle, setTwitterHandle ] = useState<string>('');
-  const [ venmoHandle, setVenmoHandle ] = useState<string>('');
-  const [ cashappHandle, setCashappHandle ] = useState<string>('');
-  const [ isEditing, setIsEditing ] = useState<boolean>(false);
-  const [ isEditingProfilePic, setIsEditingProfilePic ] = useState<boolean>(false);
-  const [ pastDancefloors, setPastDancefloors ] = useState<Dancefloor[]>([]);
-  const [ profilePic, setProfilePic ] = useState<string | null>(null);
-  const [ uploading, setUploading ] = useState<boolean>(false);
+  const [status, setStatus] = useState<string>('Loading...');
+  const [isStatusVisible, setIsStatusVisible] = useState<boolean>(false);
+  const [isStatusError, setIsStatusError] = useState<boolean>(false);
+  const [dancefloorId, setDancefloorId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
+  const [djName, setDjName] = useState<string>('');
+  const [bio, setBio] = useState<string>('');
+  const [website, setWebsite] = useState<string>('');
+  const [instagramHandle, setInstagramHandle] = useState<string>('');
+  const [twitterHandle, setTwitterHandle] = useState<string>('');
+  const [venmoHandle, setVenmoHandle] = useState<string>('');
+  const [cashappHandle, setCashappHandle] = useState<string>('');
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isEditingProfilePic, setIsEditingProfilePic] = useState<boolean>(false);
+  const [pastDancefloors, setPastDancefloors] = useState<Dancefloor[]>([]);
+  const [profilePic, setProfilePic] = useState<string | null>(null);
+  const [uploading, setUploading] = useState<boolean>(false);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
@@ -54,7 +54,6 @@ const DjIdPage: React.FC = () => {
       return () => clearTimeout(timer);
     }
   }, [status]);
-
 
   useEffect(() => {
     let isMounted = true;
@@ -118,7 +117,6 @@ const DjIdPage: React.FC = () => {
     };
   }, [djId, backendUrl, router]);
 
-
   const startDancefloor = () => {
     if (typeof djId === 'string' && backendUrl) {
       setIsLoading(true);
@@ -144,7 +142,6 @@ const DjIdPage: React.FC = () => {
     }
   };
 
-
   const domainRegex = /^(https?:\/\/)?(www\.)?([\w-]+\.)+[\w-]{2,}\/?$/;
 
   const handleEditInfo = async (e: React.FormEvent) => {
@@ -156,12 +153,10 @@ const DjIdPage: React.FC = () => {
 
     let formattedWebsite = website.trim();
 
-    // add protocol if it's missing
     if (!formattedWebsite.startsWith('http://') && !formattedWebsite.startsWith('https://')) {
       formattedWebsite = `http://${formattedWebsite}`;
     }
 
-    // validate the URL w/o the protocol for regex matching
     const withoutProtocol = formattedWebsite.replace(/(^\w+:|^)\/\//, '');
     if (!domainRegex.test(withoutProtocol)) {
       setIsStatusError(true);
@@ -170,16 +165,6 @@ const DjIdPage: React.FC = () => {
       return;
     }
 
-    // remove unnecessary trailing slashes
-    try {
-      const url = new URL(formattedWebsite);
-      formattedWebsite = url.origin + url.pathname; // avoid double slashes
-    } catch {
-      setIsStatusError(true);
-      setStatus('Please enter a valid website (e.g., www.example.com).');
-      setIsStatusVisible(true);
-      return;
-    }
     try {
       const res = await fetch(`${backendUrl}/api/dj/${djId}`, {
         method: 'PUT',
@@ -212,7 +197,6 @@ const DjIdPage: React.FC = () => {
       setIsStatusVisible(true);
     }
   };
-
 
   const handleProfilePicUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -258,7 +242,6 @@ const DjIdPage: React.FC = () => {
       setUploading(false);
     }
   };
-  
 
   const saveProfilePic = async () => {
     if (!profilePic || !djId) return;
@@ -285,7 +268,6 @@ const DjIdPage: React.FC = () => {
     }
   };
 
-
   return (
     <div className="min-h-screen bg-gray-800 flex xl:items-center justify-center px-2 xl:px-6 py-2 xl:py-8 relative">
       {!session && 
@@ -295,16 +277,16 @@ const DjIdPage: React.FC = () => {
       }
       <div className="w-full max-w-6xl bg-gray-700 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
         <div className="flex flex-col items-center md:w-1/3">
-         {session && <p className="text-4xl font-semibold text-center mb- xl:mb-8">{djName || 'DJ Profile'}</p>}
-  
+          <p className="text-4xl font-semibold text-center mb- xl:mb-8">{djName || 'DJ Profile'}</p>
+
           <Image
-            src={profilePic || '/images/profile_placeholder.jpg'} 
+            src={profilePic || '/images/profile_placeholder.jpg'}
             alt="Profile Picture"
             width={200}
             height={200}
             className="w-60 h-60 rounded-sm object-cover mb-0 xl:mb-4"
           />
-  
+
           {session && !isEditingProfilePic ? (
             <Button
               onClick={() => setIsEditingProfilePic(true)}
@@ -343,7 +325,7 @@ const DjIdPage: React.FC = () => {
               </Button>
             </>
           ) : null}
-  
+
           {session && qrCodeUrl && (
             <div className="flex flex-col items-center mt-16">
               <p className="font-semibold text-lg mb-2">Your QR code</p>
@@ -356,7 +338,7 @@ const DjIdPage: React.FC = () => {
               />
             </div>
           )}
-  
+
           <AnimatePresence>
             {session && isStatusVisible && (
               <motion.p
@@ -371,36 +353,67 @@ const DjIdPage: React.FC = () => {
             )}
           </AnimatePresence>
         </div>
-  
+
         <div className="flex-1 space-y-4 xl:space-y-6">
           <div>
             <p className="text-xl xl:text-2xl font-bold">Name</p>
-            <p className="font-semibold text-gray-400">{djName || 'DJ Profile'}</p>
+            {session && isEditing ? (
+              <Input
+                value={djName}
+                onChange={(e) => setDjName(e.target.value)}
+              />
+            ) : (
+              <p className="font-semibold text-gray-400">{djName || 'DJ Profile'}</p>
+            )}
           </div>
-  
+
           <div>
             <p className="text-xl xl:text-2xl font-bold">Bio</p>
-            <p className="font-semibold text-gray-400">{bio || 'No bio available'}</p>
+            {session && isEditing ? (
+              <textarea
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                className="w-full p-2 text-gray-600 font-semibold border border-gray-300 rounded-md"
+              />
+            ) : (
+              <p className="font-semibold text-gray-400">{bio || 'No bio available'}</p>
+            )}
           </div>
-  
+
           <div>
             <p className="text-xl xl:text-2xl font-bold">Website</p>
-            <a
-              href={website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-main font-semibold"
-            >
-              {website || 'No website available'}
-            </a>
+            {session && isEditing ? (
+              <input
+                type="text"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                className="w-full p-2 text-gray-600 font-semibold border border-gray-300 rounded-md"
+              />
+            ) : (
+              <a
+                href={website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-main font-semibold"
+              >
+                {website || 'No website available'}
+              </a>
+            )}
           </div>
-  
+
           <div>
             <p className="text-xl xl:text-2xl font-bold">Social Media</p>
             <div className="font-semibold">
               <div className="flex flex-row items-baseline">
                 <p className="text-gray-400">Instagram:</p>
-                {instagramHandle ? (
+                {session && isEditing ? (
+                  <Input
+                    type="text"
+                    value={instagramHandle}
+                    className='ml-2 mb-2'
+                    onChange={(e) => setInstagramHandle(e.target.value)}
+                  />
+                ) : instagramHandle ? (
                   <a 
                     href={`https://www.instagram.com/${instagramHandle.replace(/^@/, '')}`} 
                     target="_blank" 
@@ -415,7 +428,14 @@ const DjIdPage: React.FC = () => {
               </div>
               <div className="flex flex-row items-baseline">
                 <p className="text-gray-400">Twitter:</p>
-                {twitterHandle ? (
+                {session && isEditing ? (
+                  <Input
+                    type="text"
+                    value={twitterHandle}
+                    className='ml-2'
+                    onChange={(e) => setTwitterHandle(e.target.value)}
+                  />
+                ) : twitterHandle ? (
                   <a 
                     href={`https://x.com/${twitterHandle.replace(/^@/, '')}`} 
                     target="_blank" 
@@ -436,7 +456,14 @@ const DjIdPage: React.FC = () => {
             <div className="font-semibold">
               <div className="flex flex-row items-baseline">
                 <p className="text-gray-400">Venmo:</p>
-                {venmoHandle ? (
+                {session && isEditing ? (
+                  <Input
+                    type="text"
+                    value={venmoHandle}
+                    className='ml-2 mb-2'
+                    onChange={(e) => setVenmoHandle(e.target.value)}
+                  />
+                ) : venmoHandle ? (
                   <a 
                     href={`https://account.venmo.com/u/${venmoHandle.replace(/^@/, '')}`} 
                     target="_blank" 
@@ -451,7 +478,14 @@ const DjIdPage: React.FC = () => {
               </div>
               <div className="flex flex-row items-baseline">
                 <p className="text-gray-400">CashApp:</p>
-                {cashappHandle ? (
+                {session && isEditing ? (
+                  <Input
+                    type="text"
+                    value={cashappHandle}
+                    className='ml-2'
+                    onChange={(e) => setCashappHandle(e.target.value)}
+                  />
+                ) : cashappHandle ? (
                   <a 
                     href={`https://cash.app/${cashappHandle.replace(/^\$/, '')}`} 
                     target="_blank" 
@@ -466,7 +500,7 @@ const DjIdPage: React.FC = () => {
               </div>
             </div>
           </div>
-  
+
           {session && (
             <div className="flex text-white font-bold text-xl">
               {isEditing ? (
@@ -490,7 +524,7 @@ const DjIdPage: React.FC = () => {
               )}
             </div>
           )}
-  
+
           <div className="flex text-xl text-white font-bold">
             {dancefloorId ? (
               <Link href={`/dancefloor/${dancefloorId}`} className="w-full">
@@ -503,7 +537,7 @@ const DjIdPage: React.FC = () => {
                   Go to Active Dancefloor
                 </Button>
               </Link>
-            ) : (
+            ) : session ? (
               <Button
                 onClick={startDancefloor}
                 className="w-full"
@@ -513,9 +547,9 @@ const DjIdPage: React.FC = () => {
               >
                 {isLoading ? "Starting..." : "Start Dancefloor"}
               </Button>
-            )}
+            ) : null}
           </div>
-  
+
           {session && (
             <>
               <p className="text-2xl font-bold">Past Dancefloors</p>
