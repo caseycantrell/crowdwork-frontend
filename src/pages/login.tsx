@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Button from '../components/UI/Button';
+import Input from '../components/UI/Input'
 import LogoutButton from '@/components/LogoutButton';
 import { signIn, useSession } from "next-auth/react";
 
@@ -58,31 +59,29 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-6xl font-bold text-center mb-8">Login</h1>
+      <h1 className="text-4xl font-bold text-center mb-8">Login</h1>
       <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-lg">
-        <input
+        <Input 
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 h-20 text-4xl font-bold rounded-md text-gray-600 focus:outline-none focus:ring-2 focus:ring-main"
         />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 h-20 text-4xl font-bold rounded-md text-gray-600 focus:outline-none focus:ring-2 focus:ring-main"
+        <Input 
+         type="password"
+         placeholder="Password"
+         value={password}
+         onChange={(e) => setPassword(e.target.value)}
         />
         <Button
           type="submit"
           fontWeight="font-bold"
-          className="w-full h-20 text-4xl"
+          className="w-full"
         >
-          Log Me The F**k In
+          Log Me In
         </Button>
       </form>
-      <div className='flex flex-row items-center justify-center mt-6 text-xl relative w-full'>
+      <div className='flex flex-row items-center justify-center mt-6 text-lg relative w-full'>
         <p className='mr-3'>Don&apos;t have an account yet?</p>
         <Link href='/signup' className='font-bold hover:text-main ease-in-out duration-300'>Signup</Link>
         <AnimatePresence>
