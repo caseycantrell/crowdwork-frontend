@@ -361,6 +361,7 @@ const DjIdPage: React.FC = () => {
             width={200}
             height={200}
             className="w-60 h-60 rounded-sm object-cover mb-0 xl:mb-4"
+            priority
           />
 
           {session && !isEditingProfilePic ? (
@@ -411,6 +412,7 @@ const DjIdPage: React.FC = () => {
                 width={200}
                 height={200}
                 className="w-60 h-60 object-contain"
+                priority
               />
             </div>
           )}
