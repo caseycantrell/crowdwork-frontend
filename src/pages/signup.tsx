@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import Button from '../components/UI/Button';
+import Input from '../components/UI/Input';
 import LogoutButton from '@/components/LogoutButton';
 
 const SignupPage: React.FC = () => {
@@ -67,38 +68,35 @@ const SignupPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-6xl font-bold text-center mb-8">Signup</h1>
+      <h1 className="text-4xl font-bold text-center mb-8">Signup</h1>
       <form onSubmit={handleSignup} className="space-y-6 w-full max-w-lg">
-        <input
+        <Input
           type="text"
           placeholder="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full px-4 h-20 font-bold text-4xl rounded-md text-gray-600 focus:outline-none focus:ring-2 focus:ring-main"
         />
-        <input
+        <Input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 h-20 font-bold text-4xl rounded-md text-gray-600 focus:outline-none focus:ring-2 focus:ring-main"
         />
-        <input
+        <Input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 h-20 font-bold text-4xl rounded-md text-gray-600 focus:outline-none focus:ring-2 focus:ring-main"
         />
         <Button
           type="submit"
           fontWeight="font-bold"
-          className="w-full h-20 text-4xl"
+          className="w-full"
         >
-          Sign Me The F**k Up
+          Sign Me Up
         </Button>
       </form>
-      <div className="flex flex-row items-center justify-center text-xl mt-6 relative w-full">
+      <div className="flex flex-row items-center justify-center text-lg mt-6 relative w-full">
         <p className="mr-3">Already have an account?</p>
         <Link href="/login" className="font-bold hover:text-main ease-in-out duration-300">Login</Link>
         <AnimatePresence>

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import Button from "../../UI/Button";
+import Input from "../../UI/Input";
 import { formatDistanceToNow } from 'date-fns';
 
 interface Message {
@@ -80,7 +81,7 @@ const ChatMobile: React.FC<{
             {messageError}
           </div>
         )}
-        <input
+        <Input
           type="text"
           value={message}
           onChange={(e) => {
@@ -95,13 +96,11 @@ const ChatMobile: React.FC<{
           }}
           onKeyDown={handleKeyDown}
           placeholder="Enter chat message..."
-          className="w-full mr-2 rounded-md h-10 p-2 text-gray-800 font-semibold focus:outline-none"
+          className="mr-2"
         />
         <Button
           onClick={handleSendMessage}
-          textSize=""
           bgColor="bg-gradient-to-r from-cyan-500 to-blue-500"
-          className="h-10 w-24"
         >
           Send
         </Button>
