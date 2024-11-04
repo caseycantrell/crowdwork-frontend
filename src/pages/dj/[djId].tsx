@@ -26,33 +26,33 @@ const DjIdPage: React.FC = () => {
   console.log("session", session);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
   const { djId, redirect } = router.query;
-  const [status, setStatus] = useState<string>('Loading...');
-  const [isStatusVisible, setIsStatusVisible] = useState<boolean>(false);
-  const [isStatusError, setIsStatusError] = useState<boolean>(false);
-  const [dancefloorId, setDancefloorId] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
-  const [djName, setDjName] = useState<string>('');
-  const [bio, setBio] = useState<string>('');
-  const [website, setWebsite] = useState<string>('');
-  const [instagramHandle, setInstagramHandle] = useState<string>('');
-  const [twitterHandle, setTwitterHandle] = useState<string>('');
-  const [venmoHandle, setVenmoHandle] = useState<string>('');
-  const [cashappHandle, setCashappHandle] = useState<string>('');
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [isEditingProfilePic, setIsEditingProfilePic] = useState<boolean>(false);
-  const [pastDancefloors, setPastDancefloors] = useState<Dancefloor[]>([]);
-  const [profilePic, setProfilePic] = useState<string | null>(null);
-  const [uploading, setUploading] = useState<boolean>(false);
+  const [ status, setStatus ] = useState<string>('Loading...');
+  const [ isStatusVisible, setIsStatusVisible ] = useState<boolean>(false);
+  const [ isStatusError, setIsStatusError ] = useState<boolean>(false);
+  const [ dancefloorId, setDancefloorId ] = useState<string | null>(null);
+  const [ isLoading, setIsLoading ] = useState<boolean>(false);
+  const [ qrCodeUrl, setQrCodeUrl ] = useState<string | null>(null);
+  const [ djName, setDjName ] = useState<string>('');
+  const [ bio, setBio ] = useState<string>('');
+  const [ website, setWebsite ] = useState<string>('');
+  const [ instagramHandle, setInstagramHandle ] = useState<string>('');
+  const [ twitterHandle, setTwitterHandle ] = useState<string>('');
+  const [ venmoHandle, setVenmoHandle ] = useState<string>('');
+  const [ cashappHandle, setCashappHandle ] = useState<string>('');
+  const [ isEditing, setIsEditing ] = useState<boolean>(false);
+  const [ isEditingProfilePic, setIsEditingProfilePic ] = useState<boolean>(false);
+  const [ pastDancefloors, setPastDancefloors ] = useState<Dancefloor[]>([]);
+  const [ profilePic, setProfilePic ] = useState<string | null>(null);
+  const [ uploading, setUploading ] = useState<boolean>(false);
 
   // modal with acct deletion states
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [deleteEmail, setDeleteEmail] = useState<string>('');
-  const [deletePassword, setDeletePassword] = useState<string>('');
-  const [deleteStatus, setDeleteStatus] = useState<string>('');
-  const [isDeleting, setIsDeleting] = useState<boolean>(false);
-  const [isDeleteError, setIsDeleteError] = useState<boolean>(false);
-  const [isDeleteStatusVisible, setIsDeleteStatusVisible] = useState<boolean>(false);
+  const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
+  const [ deleteEmail, setDeleteEmail ] = useState<string>('');
+  const [ deletePassword, setDeletePassword ] = useState<string>('');
+  const [ deleteStatus, setDeleteStatus ] = useState<string>('');
+  const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
+  const [ isDeleteError, setIsDeleteError ] = useState<boolean>(false);
+  const [ isDeleteStatusVisible, setIsDeleteStatusVisible ] = useState<boolean>(false);
 
   useEffect(() => {
     if (status) {
