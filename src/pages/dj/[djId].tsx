@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { format } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
 import Button from '../../components/UI/Button'
+import Input from '../../components/UI/Input'
 import { useSession } from "next-auth/react";
 
 interface Dancefloor {
@@ -314,7 +315,7 @@ const DjIdPage: React.FC = () => {
             </Button>
           ) : session && isEditingProfilePic ? (
             <>
-              <input 
+              <Input 
                 type="file" 
                 id="file-upload" 
                 onChange={handleProfilePicUpload} 

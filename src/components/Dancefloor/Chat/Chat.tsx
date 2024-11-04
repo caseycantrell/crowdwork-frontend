@@ -1,5 +1,6 @@
 import ChatMessage from "./ChatMessage";
 import Button from '../../UI/Button';
+import Input from '../../UI/Input'
 
 interface Message {
   message: string;
@@ -51,9 +52,9 @@ const Chat: React.FC<{
         )}
       </div>
 
-      <div className="flex-none flex flex-row items-center m-0 px-2 py-5 sticky bottom-0 bg-black relative">
+      <div className="flex-none flex flex-row items-center p-2 sticky bottom-0 bg-black relative">
         {messageError && <div className="flex flex-row w-full justify-center items-center absolute bg-gradient-to-r from-red-500 to-orange-500 h-12 -top-12 left-0 right-0 text-white text-lg font-semibold">{messageError}</div>}
-        <input
+        <Input
           type="text"
           value={message}
           onChange={(e) => {
@@ -66,13 +67,11 @@ const Chat: React.FC<{
           }}
           onKeyDown={handleKeyDown}
           placeholder="Enter your message"
-          className="w-full mr-2 rounded-md h-12 p-2 text-gray-800 text-xl font-semibold focus:outline-none"
+          className="mr-2"
         />
         <Button
           onClick={handleSendMessage}
-          bgColor="bg-gradient-to-r from-cyan-500 to-blue-500"
           textSize="text-xl"
-          className="h-12 w-32"
         >
           Send
         </Button>
