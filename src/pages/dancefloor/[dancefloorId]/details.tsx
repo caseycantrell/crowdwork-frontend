@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Button from '../../../components/UI/Button'
+import Modal from '../../../components/UI/Modal'
 import { formatDate } from 'date-fns';
 
 interface DJ {
@@ -40,6 +41,8 @@ interface Dancefloor {
 const DancefloorDetails: React.FC = () => {
   const router = useRouter();
   const { dancefloorId } = router.query;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
   const [dancefloor, setDancefloor] = useState<Dancefloor | null>(null);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -54,6 +57,32 @@ const DancefloorDetails: React.FC = () => {
         .catch((error) => console.error('Error fetching dancefloor details:', error));
     }
   }, [dancefloorId, backendUrl]);
+
+  const handleConfirmReactivateDancefloor = async () => {
+    if (backendUrl && dancefloorId) {
+      try {
+        const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}/reactivate`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (res.ok) {
+          setStatusMessage('Dancefloor reactivated successfully.');
+          setTimeout(() => {
+            router.reload();
+          }, 2000);
+        } else {
+          setStatusMessage('Failed to reactivate dancefloor.');
+        }
+      } catch (error) {
+        console.error('Error reactivating dancefloor:', error);
+        setStatusMessage('An error occurred while reactivating the dancefloor.');
+      }
+    }
+  };
+
 
   if (!dancefloor) return <p className="text-center mt-10 text-gray-600">Loading...</p>;
 
@@ -73,7 +102,17 @@ const DancefloorDetails: React.FC = () => {
         </div>
 
         <div className="p-6 bg-gray-600 rounded-lg text-white">
-          <p className="text-2xl font-semibold mb-4">Dancefloor Info</p>
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center">
+            <p className="text-2xl font-semibold mb-4">Dancefloor Info</p>
+            <Button 
+              onClick={() => setIsModalOpen(true)} 
+              bgColor="bg-green-500 hover:bg-green-600" 
+              padding="px-4 py-2"
+              className="ml-auto"
+            >
+              Reactivate Dancefloor
+            </Button>
+          </div>
             <div className='flex flex-row items-center'>
               <p className='font-bold'>Status:</p> 
               <p className='font-medium ml-1'>{dancefloor.status}</p>
@@ -97,6 +136,27 @@ const DancefloorDetails: React.FC = () => {
             </div>
           </div>
         </div>
+
+         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <div className="p-4 space-y-4">
+            <p className="text-2xl font-bold">Reactivate Dancefloor</p>
+            <p className="font-semibold">Are you sure you want to reactivate this dancefloor? This will override any currently active dancefloor.</p>
+            
+            <Button
+              onClick={handleConfirmReactivateDancefloor}
+              bgColor="bg-green-500"
+              className="w-full"
+            >
+              Confirm Reactivate
+            </Button>
+
+            {statusMessage && (
+              <p className={`text-center mt-4 ${statusMessage.includes('successfully') ? 'text-green-500' : 'text-red-500'}`}>
+                {statusMessage}
+              </p>
+            )}
+          </div>
+        </Modal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="py-6 pl-6 pr-3 bg-gray-600 rounded-lg">
