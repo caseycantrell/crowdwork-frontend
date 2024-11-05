@@ -72,7 +72,7 @@ const MobileView: React.FC<Props> = ({
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-console.log("djInfo",djInfo )
+
   return (
     <>
       <div className="hidden lg:flex min-h-screen items-center justify-center bg-gray-900">

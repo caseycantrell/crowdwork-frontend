@@ -69,11 +69,11 @@ const Dancefloor: React.FC = () => {
 
   // fetch dancefloor & DJ info
   const fetchDancefloorInfo = async () => {
-    if (typeof dancefloorId === 'string') {
+    if (backendUrl && dancefloorId) {
       try {
         const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}`);
         const data = await res.json();
-  
+
         if (res.ok) {
           setDjInfo(data.dj);
           setSongRequests(data.songRequests || []);
@@ -99,14 +99,14 @@ const Dancefloor: React.FC = () => {
   
   // fetch existing song requests and messages when the component mounts
   useEffect(() => {
-    if (typeof dancefloorId === 'string') {
+    if (dancefloorId) {
       fetchDancefloorInfo();
     }
   }, [dancefloorId, backendUrl]);
 
   // connect to websocket server when component mounts
   useEffect(() => {
-    if (typeof dancefloorId === 'string') {
+    if (dancefloorId) {
       socket.emit('joinDancefloor', dancefloorId);
 
       socket.on('songRequest', (data) => {
@@ -161,6 +161,8 @@ const Dancefloor: React.FC = () => {
 
   // stop dancefloor
   const handleStopDancefloor = async () => {
+    if (!backendUrl) return;
+    
     try {
       const res = await fetch(`${backendUrl}/api/stop-dancefloor`, {
         method: 'POST',
