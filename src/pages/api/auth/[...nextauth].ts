@@ -27,6 +27,8 @@ export default NextAuth({
   ],
   session: {
     strategy: "jwt",
+    maxAge: 30 * 60, // Set a short expiration (e.g., 30 minutes) if you see frequent invalidations
+    updateAge: 5 * 60, // Update the session every 5 minutes for development
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -39,6 +41,17 @@ export default NextAuth({
     async session({ session, token }) {
       session.user = { id: token.id, email: token.email };
       return session;
+    },
+  },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+      },
     },
   },
 });

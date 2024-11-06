@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import Button from '../components/UI/Button';
 import Input from '../components/UI/Input';
-import LogoutButton from '@/components/LogoutButton';
 
 const SignupPage: React.FC = () => {
   const router = useRouter();

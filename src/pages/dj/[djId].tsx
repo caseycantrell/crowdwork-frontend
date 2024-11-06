@@ -22,8 +22,7 @@ interface Dancefloor {
 
 const DjIdPage: React.FC = () => {
   const router = useRouter();
-  // const { data: session } = useSession();
-  // console.log("session", session);
+  const { data: session } = useSession();
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
   const { djId, redirect } = router.query;
   const [ status, setStatus ] = useState<string>('Loading...');
@@ -343,8 +342,6 @@ const DjIdPage: React.FC = () => {
         setIsDeleting(false);
     }
 };
-
-let session = 1
 
   return (
     <div className="min-h-screen bg-gray-800 flex xl:items-center justify-center px-2 xl:px-6 py-2 xl:py-8 relative">

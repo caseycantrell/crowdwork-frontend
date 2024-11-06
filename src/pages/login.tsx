@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Button from '../components/UI/Button';
 import Input from '../components/UI/Input'
-import LogoutButton from '@/components/LogoutButton';
 import { signIn, useSession } from "next-auth/react";
 
 const LoginPage: React.FC = () => {
