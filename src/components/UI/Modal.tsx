@@ -13,12 +13,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-40 backdrop-blur-sm"
+          className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-40 backdrop-blur-md"
           onClick={onClose} // close when clicking outside
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.4 }}
         >
           <motion.div
             className="relative bg-gray-600 rounded-md p-6 shadow-lg"
@@ -33,7 +33,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
             }}
           >
             <button
-              className="absolute text-4xl top-0 right-2 text-gray-900 hover:text-main"
+              className="absolute text-4xl top-1 right-3 text-gray-900 hover:text-main"
               onClick={onClose}
             >
               &times;
