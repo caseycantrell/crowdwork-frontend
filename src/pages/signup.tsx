@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import Button from '../components/UI/Button';
 import Input from '../components/UI/Input';
-import LogoutButton from '@/components/LogoutButton';
 
 const SignupPage: React.FC = () => {
   const router = useRouter();
@@ -119,11 +118,6 @@ const SignupPage: React.FC = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
-
-      {/* delete me eventually, just for testing */}
-      <div className="absolute top-12 right-16">
-        <LogoutButton />
       </div>
     </div>
   );

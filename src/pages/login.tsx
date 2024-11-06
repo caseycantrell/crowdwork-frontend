@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Button from '../components/UI/Button';
 import Input from '../components/UI/Input'
-import LogoutButton from '@/components/LogoutButton';
 import { signIn, useSession } from "next-auth/react";
 
 const LoginPage: React.FC = () => {
@@ -105,12 +104,6 @@ const LoginPage: React.FC = () => {
           )}
         </AnimatePresence>
       </div>
-
-         {/* delete me eventually, just for testing */}
-         <div className='absolute top-12 right-16'>
-          <LogoutButton />
-        </div>
-
     </div>
   );
 };
