@@ -120,11 +120,6 @@ const SignupPage: React.FC = () => {
           )}
         </AnimatePresence>
       </div>
-
-      {/* delete me eventually, just for testing */}
-      <div className="absolute top-12 right-16">
-        <LogoutButton />
-      </div>
     </div>
   );
 };

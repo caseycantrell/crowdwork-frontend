@@ -22,8 +22,8 @@ interface Dancefloor {
 
 const DjIdPage: React.FC = () => {
   const router = useRouter();
-  const { data: session } = useSession();
-  console.log("session", session);
+  // const { data: session } = useSession();
+  // console.log("session", session);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
   const { djId, redirect } = router.query;
   const [ status, setStatus ] = useState<string>('Loading...');
@@ -344,9 +344,11 @@ const DjIdPage: React.FC = () => {
     }
 };
 
+let session = 1
+
   return (
     <div className="min-h-screen bg-gray-800 flex xl:items-center justify-center px-2 xl:px-6 py-2 xl:py-8 relative">
-      {!session && 
+      {session && 
         <div className="absolute top-8 right-14">
           <LogoutButton />
         </div>
@@ -608,49 +610,6 @@ const DjIdPage: React.FC = () => {
             </div>
           )}
 
-            <Modal isOpen={isModalOpen} onClose={closeModal}>
-              <div className="p-2 relative space-y-4 pb-5">
-                <div className='flex flex-col items-start'>
-                  <p className="text-3xl font-bold text-black">You sure?</p>
-                  <p className="font-semibold">Please enter your email and password to confirm:</p>
-                </div>
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  value={deleteEmail}
-                  onChange={(e) => setDeleteEmail(e.target.value)}
-                  className=""
-                />
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  value={deletePassword}
-                  onChange={(e) => setDeletePassword(e.target.value)}
-                  className=""
-                />
-                <Button
-                  onClick={handleDeleteAccount}
-                  disabled={isDeleting}
-                  bgColor="bg-red-500"
-                  className="w-full mb-8"
-                >
-                  Confirm Delete
-                </Button>
-                <AnimatePresence>
-                  {deleteStatus && isDeleteStatusVisible && 
-                    <motion.p
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -10 }}
-                      transition={{ type: 'tween', duration: 0.5, ease: 'easeInOut' }}
-                      className={`${isDeleteError ? 'text-red-500 ' : 'text-green-500 '} text-center font-semibold text-sm absolute -bottom-3 left-0 right-0 `}>
-                        {deleteStatus}
-                    </motion.p>
-                  }
-                </AnimatePresence>
-              </div>
-            </Modal>
-
           <div className="flex text-xl text-white font-bold">
             {dancefloorId ? (
               <Link href={`/dancefloor/${dancefloorId}`} className="w-full">
@@ -705,6 +664,52 @@ const DjIdPage: React.FC = () => {
           )}
         </div>
       </div>
+
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="p-2 relative space-y-4 pb-5">
+          <div className='flex flex-col items-start'>
+            <p className="text-3xl font-bold text-black">You sure?</p>
+            <p className="font-semibold">Please enter your email and password to confirm:</p>
+          </div>
+          <Input
+            type="email"
+            placeholder="Email"
+            value={deleteEmail}
+            onChange={(e) => setDeleteEmail(e.target.value)}
+            className=""
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={deletePassword}
+            onChange={(e) => setDeletePassword(e.target.value)}
+            className=""
+          />
+          <Button
+            onClick={handleDeleteAccount}
+            disabled={isDeleting}
+            bgColor="bg-red-500"
+            className="w-full mb-8"
+          >
+            Confirm Delete
+          </Button>
+          <AnimatePresence>
+            {deleteStatus && isDeleteStatusVisible && 
+              <motion.p
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                transition={{ type: 'tween', duration: 0.5, ease: 'easeInOut' }}
+                className={`${isDeleteError ? 'text-red-500 ' : 'text-green-500 '} text-center font-semibold text-sm absolute -bottom-3 left-0 right-0 `}>
+                  {deleteStatus}
+              </motion.p>
+            }
+          </AnimatePresence>
+        </div>
+      </Modal>
+
+
     </div>
   );
 };
