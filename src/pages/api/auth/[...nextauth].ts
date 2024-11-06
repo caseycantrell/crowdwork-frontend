@@ -27,8 +27,6 @@ export default NextAuth({
   ],
   session: {
     strategy: "jwt",
-    maxAge: 30 * 60, // Set a short expiration (e.g., 30 minutes) if you see frequent invalidations
-    updateAge: 5 * 60, // Update the session every 5 minutes for development
   },
   callbacks: {
     async jwt({ token, user }) {
