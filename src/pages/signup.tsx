@@ -96,34 +96,34 @@ const SignupPage: React.FC = () => {
         <p className="text-6xl font-extrabold">Sign Up</p>
         <form onSubmit={handleSignup} className="space-y-6 w-full max-w-lg flex flex-col items-center mt-8">
           <Input
-              type="text"
-              placeholder="Name"
-              value={name}
-              className='backdrop-blur bg-gray-700/40 text-white p-4'
-              onChange={(e) => setName(e.target.value)}
-            />
-            <Input
-              type="email"
-              placeholder="Email"
-              value={email}
-              className='backdrop-blur bg-gray-700/40 text-white p-4'
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              value={password}
-              className='backdrop-blur bg-gray-700/40 text-white p-4'
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Button
-              type="submit"
-              padding='py-4'
-              fontWeight="font-bold"
-              className="w-full"
-            >
-              Sign Me Up
-            </Button>
+            type="text"
+            placeholder="Name"
+            value={name}
+            className='backdrop-blur bg-gray-700/40 text-white p-4'
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            type="email"
+            placeholder="Email"
+            value={email}
+            className='backdrop-blur bg-gray-700/40 text-white p-4'
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            className='backdrop-blur bg-gray-700/40 text-white p-4'
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button
+            type="submit"
+            padding='py-4'
+            fontWeight="font-bold"
+            className="w-full"
+          >
+            Sign Me Up
+          </Button>
         </form>
         <div className="flex flex-row items-center justify-center mt-5 text-lg relative w-full">
           <p className="mr-3 font-semibold">Already have an account?</p>

@@ -11,11 +11,11 @@ import '../../src/styles/gradient-bg.css'
 const LoginPage: React.FC = () => {
   const router = useRouter();
   const { data: session } = useSession();
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
-  const [showMessage, setShowMessage] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
+  const [ email, setEmail ] = useState<string>('');
+  const [ password, setPassword ] = useState<string>('');
+  const [ message, setMessage ] = useState<string>('');
+  const [ showMessage, setShowMessage ] = useState<boolean>(false);
+  const [ isError, setIsError ] = useState<boolean>(false);
 
   const interactiveRef: MutableRefObject<HTMLDivElement | null> = useInteractiveEffect();
 
