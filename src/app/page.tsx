@@ -17,7 +17,7 @@ const Home: React.FC = () => {
       <div className="gradient-bg flex flex-col min-h-screen">
         <div className='login-signup-container text-xl font-bold'>
           <Link href='/login' className=''>Login</Link>
-          <Link href='/signup' className='ml-6'>Signup</Link>
+          <Link href='/signup' className='ml-6'>Sign Up</Link>
         </div>
         <svg xmlns="http://www.w3.org/2000/svg">
           <defs>
