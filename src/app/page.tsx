@@ -1,8 +1,8 @@
 "use client"
 
 import { useRef, useEffect } from 'react';
-import '../../src/styles/gradient-bg.css';
 import Link from 'next/link';
+import '../../src/styles/gradient-bg.css';
 
 const Home: React.FC = () => {
   const interactiveRef = useRef<HTMLDivElement | null>(null);
@@ -39,7 +39,8 @@ const Home: React.FC = () => {
   return (
     <div className=''>
       <div className="text-container">
-        <p className='font-bold'>CROWDWORK</p>
+        <p className='font-extrabold text-shadow-xl text-8xl'>CROWDWORK</p>
+        <p className='font-bold'>Real-time song requesting and chat for DJ's.</p>
       </div>
       <div className="gradient-bg flex flex-col min-h-screen">
         <div className='login-signup-container'>

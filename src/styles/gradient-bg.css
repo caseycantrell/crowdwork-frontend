@@ -3,30 +3,30 @@
     width: 100vw;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     position: absolute;
     top: 0;
     left: 0;
     justify-content: center;
     align-items: center;
-    font-size: 96px;
-    color: white;
     opacity: 0.8;
     user-select: none;
     text-shadow: 1px 1px rgba(0,0,0,0.1);
 }
 
 :root {
-    --color-bg1: rgb(108, 0, 162);
-    --color-bg2: rgb(0, 17, 82);
-    --color1: 18, 113, 255;
-    --color2: 221, 74, 255;
-    --color3: 100, 220, 255;
-    --color4: 200, 50, 50;
-    --color5: 180, 180, 50;
-    --color-interactive: 140, 100, 255;
+    --color-bg1: rgb(0, 0, 0);
+    --color-bg2: rgb(0, 53, 39);
+    --color1: 10, 186, 181;     /* Tiffany Blue */
+    --color2: 32, 195, 175;     /* Seafoam Green */
+    --color3: 45, 199, 194;     /* Aqua Teal */
+    --color4: 22, 159, 172;     /* Deep Turquoise */
+    --color5: 136, 212, 204;    /* Cool Mint */
+    --color-interactive: 64, 224, 208;
     --circle-size: 80%;
     --blending: hard-light;
 }
+
 
 @keyframes moveInCircle {
     0% {
