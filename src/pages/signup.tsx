@@ -15,7 +15,7 @@ const SignupPage: React.FC = () => {
   const [ password, setPassword ] = useState<string>('');
   const [ message, setMessage ] = useState<string>('');
   const [ showMessage, setShowMessage ] = useState<boolean>(false);
-  const [ isMessageError, setIsMessageError ] = useState<boolean>(false);
+  const [ isError, setIsError ] = useState<boolean>(false);
 
   const interactiveRef: MutableRefObject<HTMLDivElement | null> = useInteractiveEffect();
 
@@ -32,7 +32,7 @@ const SignupPage: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setIsMessageError(false);
+        setIsError(false);
         setMessage('Signup successful, noice! Redirecting...');
         setShowMessage(true);
 
@@ -47,13 +47,13 @@ const SignupPage: React.FC = () => {
           router.push(`/dj/${data.dj.id}`);
         }, 2000);
       } else {
-        setIsMessageError(true);
+        setIsError(true);
         setMessage(data.error || 'Signup failed. Please try again.');
         setShowMessage(true);
       }
     } catch (error) {
       console.error('An unexpected error occurred:', error);
-      setIsMessageError(true);
+      setIsError(true);
       setMessage('An unexpected error occurred. Please try again later.');
       setShowMessage(true);
     }
@@ -71,8 +71,28 @@ const SignupPage: React.FC = () => {
 
   return (
     <div className="gradient-bg min-h-screen flex flex-col items-center justify-center">
+       <AnimatePresence>
+            {showMessage && (
+              <motion.div
+                className={`backdrop-blur ${isError ? 'bg-red-500/40' : 'bg-green-500/40'} p-8 shadow-xl rounded-md absolute top-8 2xl:top-24 text-center font-semibold z-50`}
+                initial={{ opacity: 0, y: -100 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -100 }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 20,
+                }}
+                onAnimationComplete={() => {
+                  if (!showMessage) setMessage('');
+                }}
+              >
+                <p>{message}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
       <div className="text-container">
-      <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-8 flex flex-col items-center w-[600px] h-[510px]'>
+      <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-8 flex flex-col items-center w-[600px] h-[490px]'>
         <p className="text-6xl font-extrabold">Sign Up</p>
         <form onSubmit={handleSignup} className="space-y-6 w-full max-w-lg flex flex-col items-center mt-8">
           <Input
@@ -105,29 +125,9 @@ const SignupPage: React.FC = () => {
               Sign Me Up
             </Button>
         </form>
-        <div className="flex flex-row items-center justify-center mt-4 text-lg relative w-full">
+        <div className="flex flex-row items-center justify-center mt-5 text-lg relative w-full">
           <p className="mr-3 font-semibold">Already have an account?</p>
-          <Link href="/login" className="font-bold hover:text-main ease-in-out duration-300">Login</Link>
-          <AnimatePresence>
-            {showMessage && (
-              <motion.div
-                className={`w-full absolute top-8 text-center font-light ${isMessageError ? 'text-red-500 ' : 'text-green-400'}`}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 100 }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 300,
-                  damping: 20,
-                }}
-                onAnimationComplete={() => {
-                  if (!showMessage) setMessage('');
-                }}
-              >
-                <p>{message}</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <Link href="/login" className="font-bold">Login</Link>
         </div>
       </div>
       </div>

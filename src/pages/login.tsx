@@ -60,8 +60,28 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="gradient-bg min-h-screen flex flex-col items-center justify-center">
+      <AnimatePresence>
+        {showMessage && (
+          <motion.div
+          className={`backdrop-blur ${isError ? 'bg-red-500/40' : 'bg-green-500/40'} p-8 shadow-xl rounded-md absolute top-12 2xl:top-24 text-center font-semibold z-50`}
+          initial={{ opacity: 0, y: -100 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -100 }}
+          transition={{
+            type: 'spring',
+            stiffness: 300,
+            damping: 20,
+          }}
+          onAnimationComplete={() => {
+            if (!showMessage) setMessage('');
+          }}
+          >
+            <p>{message}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="text-container">
-        <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-8 flex flex-col items-center w-[600px] h-[435px]'>
+        <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-8 flex flex-col items-center w-[600px] h-[410px]'>
           <p className="text-6xl font-extrabold">Login</p>
           <form
             onSubmit={handleSubmit}
@@ -85,31 +105,11 @@ const LoginPage: React.FC = () => {
               Log Me In
             </Button>
           </form>
-          <div className="flex flex-row items-center justify-center mt-4 text-lg relative w-full">
+          <div className="flex flex-row items-center justify-center mt-5 text-lg relative w-full">
             <p className="mr-3 font-semibold">Don't have an account yet?</p>
-            <Link href="/signup" className="font-bold hover:text-main ease-in-out duration-300">
+            <Link href="/signup" className="font-bold">
               Sign Up
             </Link>
-            <AnimatePresence>
-              {showMessage && (
-                <motion.div
-                className={`w-full absolute top-8 text-center font-light ${isError ? 'text-red-500' : 'text-green-400'}`}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 100 }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 300,
-                  damping: 20,
-                }}
-                onAnimationComplete={() => {
-                  if (!showMessage) setMessage('');
-                }}
-                >
-                  <p>{message}</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
         </div>
       </div>
