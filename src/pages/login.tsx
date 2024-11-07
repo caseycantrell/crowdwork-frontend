@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, MutableRefObject } from 'react';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Button from '../components/UI/Button';
 import Input from '../components/UI/Input';
 import { signIn, useSession } from 'next-auth/react';
+import { useInteractiveEffect } from '@/hooks/useInteractiveEffect';
 import '../../src/styles/gradient-bg.css'
 
 const LoginPage: React.FC = () => {
@@ -18,7 +19,7 @@ const LoginPage: React.FC = () => {
   const [showMessage, setShowMessage] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
-  const interactiveRef = useRef<HTMLDivElement | null>(null);
+  const interactiveRef: MutableRefObject<HTMLDivElement | null> = useInteractiveEffect();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,36 +59,6 @@ const LoginPage: React.FC = () => {
       return () => clearTimeout(timer);
     }
   }, [showMessage]);
-
-  
-  useEffect(() => {
-    let curX = 0;
-    let curY = 0;
-    let tgX = 0;
-    let tgY = 0;
-
-    function move() {
-      curX += (tgX - curX) / 20;
-      curY += (tgY - curY) / 20;
-
-      if (interactiveRef.current) {
-        interactiveRef.current.style.transform = `translate(${Math.round(curX)}px, ${Math.round(curY)}px)`;
-      }
-      requestAnimationFrame(move);
-    }
-
-    const handleMouseMove = (event: MouseEvent) => {
-      tgX = event.clientX;
-      tgY = event.clientY;
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    move();
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
 
   return (
     <div className="gradient-bg min-h-screen flex flex-col items-center justify-center">
