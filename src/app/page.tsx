@@ -39,13 +39,13 @@ const Home: React.FC = () => {
   return (
     <div className=''>
       <div className="text-container">
-        <p className='font-extrabold text-shadow-xl text-8xl'>CROWDWORK</p>
-        <p className='font-bold'>Real-time song requesting and chat for DJ's.</p>
+        <p className='font-extrabold text-8xl'>CROWDWORK</p>
+        <p className='font-bold text-2xl'>Real-time song requesting and chat for DJ's.</p>
       </div>
       <div className="gradient-bg flex flex-col min-h-screen">
-        <div className='login-signup-container'>
-          <Link href='/login' className='font-bold hover:text-main ease-in-out duration-300 cursor-pointer'>Login</Link>
-          <Link href='/signup' className='font-bold hover:text-main ease-in-out duration-300 cursor-pointer ml-6'>Signup</Link>
+        <div className='login-signup-container text-xl font-bold'>
+          <Link href='/login' className=''>Login</Link>
+          <Link href='/signup' className='ml-6'>Signup</Link>
         </div>
         <svg xmlns="http://www.w3.org/2000/svg">
           <defs>
