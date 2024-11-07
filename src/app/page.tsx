@@ -12,7 +12,7 @@ const Home: React.FC = () => {
     <div className=''>
       <div className="text-container">
         <p className='font-extrabold text-8xl'>CROWDWORK</p>
-        <p className='font-bold text-2xl'>Real-time song requesting and chat for DJ's.</p>
+        <p className='font-bold text-2xl'>Real-time song requesting and chat for DJ&apos;s.</p>
       </div>
       <div className="gradient-bg flex flex-col min-h-screen">
         <div className='login-signup-container text-xl font-bold'>
