@@ -134,3 +134,7 @@ body {
     top: 10%;    
   }
 }
+
+.invert {
+  filter: invert(1);
+}

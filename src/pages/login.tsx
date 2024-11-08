@@ -1,4 +1,4 @@
-import { useState, useEffect, MutableRefObject } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Button from '../components/UI/Button';

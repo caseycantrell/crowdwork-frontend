@@ -29,7 +29,7 @@ const SignupPage: React.FC = () => {
 
       if (response.ok) {
         setIsError(false);
-        setNotificationMessage('Signup successful, noice! Redirecting...');
+        setNotificationMessage('Signup successful.');
         setShowNotification(true);
 
         // auto log in after signup

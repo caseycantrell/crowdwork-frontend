@@ -9,6 +9,7 @@ import Button from '../../components/UI/Button';
 import Input from '../../components/UI/Input';
 import Modal from '../../components/UI/Modal';
 import { useSession, signOut } from 'next-auth/react';
+import Notification from '../../components/UI/Notification';
 
 interface Dancefloor {
   id: string;
@@ -670,12 +671,12 @@ const DjIdPage: React.FC = () => {
           )}
         </div>
       </div>
-
+      <Notification isError={isDeleteError} showNotification={isDeleteStatusVisible} notificationMessage={deleteStatus} onClose={() => setIsDeleteStatusVisible(false)} />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="p-2 relative space-y-4 pb-5">
+        <div className="p-2 relative space-y-4">
           <div className='flex flex-col items-start'>
-            <p className="text-3xl font-bold text-black">You sure?</p>
+            <p className="text-3xl font-bold">You sure?</p>
             <p className="font-semibold">Please enter your email and password to confirm:</p>
           </div>
           <Input
@@ -700,7 +701,7 @@ const DjIdPage: React.FC = () => {
           >
             Confirm Delete
           </Button>
-          <AnimatePresence>
+          {/* <AnimatePresence>
             {deleteStatus && isDeleteStatusVisible && 
               <motion.p
                 initial={{ opacity: 0, x: -20 }}
@@ -711,7 +712,7 @@ const DjIdPage: React.FC = () => {
                   {deleteStatus}
               </motion.p>
             }
-          </AnimatePresence>
+          </AnimatePresence> */}
         </div>
       </Modal>
 
