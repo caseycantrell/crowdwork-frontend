@@ -9,6 +9,7 @@ import Button from '../../components/UI/Button';
 import Input from '../../components/UI/Input';
 import Modal from '../../components/UI/Modal';
 import { useSession, signOut } from 'next-auth/react';
+import Notification from '../../components/UI/Notification';
 
 interface Dancefloor {
   id: string;
@@ -46,6 +47,7 @@ const DjIdPage: React.FC = () => {
 
   // modal with acct deletion states
   const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
+  const [ isQRModalOpen, setIsQRModalOpen ] = useState<boolean>(false);
   const [ deleteEmail, setDeleteEmail ] = useState<string>('');
   const [ deletePassword, setDeletePassword ] = useState<string>('');
   const [ deleteStatus, setDeleteStatus ] = useState<string>('');
@@ -297,6 +299,11 @@ const DjIdPage: React.FC = () => {
     setDeleteStatus('');
   };
 
+  const openQRModal = () => setIsQRModalOpen(true);
+  const closeQRModal = () => {
+    setIsQRModalOpen(false);
+  };
+
   const handleDeleteAccount = async () => {
     if (!deleteEmail || !deletePassword) {
         setIsDeleteStatusVisible(false);
@@ -344,13 +351,14 @@ const DjIdPage: React.FC = () => {
 };
 
   return (
-    <div className="min-h-screen bg-gray-800 flex xl:items-center justify-center px-2 xl:px-6 py-2 xl:py-8 relative">
+    <div className="min-h-screen flex xl:items-center justify-center px-2 xl:px-6 py-2 xl:py-8 relative">
+      <div className='gradient-background'></div>
       {session && 
         <div className="absolute top-8 right-14">
           <LogoutButton />
         </div>
       }
-      <div className="w-full max-w-6xl bg-gray-700 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
+      <div className="w-full max-w-6xl bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
         <div className="flex flex-col items-center md:w-1/3">
           {session && <p className="text-4xl font-semibold text-center mb- xl:mb-8">{djName || 'DJ Profile'}</p>}
 
@@ -359,7 +367,7 @@ const DjIdPage: React.FC = () => {
             alt="Profile Picture"
             width={200}
             height={200}
-            className="w-60 h-60 rounded-sm object-cover mb-0 xl:mb-4"
+            className="w-40 h-40 xl:w-60 xl:h-60 rounded-sm object-cover mb-0 xl:mb-4"
             priority
           />
 
@@ -381,7 +389,7 @@ const DjIdPage: React.FC = () => {
               />
               <label
                 htmlFor="file-upload"
-                className="flex justify-center bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white font-semibold py-2 px-4 rounded mb-4 cursor-pointer w-60"
+                className="flex justify-center bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white font-semibold py-2 px-4 rounded-md mb-4 cursor-pointer w-60"
               >
                 Choose File
               </label>
@@ -403,16 +411,18 @@ const DjIdPage: React.FC = () => {
           ) : null}
 
           {session && qrCodeUrl && (
-            <div className="flex flex-col items-center mt-16">
+            <div className="flex flex-col items-center mt-16 absolute bottom-80">
               <p className="font-semibold text-lg mb-2">Your QR code</p>
               <Image
                 src={qrCodeUrl}
                 alt="DJ QR Code"
                 width={200}
                 height={200}
-                className="w-60 h-60 object-contain"
+                className="w-60 h-60 object-contain cursor-pointer"
+                onClick={openQRModal} 
                 priority
               />
+              <p className='font-semibold mt-2 text-sm'>Click to enlarge/save.</p>
             </div>
           )}
          
@@ -661,12 +671,12 @@ const DjIdPage: React.FC = () => {
           )}
         </div>
       </div>
-
+      <Notification isError={isDeleteError} showNotification={isDeleteStatusVisible} notificationMessage={deleteStatus} onClose={() => setIsDeleteStatusVisible(false)} />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="p-2 relative space-y-4 pb-5">
+        <div className="p-2 relative space-y-4">
           <div className='flex flex-col items-start'>
-            <p className="text-3xl font-bold text-black">You sure?</p>
+            <p className="text-3xl font-bold">You sure?</p>
             <p className="font-semibold">Please enter your email and password to confirm:</p>
           </div>
           <Input
@@ -691,7 +701,7 @@ const DjIdPage: React.FC = () => {
           >
             Confirm Delete
           </Button>
-          <AnimatePresence>
+          {/* <AnimatePresence>
             {deleteStatus && isDeleteStatusVisible && 
               <motion.p
                 initial={{ opacity: 0, x: -20 }}
@@ -702,7 +712,30 @@ const DjIdPage: React.FC = () => {
                   {deleteStatus}
               </motion.p>
             }
-          </AnimatePresence>
+          </AnimatePresence> */}
+        </div>
+      </Modal>
+
+      <Modal isOpen={isQRModalOpen} onClose={closeQRModal}>
+        <div className="pt-2 px-4 w-full">
+        {qrCodeUrl && (
+      <div className='w-full'>
+        <img
+          src={qrCodeUrl}
+          alt="DJ QR Code"
+          className="object-contain mb-4"
+          style={{ width: '500px', height: '500px' }} // Adjust dimensions as needed
+        />
+        <Button padding='py-3' className='w-full'>
+          <a
+            href={qrCodeUrl}
+            download="DJ-QR-Code.png"
+          >
+            Save QR Code
+          </a>
+        </Button>
+      </div>
+    )}
         </div>
       </Modal>
 

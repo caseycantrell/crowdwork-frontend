@@ -1,6 +1,7 @@
 // Modal.tsx
 import React, { ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 interface ModalProps {
   isOpen: boolean;
@@ -13,7 +14,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-40 backdrop-blur-md"
+          className="fixed inset-0 flex items-center justify-center z-40 bg-black bg-opacity-40 backdrop-blur-md"
           onClick={onClose} // close when clicking outside
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -21,7 +22,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
           transition={{ duration: 0.4 }}
         >
           <motion.div
-            className="relative bg-gray-600 rounded-md p-6 shadow-lg"
+            className="relative bg-gray-800 backdrop-filter backdrop-blur-lg bg-opacity-30 rounded-md p-6 shadow-lg"
             onClick={(e) => e.stopPropagation()} // prevents closing when clicked inside
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -32,12 +33,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
               damping: 20,
             }}
           >
-            <button
-              className="absolute text-4xl top-1 right-3 text-gray-900 hover:text-main"
-              onClick={onClose}
+            <div
+              className="absolute top-3.5 right-3.5 cursor-pointer"
             >
-              &times;
-            </button>
+              <Image src={'/icons/close.png'} width={20} height={20} alt='Close' className='invert' onClick={onClose} />
+            </div>
             {children}
           </motion.div>
         </motion.div>

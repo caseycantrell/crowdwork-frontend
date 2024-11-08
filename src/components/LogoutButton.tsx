@@ -10,20 +10,21 @@ const LogoutButton: React.FC = () => {
   const [ showMessage, setShowMessage ] = useState<boolean>(false)
   const [ isError, setIsError ] = useState<boolean>(false)
 
-  const handleLogout = async () => {
-    try {
-      await signOut({ redirect: false });
-      setIsError(false);
-      setMessage("Logged out successfully.");
-      setShowMessage(true);
-      setTimeout(() => {
+  const handleLogout = () => {
+    setIsError(false);
+    setMessage("Logged out successfully.");
+    setShowMessage(true);
+
+    setTimeout(async () => {
+      try {
+        await signOut({ redirect: false });
         router.push("/login");
-      }, 2000);
-    } catch {
-      setIsError(true);
-      setMessage("An error occurred during logout. Please try again.");
-      setShowMessage(true);
-    }
+      } catch {
+        setIsError(true);
+        setMessage("An error occurred during logout. Please try again.");
+        setShowMessage(true);
+      }
+    }, 2000);
   };
 
   useEffect(() => {
