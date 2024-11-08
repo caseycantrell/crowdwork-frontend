@@ -88,9 +88,10 @@ const DancefloorDetails: React.FC = () => {
   if (!dancefloor) return <p className="text-center mt-10 text-gray-600">Loading...</p>;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-800 p-4">
-      <div className="w-full max-w-6xl bg-gray-700 shadow-lg rounded-lg p-8">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-center pb-2">
+    <div className="min-h-screen flex items-center justify-center p-4">
+          <div className='gradient'></div>
+      <div className="w-full max-w-6xl bg-gray-600 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow-lg rounded-lg p-8">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center pb-4">
           <p className="text-2xl font-bold text-white">Dancefloor ID: {dancefloorId}</p>
           <Link href={`/dj/${dancefloor.dj_id}`}>
             <Button 
@@ -101,7 +102,7 @@ const DancefloorDetails: React.FC = () => {
             </Button>
           </Link>
         </div>
-        <div className="p-6 bg-gray-600 flex flex-row items-center justify-between rounded-lg text-white mb-8 mt-4">
+        <div className="p-6 bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 flex flex-row items-center justify-between rounded-lg text-white mb-8 mt-4">
           <div>
             <div className="flex flex-col md:flex-row md:justify-between md:items-center">
               <p className="text-2xl font-semibold mb-4">Dancefloor Info</p>
@@ -172,16 +173,16 @@ const DancefloorDetails: React.FC = () => {
         </Modal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="py-6 pl-6 pr-3 bg-gray-600 rounded-lg">
+          <div className="py-6 pl-6 pr-3 bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 rounded-lg">
             <p className="text-2xl font-semibold mb-4">Song Requests</p>
             <div className="max-h-[24rem] overflow-y-auto space-y-2 pr-3 scrollbar-thin">
               {dancefloor.songRequests && dancefloor.songRequests.length > 0 ? (
                 <ul className="list-disc list-inside space-y-2">
                   {dancefloor.songRequests.map((request: SongRequest) => (
-                    <li key={request.id} className="py-3 px-2 bg-gray-500 shadow rounded flex flex-row items-center">
-                      <p className='text-xs text-gray-700 mr-2 text-nowrap'>{formatDate(request.created_at, "h:mm a")} </p>
+                    <li key={request.id} className="py-3 px-2 bg-gray-800 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow rounded flex flex-row items-center">
+                      <p className='text-xs text-gray-400 mr-2 text-nowrap'>{formatDate(request.created_at, "h:mm a")} </p>
                       <p className='flex-1 truncate overflow-hidden text-ellipsis whitespace-nowrap'>{request.song} </p>
-                      <p className='text-xs ml-2 text-gray-300 text-nowrap'>(Likes: {request.likes})</p>
+                      <p className='text-xs ml-2 text-gray-400 text-nowrap'>(Likes: {request.likes})</p>
                     </li>
                   ))}
                 </ul>
@@ -190,14 +191,14 @@ const DancefloorDetails: React.FC = () => {
               )}
             </div>
           </div>
-          <div className="py-6 pl-6 pr-3 bg-gray-600 rounded-lg">
+          <div className="py-6 pl-6 pr-3 bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 rounded-lg">
             <p className="text-2xl font-semibold mb-4">Messages</p>
             <div className="max-h-[24rem] overflow-y-auto space-y-2 pr-3 scrollbar-thin">
               {dancefloor.messages && dancefloor.messages.length > 0 ? (
                 <ul className="space-y-2">
                   {dancefloor.messages.map((msg: Message) => (
-                    <li key={msg.id} className="py-3 px-2 bg-gray-500 shadow rounded flex flex-row items-center">
-                      <p className='text-xs text-gray-700 mr-2 text-nowrap'>{formatDate(msg.created_at, "h:mm a")} </p>
+                    <li key={msg.id} className="py-3 px-2 bg-gray-800 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow rounded flex flex-row items-center">
+                      <p className='text-xs text-gray-400 mr-2 text-nowrap'>{formatDate(msg.created_at, "h:mm a")} </p>
                       <p>{msg.message}</p>
                     </li>
                   ))}

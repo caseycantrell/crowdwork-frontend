@@ -5,8 +5,6 @@ import Link from 'next/link';
 import Button from '../components/UI/Button';
 import Input from '../components/UI/Input';
 import { signIn, useSession } from 'next-auth/react';
-import { useInteractiveEffect } from '../hooks/useInteractiveEffect';
-import '../../src/styles/gradient-bg.css'
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
@@ -16,8 +14,6 @@ const LoginPage: React.FC = () => {
   const [ message, setMessage ] = useState<string>('');
   const [ showMessage, setShowMessage ] = useState<boolean>(false);
   const [ isError, setIsError ] = useState<boolean>(false);
-
-  const interactiveRef: MutableRefObject<HTMLDivElement | null> = useInteractiveEffect();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -59,7 +55,11 @@ const LoginPage: React.FC = () => {
   }, [showMessage]);
 
   return (
-    <div className="gradient-bg min-h-screen flex flex-col items-center justify-center">
+    <div className="gradient-bg min-h-screen flex flex-col items-center justify-center relative">
+      <div className='gradient-background'></div>
+      <div className="flex flex-row items-center text-xl font-bold absolute top-12 right-16">
+        <Link href='/' className=''>Home</Link>
+      </div>
       <AnimatePresence>
         {showMessage && (
           <motion.div
@@ -80,7 +80,7 @@ const LoginPage: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="text-container">
+      <div className="">
         <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-8 flex flex-col items-center w-[600px] h-[410px]'>
           <p className="text-6xl font-extrabold">Login</p>
           <form
@@ -112,28 +112,6 @@ const LoginPage: React.FC = () => {
             </Link>
           </div>
         </div>
-      </div>
-      <svg xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <filter id="goo">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
-              result="goo"
-            />
-            <feBlend in="SourceGraphic" in2="goo" />
-          </filter>
-        </defs>
-      </svg>
-      <div className="gradients-container">
-        <div className="g1"></div>
-        <div className="g2"></div>
-        <div className="g3"></div>
-        <div className="g4"></div>
-        <div className="g5"></div>
-        <div ref={interactiveRef} className="interactive"></div>
       </div>
     </div>
   );

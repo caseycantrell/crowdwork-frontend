@@ -404,7 +404,7 @@ const DjIdPage: React.FC = () => {
           ) : null}
 
           {session && qrCodeUrl && (
-            <div className="flex flex-col items-center mt-16">
+            <div className="flex flex-col items-center mt-16 absolute bottom-80">
               <p className="font-semibold text-lg mb-2">Your QR code</p>
               <Image
                 src={qrCodeUrl}
