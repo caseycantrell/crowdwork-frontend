@@ -1,18 +1,18 @@
 import { useState, useEffect, MutableRefObject } from 'react';
 import { useRouter } from 'next/router';
-import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Button from '../components/UI/Button';
 import Input from '../components/UI/Input';
 import { signIn, useSession } from 'next-auth/react';
+import Notification from '../components/UI/Notification';
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [ email, setEmail ] = useState<string>('');
   const [ password, setPassword ] = useState<string>('');
-  const [ message, setMessage ] = useState<string>('');
-  const [ showMessage, setShowMessage ] = useState<boolean>(false);
+  const [ notificationMessage, setNotificationMessage ] = useState<string>('');
+  const [ showNotification, setShowNotification ] = useState<boolean>(false);
   const [ isError, setIsError ] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,13 +24,13 @@ const LoginPage: React.FC = () => {
     });
 
     if (result?.ok) {
-      setMessage('Login successful, noice.');
+      setNotificationMessage('Login successful.');
       setIsError(false);
-      setShowMessage(true);
+      setShowNotification(true);
     } else {
-      setMessage(result?.error || 'Login failed');
+      setNotificationMessage(result?.error || 'Login failed');
       setIsError(true);
-      setShowMessage(true);
+      setShowNotification(true);
     }
   };
 
@@ -45,41 +45,22 @@ const LoginPage: React.FC = () => {
   }, [session, router]);
 
   useEffect(() => {
-    if (showMessage) {
+    if (showNotification) {
       const timer = setTimeout(() => {
-        setShowMessage(false);
+        setShowNotification(false);
       }, 4000);
 
       return () => clearTimeout(timer);
     }
-  }, [showMessage]);
+  }, [showNotification]);
 
   return (
     <div className="gradient-bg min-h-screen flex flex-col items-center justify-center relative">
       <div className='gradient-background'></div>
+      <Notification isError={isError} notificationMessage={notificationMessage} showNotification={showNotification}  onClose={() => setShowNotification(false)} />
       <div className="flex flex-row items-center text-xl font-bold absolute top-12 right-16">
         <Link href='/' className=''>Home</Link>
       </div>
-      <AnimatePresence>
-        {showMessage && (
-          <motion.div
-          className={`backdrop-blur ${isError ? 'bg-red-500/40' : 'bg-green-500/40'} p-8 shadow-xl rounded-md absolute top-12 2xl:top-24 text-center font-semibold z-50`}
-          initial={{ opacity: 0, y: -100 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -100 }}
-          transition={{
-            type: 'spring',
-            stiffness: 300,
-            damping: 20,
-          }}
-          onAnimationComplete={() => {
-            if (!showMessage) setMessage('');
-          }}
-          >
-            <p>{message}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
       <div className="">
         <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-8 flex flex-col items-center w-[600px] h-[410px]'>
           <p className="text-6xl font-extrabold">Login</p>

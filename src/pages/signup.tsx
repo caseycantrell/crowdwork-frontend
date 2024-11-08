@@ -1,18 +1,18 @@
-import { useState, useEffect, MutableRefObject } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import Button from '../components/UI/Button';
 import Input from '../components/UI/Input';
+import Notification from '../components/UI/Notification';
 
 const SignupPage: React.FC = () => {
   const router = useRouter();
   const [ name, setName ] = useState<string>('');
   const [ email, setEmail ] = useState<string>('');
   const [ password, setPassword ] = useState<string>('');
-  const [ message, setMessage ] = useState<string>('');
-  const [ showMessage, setShowMessage ] = useState<boolean>(false);
+  const [ notificationMessage, setNotificationMessage ] = useState<string>('');
+  const [ showNotification, setShowNotification ] = useState<boolean>(false);
   const [ isError, setIsError ] = useState<boolean>(false);
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,8 +29,8 @@ const SignupPage: React.FC = () => {
 
       if (response.ok) {
         setIsError(false);
-        setMessage('Signup successful, noice! Redirecting...');
-        setShowMessage(true);
+        setNotificationMessage('Signup successful, noice! Redirecting...');
+        setShowNotification(true);
 
         // auto log in after signup
         await signIn("credentials", {
@@ -44,53 +44,34 @@ const SignupPage: React.FC = () => {
         }, 2000);
       } else {
         setIsError(true);
-        setMessage(data.error || 'Signup failed. Please try again.');
-        setShowMessage(true);
+        setNotificationMessage(data.error || 'Signup failed. Please try again.');
+        setShowNotification(true);
       }
     } catch (error) {
       console.error('An unexpected error occurred:', error);
       setIsError(true);
-      setMessage('An unexpected error occurred. Please try again later.');
-      setShowMessage(true);
+      setNotificationMessage('An unexpected error occurred. Please try again later.');
+      setShowNotification(true);
     }
   };
 
   useEffect(() => {
-    if (showMessage) {
+    if (showNotification) {
       const timer = setTimeout(() => {
-        setShowMessage(false);
+        setShowNotification(false);
       }, 4000);
 
       return () => clearTimeout(timer);
     }
-  }, [showMessage]);
+  }, [showNotification]);
 
   return (
     <div className="gradient-bg min-h-screen flex flex-col items-center justify-center relative">
       <div className='gradient-background'></div>
+      <Notification isError={isError} notificationMessage={notificationMessage} showNotification={showNotification} onClose={() => setShowNotification(false)} />
       <div className="flex flex-row items-center text-xl font-bold absolute top-12 right-16">
         <Link href='/' className=''>Home</Link>
       </div>
-        <AnimatePresence>
-          {showMessage && (
-            <motion.div
-              className={`backdrop-blur ${isError ? 'bg-red-500/40' : 'bg-green-500/40'} p-8 shadow-xl rounded-md absolute top-8 2xl:top-24 text-center font-semibold z-50`}
-              initial={{ opacity: 0, y: -100 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -100 }}
-              transition={{
-                type: 'spring',
-                stiffness: 300,
-                damping: 20,
-              }}
-              onAnimationComplete={() => {
-                if (!showMessage) setMessage('');
-              }}
-            >
-              <p>{message}</p>
-            </motion.div>
-          )}
-        </AnimatePresence>
       <div className="text-container">
       <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-8 flex flex-col items-center w-[600px] h-[490px]'>
         <p className="text-6xl font-extrabold">Sign Up</p>
