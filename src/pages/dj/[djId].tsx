@@ -344,13 +344,14 @@ const DjIdPage: React.FC = () => {
 };
 
   return (
-    <div className="min-h-screen bg-gray-800 flex xl:items-center justify-center px-2 xl:px-6 py-2 xl:py-8 relative">
+    <div className="min-h-screen flex xl:items-center justify-center px-2 xl:px-6 py-2 xl:py-8 relative">
+      <div className='gradient'></div>
       {session && 
         <div className="absolute top-8 right-14">
           <LogoutButton />
         </div>
       }
-      <div className="w-full max-w-6xl bg-gray-700 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
+      <div className="w-full max-w-6xl bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
         <div className="flex flex-col items-center md:w-1/3">
           {session && <p className="text-4xl font-semibold text-center mb- xl:mb-8">{djName || 'DJ Profile'}</p>}
 

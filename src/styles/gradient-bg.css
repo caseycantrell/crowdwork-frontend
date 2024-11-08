@@ -187,3 +187,8 @@
     opacity: 0.7;
 }
 }
+
+.g1, .g2, .g3, .g4, .g5 {
+    -webkit-filter: url(#goo) blur(40px);
+    filter: url(#goo) blur(40px);
+}
