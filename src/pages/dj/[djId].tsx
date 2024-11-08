@@ -46,6 +46,7 @@ const DjIdPage: React.FC = () => {
 
   // modal with acct deletion states
   const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
+  const [ isQRModalOpen, setIsQRModalOpen ] = useState<boolean>(false);
   const [ deleteEmail, setDeleteEmail ] = useState<string>('');
   const [ deletePassword, setDeletePassword ] = useState<string>('');
   const [ deleteStatus, setDeleteStatus ] = useState<string>('');
@@ -297,6 +298,11 @@ const DjIdPage: React.FC = () => {
     setDeleteStatus('');
   };
 
+  const openQRModal = () => setIsQRModalOpen(true);
+  const closeQRModal = () => {
+    setIsQRModalOpen(false);
+  };
+
   const handleDeleteAccount = async () => {
     if (!deleteEmail || !deletePassword) {
         setIsDeleteStatusVisible(false);
@@ -360,7 +366,7 @@ const DjIdPage: React.FC = () => {
             alt="Profile Picture"
             width={200}
             height={200}
-            className="w-60 h-60 rounded-sm object-cover mb-0 xl:mb-4"
+            className="w-40 h-40 xl:w-60 xl:h-60 rounded-sm object-cover mb-0 xl:mb-4"
             priority
           />
 
@@ -382,7 +388,7 @@ const DjIdPage: React.FC = () => {
               />
               <label
                 htmlFor="file-upload"
-                className="flex justify-center bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white font-semibold py-2 px-4 rounded mb-4 cursor-pointer w-60"
+                className="flex justify-center bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white font-semibold py-2 px-4 rounded-md mb-4 cursor-pointer w-60"
               >
                 Choose File
               </label>
@@ -411,9 +417,11 @@ const DjIdPage: React.FC = () => {
                 alt="DJ QR Code"
                 width={200}
                 height={200}
-                className="w-60 h-60 object-contain"
+                className="w-60 h-60 object-contain cursor-pointer"
+                onClick={openQRModal} 
                 priority
               />
+              <p className='font-semibold mt-2 text-sm'>Click to enlarge/save.</p>
             </div>
           )}
          
@@ -704,6 +712,29 @@ const DjIdPage: React.FC = () => {
               </motion.p>
             }
           </AnimatePresence>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isQRModalOpen} onClose={closeQRModal}>
+        <div className="pt-2 px-4 w-full">
+        {qrCodeUrl && (
+      <div className='w-full'>
+        <img
+          src={qrCodeUrl}
+          alt="DJ QR Code"
+          className="object-contain mb-4"
+          style={{ width: '500px', height: '500px' }} // Adjust dimensions as needed
+        />
+        <Button padding='py-3' className='w-full'>
+          <a
+            href={qrCodeUrl}
+            download="DJ-QR-Code.png"
+          >
+            Save QR Code
+          </a>
+        </Button>
+      </div>
+    )}
         </div>
       </Modal>
 
