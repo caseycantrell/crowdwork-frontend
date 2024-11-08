@@ -345,7 +345,7 @@ const DjIdPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex xl:items-center justify-center px-2 xl:px-6 py-2 xl:py-8 relative">
-      <div className='gradient'></div>
+      <div className='gradient-background'></div>
       {session && 
         <div className="absolute top-8 right-14">
           <LogoutButton />

@@ -89,7 +89,7 @@ const DancefloorDetails: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-          <div className='gradient'></div>
+          <div className='gradient-background'></div>
       <div className="w-full max-w-6xl bg-gray-600 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow-lg rounded-lg p-8">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center pb-4">
           <p className="text-2xl font-bold text-white">Dancefloor ID: {dancefloorId}</p>
