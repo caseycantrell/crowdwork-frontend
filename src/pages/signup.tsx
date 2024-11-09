@@ -67,15 +67,15 @@ const SignupPage: React.FC = () => {
 
   return (
     <div className="gradient-bg min-h-screen flex flex-col items-center justify-center relative">
-      <div className='gradient-background'></div>
+      <div className="gradient-background"></div>
       <Notification isError={isError} notificationMessage={notificationMessage} showNotification={showNotification} onClose={() => setShowNotification(false)} />
       <div className="flex flex-row items-center text-xl font-bold absolute top-12 right-16">
         <Link href='/' className=''>Home</Link>
+        <Link href='/login' className='ml-10'>Login</Link>
       </div>
-      <div className="text-container">
-      <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-8 flex flex-col items-center w-[600px] h-[490px]'>
-        <p className="text-6xl font-extrabold">Sign Up</p>
-        <form onSubmit={handleSignup} className="space-y-6 w-full max-w-lg flex flex-col items-center mt-8">
+      <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-8 flex flex-col items-center w-[600px]'>
+        <p className="text-4xl font-extrabold">Sign Up</p>
+        <form onSubmit={handleSignup} className="space-y-6 w-full max-w-lg flex flex-col items-center mt-6">
           <Input
             type="text"
             placeholder="Name"
@@ -101,16 +101,15 @@ const SignupPage: React.FC = () => {
             type="submit"
             padding='py-4'
             fontWeight="font-bold"
-            className="w-full"
+            className="w-full text-xl"
           >
             Sign Me Up
           </Button>
         </form>
-        <div className="flex flex-row items-center justify-center mt-5 text-lg relative w-full">
+        <div className="flex flex-row items-center justify-center mt-6 text-lg relative w-full">
           <p className="mr-3 font-semibold">Already have an account?</p>
           <Link href="/login" className="font-bold">Login</Link>
         </div>
-      </div>
       </div>
     </div>
   );

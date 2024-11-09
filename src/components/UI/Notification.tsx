@@ -40,7 +40,7 @@ const Notification: FC<NotificationProps> = ({ notificationMessage, isError = fa
             <p className='text-xl font-bold mr-2'>
                 {isError ? "WOMP WOMP." : "Noice."}
             </p>
-            <Image src={isError ? '/icons/error.png' : '/icons/success.png'} width={25} height={25} alt="Error" className='flex items-center mb-0.5'/>
+            <Image src={isError ? '/icons/error.png' : '/icons/success.png'} width={25} height={25} alt="Error" className='flex items-center mb-0.5 ml-1' priority />
         </div>
         <p className={`mt-2 font-bold ${isError ? 'text-red-500/80' : 'text-green-500/80'}`}>{notificationMessage}</p>
         </motion.div>
