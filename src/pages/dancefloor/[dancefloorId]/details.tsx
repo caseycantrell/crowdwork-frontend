@@ -102,7 +102,7 @@ const DancefloorDetails: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div className='gradient-background'></div>
+      <div className="gradient-background"></div>
       <Notification showNotification={showNotification} notificationMessage={notificationMessage} onClose={() => setShowNotification(false)} isError={isStatusMessageError} />
       <div className="w-full max-w-6xl bg-gray-600 bg-opacity-30 shadow-lg rounded-lg p-8">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center pb-4">
@@ -123,7 +123,7 @@ const DancefloorDetails: React.FC = () => {
             </div>
             <div className="flex flex-row items-center">
               <p className="font-bold">Status:</p>
-              <p className={`font-medium ml-1 ${dancefloor.status === 'active' ? 'text-main' : ''}`}>
+              <p className={`font-semibold ml-1 ${dancefloor.status === 'active' ? 'text-main' : 'text-gray-400'}`}>
                 {dancefloor.status ? dancefloor.status.charAt(0).toUpperCase() + dancefloor.status.slice(1) : ''}
               </p>
               {dancefloor.status === 'active' && (
@@ -131,11 +131,11 @@ const DancefloorDetails: React.FC = () => {
               )}
               {dancefloor.status === 'completed' && (
                 <Image 
-                  src="/icons/success.png" 
+                  src="/icons/completed.png" 
                   width={20} 
                   height={20} 
                   alt="Completed" 
-                  className="ml-1" 
+                  className="ml-1 mb-0.5" 
                 />
               )}
             </div>

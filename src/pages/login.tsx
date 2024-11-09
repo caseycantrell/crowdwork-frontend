@@ -56,17 +56,18 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="gradient-bg min-h-screen flex flex-col items-center justify-center relative">
-      <div className='gradient-background'></div>
+      <div className="gradient-background"></div>
       <Notification isError={isError} notificationMessage={notificationMessage} showNotification={showNotification}  onClose={() => setShowNotification(false)} />
       <div className="flex flex-row items-center text-xl font-bold absolute top-12 right-16">
         <Link href='/' className=''>Home</Link>
+        <Link href='/signup' className='ml-10'>Sign Up</Link>
       </div>
       <div className="">
-        <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-8 flex flex-col items-center w-[600px] h-[410px]'>
-          <p className="text-6xl font-extrabold">Login</p>
+        <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-8 flex flex-col items-center w-[600px]'>
+          <p className="text-4xl font-extrabold">Login</p>
           <form
             onSubmit={handleSubmit}
-            className="space-y-6 w-full max-w-lg flex flex-col items-center mt-8"
+            className="space-y-6 w-full max-w-lg flex flex-col items-center mt-6"
           >
             <Input
               type="email"
@@ -82,11 +83,11 @@ const LoginPage: React.FC = () => {
               className='backdrop-blur bg-gray-700/40 text-white p-4'
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Button type="submit" fontWeight="font-bold" className="w-full" padding='py-4'>
+            <Button type="submit" padding='py-4' fontWeight="font-bold" className="w-full text-xl">
               Log Me In
             </Button>
           </form>
-          <div className="flex flex-row items-center justify-center mt-5 text-lg relative w-full">
+          <div className="flex flex-row items-center justify-center mt-6 text-lg relative w-full">
             <p className="mr-3 font-semibold">Don&apos;t have an account yet?</p>
             <Link href="/signup" className="font-bold">
               Sign Up
