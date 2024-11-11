@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import Button from '../../UI/Button';
 
 interface Props {
     id: string;
@@ -78,9 +77,7 @@ const ActiveRequest: React.FC<Props> = ({
                     </AnimatePresence>
 
                     <div style={{ width: 30, height: 30 }}>
-                        <Button
-                            padding=""
-                            bgColor=""
+                        <button
                             className="overflow-visible"
                             onClick={() => updateStatus(id, 'playing')}
                             onMouseEnter={() => handleMouseEnter('play')}
@@ -91,12 +88,10 @@ const ActiveRequest: React.FC<Props> = ({
                                 width={50}
                                 alt="Play Icon"
                             />
-                        </Button>
+                        </button>
                     </div>
                     <div style={{ width: 30, height: 30 }}>
-                        <Button
-                            padding=""
-                            bgColor=""
+                        <button
                             className="overflow-visible"
                             onClick={() => updateStatus(id, 'declined')}
                             onMouseEnter={() => handleMouseEnter('decline')}
@@ -107,12 +102,10 @@ const ActiveRequest: React.FC<Props> = ({
                                 width={50}
                                 alt="Decline Icon"
                             />
-                        </Button>
+                        </button>
                     </div>
                     <div style={{ width: 30, height: 30 }}>
-                        <Button
-                            padding=""
-                            bgColor=""
+                        <button
                             className="overflow-visible"
                             onClick={() => handleLike(id, dancefloorId)}
                             onMouseEnter={() => handleMouseEnter('like')}
@@ -123,7 +116,7 @@ const ActiveRequest: React.FC<Props> = ({
                                 width={50}
                                 alt="Like Icon"
                             />
-                        </Button>
+                        </button>
                     </div>
                 </div>
             </div>

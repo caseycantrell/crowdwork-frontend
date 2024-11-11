@@ -311,7 +311,7 @@ const handleLogout = async () => {
       }
       <div className="w-full max-w-6xl bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
         <div className="flex flex-col items-center md:w-1/3">
-          {session && <p className="text-4xl font-semibold text-center mb- xl:mb-8">{djName || 'Your DJ Profile'}</p>}
+          {session && <p className="text-4xl font-semibold text-center mb-0 xl:mb-8">{djName || 'Your DJ Profile'}</p>}
 
           <Image
             src={profilePic || '/images/profile_placeholder.jpg'}
@@ -326,6 +326,7 @@ const handleLogout = async () => {
             <Button
               onClick={() => setIsEditingProfilePic(true)}
               className="w-60"
+              fontWeight='font-semibold'
               bgColor="bg-gradient-to-r from-cyan-500 to-blue-500"
             >
               Update Profile Pic
@@ -347,6 +348,7 @@ const handleLogout = async () => {
               <Button
                 onClick={saveProfilePic}
                 disabled={uploading}
+                fontWeight='font-semibold'
                 className="w-60"
               >
                 {uploading ? 'Uploading...' : 'Save Profile Picture'}
@@ -354,6 +356,7 @@ const handleLogout = async () => {
               <Button
                 onClick={() => setIsEditingProfilePic(false)}
                 bgColor="bg-red-500"
+                fontWeight='font-semibold'
                 className="mt-4 w-60"
               >
                 Cancel
@@ -545,7 +548,7 @@ const handleLogout = async () => {
                   <Button
                     onClick={() => setIsEditing(false)}
                     padding="p-4"
-                    bgColor="bg-gradient-to-r from-red-500 to-red-700"
+                    bgColor="bg-gradient-to-r from-red-500/90 to-orange-600/90"
                   >
                     Cancel Edit
                   </Button>
@@ -566,7 +569,7 @@ const handleLogout = async () => {
                   >
                     Edit Info
                   </Button>
-                  <Button onClick={() => setIsModalOpen(true)} padding="p-4" bgColor="bg-gradient-to-r from-red-500 to-red-700">
+                  <Button onClick={() => setIsModalOpen(true)} padding="p-4" bgColor="bg-gradient-to-r from-red-500/90 to-orange-600/90">
                     Delete Account
                   </Button>
                 </div>
@@ -652,9 +655,10 @@ const handleLogout = async () => {
           <Button
             onClick={handleDeleteAccount}
             disabled={isDeleting}
-            bgColor="bg-red-500"
+            bgColor="bg-gradient-to-r from-red-500/90 to-orange-600/90"
             padding='py-4'
-            className="w-full mb-8"
+            fontWeight='font-semibold'
+            className="w-full"
           >
             Confirm Delete
           </Button>

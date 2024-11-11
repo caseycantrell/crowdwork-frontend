@@ -114,10 +114,7 @@ const DJInfoComponent: React.FC<{
                         </motion.p>
                     )}
                     </AnimatePresence>
-                    <Button
-                      bgColor="" 
-                      padding=""
-                      className=""
+                    <button
                       onClick={() => setIsStopDancefloorModalOpen(true)}
                       onMouseEnter={() => handleMouseEnter("stop")}
                       onMouseLeave={handleMouseLeave}
@@ -129,7 +126,7 @@ const DJInfoComponent: React.FC<{
                         alt="Stop Dancefloor"
                         className="invert mr-1"
                       />
-                    </Button>
+                    </button>
                 </div>
                 <div className="relative flex flex-row items-center">
                     <AnimatePresence>
@@ -145,10 +142,7 @@ const DJInfoComponent: React.FC<{
                         </motion.p>
                     )}
                     </AnimatePresence>
-                    <Button
-                      bgColor=""
-                      padding=""
-                      className=""
+                    <button
                       onClick={() => setIsChatVisible(!isChatVisible)}
                       onMouseEnter={() => handleMouseEnter("chat")}
                       onMouseLeave={handleMouseLeave}
@@ -160,7 +154,7 @@ const DJInfoComponent: React.FC<{
                         alt="Open Chat"
                         className="invert"
                       />
-                    </Button>
+                    </button>
                 </div>
             </div>
             {djInfo?.qr_code && (

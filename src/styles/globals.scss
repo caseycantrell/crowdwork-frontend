@@ -113,18 +113,18 @@ body {
 }
 
 .gradient-background {
-  --size: 950px;
+  --size: 1250px;
   --speed: 10s;
   width: var(--size);
   height: var(--size);
   --easing: cubic-bezier(0.8, 0.2, 0.2, 0.8);
-  filter: blur(calc(var(--size) / 5));
+  filter: blur(calc(var(--size) / 7.5));
   background-image: linear-gradient(hsl(222, 84%, 60%), hsl(164, 79%, 71%));
   animation: rotate var(--speed) var(--easing) alternate infinite;
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
   position: fixed;
-  top: 50%;
-  left: 40%;
+  top: 25%;
+  left: 30%;
   transform: translate(-50%, -50%);
   z-index: -1;
   pointer-events: none;
@@ -133,7 +133,8 @@ body {
 @media (max-width: 1280px) {
   .gradient-background {
     --size: 450px;
-    top: 10%;    
+    top: 10%;
+    left: 0%;
   }
 }
 

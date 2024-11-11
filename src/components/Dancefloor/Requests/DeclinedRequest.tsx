@@ -57,9 +57,7 @@ const DeclinedRequest: React.FC<Props> = ({
                     </AnimatePresence>
 
                     <div style={{ width: 30, height: 30 }}>
-                        <Button
-                            padding=""
-                            bgColor=""
+                        <button
                             className="overflow-visible"
                             onClick={() => updateStatus(id, 'queued')}
                             onMouseEnter={handleMouseEnter}
@@ -70,7 +68,7 @@ const DeclinedRequest: React.FC<Props> = ({
                                 width={50}
                                 alt="Requeue Icon"
                             />
-                        </Button>
+                        </button>
                     </div>
                 </div>
             </div>

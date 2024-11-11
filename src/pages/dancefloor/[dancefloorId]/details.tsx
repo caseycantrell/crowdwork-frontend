@@ -197,38 +197,36 @@ const DancefloorDetails: React.FC = () => {
             </div>
           </div>
           <div className='flex flex-row items-center mr-8'>
-          <div className="mr-12">
-            {dancefloor.status === "active" ? (
-              <Link href={`/dancefloor/${dancefloor.id}`}>
+            <div className="mr-12">
+              {dancefloor.status === "active" ? (
+                <Link href={`/dancefloor/${dancefloor.id}`}>
+                  <Button
+                    bgColor="bg-green-500"
+                    padding="w-64 py-5"
+                    className="text-lg"
+                  >
+                    Go to Dancefloor
+                  </Button>
+                </Link>
+              ) : (
                 <Button
-                  bgColor="bg-green-500"
-                  padding="w-64 py-5"
+                  onClick={() => setIsReactivateModalOpen(true)}
+                  bgColor="bg-gradient-to-r from-fuchsia-600 to-purple-600"
+                  padding="w-64 py-4"
                   className="text-lg"
                 >
-                  Go to Dancefloor
+                  Reactivate Dancefloor
                 </Button>
-              </Link>
-            ) : (
-              <Button
-                onClick={() => setIsReactivateModalOpen(true)}
-                bgColor="bg-green-500"
-                padding="w-64 py-5"
-                className="text-lg"
-              >
-                Reactivate Dancefloor
-              </Button>
-            )}
-          </div>
-          <div className="">
-                <Button
-                  onClick={() => setIsDeleteModalOpen(true)}
-                  bgColor="bg-red-500"
-                  padding="w-64 py-5"
-                  className="text-lg"
-                >
-                  Delete Dancefloor
-                </Button>
-          </div>
+              )}
+            </div>
+            <Button
+              onClick={() => setIsDeleteModalOpen(true)}
+              bgColor="bg-gradient-to-r from-red-500/80 to-orange-600/80"
+              padding="w-64 py-4"
+              className="text-lg "
+            >
+              Delete Dancefloor
+            </Button>
           </div>
         </div>
 
@@ -261,7 +259,7 @@ const DancefloorDetails: React.FC = () => {
             </div>
             <Button
               onClick={handleConfirmDeleteDancefloor}
-              bgColor='bg-red-500'
+              bgColor='bg-gradient-to-r from-red-500/80 to-orange-600/80'
               className="w-full mt-2 text-lg"
               padding='py-4'
             >
