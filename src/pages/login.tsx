@@ -59,8 +59,8 @@ const LoginPage: React.FC = () => {
       <div className="gradient-background"></div>
       <Notification isError={isError} notificationMessage={notificationMessage} showNotification={showNotification}  onClose={() => setShowNotification(false)} />
       <div className="flex flex-row items-center text-xl font-bold absolute top-12 right-16">
-        <Link href='/' className=''>Home</Link>
-        <Link href='/signup' className='ml-10'>Sign Up</Link>
+        <Link href='/' className='font-bold'>Home</Link>
+        <Link href='/signup' className='ml-10 font-bold'>Sign Up</Link>
       </div>
       <div className="">
         <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-8 flex flex-col items-center w-[600px]'>
@@ -73,14 +73,14 @@ const LoginPage: React.FC = () => {
               type="email"
               placeholder="Email"
               value={email}
-              className='backdrop-blur bg-gray-700/40 text-white p-4'
+              className='p-4 placeholder:text-md'
               onChange={(e) => setEmail(e.target.value)}
             />
             <Input
               type="password"
               placeholder="Password"
               value={password}
-              className='backdrop-blur bg-gray-700/40 text-white p-4'
+              className='p-4 placeholder:text-md'
               onChange={(e) => setPassword(e.target.value)}
             />
             <Button type="submit" padding='py-4' fontWeight="font-bold" className="w-full text-xl">
@@ -89,8 +89,8 @@ const LoginPage: React.FC = () => {
           </form>
           <div className="flex flex-row items-center justify-center mt-6 text-lg relative w-full">
             <p className="mr-3 font-semibold">Don&apos;t have an account yet?</p>
-            <Link href="/signup" className="font-bold">
-              Sign Up
+            <Link href="/signup" className="font-bold text-link">
+              <p>Sign Up</p>
             </Link>
           </div>
         </div>

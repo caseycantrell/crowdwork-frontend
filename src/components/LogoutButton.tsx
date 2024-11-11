@@ -38,35 +38,36 @@ const LogoutButton: React.FC = () => {
   }, [showMessage]);
 
   return (
-    <div className='flex flex-col items-end'>
+    <div className='flex flex-col items-end justify-end relative'>
       <Button
         onClick={handleLogout}
         fontWeight='font-bold'
         textSize='text-xl'
         padding=''
         bgColor=''
-        className='text-right w-full bg-transparent bg-none bg-opacity-0'>
+        disableHoverEffect={true}
+        className='text-right w-full bg-transparent bg-none bg-opacity-0 text-link'>
         Logout
       </Button>
       <AnimatePresence>
         {showMessage && (
-            <motion.div  
-              className={`mt-4 flex w-full whitespace-nowrap font-bold ${isError ? 'text-red-400' : 'text-green-400'}`}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 100 }}
-              transition={{
-                type: 'spring',
-                stiffness: 300,
-                damping: 20,
-              }}
-              onAnimationComplete={() => {
-                if (!showMessage) setMessage('');
-              }}
-            >
-              <p>{message}</p>
-            </motion.div>
-          )}
+          <motion.div
+            className={`absolute top-10 flex whitespace-nowrap font-bold ${isError ? 'text-red-400' : 'text-green-400'}`}
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{
+              type: 'spring',
+              stiffness: 300,
+              damping: 20,
+            }}
+            onAnimationComplete={() => {
+              if (!showMessage) setMessage('');
+            }}
+          >
+            <p>{message}</p>
+          </motion.div>
+        )}
       </AnimatePresence>
     </div>
   );

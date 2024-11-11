@@ -4,7 +4,6 @@ import LogoutButton from '../../components/LogoutButton';
 import Link from 'next/link';
 import Image from 'next/image';
 import { format } from 'date-fns';
-import { AnimatePresence, motion } from 'framer-motion';
 import Button from '../../components/UI/Button';
 import Input from '../../components/UI/Input';
 import Modal from '../../components/UI/Modal';
@@ -26,7 +25,7 @@ const DjIdPage: React.FC = () => {
   const { data: session } = useSession();
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
   const { djId, redirect } = router.query;
-  const [ status, setStatus ] = useState<string>('Loading...');
+  const [ status, setStatus ] = useState<string>('');
   const [ isStatusVisible, setIsStatusVisible ] = useState<boolean>(false);
   const [ isStatusError, setIsStatusError ] = useState<boolean>(false);
   const [ dancefloorId, setDancefloorId ] = useState<string | null>(null);
@@ -78,7 +77,6 @@ const DjIdPage: React.FC = () => {
     }
   }, [deleteStatus]);
   
-
   useEffect(() => {
     let isMounted = true;
 
@@ -99,13 +97,9 @@ const DjIdPage: React.FC = () => {
             setCashappHandle(data.cashappHandle);
 
             if (!data.isActive) {
-              setIsStatusError(true);
-              setStatus('No active dancefloor at the moment.');
               setDancefloorId(null);
             } else {
               setDancefloorId(data.dancefloorId);
-              setIsStatusError(false);
-              setStatus('Active dancefloor is live.');
               if (redirect === 'dancefloor') {
                 router.push(`/dancefloor/${data.dancefloorId}`);
               }
@@ -154,7 +148,6 @@ const DjIdPage: React.FC = () => {
           setDancefloorId(data.dancefloorId);
           setIsStatusError(false);
           setStatus('Dancefloor started successfully.');
-          router.push(`/dancefloor/${data.dancefloorId}`);
         })
         .catch(() => {
           setIsStatusError(true);
@@ -219,7 +212,6 @@ const DjIdPage: React.FC = () => {
         setIsStatusVisible(true);
     }
 };
-
 
   const handleProfilePicUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -352,6 +344,7 @@ const DjIdPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex xl:items-center justify-center px-2 xl:px-6 py-2 xl:py-8 relative">
+      <Notification showNotification={isStatusVisible} isError={isStatusError} notificationMessage={status} onClose={() => setIsStatusVisible(false)} />
       <div className='gradient-background'></div>
       {session && 
         <div className="absolute top-8 right-14">
@@ -360,14 +353,14 @@ const DjIdPage: React.FC = () => {
       }
       <div className="w-full max-w-6xl bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
         <div className="flex flex-col items-center md:w-1/3">
-          {session && <p className="text-4xl font-semibold text-center mb- xl:mb-8">{djName || 'DJ Profile'}</p>}
+          {session && <p className="text-4xl font-semibold text-center mb- xl:mb-8">{djName || 'Your DJ Profile'}</p>}
 
           <Image
             src={profilePic || '/images/profile_placeholder.jpg'}
             alt="Profile Picture"
             width={200}
             height={200}
-            className="w-40 h-40 xl:w-60 xl:h-60 rounded-sm object-cover mb-0 xl:mb-4"
+            className="w-40 h-40 xl:w-60 xl:h-60 rounded-lg border-2 border-gray-700 object-cover mb-0 xl:mb-4"
             priority
           />
 
@@ -389,7 +382,7 @@ const DjIdPage: React.FC = () => {
               />
               <label
                 htmlFor="file-upload"
-                className="flex justify-center bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white font-semibold py-2 px-4 rounded-md mb-4 cursor-pointer w-60"
+                className="flex button-effect justify-center bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white font-semibold py-2 px-4 rounded-md mb-4 cursor-pointer w-60"
               >
                 Choose File
               </label>
@@ -425,20 +418,6 @@ const DjIdPage: React.FC = () => {
               <p className='font-semibold mt-2 text-sm'>Click to enlarge/save.</p>
             </div>
           )}
-         
-          <AnimatePresence>
-            {session && isStatusVisible && (
-              <motion.p
-                className={`font-bold absolute top-6 right-7 ${isStatusError ? 'text-red-400' : 'text-main'}`}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{ type: 'tween', duration: 0.5, ease: 'easeInOut' }}
-              >
-                {status}
-              </motion.p>
-            )}
-          </AnimatePresence>
         </div>
 
         <div className="flex-1 space-y-4 xl:space-y-6">
@@ -447,10 +426,12 @@ const DjIdPage: React.FC = () => {
             {session && isEditing ? (
               <Input
                 value={djName}
+                placeholder='Enter DJ name...'
+                className='placeholder:text-sm'
                 onChange={(e) => setDjName(e.target.value)}
               />
             ) : (
-              <p className="font-semibold text-gray-400">{djName || 'DJ Profile'}</p>
+              <p className={`font-semibold text-gray-400 ${!djName && 'italic ml-1 text-sm'}`}>{djName || 'No DJ Name entered.'}</p>
             )}
           </div>
 
@@ -460,34 +441,41 @@ const DjIdPage: React.FC = () => {
               <textarea
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
-                className="w-full p-2 text-gray-600 font-semibold border border-gray-300 rounded-md"
+                placeholder='Enter bio (500 character maximum)...'
+                maxLength={500}
+                className="w-full min-h-10 break-words h-36 rounded-md backdrop-blur bg-gray-700/40 text-white p-2 text-gray-800 font-semibold focus:outline-none focus:ring-2 focus:ring-main placeholder-gray-500 placeholder:text-sm"
               />
             ) : (
-              <p className="font-semibold text-gray-400">{bio || 'No bio available'}</p>
+              <p className={`font-semibold break-all ${bio ? 'text-gray-400' : 'text-gray-400 italic ml-1 text-sm'}`}>
+                {bio || 'No bio entered.'}
+              </p>
             )}
           </div>
+
 
           <div>
             <p className="text-xl xl:text-2xl font-bold">Website</p>
             {session && isEditing ? (
-              <input
+              <Input
                 type="text"
                 value={website}
+                placeholder='Enter valid website...'
                 onChange={(e) => setWebsite(e.target.value)}
-                className="w-full p-2 text-gray-600 font-semibold border border-gray-300 rounded-md"
+                className="w-full placeholder:text-sm"
               />
-            ) : (
+            ) : website ? (
               <a
                 href={website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-main font-semibold"
+                className="text-link font-semibold"
               >
-                {website || 'No website available'}
+                {website}
               </a>
+            ) : (
+              <p className="text-gray-400 text-sm italic ml-1 font-semibold">No website entered.</p>
             )}
           </div>
-
           <div>
             <p className="text-xl xl:text-2xl font-bold">Social Media</p>
             <div className="font-semibold">
@@ -497,7 +485,8 @@ const DjIdPage: React.FC = () => {
                   <Input
                     type="text"
                     value={instagramHandle}
-                    className='ml-2 mb-2'
+                    className='ml-2 mb-2 placeholder:text-sm'
+                    placeholder={`Instagram handle (include @ symbol)...`}
                     onChange={(e) => setInstagramHandle(e.target.value)}
                   />
                 ) : instagramHandle ? (
@@ -505,7 +494,7 @@ const DjIdPage: React.FC = () => {
                     href={`https://www.instagram.com/${instagramHandle.replace(/^@/, '')}`} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="ml-2 text-main"
+                    className="ml-2 text-link"
                   >
                     {instagramHandle}
                   </a>
@@ -519,7 +508,8 @@ const DjIdPage: React.FC = () => {
                   <Input
                     type="text"
                     value={twitterHandle}
-                    className='ml-2'
+                    className='ml-2 placeholder:text-sm'
+                    placeholder={`Twitter handle (include @ symbol)...`}
                     onChange={(e) => setTwitterHandle(e.target.value)}
                   />
                 ) : twitterHandle ? (
@@ -527,7 +517,7 @@ const DjIdPage: React.FC = () => {
                     href={`https://x.com/${twitterHandle.replace(/^@/, '')}`} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="ml-2 text-main"
+                    className="ml-2 text-link"
                   >
                     {twitterHandle}
                   </a>
@@ -547,7 +537,8 @@ const DjIdPage: React.FC = () => {
                   <Input
                     type="text"
                     value={venmoHandle}
-                    className='ml-2 mb-2'
+                    className='ml-2 mb-2 placeholder:text-sm'
+                    placeholder={`Venmo handle (include @ symbol)...`}
                     onChange={(e) => setVenmoHandle(e.target.value)}
                   />
                 ) : venmoHandle ? (
@@ -555,7 +546,7 @@ const DjIdPage: React.FC = () => {
                     href={`https://account.venmo.com/u/${venmoHandle.replace(/^@/, '')}`} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="ml-2 text-main"
+                    className="ml-2 text-link"
                   >
                     {venmoHandle}
                   </a>
@@ -569,7 +560,8 @@ const DjIdPage: React.FC = () => {
                   <Input
                     type="text"
                     value={cashappHandle}
-                    className='ml-2'
+                    className='ml-2 placeholder:text-sm'
+                    placeholder={`CashApp Cashtag (include $ symbol)...`}
                     onChange={(e) => setCashappHandle(e.target.value)}
                   />
                 ) : cashappHandle ? (
@@ -577,7 +569,7 @@ const DjIdPage: React.FC = () => {
                     href={`https://cash.app/${cashappHandle.replace(/^\$/, '')}`} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="ml-2 text-main"
+                    className="ml-2 text-link"
                   >
                     {cashappHandle}
                   </a>
@@ -589,29 +581,36 @@ const DjIdPage: React.FC = () => {
           </div>
 
           {session && (
-            <div className="flex text-white font-bold text-xl">
+            <div className="flex text-white font-bold text-xl w-full">
               {isEditing ? (
-                <Button
-                  onClick={handleEditInfo}
-                  padding="p-4"
-                  bgColor="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500"
-                  className="w-full"
-                >
-                  Save Info
-                </Button>
+                <div className="w-full grid grid-cols-2 gap-4">
+                  <Button
+                    onClick={() => setIsEditing(false)}
+                    padding="p-4"
+                    bgColor="bg-gradient-to-r from-red-500 to-red-700"
+                  >
+                    Cancel Edit
+                  </Button>
+                  <Button
+                    onClick={handleEditInfo}
+                    padding="p-4"
+                    bgColor="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500"
+                  >
+                    Save Info
+                  </Button>
+                </div>
               ) : (
-                <div className='flex flex-row items-center w-full space-x-5'>
-                <Button
-                  onClick={() => setIsEditing(true)}
-                  padding="p-4"
-                  bgColor="bg-gradient-to-r from-blue-500 to-cyan-500"
-                  className="w-full"
-                >
-                  Edit Info
-                </Button>
-                <Button onClick={openModal} padding="p-4" bgColor="bg-gradient-to-r from-red-500 to-red-700" className="w-full">
-                Delete Account
-              </Button>
+                <div className="w-full grid grid-cols-2 gap-4">
+                  <Button
+                    onClick={() => setIsEditing(true)}
+                    padding="p-4"
+                    bgColor="bg-gradient-to-r from-blue-500 to-cyan-500"
+                  >
+                    Edit Info
+                  </Button>
+                  <Button onClick={openModal} padding="p-4" bgColor="bg-gradient-to-r from-red-500 to-red-700">
+                    Delete Account
+                  </Button>
                 </div>
               )}
             </div>
@@ -674,72 +673,59 @@ const DjIdPage: React.FC = () => {
       <Notification isError={isDeleteError} showNotification={isDeleteStatusVisible} notificationMessage={deleteStatus} onClose={() => setIsDeleteStatusVisible(false)} />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="p-2 relative space-y-4">
+        <div className="relative space-y-4">
           <div className='flex flex-col items-start'>
             <p className="text-3xl font-bold">You sure?</p>
-            <p className="font-semibold">Please enter your email and password to confirm:</p>
+            <p className="font-semibold text-sm">Please enter your email and password to confirm.</p>
           </div>
           <Input
             type="email"
             placeholder="Email"
             value={deleteEmail}
             onChange={(e) => setDeleteEmail(e.target.value)}
-            className=""
+            className="p-4"
           />
           <Input
             type="password"
             placeholder="Password"
             value={deletePassword}
             onChange={(e) => setDeletePassword(e.target.value)}
-            className=""
+            className="p-4"
           />
           <Button
             onClick={handleDeleteAccount}
             disabled={isDeleting}
             bgColor="bg-red-500"
+            padding='py-4'
             className="w-full mb-8"
           >
             Confirm Delete
           </Button>
-          {/* <AnimatePresence>
-            {deleteStatus && isDeleteStatusVisible && 
-              <motion.p
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{ type: 'tween', duration: 0.5, ease: 'easeInOut' }}
-                className={`${isDeleteError ? 'text-red-500 ' : 'text-green-500 '} text-center font-semibold text-sm absolute -bottom-3 left-0 right-0 `}>
-                  {deleteStatus}
-              </motion.p>
-            }
-          </AnimatePresence> */}
         </div>
       </Modal>
 
       <Modal isOpen={isQRModalOpen} onClose={closeQRModal}>
-        <div className="pt-2 px-4 w-full">
+        <div className="w-full p-4">
         {qrCodeUrl && (
-      <div className='w-full'>
-        <img
-          src={qrCodeUrl}
-          alt="DJ QR Code"
-          className="object-contain mb-4"
-          style={{ width: '500px', height: '500px' }} // Adjust dimensions as needed
-        />
-        <Button padding='py-3' className='w-full'>
-          <a
-            href={qrCodeUrl}
-            download="DJ-QR-Code.png"
-          >
-            Save QR Code
-          </a>
-        </Button>
-      </div>
-    )}
+          <div className='w-full'>
+            <img
+              src={qrCodeUrl}
+              alt="DJ QR Code"
+              className="object-contain mb-4"
+              style={{ width: '500px', height: '500px' }}
+            />
+            <Button padding='py-3' className='w-full'>
+              <a
+                href={qrCodeUrl}
+                download="DJ-QR-Code.png"
+              >
+                Save QR Code
+              </a>
+            </Button>
+          </div>
+        )}
         </div>
       </Modal>
-
-
     </div>
   );
 };

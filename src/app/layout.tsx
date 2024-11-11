@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto } from 'next/font/google';
 import localFont from "next/font/local";
-import "../styles/globals.css";
+import "../styles/globals.scss";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Layout from '../components/Layout';
 import { AppProps } from 'next/app';
 import { SessionProvider } from "next-auth/react";
-import '../styles/globals.css';
+import '../styles/globals.scss';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (

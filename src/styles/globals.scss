@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+$col-primary: #00c7ec;
+$corner-radius: 5px;
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -121,7 +124,7 @@ body {
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
   position: fixed;
   top: 50%;
-  left: 50%;
+  left: 40%;
   transform: translate(-50%, -50%);
   z-index: -1;
   pointer-events: none;
@@ -136,4 +139,83 @@ body {
 
 .invert {
   filter: invert(1);
+}
+
+.text-link {
+  position: relative;
+  display: inline-block;
+}
+
+.text-link::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background-color: #0bed9e98;
+  bottom: 0px;
+  left: 0;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.text-link:hover::before {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+.button-effect {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 0 0 transparent;
+  transition: all 0.2s ease-in;
+
+  &:hover {
+    box-shadow: 0 0 0px 0 rgba(255, 255, 255, 0.5);
+    transition: all 0.2s ease-out;
+
+    &:before {
+      animation: shine 0.5s linear;
+    }
+  }
+
+  &:active {
+    box-shadow: 0 0 0 0 transparent;
+    transition: box-shadow 0.2s ease-in;
+  }
+
+  &:before {
+    content: '';
+    display: block;
+    width: 0px;
+    height: 86%;
+    position: absolute;
+    top: 7%;
+    left: 0%;
+    opacity: 0;
+    background: white;
+    box-shadow: 0 0 15px 3px white;
+    transform: skewX(-20deg);
+  }
+}
+
+@keyframes shine {
+  from {
+    opacity: 0;
+    left: 0%;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    left: 100%;
+  }
+}
+
+.no-hover:hover {
+  box-shadow: none !important;
+  background-color: inherit !important;
+  transition: none !important;
 }

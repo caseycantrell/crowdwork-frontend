@@ -66,8 +66,8 @@ const Chat: React.FC<{
             }
           }}
           onKeyDown={handleKeyDown}
-          placeholder="Enter your message"
-          className="mr-2"
+          placeholder="Enter your message..."
+          className="mr-2 p-3"
         />
         <Button
           onClick={handleSendMessage}

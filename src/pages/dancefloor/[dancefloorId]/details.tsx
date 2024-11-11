@@ -44,7 +44,8 @@ const DancefloorDetails: React.FC = () => {
   const router = useRouter();
   const { dancefloorId } = router.query;
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-  const [ isModalOpen, setIsModalOpen ] = useState(false);
+  const [ isReactivateModalOpen, setIsReactivateModalOpen ] = useState(false);
+  const [ isDeleteModalOpen, setIsDeleteModalOpen ] = useState(false);
   const [ notificationMessage, setNotificationMessage ] = useState<string>('');
   const [ isStatusMessageError, setIsStatusMessageError ] = useState<boolean>(false);
   const [ showNotification, setShowNotification ] = useState<boolean>(false);
@@ -86,6 +87,30 @@ const DancefloorDetails: React.FC = () => {
       }
     }
   };
+
+  const handleConfirmDeleteDancefloor = async () => {
+    if (backendUrl && dancefloorId) {
+      try {
+        const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}`, {
+          method: 'DELETE',
+        });
+  
+        if (res.ok) {
+          setNotificationMessage('Dancefloor deleted successfully.');
+          setTimeout(() => {
+            router.push(`/dj/${dancefloor?.dj_id}`);
+          }, 2000);
+        } else {
+          setIsStatusMessageError(true);
+          setNotificationMessage('Failed to delete dancefloor.');
+        }
+      } catch (error) {
+        setIsStatusMessageError(true);
+        setNotificationMessage('An error occurred while deleting the dancefloor.');
+      }
+    }
+  };
+  
 
   useEffect(() => {
     if (notificationMessage) {
@@ -131,7 +156,7 @@ const DancefloorDetails: React.FC = () => {
               )}
               {dancefloor.status === 'completed' && (
                 <Image 
-                  src="/icons/completed.png" 
+                  src="/icons/success.png" 
                   width={20} 
                   height={20} 
                   alt="Completed" 
@@ -158,12 +183,13 @@ const DancefloorDetails: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="mr-16">
+          <div className='flex flex-row items-center mr-8'>
+          <div className="mr-12">
             {dancefloor.status === "active" ? (
               <Link href={`/dancefloor/${dancefloor.id}`}>
                 <Button
                   bgColor="bg-green-500"
-                  padding="px-16 py-5"
+                  padding="w-64 py-5"
                   className="text-lg"
                 >
                   Go to Dancefloor
@@ -171,31 +197,62 @@ const DancefloorDetails: React.FC = () => {
               </Link>
             ) : (
               <Button
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => setIsReactivateModalOpen(true)}
                 bgColor="bg-green-500"
-                padding="px-16 py-5"
+                padding="w-64 py-5"
                 className="text-lg"
               >
                 Reactivate Dancefloor
               </Button>
             )}
           </div>
+          <div className="">
+                <Button
+                  onClick={() => setIsDeleteModalOpen(true)}
+                  bgColor="bg-red-500"
+                  padding="w-64 py-5"
+                  className="text-lg"
+                >
+                  Delete Dancefloor
+                </Button>
+          </div>
+          </div>
         </div>
 
-        {/* confirmation modal */}
-         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <div className="p-4 relative space-y-4">
-            <p className="text-2xl font-bold">Reactivate Dancefloor?</p>
+        {/* reactivate confirmation modal */}
+         <Modal isOpen={isReactivateModalOpen} onClose={() => setIsReactivateModalOpen(false)}>
+          <div className="relative space-y-4">
+            <p className="text-3xl font-bold">Reactivate Dancefloor?</p>
            <div className='pb-2'>
             <p className="font-semibold">Are you sure you want to reactivate this dancefloor?</p>
             <p className="font-semibold">This will override any currently active dancefloor.</p>
            </div>
             <Button
               onClick={handleConfirmReactivateDancefloor}
+              bgColor='bg-green-500'
               className="w-full mt-2 text-lg"
               padding='py-4'
             >
               Confirm Reactivation
+            </Button>
+          </div>
+        </Modal>
+        
+        {/* delete confirmation modal */}
+         <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
+          <div className="relative space-y-4">
+            <p className="text-3xl font-bold">Delete Dancefloor?</p>
+            <div className='pb-2'>
+              <p className="font-semibold">Are you sure you want to delete this dancefloor?</p>
+              <p className="font-semibold">This action cannot be undone.</p>
+            </div>
+            <Button
+              onClick={handleConfirmDeleteDancefloor}
+              bgColor='bg-red-500'
+              className="w-full mt-2 text-lg"
+              padding='py-4'
+            >
+              Confirm Deletion
             </Button>
           </div>
         </Modal>

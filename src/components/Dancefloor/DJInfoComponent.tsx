@@ -8,18 +8,15 @@ import { DJInfo } from "@/types/types";
 const DJInfoComponent: React.FC<{
   djInfo: DJInfo | null;
   djInfoError: string | null;
-  handleStopDancefloor: () => void;
-  songRequest: string;
-  setSongRequest: (value: string) => void;
-  handleSendSongRequest: () => void;
   isChatVisible: boolean;
   setIsChatVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsStopDancefloorModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({
   djInfo,
   djInfoError,
-  handleStopDancefloor,
   isChatVisible,
   setIsChatVisible,
+  setIsStopDancefloorModalOpen
 }) => {
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
 
@@ -121,7 +118,7 @@ const DJInfoComponent: React.FC<{
                       bgColor="" 
                       padding=""
                       className=""
-                      onClick={handleStopDancefloor}
+                      onClick={() => setIsStopDancefloorModalOpen(true)}
                       onMouseEnter={() => handleMouseEnter("stop")}
                       onMouseLeave={handleMouseLeave}
                     >

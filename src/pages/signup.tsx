@@ -66,12 +66,12 @@ const SignupPage: React.FC = () => {
   }, [showNotification]);
 
   return (
-    <div className="gradient-bg min-h-screen flex flex-col items-center justify-center relative">
+    <div className="min-h-screen flex flex-col items-center justify-center relative">
       <div className="gradient-background"></div>
       <Notification isError={isError} notificationMessage={notificationMessage} showNotification={showNotification} onClose={() => setShowNotification(false)} />
-      <div className="flex flex-row items-center text-xl font-bold absolute top-12 right-16">
-        <Link href='/' className=''>Home</Link>
-        <Link href='/login' className='ml-10'>Login</Link>
+      <div className="flex flex-row items-center text-xl absolute top-12 right-16">
+        <Link href='/' className='font-bold'>Home</Link>
+        <Link href='/login' className='ml-10 font-bold'>Login</Link>
       </div>
       <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-8 flex flex-col items-center w-[600px]'>
         <p className="text-4xl font-extrabold">Sign Up</p>
@@ -80,21 +80,21 @@ const SignupPage: React.FC = () => {
             type="text"
             placeholder="Name"
             value={name}
-            className='backdrop-blur bg-gray-700/40 text-white p-4'
+            className='placeholder:text-md p-4'
             onChange={(e) => setName(e.target.value)}
           />
           <Input
             type="email"
             placeholder="Email"
             value={email}
-            className='backdrop-blur bg-gray-700/40 text-white p-4'
+            className='placeholder:text-md p-4'
             onChange={(e) => setEmail(e.target.value)}
           />
           <Input
             type="password"
             placeholder="Password"
             value={password}
-            className='backdrop-blur bg-gray-700/40 text-white p-4'
+            className='placeholder:text-md p-4'
             onChange={(e) => setPassword(e.target.value)}
           />
           <Button
@@ -108,7 +108,7 @@ const SignupPage: React.FC = () => {
         </form>
         <div className="flex flex-row items-center justify-center mt-6 text-lg relative w-full">
           <p className="mr-3 font-semibold">Already have an account?</p>
-          <Link href="/login" className="font-bold">Login</Link>
+          <Link href="/login" className="font-bold text-link">Login</Link>
         </div>
       </div>
     </div>
