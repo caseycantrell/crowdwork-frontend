@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import Button from '../../UI/Button';
 
 interface Props {
     id: string;
