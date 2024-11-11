@@ -107,7 +107,7 @@ const DancefloorDetails: React.FC = () => {
         } else {
           showNotification('Failed to delete dancefloor.', true);
         }
-      } catch (error) {
+      } catch {
         showNotification('An error occurred while deleting the dancefloor.', true);
       }
     }
