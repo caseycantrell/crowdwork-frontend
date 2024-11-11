@@ -6,6 +6,8 @@ import Modal from '../../../components/UI/Modal'
 import Button from '../../../components/UI/Button'
 import Notification from '../../../components/UI/Notification';
 import { formatDate } from 'date-fns';
+import LogoutButton from '../../../components/LogoutButton';
+import { useSession, signOut } from 'next-auth/react';
 
 interface DJ {
   id: string;
@@ -42,13 +44,18 @@ interface Dancefloor {
 
 const DancefloorDetails: React.FC = () => {
   const router = useRouter();
+  const { data: session } = useSession();
   const { dancefloorId } = router.query;
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-  const [ isModalOpen, setIsModalOpen ] = useState(false);
-  const [ notificationMessage, setNotificationMessage ] = useState<string>('');
-  const [ isStatusMessageError, setIsStatusMessageError ] = useState<boolean>(false);
-  const [ showNotification, setShowNotification ] = useState<boolean>(false);
+  const [notification, setNotification] = useState({ message: '', isVisible: false, isError: false });
+  const [ isReactivateModalOpen, setIsReactivateModalOpen ] = useState(false);
+  const [ isDeleteModalOpen, setIsDeleteModalOpen ] = useState(false);
   const [ dancefloor, setDancefloor ] = useState<Dancefloor | null>(null);
+
+  const showNotification = (message: string, isError = false) => {
+    setNotification({ message, isVisible: true, isError });
+    setTimeout(() => setNotification((prev) => ({ ...prev, isVisible: false })), 3000);
+  };
 
   useEffect(() => {
     if (typeof dancefloorId === 'string' && backendUrl) {
@@ -62,7 +69,6 @@ const DancefloorDetails: React.FC = () => {
   }, [dancefloorId, backendUrl]);
 
   const handleConfirmReactivateDancefloor = async () => {
-    setIsStatusMessageError(false);
     if (backendUrl && dancefloorId) {
       try {
         const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}/reactivate`, {
@@ -73,37 +79,69 @@ const DancefloorDetails: React.FC = () => {
         });
 
         if (res.ok) {
-          setNotificationMessage('Dancefloor reactivated successfully.');
+          showNotification('Dancefloor reactivated successfully.', false);
           setTimeout(() => {
             router.reload();
           }, 2000);
         } else {
-          setNotificationMessage('Failed to reactivate dancefloor.');
+          showNotification('Failed to reactivate dancefloor.', true);
         }
       } catch {
-        setIsStatusMessageError(true);
-        setNotificationMessage('An error occurred while reactivating the dancefloor.');
+        showNotification('An error occurred while reactivating the dancefloor.', true);
       }
     }
   };
 
-  useEffect(() => {
-    if (notificationMessage) {
-      setShowNotification(true);
-      const timer = setTimeout(() => {
-        setShowNotification(false);
-      }, 2000);
-
-      return () => clearTimeout(timer);
+  const handleConfirmDeleteDancefloor = async () => {
+    if (backendUrl && dancefloorId) {
+      try {
+        const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}`, {
+          method: 'DELETE',
+        });
+  
+        if (res.ok) {
+          showNotification('Dancefloor deleted successfully.', false);
+          setTimeout(() => {
+            router.push(`/dj/${dancefloor?.dj_id}`);
+          }, 2000);
+        } else {
+          showNotification('Failed to delete dancefloor.', true);
+        }
+      } catch {
+        showNotification('An error occurred while deleting the dancefloor.', true);
+      }
     }
-  }, [notificationMessage]);
+  };
+
+  const handleLogout = async () => {
+    showNotification("Logged out successfully.", false);
+  
+    setTimeout(async () => {
+      try {
+        await signOut({ redirect: false });
+        router.push("/");
+      } catch {
+        showNotification("An error occurred during logout. Please try again.", true);
+      }
+    }, 2000);
+  };
 
   if (!dancefloor) return <p className="text-center mt-10 text-gray-600">Loading...</p>;
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="gradient-background"></div>
-      <Notification showNotification={showNotification} notificationMessage={notificationMessage} onClose={() => setShowNotification(false)} isError={isStatusMessageError} />
+      {session && 
+        <div className="absolute top-8 right-14">
+          <LogoutButton handleLogout={handleLogout} />
+        </div>
+      }
+        <Notification
+          showNotification={notification.isVisible}
+          isError={notification.isError}
+          notificationMessage={notification.message}
+          onClose={() => setNotification((prev) => ({ ...prev, isVisible: false }))}
+        />
       <div className="w-full max-w-6xl bg-gray-600 bg-opacity-30 shadow-lg rounded-lg p-8">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center pb-4">
           <p className="text-2xl font-bold text-white">Dancefloor ID: {dancefloorId}</p>
@@ -131,7 +169,7 @@ const DancefloorDetails: React.FC = () => {
               )}
               {dancefloor.status === 'completed' && (
                 <Image 
-                  src="/icons/completed.png" 
+                  src="/icons/success.png" 
                   width={20} 
                   height={20} 
                   alt="Completed" 
@@ -158,44 +196,74 @@ const DancefloorDetails: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="mr-16">
-            {dancefloor.status === "active" ? (
-              <Link href={`/dancefloor/${dancefloor.id}`}>
+          <div className='flex flex-row items-center mr-8'>
+            <div className="mr-12">
+              {dancefloor.status === "active" ? (
+                <Link href={`/dancefloor/${dancefloor.id}`}>
+                  <Button
+                    bgColor="bg-green-500"
+                    padding="w-64 py-5"
+                    className="text-lg"
+                  >
+                    Go to Dancefloor
+                  </Button>
+                </Link>
+              ) : (
                 <Button
-                  bgColor="bg-green-500"
-                  padding="px-16 py-5"
+                  onClick={() => setIsReactivateModalOpen(true)}
+                  bgColor="bg-gradient-to-r from-fuchsia-600 to-purple-600"
+                  padding="w-64 py-4"
                   className="text-lg"
                 >
-                  Go to Dancefloor
+                  Reactivate Dancefloor
                 </Button>
-              </Link>
-            ) : (
-              <Button
-                onClick={() => setIsModalOpen(true)}
-                bgColor="bg-green-500"
-                padding="px-16 py-5"
-                className="text-lg"
-              >
-                Reactivate Dancefloor
-              </Button>
-            )}
+              )}
+            </div>
+            <Button
+              onClick={() => setIsDeleteModalOpen(true)}
+              bgColor="bg-gradient-to-r from-red-500/80 to-orange-600/80"
+              padding="w-64 py-4"
+              className="text-lg "
+            >
+              Delete Dancefloor
+            </Button>
           </div>
         </div>
 
-        {/* confirmation modal */}
-         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <div className="p-4 relative space-y-4">
-            <p className="text-2xl font-bold">Reactivate Dancefloor?</p>
+        {/* reactivate confirmation modal */}
+         <Modal isOpen={isReactivateModalOpen} onClose={() => setIsReactivateModalOpen(false)}>
+          <div className="relative space-y-4">
+            <p className="text-3xl font-bold">Reactivate Dancefloor?</p>
            <div className='pb-2'>
             <p className="font-semibold">Are you sure you want to reactivate this dancefloor?</p>
             <p className="font-semibold">This will override any currently active dancefloor.</p>
            </div>
             <Button
               onClick={handleConfirmReactivateDancefloor}
+              bgColor='bg-green-500'
               className="w-full mt-2 text-lg"
               padding='py-4'
             >
               Confirm Reactivation
+            </Button>
+          </div>
+        </Modal>
+        
+        {/* delete confirmation modal */}
+         <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
+          <div className="relative space-y-4">
+            <p className="text-3xl font-bold">Delete Dancefloor?</p>
+            <div className='pb-2'>
+              <p className="font-semibold">Are you sure you want to delete this dancefloor?</p>
+              <p className="font-semibold">This action cannot be undone.</p>
+            </div>
+            <Button
+              onClick={handleConfirmDeleteDancefloor}
+              bgColor='bg-gradient-to-r from-red-500/80 to-orange-600/80'
+              className="w-full mt-2 text-lg"
+              padding='py-4'
+            >
+              Confirm Deletion
             </Button>
           </div>
         </Modal>

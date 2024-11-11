@@ -8,18 +8,15 @@ import { DJInfo } from "@/types/types";
 const DJInfoComponent: React.FC<{
   djInfo: DJInfo | null;
   djInfoError: string | null;
-  handleStopDancefloor: () => void;
-  songRequest: string;
-  setSongRequest: (value: string) => void;
-  handleSendSongRequest: () => void;
   isChatVisible: boolean;
   setIsChatVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsStopDancefloorModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({
   djInfo,
   djInfoError,
-  handleStopDancefloor,
   isChatVisible,
   setIsChatVisible,
+  setIsStopDancefloorModalOpen
 }) => {
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
 
@@ -117,11 +114,8 @@ const DJInfoComponent: React.FC<{
                         </motion.p>
                     )}
                     </AnimatePresence>
-                    <Button
-                      bgColor="" 
-                      padding=""
-                      className=""
-                      onClick={handleStopDancefloor}
+                    <button
+                      onClick={() => setIsStopDancefloorModalOpen(true)}
                       onMouseEnter={() => handleMouseEnter("stop")}
                       onMouseLeave={handleMouseLeave}
                     >
@@ -132,7 +126,7 @@ const DJInfoComponent: React.FC<{
                         alt="Stop Dancefloor"
                         className="invert mr-1"
                       />
-                    </Button>
+                    </button>
                 </div>
                 <div className="relative flex flex-row items-center">
                     <AnimatePresence>
@@ -148,10 +142,7 @@ const DJInfoComponent: React.FC<{
                         </motion.p>
                     )}
                     </AnimatePresence>
-                    <Button
-                      bgColor=""
-                      padding=""
-                      className=""
+                    <button
                       onClick={() => setIsChatVisible(!isChatVisible)}
                       onMouseEnter={() => handleMouseEnter("chat")}
                       onMouseLeave={handleMouseLeave}
@@ -163,7 +154,7 @@ const DJInfoComponent: React.FC<{
                         alt="Open Chat"
                         className="invert"
                       />
-                    </Button>
+                    </button>
                 </div>
             </div>
             {djInfo?.qr_code && (

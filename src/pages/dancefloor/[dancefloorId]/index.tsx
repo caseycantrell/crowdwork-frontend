@@ -51,7 +51,6 @@ const Dancefloor: React.FC = () => {
   const [ messageError, setMessageError ] = useState<string | null>('');
   const [ messages, setMessages ] = useState<Message[]>([]);
   const [ messagesError, setMessagesError ] = useState<string | null>(null);
-  const [ songRequest, setSongRequest ] = useState<string>('');
   const [ songRequests, setSongRequests ] = useState<SongRequest[]>([]);
   const [ songRequestsError, setSongRequestsError ] = useState<string | null>(null);
   const [ likeErrors, setLikeErrors ] = useState<{ [key: string]: string | null }>({});
@@ -181,15 +180,6 @@ const Dancefloor: React.FC = () => {
       console.error('Error stopping dancefloor:', error);
     }
   };
-  
-
-  // sending song requests
-  const handleSendSongRequest = () => {
-    if (socket && songRequest.trim()) {
-      socket.emit('songRequest', { dancefloorId, song: songRequest });
-      setSongRequest('');
-    }
-  };
 
 
   // sending messages
@@ -289,9 +279,6 @@ const Dancefloor: React.FC = () => {
         dancefloorId={dancefloorId}
         djInfo={djInfo} 
         djInfoError={djInfoError}
-        songRequest={songRequest}
-        setSongRequest={setSongRequest}
-        handleSendSongRequest={handleSendSongRequest} 
         songRequestsError={songRequestsError} 
         nowPlayingSong={nowPlayingSong}
         activeRequests={activeRequests}

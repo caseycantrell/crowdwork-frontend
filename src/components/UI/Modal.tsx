@@ -22,7 +22,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
           transition={{ duration: 0.4 }}
         >
           <motion.div
-            className="relative bg-gray-800 backdrop-filter backdrop-blur-lg bg-opacity-30 rounded-md p-6 shadow-lg"
+            className="relative bg-gray-800 backdrop-filter backdrop-blur-lg bg-opacity-30 rounded-md p-6 shadow-lg shadow-gray-700/40"
             onClick={(e) => e.stopPropagation()} // prevents closing when clicked inside
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -33,11 +33,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
               damping: 20,
             }}
           >
-            <div
-              className="absolute top-3.5 right-3.5 cursor-pointer"
+            <button
+              className="absolute top-1 right-1 cursor-pointer p-2"
+              aria-label="Close"
             >
-              <Image src={'/icons/close.png'} width={20} height={20} alt='Close' className='invert' onClick={onClose} />
-            </div>
+              <Image src={'/icons/close.png'} width={25} height={25} alt='Close' className='invert' onClick={onClose} />
+            </button>
             {children}
           </motion.div>
         </motion.div>

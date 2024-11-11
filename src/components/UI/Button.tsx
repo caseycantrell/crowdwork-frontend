@@ -12,6 +12,7 @@ interface ButtonProps {
   padding?: string;
   fontWeight?: string;
   textSize?: string;
+  disableHoverEffect?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -24,10 +25,11 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   bgColor = "bg-gradient-to-r from-indigo-400 to-cyan-400",
   textColor = "text-white",
-  disabledColor = "disabled:g-gradient-to-r from-gray-500 to-gray-400",
+  disabledColor = "disabled:bg-gradient-to-r from-gray-500 to-gray-400",
   padding = "px-4 py-2",
   fontWeight = "font-semibold",
   textSize = "text-md",
+  disableHoverEffect = false,
 }) => {
   return (
     <button
@@ -36,7 +38,9 @@ const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      className={`${textColor} ${textSize} ${bgColor} ${disabled ? disabledColor : ""} ${padding} ${fontWeight} rounded-md ${className}`}
+      className={`${textColor} ${textSize} ${bgColor} ${disabled ? disabledColor : ""} ${padding} ${fontWeight} ${
+        disableHoverEffect ? "no-hover" : "button-effect"
+      } rounded-md ${className}`}
     >
       {children}
     </button>

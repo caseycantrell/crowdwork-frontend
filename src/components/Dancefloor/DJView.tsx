@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import Chat from './Chat/Chat';
+import Modal from '../UI/Modal';
+import Button from '../UI/Button';
 import DJInfoComponent from './DJInfoComponent';
 import SongRequests from './SongRequests';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -22,9 +24,6 @@ interface Props {
   dancefloorId: string;
   djInfo: DJInfo | null;
   djInfoError: string | null;
-  songRequest: string;
-  setSongRequest: (value: string) => void;
-  handleSendSongRequest: () => void;
   songRequestsError: string | null;
   nowPlayingSong: SongRequest | null | undefined;
   activeRequests: SongRequest[];
@@ -63,9 +62,6 @@ const DJView: React.FC<Props> = ({
   dancefloorId,
   djInfo,
   djInfoError,
-  songRequest,
-  setSongRequest,
-  handleSendSongRequest,
   songRequestsError,
   nowPlayingSong,
   activeRequests,
@@ -83,8 +79,8 @@ const DJView: React.FC<Props> = ({
   likeErrors,
   updateStatus
 }) => {
-
-  const [isChatVisible, setIsChatVisible] = useState<boolean>(false);
+  const [ isChatVisible, setIsChatVisible ] = useState<boolean>(false);
+  const [ isStopDancefloorModalOpen, setIsStopDancefloorModalOpen ] = useState<boolean>(false);
 
   return (
     <div className="flex min-h-screen bg-gray-800">
@@ -111,12 +107,9 @@ const DJView: React.FC<Props> = ({
         <DJInfoComponent
           djInfo={djInfo}
           djInfoError={djInfoError}
-          handleStopDancefloor={handleStopDancefloor}
-          songRequest={songRequest}
-          setSongRequest={setSongRequest}
-          handleSendSongRequest={handleSendSongRequest}
           isChatVisible={isChatVisible}
           setIsChatVisible={setIsChatVisible}
+          setIsStopDancefloorModalOpen={setIsStopDancefloorModalOpen}
         />
         <SongRequests
           dancefloorId={dancefloorId}
@@ -153,6 +146,17 @@ const DJView: React.FC<Props> = ({
           </motion.div>
         )}
       </AnimatePresence>
+
+      <Modal isOpen={isStopDancefloorModalOpen} onClose={() => setIsStopDancefloorModalOpen(false)} >
+        <div className='mr-8 w-full'>
+          <p className='font-extrabold text-2xl '>Really stop this dancefloor?</p>
+          <p className='font-semibold mb-4 mt-2 w-full text-center'>&#40;You can always reactivate it later.&#41;</p>
+          <div className='flex flex-row items-center space-x-4 mt-2'>
+            <Button bgColor='bg-red-400' padding='py-3' className='w-full text-lg' onClick={() => setIsStopDancefloorModalOpen(false)}>Cancel</Button>
+            <Button padding='py-3' className='w-full text-lg' onClick={handleStopDancefloor}>Confirm</Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
