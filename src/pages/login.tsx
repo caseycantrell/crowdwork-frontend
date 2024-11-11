@@ -11,9 +11,12 @@ const LoginPage: React.FC = () => {
   const { data: session } = useSession();
   const [ email, setEmail ] = useState<string>('');
   const [ password, setPassword ] = useState<string>('');
-  const [ notificationMessage, setNotificationMessage ] = useState<string>('');
-  const [ showNotification, setShowNotification ] = useState<boolean>(false);
-  const [ isError, setIsError ] = useState<boolean>(false);
+  const [notification, setNotification] = useState({ message: '', isVisible: false, isError: false });
+
+  const showNotification = (message: string, isError = false) => {
+    setNotification({ message, isVisible: true, isError });
+    setTimeout(() => setNotification((prev) => ({ ...prev, isVisible: false })), 3000);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,13 +27,9 @@ const LoginPage: React.FC = () => {
     });
 
     if (result?.ok) {
-      setNotificationMessage('Login successful.');
-      setIsError(false);
-      setShowNotification(true);
+      showNotification('Login successful.', false);
     } else {
-      setNotificationMessage(result?.error || 'Login failed');
-      setIsError(true);
-      setShowNotification(true);
+      showNotification(result?.error || 'Login failed', true);
     }
   };
 
@@ -44,21 +43,16 @@ const LoginPage: React.FC = () => {
     }
   }, [session, router]);
 
-  useEffect(() => {
-    if (showNotification) {
-      const timer = setTimeout(() => {
-        setShowNotification(false);
-      }, 4000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [showNotification]);
-
   return (
-    <div className="gradient-bg min-h-screen flex flex-col items-center justify-center relative">
+    <div className="min-h-screen flex flex-col items-center justify-center relative">
       <div className="gradient-background"></div>
-      <Notification isError={isError} notificationMessage={notificationMessage} showNotification={showNotification}  onClose={() => setShowNotification(false)} />
-      <div className="flex flex-row items-center text-xl font-bold absolute top-12 right-16">
+      <Notification
+          showNotification={notification.isVisible}
+          isError={notification.isError}
+          notificationMessage={notification.message}
+          onClose={() => setNotification((prev) => ({ ...prev, isVisible: false }))}
+        />
+      <div className="flex flex-row items-center text-xl absolute top-12 right-16">
         <Link href='/' className='font-bold'>Home</Link>
         <Link href='/signup' className='ml-10 font-bold'>Sign Up</Link>
       </div>

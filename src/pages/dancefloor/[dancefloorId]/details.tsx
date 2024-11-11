@@ -6,6 +6,8 @@ import Modal from '../../../components/UI/Modal'
 import Button from '../../../components/UI/Button'
 import Notification from '../../../components/UI/Notification';
 import { formatDate } from 'date-fns';
+import LogoutButton from '../../../components/LogoutButton';
+import { useSession, signOut } from 'next-auth/react';
 
 interface DJ {
   id: string;
@@ -42,14 +44,18 @@ interface Dancefloor {
 
 const DancefloorDetails: React.FC = () => {
   const router = useRouter();
+  const { data: session } = useSession();
   const { dancefloorId } = router.query;
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const [notification, setNotification] = useState({ message: '', isVisible: false, isError: false });
   const [ isReactivateModalOpen, setIsReactivateModalOpen ] = useState(false);
   const [ isDeleteModalOpen, setIsDeleteModalOpen ] = useState(false);
-  const [ notificationMessage, setNotificationMessage ] = useState<string>('');
-  const [ isStatusMessageError, setIsStatusMessageError ] = useState<boolean>(false);
-  const [ showNotification, setShowNotification ] = useState<boolean>(false);
   const [ dancefloor, setDancefloor ] = useState<Dancefloor | null>(null);
+
+  const showNotification = (message: string, isError = false) => {
+    setNotification({ message, isVisible: true, isError });
+    setTimeout(() => setNotification((prev) => ({ ...prev, isVisible: false })), 3000);
+  };
 
   useEffect(() => {
     if (typeof dancefloorId === 'string' && backendUrl) {
@@ -63,7 +69,6 @@ const DancefloorDetails: React.FC = () => {
   }, [dancefloorId, backendUrl]);
 
   const handleConfirmReactivateDancefloor = async () => {
-    setIsStatusMessageError(false);
     if (backendUrl && dancefloorId) {
       try {
         const res = await fetch(`${backendUrl}/api/dancefloor/${dancefloorId}/reactivate`, {
@@ -74,16 +79,15 @@ const DancefloorDetails: React.FC = () => {
         });
 
         if (res.ok) {
-          setNotificationMessage('Dancefloor reactivated successfully.');
+          showNotification('Dancefloor reactivated successfully.', false);
           setTimeout(() => {
             router.reload();
           }, 2000);
         } else {
-          setNotificationMessage('Failed to reactivate dancefloor.');
+          showNotification('Failed to reactivate dancefloor.', true);
         }
       } catch {
-        setIsStatusMessageError(true);
-        setNotificationMessage('An error occurred while reactivating the dancefloor.');
+        showNotification('An error occurred while reactivating the dancefloor.', true);
       }
     }
   };
@@ -96,39 +100,48 @@ const DancefloorDetails: React.FC = () => {
         });
   
         if (res.ok) {
-          setNotificationMessage('Dancefloor deleted successfully.');
+          showNotification('Dancefloor deleted successfully.', false);
           setTimeout(() => {
             router.push(`/dj/${dancefloor?.dj_id}`);
           }, 2000);
         } else {
-          setIsStatusMessageError(true);
-          setNotificationMessage('Failed to delete dancefloor.');
+          showNotification('Failed to delete dancefloor.', true);
         }
       } catch (error) {
-        setIsStatusMessageError(true);
-        setNotificationMessage('An error occurred while deleting the dancefloor.');
+        showNotification('An error occurred while deleting the dancefloor.', true);
       }
     }
   };
+
+  const handleLogout = async () => {
+    showNotification("Logged out successfully.", false);
   
-
-  useEffect(() => {
-    if (notificationMessage) {
-      setShowNotification(true);
-      const timer = setTimeout(() => {
-        setShowNotification(false);
-      }, 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [notificationMessage]);
+    setTimeout(async () => {
+      try {
+        await signOut({ redirect: false });
+        router.push("/");
+      } catch {
+        showNotification("An error occurred during logout. Please try again.", true);
+      }
+    }, 2000);
+  };
 
   if (!dancefloor) return <p className="text-center mt-10 text-gray-600">Loading...</p>;
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="gradient-background"></div>
-      <Notification showNotification={showNotification} notificationMessage={notificationMessage} onClose={() => setShowNotification(false)} isError={isStatusMessageError} />
+      {session && 
+        <div className="absolute top-8 right-14">
+          <LogoutButton handleLogout={handleLogout} />
+        </div>
+      }
+        <Notification
+          showNotification={notification.isVisible}
+          isError={notification.isError}
+          notificationMessage={notification.message}
+          onClose={() => setNotification((prev) => ({ ...prev, isVisible: false }))}
+        />
       <div className="w-full max-w-6xl bg-gray-600 bg-opacity-30 shadow-lg rounded-lg p-8">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center pb-4">
           <p className="text-2xl font-bold text-white">Dancefloor ID: {dancefloorId}</p>
