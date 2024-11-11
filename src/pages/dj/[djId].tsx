@@ -25,9 +25,7 @@ const DjIdPage: React.FC = () => {
   const { data: session } = useSession();
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
   const { djId, redirect } = router.query;
-  const [ status, setStatus ] = useState<string>('');
-  const [ isStatusVisible, setIsStatusVisible ] = useState<boolean>(false);
-  const [ isStatusError, setIsStatusError ] = useState<boolean>(false);
+  const [notification, setNotification] = useState({ message: '', isVisible: false, isError: false });
   const [ dancefloorId, setDancefloorId ] = useState<string | null>(null);
   const [ isLoading, setIsLoading ] = useState<boolean>(false);
   const [ qrCodeUrl, setQrCodeUrl ] = useState<string | null>(null);
@@ -49,33 +47,13 @@ const DjIdPage: React.FC = () => {
   const [ isQRModalOpen, setIsQRModalOpen ] = useState<boolean>(false);
   const [ deleteEmail, setDeleteEmail ] = useState<string>('');
   const [ deletePassword, setDeletePassword ] = useState<string>('');
-  const [ deleteStatus, setDeleteStatus ] = useState<string>('');
   const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
-  const [ isDeleteError, setIsDeleteError ] = useState<boolean>(false);
-  const [ isDeleteStatusVisible, setIsDeleteStatusVisible ] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (status) {
-      setIsStatusVisible(true);
-      const timer = setTimeout(() => {
-        setIsStatusVisible(false);
-      }, 2000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [status]);
-
-  useEffect(() => {
-    if (deleteStatus) {
-      setIsDeleteStatusVisible(true);
-      const timer = setTimeout(() => {
-        setIsDeleteStatusVisible(false);
-        setDeleteStatus('');
-      }, 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [deleteStatus]);
+  const showNotification = (message: string, isError = false) => {
+    setNotification({ message, isVisible: true, isError });
+    setTimeout(() => setNotification((prev) => ({ ...prev, isVisible: false })), 3000);
+  };
   
   useEffect(() => {
     let isMounted = true;
@@ -124,8 +102,7 @@ const DjIdPage: React.FC = () => {
         .catch((error) => {
           if (isMounted) {
             console.error('Error fetching DJ data:', error);
-            setIsStatusError(true);
-            setStatus('Error fetching data.');
+            showNotification("Error fetching data.", true);
           }
         });
     }
@@ -146,12 +123,10 @@ const DjIdPage: React.FC = () => {
         .then((res) => res.json())
         .then((data) => {
           setDancefloorId(data.dancefloorId);
-          setIsStatusError(false);
-          setStatus('Dancefloor started successfully.');
+          showNotification("Dancefloor started successfully.", false);
         })
         .catch(() => {
-          setIsStatusError(true);
-          setStatus('Error starting dancefloor.');
+          showNotification("Error starting dancefloor.", true);
         })
         .finally(() => {
           setIsLoading(false);
@@ -163,9 +138,6 @@ const DjIdPage: React.FC = () => {
 
   const handleEditInfo = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus('');
-    setIsStatusVisible(false);
-    setIsStatusError(false);
 
     let formattedWebsite = typeof website === 'string' ? website.trim() : '';
     if (formattedWebsite && !formattedWebsite.startsWith('http://') && !formattedWebsite.startsWith('https://')) {
@@ -174,9 +146,7 @@ const DjIdPage: React.FC = () => {
 
     const withoutProtocol = formattedWebsite.replace(/(^\w+:|^)\/\//, '');
     if (formattedWebsite && !strictDomainRegex.test(withoutProtocol)) {
-        setIsStatusError(true);
-        setStatus('Please enter a valid website (e.g., www.example.com).');
-        setIsStatusVisible(true);
+        showNotification("Please enter a valid website (e.g., www.example.com).", true);
         return;
     }
 
@@ -196,20 +166,14 @@ const DjIdPage: React.FC = () => {
         });
 
         if (res.ok) {
-            setIsStatusError(false);
-            setStatus('DJ info updated successfully.');
-            setIsStatusVisible(true);
+            showNotification("DJ info updated successfully.", false);
             setIsEditing(false);
         } else {
-            setIsStatusError(true);
-            setStatus('Error updating DJ info.');
-            setIsStatusVisible(true);
+            showNotification("Error updating DJ info.", true);
         }
     } catch (error) {
         console.error('Error updating DJ info:', error);
-        setIsStatusError(true);
-        setStatus('Error updating DJ info.');
-        setIsStatusVisible(true);
+        showNotification("Error updating DJ info.", true);
     }
 };
 
@@ -241,18 +205,13 @@ const DjIdPage: React.FC = () => {
       const data = await res.json();
       if (res.ok) {
         setProfilePic(data.secure_url);
-        setIsStatusError(false);
-        setStatus('Profile picture uploaded successfully.');
-        setIsStatusVisible(true);
+        showNotification("Profile picture uploaded successfully.", false);
       } else {
-        setIsStatusError(true);
-        setStatus('Upload failed.');
-        setIsStatusVisible(true);
+        showNotification("Upload failed.", true);
       }
     } catch (error) {
       console.error('Error uploading profile picture:', error);
-      setIsStatusError(true);
-      setStatus('Failed to upload profile picture.');
+      showNotification("Failed to upload profile picture.", true);
     } finally {
       setUploading(false);
     }
@@ -269,44 +228,30 @@ const DjIdPage: React.FC = () => {
       });
 
       if (res.ok) {
-        setStatus('Profile picture updated successfully.');
-        setIsStatusVisible(true);
+        showNotification("Profile picture updated successfully.", false);
         setIsEditingProfilePic(false);
       } else {
-        setStatus('Failed to save profile picture.');
-        setIsStatusVisible(true);
+        showNotification("Failed to save profile picture.", true);
       }
     } catch (error) {
       console.error('Error saving profile picture:', error);
-      setStatus('Error saving profile picture.');
-      setIsStatusVisible(true);
+      showNotification("Error saving profile picture.", true);
     }
   };
 
-  const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     setIsModalOpen(false);
-    setDeleteEmail('');
-    setDeletePassword('');
-    setDeleteStatus('');
   };
 
-  const openQRModal = () => setIsQRModalOpen(true);
   const closeQRModal = () => {
     setIsQRModalOpen(false);
   };
 
   const handleDeleteAccount = async () => {
     if (!deleteEmail || !deletePassword) {
-        setIsDeleteStatusVisible(false);
-        setDeleteStatus('Email and password are both required.');
-        setIsDeleteError(true);
-        setIsDeleteStatusVisible(true);
+        showNotification("Email and password are both required.", true);
         return;
     }
-
-    setIsDeleting(true);
-    setIsDeleteStatusVisible(false);
 
     try {
         const response = await fetch(`${backendUrl}/api/dj/${djId}/delete-account`, {
@@ -321,34 +266,47 @@ const DjIdPage: React.FC = () => {
         const responseData = await response.json();
 
         if (response.ok) {
-            setDeleteStatus(responseData.message || 'Account deleted successfully.');
-            setIsDeleteError(false);
-            setIsDeleteStatusVisible(true);
-            setTimeout(async () => {
-                await signOut({ redirect: false });
-                router.push('/login');
-            }, 2000);
+          showNotification(responseData.message || 'Account deleted successfully.', false);
+          setTimeout(async () => {
+              await signOut({ redirect: false });
+              router.push('/login');
+          }, 2000);
         } else {
-            setDeleteStatus(responseData.error || 'Failed to delete account.');
-            setIsDeleteError(true);
-            setIsDeleteStatusVisible(true);
+            showNotification(responseData.error || 'Failed to delete account.', true);
         }
     } catch {
-        setDeleteStatus('Failed to delete account due to a network error.');
-        setIsDeleteError(true);
-        setIsDeleteStatusVisible(true);
+        showNotification('Failed to delete account due to a network error.', true);
     } finally {
         setIsDeleting(false);
     }
 };
 
+const handleLogout = async () => {
+  showNotification("Logged out successfully.", false);
+
+  setTimeout(async () => {
+    try {
+      await signOut({ redirect: false });
+      router.push("/");
+    } catch {
+      showNotification("An error occurred during logout. Please try again.", true);
+    }
+  }, 2000);
+};
+
+
   return (
     <div className="min-h-screen flex xl:items-center justify-center px-2 xl:px-6 py-2 xl:py-8 relative">
-      <Notification showNotification={isStatusVisible} isError={isStatusError} notificationMessage={status} onClose={() => setIsStatusVisible(false)} />
+      <Notification
+        showNotification={notification.isVisible}
+        isError={notification.isError}
+        notificationMessage={notification.message}
+        onClose={() => setNotification((prev) => ({ ...prev, isVisible: false }))}
+      />
       <div className='gradient-background'></div>
       {session && 
         <div className="absolute top-8 right-14">
-          <LogoutButton />
+          <LogoutButton handleLogout={handleLogout} />
         </div>
       }
       <div className="w-full max-w-6xl bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
@@ -412,7 +370,7 @@ const DjIdPage: React.FC = () => {
                 width={200}
                 height={200}
                 className="w-60 h-60 object-contain cursor-pointer"
-                onClick={openQRModal} 
+                onClick={() => setIsQRModalOpen(true)} 
                 priority
               />
               <p className='font-semibold mt-2 text-sm'>Click to enlarge/save.</p>
@@ -608,7 +566,7 @@ const DjIdPage: React.FC = () => {
                   >
                     Edit Info
                   </Button>
-                  <Button onClick={openModal} padding="p-4" bgColor="bg-gradient-to-r from-red-500 to-red-700">
+                  <Button onClick={() => setIsModalOpen(true)} padding="p-4" bgColor="bg-gradient-to-r from-red-500 to-red-700">
                     Delete Account
                   </Button>
                 </div>
@@ -670,7 +628,6 @@ const DjIdPage: React.FC = () => {
           )}
         </div>
       </div>
-      <Notification isError={isDeleteError} showNotification={isDeleteStatusVisible} notificationMessage={deleteStatus} onClose={() => setIsDeleteStatusVisible(false)} />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="relative space-y-4">
