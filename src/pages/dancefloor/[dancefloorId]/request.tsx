@@ -4,6 +4,7 @@ import AsyncSelect from 'react-select/async-creatable';
 import { StylesConfig, GroupBase } from 'react-select';
 import { getSocket } from '@/utils/socket';
 import Button from '@/components/UI/Button';
+import { motion } from 'framer-motion';
 
 interface SongOption {
   value: string;
@@ -92,7 +93,7 @@ const SongRequestPage: React.FC = () => {
 
     timeoutId = setTimeout(() => {
       router.back();
-    }, 2000);
+    }, 4000);
   };
 
   useEffect(() => {
@@ -102,18 +103,59 @@ const SongRequestPage: React.FC = () => {
   if (!isMounted) return null;
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col justify-center items-center relative">
+    <div className="min-h-screen bg-gray-900 flex flex-col justify-center items-center">
       {submitted ? (
         <div className="flex flex-col items-center">
-          <h1 className="text-emerald-400 text-3xl mb-4">Success!</h1>
-          <p className="text-white mb-4">Your song request has been sent.</p>
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-emerald-400"></div>
+          <motion.p
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="text-main text-3xl mb-4"
+          >
+          Success!
+          </motion.p>
+        <motion.p
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="text-white mb-4"
+        >
+          Your song request has been sent.
+        </motion.p>
+
+        {/* checkmark */}
+        <motion.svg
+          initial={{ scale: 0.8, rotate: -10 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ type: 'spring', stiffness: 500, damping: 20 }}
+          className="text-main h-20 w-20 mb-1"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+        <motion.path
+          d="M5 13l4 4L19 7"
+          initial={{ opacity: 0, pathLength: 0 }}
+          animate={{ opacity: 1, pathLength: 1 }}
+          transition={{
+            opacity: { duration: 0.1, delay: 0.5 },
+            pathLength: {
+              duration: 0.7,
+              delay: 0.5,
+              ease: [0.65, 0, 0.35, 1.2],
+            },
+          }}
+        />
+        </motion.svg>
         </div>
       ) : (
         <>
-          <Button bgColor="" className="absolute top-6 left-6" onClick={() => router.back()}>
+          <button className="absolute top-8 left-8 font-bold" onClick={() => router.back()}>
             Cancel
-          </Button>
+          </button>
           <h1 className="text-white text-2xl font-bold mb-4">Request a Song</h1>
 
           {error && <p className="text-red-500 mb-2">{error}</p>}

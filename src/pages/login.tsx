@@ -15,7 +15,7 @@ const LoginPage: React.FC = () => {
 
   const showNotification = (message: string, isError = false) => {
     setNotification({ message, isVisible: true, isError });
-    setTimeout(() => setNotification((prev) => ({ ...prev, isVisible: false })), 3000);
+    setTimeout(() => setNotification((prev) => ({ ...prev, isVisible: false })), 4000);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

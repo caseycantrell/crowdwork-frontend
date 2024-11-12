@@ -220,12 +220,3 @@ body {
   background-color: inherit !important;
   transition: none !important;
 }
-
-.aligned-list {
-  padding-left: 1.25rem; /* Tailwind's pl-5 equivalent */
-}
-
-.aligned-list li {
-  padding-left: -0rem; /* Aligns the text with the first letter */
-  text-indent: -2rem; /* Pulls the number back */
-}

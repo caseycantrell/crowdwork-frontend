@@ -15,7 +15,7 @@ const SignupPage: React.FC = () => {
 
   const showNotification = (message: string, isError = false) => {
     setNotification({ message, isVisible: true, isError });
-    setTimeout(() => setNotification((prev) => ({ ...prev, isVisible: false })), 3000);
+    setTimeout(() => setNotification((prev) => ({ ...prev, isVisible: false })), 4000);
   };
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
