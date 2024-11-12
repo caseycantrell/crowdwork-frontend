@@ -92,11 +92,11 @@ const Home: React.FC = () => {
         {[...Array(4)].map((_, i) => (
           <motion.div
             key={i}
-            className="m-4 w-48 h-48 bg-gray-300"
+            className="m-16 w-48 h-48 bg-gray-300"
             initial={{ opacity: 0, y: 50 }}
             animate={controls}
             viewport={{ once: false }}
-            transition={{ duration: 0.5, delay: i * 0.2 }}
+            transition={{ duration: 1, delay: i * 1 }}
           />
         ))}
 
