@@ -69,7 +69,7 @@ const Home: React.FC = () => {
             transition={{ delay: 1.25, duration: 1 }}
             className='font-extrabold text-2xl absolute top-20 right-0 mt-1'
           >
-            Real-time song requesting and chat for DJ's.
+            Real-time song requesting and chat for DJ&apos;s.
           </motion.p>
 
           </div>

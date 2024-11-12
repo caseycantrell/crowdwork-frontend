@@ -678,7 +678,7 @@ const handleLogout = async () => {
           <ol className="list-decimal list-outside pl-5 space-y-2 text-lg hanging-indent ">
             <li><strong>Create Your Account:</strong> After signing up, you&apos;ll receive a unique QR code for your DJ profile &#40;you already did this&#41;.</li>
             <li><strong>Display the QR Code:</strong> Have guests scan your QR code to access your DJ profile, view your info, and more.</li>
-            <li><strong>Start a Dancefloor:</strong> When you're ready to engage with your audience, activate a dancefloor. Now your guests can use the QR code to join the party!</li>
+            <li><strong>Start a Dancefloor:</strong> When you&apos;re ready to engage with your audience, activate a dancefloor. Now your guests can use the QR code to join the party!</li>
             <li><strong>Accept Song Requests:</strong> Guests can make song requests through Crowdwork, with tracks pulled directly from Spotify. Add requests to your queue, set a song as currently playing, or decline as needed.</li>
             <li><strong>Chat in Real-Time:</strong> Keep the vibe going with a live chat feature, making it easy to stay connected with your guests throughout the event.</li>
           </ol>
