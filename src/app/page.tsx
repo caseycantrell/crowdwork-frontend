@@ -54,23 +54,25 @@ const Home: React.FC = () => {
         </div>
         
         <div className="flex flex-col justify-center items-center min-h-screen">
+          <div className='relative'>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className='font-extrabold text-8xl'
+            transition={{ delay: 0, duration: 1.5 }}
+            className='font-extrabold text-8xl relative'
           >
             CROWDWORK
           </motion.p>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className='font-extrabold text-2xl'
+            initial={{ opacity: 0, x: 150 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.25, duration: 1 }}
+            className='font-extrabold text-2xl absolute top-20 right-0 mt-1'
           >
             Real-time song requesting and chat for DJ's.
           </motion.p>
 
+          </div>
           {isDownArrowVisible && (
             <motion.div
               onClick={scrollToBottom}
