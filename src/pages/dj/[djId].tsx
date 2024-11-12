@@ -9,6 +9,7 @@ import Input from '../../components/UI/Input';
 import Modal from '../../components/UI/Modal';
 import { useSession, signOut } from 'next-auth/react';
 import Notification from '../../components/UI/Notification';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface Dancefloor {
   id: string;
@@ -25,6 +26,7 @@ const DjIdPage: React.FC = () => {
   const { data: session } = useSession();
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
   const { djId, redirect } = router.query;
+
   const [notification, setNotification] = useState({ message: '', isVisible: false, isError: false });
   const [ dancefloorId, setDancefloorId ] = useState<string | null>(null);
   const [ isLoading, setIsLoading ] = useState<boolean>(false);
@@ -41,14 +43,15 @@ const DjIdPage: React.FC = () => {
   const [ pastDancefloors, setPastDancefloors ] = useState<Dancefloor[]>([]);
   const [ profilePic, setProfilePic ] = useState<string | null>(null);
   const [ uploading, setUploading ] = useState<boolean>(false);
+  const [isHowItWorksHovered, setIsHowItWorksHovered] = useState<boolean>(false);
 
-  // modal with acct deletion states
-  const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
+  const [ isInfoModalOpen, setIsInfoModalOpen ] = useState<boolean>(false);
   const [ isQRModalOpen, setIsQRModalOpen ] = useState<boolean>(false);
+
+  const [ isConfirmationModalOpen, setIsConfirmationModalOpen ] = useState<boolean>(false);
   const [ deleteEmail, setDeleteEmail ] = useState<string>('');
   const [ deletePassword, setDeletePassword ] = useState<string>('');
   const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
-
 
   const showNotification = (message: string, isError = false) => {
     setNotification({ message, isVisible: true, isError });
@@ -238,9 +241,13 @@ const DjIdPage: React.FC = () => {
       showNotification("Error saving profile picture.", true);
     }
   };
+  
+  const closeInfoModal = () => {
+    setIsInfoModalOpen(false);
+  };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const closeConfirmationModal = () => {
+    setIsConfirmationModalOpen(false);
   };
 
   const closeQRModal = () => {
@@ -310,6 +317,37 @@ const handleLogout = async () => {
         </div>
       }
       <div className="w-full max-w-6xl bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
+        <div className='flex flex-row items-center absolute top-4 right-4'>
+          <AnimatePresence>
+            {isHowItWorksHovered && (
+              <motion.p
+                className="font-semibold text-sm text-gray-100 mr-4"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                transition={{
+                  type: 'tween',
+                  duration: 0.5,
+                  ease: 'easeInOut',
+                }}
+                >
+                How It Works
+              </motion.p>
+            )}
+          </AnimatePresence>
+          <Image 
+            src={'/icons/info.svg'} 
+            width={25}
+            height={25}
+            alt="How It Works"
+            aria-label="How It Works"
+            className='invert cursor-pointer'
+            onClick={() => setIsInfoModalOpen(true)}
+            onMouseEnter={() => setIsHowItWorksHovered(true)}
+            onMouseLeave={() => setIsHowItWorksHovered(false)}
+            />
+        </div>
+        
         <div className="flex flex-col items-center md:w-1/3">
           {session && <p className="text-4xl font-semibold text-center mb-0 xl:mb-8">{djName || 'Your DJ Profile'}</p>}
 
@@ -404,7 +442,7 @@ const handleLogout = async () => {
                 onChange={(e) => setBio(e.target.value)}
                 placeholder='Enter bio (500 character maximum)...'
                 maxLength={500}
-                className="w-full min-h-10 break-words h-36 rounded-md backdrop-blur bg-gray-700/40 text-white p-2 text-gray-800 font-semibold focus:outline-none focus:ring-2 focus:ring-main placeholder-gray-500 placeholder:text-sm"
+                className="w-full h-48 min-h-10 max-h-48 break-words rounded-md backdrop-blur bg-gray-700/40 text-white p-2 text-gray-800 font-semibold focus:outline-none focus:ring-2 focus:ring-main placeholder-gray-500 placeholder:text-sm resize-none"
               />
             ) : (
               <p className={`font-semibold break-all ${bio ? 'text-gray-400' : 'text-gray-400 italic ml-1 text-sm'}`}>
@@ -569,7 +607,7 @@ const handleLogout = async () => {
                   >
                     Edit Info
                   </Button>
-                  <Button onClick={() => setIsModalOpen(true)} padding="p-4" bgColor="bg-gradient-to-r from-red-500/90 to-orange-600/90">
+                  <Button onClick={() => setIsConfirmationModalOpen(true)} padding="p-4" bgColor="bg-gradient-to-r from-red-500/90 to-orange-600/90">
                     Delete Account
                   </Button>
                 </div>
@@ -632,7 +670,26 @@ const handleLogout = async () => {
         </div>
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
+      {/* how-to info modal */}
+      <Modal isOpen={isInfoModalOpen} onClose={closeInfoModal}>
+        <div className="w-full max-w-2xl mx-auto space-y-4 text-gray-200 font-semibold">
+          <p className="font-bold text-3xl text-center mb-4">Getting Started</p>
+          <p className="text-center text-lg">Welcome to Crowdwork. Here’s a quick guide to help get you spinning:</p>
+          <ol className="list-decimal list-outside pl-5 space-y-2 text-lg hanging-indent ">
+            <li><strong>Create Your Account:</strong> After signing up, you&apos;ll receive a unique QR code for your DJ profile &#40;you already did this&#41;.</li>
+            <li><strong>Display the QR Code:</strong> Have guests scan your QR code to access your DJ profile, view your info, and more.</li>
+            <li><strong>Start a Dancefloor:</strong> When you&apos;re ready to engage with your audience, activate a dancefloor. Now your guests can use the QR code to join the party!</li>
+            <li><strong>Accept Song Requests:</strong> Guests can make song requests through Crowdwork, with tracks pulled directly from Spotify. Add requests to your queue, set a song as currently playing, or decline as needed.</li>
+            <li><strong>Chat in Real-Time:</strong> Keep the vibe going with a live chat feature, making it easy to stay connected with your guests throughout the event.</li>
+          </ol>
+          <Button onClick={closeInfoModal} padding="py-4" className="w-full mt-6 text-xl" >
+            Sounds Fresh
+          </Button>
+        </div>
+      </Modal>
+
+      {/* delete account confirmation modal */}
+      <Modal isOpen={isConfirmationModalOpen} onClose={closeConfirmationModal}>
         <div className="relative space-y-4">
           <div className='flex flex-col items-start'>
             <p className="text-3xl font-bold">You sure?</p>
@@ -665,6 +722,7 @@ const handleLogout = async () => {
         </div>
       </Modal>
 
+      {/* QR code modal */}
       <Modal isOpen={isQRModalOpen} onClose={closeQRModal}>
         <div className="w-full p-4">
         {qrCodeUrl && (
@@ -687,6 +745,8 @@ const handleLogout = async () => {
         )}
         </div>
       </Modal>
+
+
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import { FC, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import Image from 'next/image';
 
 interface NotificationProps {
   notificationMessage: string;
@@ -14,22 +13,10 @@ const Notification: FC<NotificationProps> = ({ notificationMessage, isError = fa
     if (showNotification) {
       const timer = setTimeout(() => {
         onClose();
-      }, 3500);
+      }, 4000);
       return () => clearTimeout(timer);
     }
   }, [showNotification, onClose]);
-
-
-  // TODO: just testing this to see if it solves a bug on production
-  useEffect(() => {
-    const preloadImage = (src: string) => {
-      const img = new window.Image();
-      img.src = src;
-    };
-
-    preloadImage('/icons/error.png');
-    preloadImage('/icons/success.png');
-  }, []);
 
   return (
     <AnimatePresence>
@@ -49,12 +36,79 @@ const Notification: FC<NotificationProps> = ({ notificationMessage, isError = fa
           }}
         >
         <div className='flex flex-row items-center justify-center'>
-            <p className='text-xl font-bold mr-2'>
-                {isError ? "WOMP WOMP." : "Noice."}
-            </p>
-            <Image src={isError ? '/icons/error.png' : '/icons/success.png'} width={25} height={25} alt={isError ? 'Error' : 'Success'} className='flex items-center mb-0.5 ml-1' priority />
+            <p className='text-xl font-bold mr-2'>{isError ? "WOMP WOMP." : "Noice."}</p>
+            {isError ?  
+              <motion.svg
+                initial={{ scale: 0.8, rotate: -10 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: 'spring', stiffness: 500, damping: 20 }}
+                className="text-red-500 h-10 w-10"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                {/* first line of the X */}
+                <motion.path
+                  d="M6 18L18 6"
+                  initial={{ opacity: 0, pathLength: 0 }}
+                  animate={{ opacity: 1, pathLength: 1 }}
+                  transition={{
+                    opacity: { duration: 0.1, delay: 0.5 },
+                    pathLength: {
+                      duration: 0.5,
+                      delay: 0.5, 
+                      ease: [0.65, 0, 0.35, 1.2],
+                    },
+                  }}
+                />
+                {/* second line of the X */}
+                <motion.path
+                  d="M18 18L6 6"
+                  initial={{ opacity: 0, pathLength: 0 }}
+                  animate={{ opacity: 1, pathLength: 1 }}
+                  transition={{
+                    opacity: { duration: 0.1, delay: 1 }, 
+                    pathLength: {
+                      duration: 0.5,
+                      delay: 1,
+                      ease: [0.65, 0, 0.35, 1.2],
+                    },
+                  }}
+                />
+              </motion.svg>
+            : 
+              <motion.svg
+                initial={{ scale: 0.8, rotate: -10 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: 'spring', stiffness: 500, damping: 20 }}
+                className="text-main h-10 w-10 mb-1"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+              <motion.path
+                d="M5 13l4 4L19 7"
+                initial={{ opacity: 0, pathLength: 0 }}
+                animate={{ opacity: 1, pathLength: 1 }}
+                transition={{
+                  opacity: { duration: 0.1, delay: 0.5 },
+                  pathLength: {
+                    duration: 0.7,
+                    delay: 0.5,
+                    ease: [0.65, 0, 0.35, 1.2],
+                  },
+                }}
+              />
+              </motion.svg>
+             }
         </div>
-        <p className={`mt-2 font-bold ${isError ? 'text-red-500/80' : 'text-green-500/80'}`}>{notificationMessage}</p>
+        <p className={`mt-2 font-bold ${isError ? 'text-red-500' : 'text-main/90'}`}>{notificationMessage}</p>
         </motion.div>
       )}
     </AnimatePresence>

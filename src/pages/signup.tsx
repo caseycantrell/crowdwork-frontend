@@ -15,7 +15,7 @@ const SignupPage: React.FC = () => {
 
   const showNotification = (message: string, isError = false) => {
     setNotification({ message, isVisible: true, isError });
-    setTimeout(() => setNotification((prev) => ({ ...prev, isVisible: false })), 3000);
+    setTimeout(() => setNotification((prev) => ({ ...prev, isVisible: false })), 4000);
   };
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,9 +65,9 @@ const SignupPage: React.FC = () => {
         <Link href='/' className='font-bold'>Home</Link>
         <Link href='/login' className='ml-10 font-bold'>Login</Link>
       </div>
-      <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-8 flex flex-col items-center w-[600px]'>
+      <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl space-y-6 p-6 flex flex-col items-center w-[550px]'>
         <p className="text-4xl font-extrabold">Sign Up</p>
-        <form onSubmit={handleSignup} className="space-y-6 w-full max-w-lg flex flex-col items-center mt-6">
+        <form onSubmit={handleSignup} className="space-y-6 w-full max-w-lg flex flex-col items-center">
           <Input
             type="text"
             placeholder="Name"
@@ -98,7 +98,7 @@ const SignupPage: React.FC = () => {
             Sign Me Up
           </Button>
         </form>
-        <div className="flex flex-row items-center justify-center mt-6 text-lg relative w-full">
+        <div className="flex flex-row items-center justify-center text-lg relative w-full">
           <p className="mr-3 font-semibold">Already have an account?</p>
           <Link href="/login" className="font-bold text-link">Login</Link>
         </div>
