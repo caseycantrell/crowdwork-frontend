@@ -442,7 +442,7 @@ const handleLogout = async () => {
                 onChange={(e) => setBio(e.target.value)}
                 placeholder='Enter bio (500 character maximum)...'
                 maxLength={500}
-                className="w-full min-h-10 break-words h-36 rounded-md backdrop-blur bg-gray-700/40 text-white p-2 text-gray-800 font-semibold focus:outline-none focus:ring-2 focus:ring-main placeholder-gray-500 placeholder:text-sm"
+                className="w-full h-48 min-h-10 max-h-48 break-words rounded-md backdrop-blur bg-gray-700/40 text-white p-2 text-gray-800 font-semibold focus:outline-none focus:ring-2 focus:ring-main placeholder-gray-500 placeholder:text-sm resize-none"
               />
             ) : (
               <p className={`font-semibold break-all ${bio ? 'text-gray-400' : 'text-gray-400 italic ml-1 text-sm'}`}>
@@ -682,8 +682,8 @@ const handleLogout = async () => {
             <li><strong>Accept Song Requests:</strong> Guests can make song requests through Crowdwork, with tracks pulled directly from Spotify. Add requests to your queue, set a song as currently playing, or decline as needed.</li>
             <li><strong>Chat in Real-Time:</strong> Keep the vibe going with a live chat feature, making it easy to stay connected with your guests throughout the event.</li>
           </ol>
-          <Button onClick={closeInfoModal} padding="py-3" className="w-full mt-6">
-            Close
+          <Button onClick={closeInfoModal} padding="py-4" className="w-full mt-6 text-xl" >
+            Sounds Fresh
           </Button>
         </div>
       </Modal>
