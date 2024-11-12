@@ -96,7 +96,7 @@ const Home: React.FC = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={controls}
             viewport={{ once: false }}
-            transition={{ duration: 1, delay: i * 1 }}
+            transition={{ duration: 0.75, delay: i * 0.75 }}
           />
         ))}
 
