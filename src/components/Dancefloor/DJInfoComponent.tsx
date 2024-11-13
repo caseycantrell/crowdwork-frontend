@@ -66,7 +66,7 @@ const DJInfoComponent: React.FC<{
               {djInfo.instagram_handle && 
                 <div>
                   <a href={`https://www.instagram.com/${djInfo.instagram_handle.replace(/^@/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
-                    <Image src={'/icons/instagram.png'} className="invert" width={26} height={26} alt='Instagram' />
+                    <Image src={'/icons/instagram.png'} aria-label="Instagram" className="invert" width={26} height={26} alt='Instagram' />
                     <p className="font-semibold ml-2 text-lg">{djInfo.instagram_handle}</p>
                   </a>
                 </div>
@@ -74,7 +74,7 @@ const DJInfoComponent: React.FC<{
               {djInfo.twitter_handle && 
                 <div>
                   <a href={`https://x.com/${djInfo.twitter_handle.replace(/^@/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
-                    <Image src={'/icons/twitter.png'} className="invert rounded-md" width={26} height={26} alt='Twitter' />
+                    <Image src={'/icons/twitter.png'} aria-label="Twitter" className="invert rounded-md" width={26} height={26} alt='Twitter' />
                     <p className="font-semibold ml-2 text-lg">{djInfo.twitter_handle}</p>
                   </a>
                 </div>
@@ -82,7 +82,7 @@ const DJInfoComponent: React.FC<{
               {djInfo.venmo_handle && 
                 <div>
                   <a href={`https://account.venmo.com/u/${djInfo.venmo_handle.replace(/^@/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
-                    <Image src={'/icons/venmo.png'} className="invert rounded-md" width={26} height={26} alt='Venmo' />
+                    <Image src={'/icons/venmo.png'} aria-label="Venmo" className="invert rounded-md" width={26} height={26} alt='Venmo' />
                     <p className="font-semibold ml-2 text-lg">{djInfo.venmo_handle}</p>
                   </a>
                 </div>
@@ -90,7 +90,7 @@ const DJInfoComponent: React.FC<{
               {djInfo.cashapp_handle && 
                 <div>
                   <a href={`https://cash.app/${djInfo.cashapp_handle.replace(/^\$/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
-                    <Image src={'/icons/cashapp.png'} width={26} height={26} alt='CashApp' />
+                    <Image src={'/icons/cashapp.png'} aria-label="CashApp" width={26} height={26} alt='CashApp' />
                     <p className="font-semibold ml-2.5 text-lg">{djInfo.cashapp_handle}</p>
                   </a>
                 </div>
@@ -115,6 +115,7 @@ const DJInfoComponent: React.FC<{
                     )}
                     </AnimatePresence>
                     <button
+                      aria-label="Stop Dancefloor"
                       onClick={() => setIsStopDancefloorModalOpen(true)}
                       onMouseEnter={() => handleMouseEnter("stop")}
                       onMouseLeave={handleMouseLeave}
@@ -143,6 +144,7 @@ const DJInfoComponent: React.FC<{
                     )}
                     </AnimatePresence>
                     <button
+                      aria-label="Open Chat"
                       onClick={() => setIsChatVisible(!isChatVisible)}
                       onMouseEnter={() => handleMouseEnter("chat")}
                       onMouseLeave={handleMouseLeave}

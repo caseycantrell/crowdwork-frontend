@@ -35,7 +35,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
           >
             <button
               className="absolute top-1 right-1 cursor-pointer p-2"
-              aria-label="Close"
+              aria-label="Close Modal"
             >
               <Image src={'/icons/close.png'} width={25} height={25} alt='Close' className='invert' onClick={onClose} />
             </button>

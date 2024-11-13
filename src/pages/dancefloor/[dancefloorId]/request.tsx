@@ -18,7 +18,7 @@ const customStyles: StylesConfig<SongOption, false, GroupBase<SongOption>> = {
     backgroundColor: '#1F2937',
     color: 'white',
     borderRadius: '0.375rem',
-    border: '1px solid #4ADE80',
+    border: '1px solid #0ce471',
     padding: '0.25rem',
     boxShadow: state.isFocused ? '0 0 0 1px #4ADE80' : undefined,
   }),
@@ -156,16 +156,13 @@ const SongRequestPage: React.FC = () => {
           <button className="absolute top-8 left-8 font-bold" onClick={() => router.back()}>
             Cancel
           </button>
-          <h1 className="text-white text-2xl font-bold mb-4">Request a Song</h1>
-
-          {error && <p className="text-red-500 mb-2">{error}</p>}
-
+          <p className="text-white text-2xl font-bold mb-4">Request a Song</p>
           <div className="w-full max-w-sm px-4">
             <AsyncSelect
               cacheOptions
               loadOptions={loadOptions}
               onChange={handleChange}
-              placeholder="Search for a song..."
+              placeholder={error ? error : "Search for a song..."}
               styles={customStyles}
               isClearable
             />

@@ -13,6 +13,7 @@ interface ButtonProps {
   fontWeight?: string;
   textSize?: string;
   disableHoverEffect?: boolean;
+  ariaLabel?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -30,12 +31,14 @@ const Button: React.FC<ButtonProps> = ({
   fontWeight = "font-semibold",
   textSize = "text-md",
   disableHoverEffect = false,
+  ariaLabel = "",
 }) => {
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
+      aria-label={ariaLabel ? ariaLabel : undefined}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       className={`${textColor} ${textSize} ${bgColor} ${disabled ? disabledColor : ""} ${padding} ${fontWeight} ${

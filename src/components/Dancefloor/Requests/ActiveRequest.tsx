@@ -81,6 +81,7 @@ const ActiveRequest: React.FC<Props> = ({
                             className="overflow-visible"
                             onClick={() => updateStatus(id, 'playing')}
                             onMouseEnter={() => handleMouseEnter('play')}
+                            aria-label='Set as Now Playing'
                         >
                             <Image
                                 src={'/icons/play.png'}
@@ -95,6 +96,7 @@ const ActiveRequest: React.FC<Props> = ({
                             className="overflow-visible"
                             onClick={() => updateStatus(id, 'declined')}
                             onMouseEnter={() => handleMouseEnter('decline')}
+                            aria-label='Decline Request'
                         >
                             <Image
                                 src={'/icons/decline.png'}
@@ -109,6 +111,7 @@ const ActiveRequest: React.FC<Props> = ({
                             className="overflow-visible"
                             onClick={() => handleLike(id, dancefloorId)}
                             onMouseEnter={() => handleMouseEnter('like')}
+                            aria-label='Like Request'
                         >
                             <Image
                                 src={'/icons/like2.png'}

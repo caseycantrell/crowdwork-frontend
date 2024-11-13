@@ -61,6 +61,7 @@ const CompletedRequest: React.FC<Props> = ({
                             className="overflow-visible"
                             onClick={() => updateStatus(id, "queued")}
                             onMouseEnter={handleMouseEnter}
+                            aria-label='Requeue Request'
                         >
                             <Image
                                 src={'/icons/requeue2.png'}

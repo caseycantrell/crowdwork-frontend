@@ -204,11 +204,11 @@ const MobileView: React.FC<Props> = ({
               </div>
             </div>
 
-            <div className="bg-gray-800 flex justify-center mt-2">
+            <div className="bg-gray-800 flex justify-center mt-2.5">
               <Button
-                padding="py-4"
+                padding="py-3"
                 fontWeight="font-semibold"
-                className="w-full mx-2 bg-gradient-to-r from-emerald-400 to-cyan-500 rounded"
+                className="w-full text-xl mx-2 bg-gradient-to-r from-emerald-400 to-cyan-500 rounded"
                 onClick={(e) => {
                   e.preventDefault();
                   void router.push(`/dancefloor/${dancefloorId}/request`);

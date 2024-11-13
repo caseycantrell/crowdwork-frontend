@@ -78,6 +78,7 @@ const NowPlaying: React.FC<Props> = ({
 
                     <div style={{ width: 30, height: 30 }}>
                         <button
+                            aria-label='Requeue Request'
                             className="overflow-visible"
                             onClick={() => updateStatus(id, 'queued')}
                             onMouseEnter={() => handleMouseEnter('requeue')}
@@ -92,6 +93,7 @@ const NowPlaying: React.FC<Props> = ({
                     </div>
                     <div style={{ width: 30, height: 30 }}>
                         <button
+                            aria-label='Mark As Completed'
                             className="overflow-visible" 
                             onClick={() => updateStatus(id, 'completed')}
                             onMouseEnter={() => handleMouseEnter('complete')}
@@ -106,6 +108,7 @@ const NowPlaying: React.FC<Props> = ({
                     </div>
                     <div style={{ width: 30, height: 30 }}>
                         <button
+                            aria-label='Like Request'
                             className="overflow-visible"
                             onClick={() => handleLike(id, dancefloorId)}
                             onMouseEnter={() => handleMouseEnter('like')}

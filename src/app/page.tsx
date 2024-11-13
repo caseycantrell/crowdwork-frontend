@@ -81,7 +81,7 @@ const Home: React.FC = () => {
               animate={{ y: [0, 10, 0] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
             >
-              <Image src={'/icons/down.svg'} width={60} height={60} alt='Arrow' className='invert opacity-80' priority />
+              <Image src={'/icons/down.svg'} aria-label='Scroll Page Down' width={60} height={60} alt='Arrow' className='invert opacity-80' priority />
             </motion.div>
           )}
         </div>
@@ -110,7 +110,7 @@ const Home: React.FC = () => {
             animate={{ y: [0, -10, 0] }}
             transition={{ repeat: Infinity, duration: 1.5 }}
           >
-            <Image src={'/icons/down.svg'} width={60} height={60} alt='Arrow' className='invert transform -scale-y-100 opacity-80' priority />
+            <Image src={'/icons/down.svg'} aria-label='Scroll Page Down' width={60} height={60} alt='Arrow' className='invert transform -scale-y-100 opacity-80' priority />
           </motion.div>
         )}
       </div>
