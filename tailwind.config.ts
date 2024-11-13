@@ -11,8 +11,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        main: '#0ec58e',
-        mainhover: '#0de0a0',
+        main: '#4681f4',
+        success: '#0ce471',
+        error: '#ff2247',
       },
     },
   },

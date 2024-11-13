@@ -93,7 +93,7 @@ const SongRequestPage: React.FC = () => {
 
     timeoutId = setTimeout(() => {
       router.back();
-    }, 4000);
+    }, 3500);
   };
 
   useEffect(() => {

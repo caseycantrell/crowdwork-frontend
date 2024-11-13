@@ -54,7 +54,7 @@ const DancefloorDetails: React.FC = () => {
 
   const showNotification = (message: string, isError = false) => {
     setNotification({ message, isVisible: true, isError });
-    setTimeout(() => setNotification((prev) => ({ ...prev, isVisible: false })), 3000);
+    setTimeout(() => setNotification((prev) => ({ ...prev, isVisible: false })), 3500);
   };
 
   useEffect(() => {
@@ -123,7 +123,7 @@ const DancefloorDetails: React.FC = () => {
       } catch {
         showNotification("An error occurred during logout. Please try again.", true);
       }
-    }, 2000);
+    }, 3500);
   };
 
   if (!dancefloor) return <p className="text-center mt-10 text-gray-600">Loading...</p>;
@@ -147,7 +147,7 @@ const DancefloorDetails: React.FC = () => {
           <p className="text-2xl font-bold text-white">Dancefloor ID: {dancefloorId}</p>
           <Link href={`/dj/${dancefloor.dj_id}`}>
             <Button 
-              bgColor='bg-gradient-to-r from-indigo-400 to-cyan-400'
+              bgColor='bg-main/80'
               padding='px-5 py-3'
             >
               Back to DJ Page
@@ -168,13 +168,19 @@ const DancefloorDetails: React.FC = () => {
                 <div className="mt-0.5 w-1.5 h-1.5 bg-main rounded-full animate-ping ml-2"></div>
               )}
               {dancefloor.status === 'completed' && (
-                <Image 
-                  src="/icons/success.png" 
-                  width={20} 
-                  height={20} 
-                  alt="Completed" 
-                  className="ml-1 mb-0.5" 
-                />
+                <svg
+                  className="text-success/60 h-7 w-7 mb-1"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+               >
+                  <path
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
               )}
             </div>
             <div className="flex flex-col">
@@ -201,8 +207,8 @@ const DancefloorDetails: React.FC = () => {
               {dancefloor.status === "active" ? (
                 <Link href={`/dancefloor/${dancefloor.id}`}>
                   <Button
-                    bgColor="bg-green-500"
-                    padding="w-64 py-5"
+                    bgColor="bg-success/80"
+                    padding="w-64 py-4"
                     className="text-lg"
                   >
                     Go to Dancefloor
@@ -211,7 +217,7 @@ const DancefloorDetails: React.FC = () => {
               ) : (
                 <Button
                   onClick={() => setIsReactivateModalOpen(true)}
-                  bgColor="bg-gradient-to-r from-fuchsia-600 to-purple-600"
+                  bgColor="bg-purple-600"
                   padding="w-64 py-4"
                   className="text-lg"
                 >
@@ -221,7 +227,7 @@ const DancefloorDetails: React.FC = () => {
             </div>
             <Button
               onClick={() => setIsDeleteModalOpen(true)}
-              bgColor="bg-gradient-to-r from-red-500/80 to-orange-600/80"
+              bgColor="bg-error/80"
               padding="w-64 py-4"
               className="text-lg "
             >
@@ -240,7 +246,7 @@ const DancefloorDetails: React.FC = () => {
            </div>
             <Button
               onClick={handleConfirmReactivateDancefloor}
-              bgColor='bg-green-500'
+              bgColor='bg-success/80'
               className="w-full mt-2 text-lg"
               padding='py-4'
             >
@@ -259,7 +265,7 @@ const DancefloorDetails: React.FC = () => {
             </div>
             <Button
               onClick={handleConfirmDeleteDancefloor}
-              bgColor='bg-gradient-to-r from-red-500/80 to-orange-600/80'
+              bgColor='bg-error/80'
               className="w-full mt-2 text-lg"
               padding='py-4'
             >
