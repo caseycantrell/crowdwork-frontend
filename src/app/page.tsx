@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion, useAnimation } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { downIcon, dancefloorIcon, qrCodeIcon, musicChatIcon } from '@/icons';
 
 const Home: React.FC = () => {
   const [ isDownArrowVisible, setIsDownArrowVisible ] = useState(true);
@@ -81,7 +82,7 @@ const Home: React.FC = () => {
               animate={{ y: [0, 10, 0] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
             >
-              <Image src={'/icons/down.svg'} aria-label='Scroll Page Down' width={60} height={60} alt='Arrow' className='invert opacity-80' priority />
+              <Image src={downIcon} aria-label='Scroll Page Down' width={60} height={60} alt='Arrow' className='invert opacity-80' priority />
             </motion.div>
           )}
         </div>
@@ -99,7 +100,7 @@ const Home: React.FC = () => {
             transition={{ duration: 0.75, delay: 0 }}
           >
             <div className='w-40 h-40'>
-            <Image src={'/icons/dancefloor.png'} width={350} height={350} alt="QR Code" className='invert'/>
+            <Image src={dancefloorIcon} width={350} height={350} alt="QR Code" className='invert'/>
             </div>
             <p className="text-center text-xl font-bold mt-4">First, start a new dancefloor...</p>
           </motion.div>
@@ -113,7 +114,7 @@ const Home: React.FC = () => {
             transition={{ duration: 0.75, delay: 1.5 }}
           >
             <div className='w-48 h-48'>
-            <Image src={'/icons/qr-code.svg'} width={200} height={200} alt="QR Code" className='invert'/>
+            <Image src={qrCodeIcon} width={200} height={200} alt="QR Code" className='invert'/>
             </div>
             <p className="text-center text-xl font-extrabold">Guests can then join your dancefloor with your QR.</p>
           </motion.div>
@@ -127,11 +128,23 @@ const Home: React.FC = () => {
             transition={{ duration: 0.75, delay: 3 }}
           >
             <div className='w-48 h-48'>
-            <Image src={'/icons/music-chat.svg'} width={200} height={200} alt="QR Code" className='invert'/>
+            <Image src={musicChatIcon} width={200} height={200} alt="QR Code" className='invert'/>
             </div>
             <p className="text-center text-xl font-bold">There they can make song requests and chat.</p>
           </motion.div>
         </div>
+
+        {isUpArrowVisible && (
+          <motion.div
+            onClick={scrollToTop}
+            className="absolute top-8 cursor-pointer"
+            initial={{ y: 0 }}
+            animate={{ y: [0, -10, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5 }}
+          >
+            <Image src={downIcon} width={60} height={60} alt='Arrow' className='invert transform -scale-y-100 opacity-80' priority />
+          </motion.div>
+        )}
       </div>
     </div>
   );

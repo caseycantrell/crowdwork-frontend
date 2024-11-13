@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { requeueIcon } from '@/icons';
 
 interface Props {
     id: string;
@@ -64,7 +65,7 @@ const CompletedRequest: React.FC<Props> = ({
                             aria-label='Requeue Request'
                         >
                             <Image
-                                src={'/icons/requeue2.png'}
+                                src={requeueIcon}
                                 height={50}
                                 width={50}
                                 alt="Requeue Icon"

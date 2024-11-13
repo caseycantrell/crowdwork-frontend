@@ -10,6 +10,7 @@ import Modal from '../../components/UI/Modal';
 import { useSession, signOut } from 'next-auth/react';
 import Notification from '../../components/UI/Notification';
 import { AnimatePresence, motion } from 'framer-motion';
+import { infoIcon } from '@/icons';
 
 interface Dancefloor {
   id: string;
@@ -337,7 +338,7 @@ const handleLogout = async () => {
                 )}
               </AnimatePresence>
               <Image 
-                src={'/icons/info.svg'} 
+                src={infoIcon} 
                 width={25}
                 height={25}
                 alt="How It Works"

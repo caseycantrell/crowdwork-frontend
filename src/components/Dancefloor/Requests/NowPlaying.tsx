@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { requeueIcon, completeIcon, likeIconAlt } from '@/icons';
 
 interface Props {
     id: string;
@@ -84,7 +85,7 @@ const NowPlaying: React.FC<Props> = ({
                             onMouseEnter={() => handleMouseEnter('requeue')}
                         >
                             <Image
-                                src={'/icons/requeue2.png'}
+                                src={requeueIcon}
                                 height={50}
                                 width={50}
                                 alt="Requeue Icon"
@@ -99,7 +100,7 @@ const NowPlaying: React.FC<Props> = ({
                             onMouseEnter={() => handleMouseEnter('complete')}
                         >
                             <Image
-                                src={'/icons/complete.png'}
+                                src={completeIcon}
                                 height={50}
                                 width={50}
                                 alt="Complete Icon"
@@ -114,7 +115,7 @@ const NowPlaying: React.FC<Props> = ({
                             onMouseEnter={() => handleMouseEnter('like')}
                         >
                             <Image
-                                src={'/icons/like2.png'}
+                                src={likeIconAlt}
                                 height={50}
                                 width={50}
                                 alt="Like Icon"

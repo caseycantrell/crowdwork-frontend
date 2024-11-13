@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { playIcon, declineIcon, likeIconAlt } from '@/icons';
 
 interface Props {
     id: string;
@@ -84,7 +85,7 @@ const ActiveRequest: React.FC<Props> = ({
                             aria-label='Set as Now Playing'
                         >
                             <Image
-                                src={'/icons/play.png'}
+                                src={playIcon}
                                 height={50}
                                 width={50}
                                 alt="Play Icon"
@@ -99,7 +100,7 @@ const ActiveRequest: React.FC<Props> = ({
                             aria-label='Decline Request'
                         >
                             <Image
-                                src={'/icons/decline.png'}
+                                src={declineIcon}
                                 height={50}
                                 width={50}
                                 alt="Decline Icon"
@@ -114,7 +115,7 @@ const ActiveRequest: React.FC<Props> = ({
                             aria-label='Like Request'
                         >
                             <Image
-                                src={'/icons/like2.png'}
+                                src={likeIconAlt}
                                 height={50}
                                 width={50}
                                 alt="Like Icon"

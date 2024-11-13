@@ -2,6 +2,7 @@
 import React, { ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { closeIcon } from '@/icons';
 
 interface ModalProps {
   isOpen: boolean;
@@ -37,7 +38,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
               className="absolute top-1 right-1 cursor-pointer p-2"
               aria-label="Close Modal"
             >
-              <Image src={'/icons/close.png'} width={25} height={25} alt='Close' className='invert' onClick={onClose} />
+              <Image src={closeIcon} width={25} height={25} alt='Close' className='invert' onClick={onClose} />
             </button>
             {children}
           </motion.div>
