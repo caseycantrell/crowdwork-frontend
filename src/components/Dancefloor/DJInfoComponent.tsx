@@ -11,12 +11,14 @@ const DJInfoComponent: React.FC<{
   isChatVisible: boolean;
   setIsChatVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setIsStopDancefloorModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsQRModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({
   djInfo,
   djInfoError,
   isChatVisible,
   setIsChatVisible,
-  setIsStopDancefloorModalOpen
+  setIsStopDancefloorModalOpen,
+  setIsQRModalOpen
 }) => {
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
 
@@ -130,7 +132,7 @@ const DJInfoComponent: React.FC<{
                     </button>
                 </div>
                 <div className="relative flex flex-row items-center">
-                    <AnimatePresence>
+                  <AnimatePresence>
                     {hoveredButton === "chat" && (
                         <motion.p
                             className="absolute ml-2 -left-32 text-white font-bold"
@@ -142,30 +144,31 @@ const DJInfoComponent: React.FC<{
                             {isChatVisible ? "Hide Chat" : "Open Chat"}
                         </motion.p>
                     )}
-                    </AnimatePresence>
-                    <button
-                      aria-label="Open Chat"
-                      onClick={() => setIsChatVisible(!isChatVisible)}
-                      onMouseEnter={() => handleMouseEnter("chat")}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      <Image
-                        src={"/icons/chat2.png"}
-                        height={60}
-                        width={60}
-                        alt="Open Chat"
-                        className="invert"
-                      />
-                    </button>
+                  </AnimatePresence>
+                  <button
+                    aria-label="Open Chat"
+                    onClick={() => setIsChatVisible(!isChatVisible)}
+                    onMouseEnter={() => handleMouseEnter("chat")}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <Image
+                      src={"/icons/chat2.png"}
+                      height={60}
+                      width={60}
+                      alt="Open Chat"
+                      className="invert"
+                    />
+                  </button>
                 </div>
             </div>
             {djInfo?.qr_code && (
               <Image
+                onClick={() => setIsQRModalOpen(true)}
                 src={djInfo.qr_code}
                 width={150}
                 height={150}
                 alt="QR Code"
-                className="w-52 h-52 ml-8"
+                className="w-52 h-52 ml-8 cursor-pointer"
               />
             )}
           </div>
