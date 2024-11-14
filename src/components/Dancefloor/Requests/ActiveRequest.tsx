@@ -61,12 +61,11 @@ const ActiveRequest: React.FC<Props> = ({
             </div>
             <div className="flex flex-col space-y-1 py-1 min-w-0">
                 <div className="flex items-center min-w-0">
-                    <p className="font-bold text-lg mr-1 whitespace-nowrap">Song:</p>
-                    <p className="font-semibold text-lg text-gray-200 truncate overflow-hidden text-ellipsis min-w-0">
-                        {song}
+                    <p className="font-semibold text-lg truncate overflow-hidden text-ellipsis min-w-0">
+                        <strong>Song:</strong> {song}
                     </p>
                 </div>
-                <div className="flex items-center text-md font-semibold text-gray-400">
+                <div className="flex items-center text-md">
                     Likes: {likes}
                 </div>
             </div>

@@ -40,16 +40,15 @@ const CompletedRequest: React.FC<Props> = ({
                     </svg>
                 </div>
                 <div className="flex flex-col space-y-1 py-1 min-w-0 text-gray-400 italic line-through">
-                    <div className="flex items-center min-w-0">
-                        <p className="font-bold text-lg mr-1 whitespace-nowrap">Song:</p>
-                        <p className="font-semibold text-md truncate overflow-hidden text-ellipsis min-w-0">
-                            {song}
-                        </p>
-                    </div>
-                    <div className="flex items-center text-md">
-                        Likes: {likes}
-                    </div>
+                <div className="flex items-center min-w-0">
+                    <p className="font-semibold text-lg truncate overflow-hidden text-ellipsis min-w-0">
+                        <strong>Song:</strong> {song}
+                    </p>
                 </div>
+                <div className="flex items-center text-md">
+                    Likes: {likes}
+                </div>
+            </div>
             </div>
             <div className="flex flex-row items-center gap-x-12 mr-16 ml-2">
                 <AnimatePresence>
