@@ -627,7 +627,7 @@ const handleLogout = async () => {
                 <Button
                   disabled={isLoading}
                   padding="p-4"
-                  bgColor="bg-gradient-to-r from-emerald-500 to-cyan-500"
+                  bgColor="bg-gradient-to-r from-emerald-500/80 to-cyan-500/80"
                   className="w-full"
                 >
                   Go to Active Dancefloor
@@ -638,7 +638,7 @@ const handleLogout = async () => {
                 onClick={startDancefloor}
                 className="w-full"
                 padding="p-4"
-                bgColor="bg-gradient-to-r from-emerald-500 to-cyan-500"
+                bgColor="bg-gradient-to-r from-emerald-500/80 to-cyan-500/80"
                 disabled={isLoading}
               >
                 {isLoading ? "Starting..." : "Start Dancefloor"}

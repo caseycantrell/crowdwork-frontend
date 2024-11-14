@@ -49,7 +49,7 @@ const DJInfoComponent: React.FC<{
             </div>
             <div className="mt-2">
               <Link href={`/dj/${djInfo.id}`}>
-                <Button className="w-40">Go to DJ Page</Button>
+                <Button className="w-40" bgColor="bg-gradient-to-r from-emerald-400 to-cyan-500 ">Go to DJ Page</Button>
               </Link>
             </div>
           </div>

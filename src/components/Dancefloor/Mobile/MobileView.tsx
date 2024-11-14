@@ -209,7 +209,8 @@ const MobileView: React.FC<Props> = ({
               <Button
                 padding="py-3"
                 fontWeight="font-semibold"
-                className="w-full text-xl mx-2 bg-gradient-to-r from-emerald-400 to-cyan-500 rounded"
+                bgColor='bg-gradient-to-r from-emerald-400 to-cyan-500 '
+                className="w-full text-xl mx-2 rounded"
                 onClick={(e) => {
                   e.preventDefault();
                   void router.push(`/dancefloor/${dancefloorId}/request`);
