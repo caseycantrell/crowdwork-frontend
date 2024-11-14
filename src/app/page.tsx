@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion, useAnimation } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { downIcon, startIcon, qrCodeIcon, musicChatIcon } from '@/icons';
 
 const Home: React.FC = () => {
   const [ isDownArrowVisible, setIsDownArrowVisible ] = useState(true);
@@ -81,7 +82,7 @@ const Home: React.FC = () => {
               animate={{ y: [0, 10, 0] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
             >
-              <Image src={'/icons/down.svg'} width={60} height={60} alt='Arrow' className='invert opacity-80' priority />
+              <Image src={downIcon} aria-label='Scroll Page Down' width={60} height={60} alt='Arrow' className='invert opacity-80' priority />
             </motion.div>
           )}
         </div>
@@ -89,18 +90,49 @@ const Home: React.FC = () => {
 
       <div
         ref={bottomSectionRef}
-        className="relative z-10 flex flex-wrap justify-center items-center min-h-screen"
+        className="relative z-10 flex flex-wrap justify-center items-center min-h-screen gap-4 md:gap-8 lg:gap-16"
       >
-        {[...Array(4)].map((_, i) => (
+        <div className="w-full sm:w-1/2 lg:w-1/4 flex justify-center">
           <motion.div
-            key={i}
-            className="m-16 w-48 h-48 bg-gray-300"
+            className="w-full max-w-xs flex flex-col items-center justify-center p-8"
             initial={{ opacity: 0, y: 50 }}
             animate={controls}
-            viewport={{ once: false }}
-            transition={{ duration: 0.75, delay: i * 0.75 }}
-          />
-        ))}
+            transition={{ duration: 1, delay: 0 }}
+          >
+            <div className='w-40 h-40'>
+            <Image src={startIcon} width={350} height={350} alt="QR Code" className='invert'/>
+            </div>
+            <p className="text-center text-xl font-bold mt-4">First, start a new dancefloor...</p>
+          </motion.div>
+        </div>
+
+        <div className="w-full sm:w-1/2 lg:w-1/4 flex justify-center">
+          <motion.div
+            className="w-full max-w-xs flex flex-col items-center justify-center p-8"
+            initial={{ opacity: 0, y: 50 }}
+            animate={controls}
+            transition={{ duration: 1, delay: 1.5 }}
+          >
+            <div className='w-48 h-48'>
+            <Image src={qrCodeIcon} width={200} height={200} alt="QR Code" className='invert'/>
+            </div>
+            <p className="text-center text-xl font-extrabold">Guests can then join your dancefloor with your QR.</p>
+          </motion.div>
+        </div>
+
+        <div className="w-full sm:w-1/2 lg:w-1/4 flex justify-center">
+          <motion.div
+            className="w-full max-w-xs flex flex-col items-center justify-center p-8"
+            initial={{ opacity: 0, y: 50 }}
+            animate={controls}
+            transition={{ duration: 1, delay: 3 }}
+          >
+            <div className='w-48 h-48'>
+            <Image src={musicChatIcon} width={200} height={200} alt="QR Code" className='invert'/>
+            </div>
+            <p className="text-center text-xl font-bold">There they can make song requests and chat.</p>
+          </motion.div>
+        </div>
 
         {isUpArrowVisible && (
           <motion.div
@@ -110,7 +142,7 @@ const Home: React.FC = () => {
             animate={{ y: [0, -10, 0] }}
             transition={{ repeat: Infinity, duration: 1.5 }}
           >
-            <Image src={'/icons/down.svg'} width={60} height={60} alt='Arrow' className='invert transform -scale-y-100 opacity-80' priority />
+            <Image src={downIcon} width={60} height={60} alt='Arrow' className='invert transform -scale-y-100 opacity-80' priority />
           </motion.div>
         )}
       </div>

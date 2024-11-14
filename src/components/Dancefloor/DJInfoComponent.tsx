@@ -4,6 +4,7 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import Button from '../UI/Button'
 import { DJInfo } from "@/types/types";
+import { instagramIcon, twitterIcon, venmoIcon, cashappIcon, stopIconAlt, chatIcon } from "@/icons";
 
 const DJInfoComponent: React.FC<{
   djInfo: DJInfo | null;
@@ -11,12 +12,14 @@ const DJInfoComponent: React.FC<{
   isChatVisible: boolean;
   setIsChatVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setIsStopDancefloorModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsQRModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({
   djInfo,
   djInfoError,
   isChatVisible,
   setIsChatVisible,
-  setIsStopDancefloorModalOpen
+  setIsStopDancefloorModalOpen,
+  setIsQRModalOpen
 }) => {
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
 
@@ -46,7 +49,7 @@ const DJInfoComponent: React.FC<{
             </div>
             <div className="mt-2">
               <Link href={`/dj/${djInfo.id}`}>
-                <Button className="w-40">Go to DJ Page</Button>
+                <Button className="w-40" bgColor="bg-gradient-to-r from-emerald-400 to-cyan-500 ">Go to DJ Page</Button>
               </Link>
             </div>
           </div>
@@ -66,7 +69,7 @@ const DJInfoComponent: React.FC<{
               {djInfo.instagram_handle && 
                 <div>
                   <a href={`https://www.instagram.com/${djInfo.instagram_handle.replace(/^@/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
-                    <Image src={'/icons/instagram.png'} className="invert" width={26} height={26} alt='Instagram' />
+                    <Image src={instagramIcon} aria-label="Instagram" className="invert" width={26} height={26} alt='Instagram' />
                     <p className="font-semibold ml-2 text-lg">{djInfo.instagram_handle}</p>
                   </a>
                 </div>
@@ -74,7 +77,7 @@ const DJInfoComponent: React.FC<{
               {djInfo.twitter_handle && 
                 <div>
                   <a href={`https://x.com/${djInfo.twitter_handle.replace(/^@/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
-                    <Image src={'/icons/twitter.png'} className="invert rounded-md" width={26} height={26} alt='Twitter' />
+                    <Image src={twitterIcon} aria-label="Twitter" className="invert rounded-md" width={26} height={26} alt='Twitter' />
                     <p className="font-semibold ml-2 text-lg">{djInfo.twitter_handle}</p>
                   </a>
                 </div>
@@ -82,7 +85,7 @@ const DJInfoComponent: React.FC<{
               {djInfo.venmo_handle && 
                 <div>
                   <a href={`https://account.venmo.com/u/${djInfo.venmo_handle.replace(/^@/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
-                    <Image src={'/icons/venmo.png'} className="invert rounded-md" width={26} height={26} alt='Venmo' />
+                    <Image src={venmoIcon} aria-label="Venmo" className="invert rounded-md" width={26} height={26} alt='Venmo' />
                     <p className="font-semibold ml-2 text-lg">{djInfo.venmo_handle}</p>
                   </a>
                 </div>
@@ -90,7 +93,7 @@ const DJInfoComponent: React.FC<{
               {djInfo.cashapp_handle && 
                 <div>
                   <a href={`https://cash.app/${djInfo.cashapp_handle.replace(/^\$/, '')}`} target="_blank" rel="noopener noreferrer" className="flex flex-row items-center"> 
-                    <Image src={'/icons/cashapp.png'} width={26} height={26} alt='CashApp' />
+                    <Image src={cashappIcon} aria-label="CashApp" width={26} height={26} alt='CashApp' />
                     <p className="font-semibold ml-2.5 text-lg">{djInfo.cashapp_handle}</p>
                   </a>
                 </div>
@@ -115,12 +118,13 @@ const DJInfoComponent: React.FC<{
                     )}
                     </AnimatePresence>
                     <button
+                      aria-label="Stop Dancefloor"
                       onClick={() => setIsStopDancefloorModalOpen(true)}
                       onMouseEnter={() => handleMouseEnter("stop")}
                       onMouseLeave={handleMouseLeave}
                     >
                       <Image
-                        src={"/icons/stop2.png"}
+                        src={stopIconAlt}
                         height={60}
                         width={60}
                         alt="Stop Dancefloor"
@@ -129,7 +133,7 @@ const DJInfoComponent: React.FC<{
                     </button>
                 </div>
                 <div className="relative flex flex-row items-center">
-                    <AnimatePresence>
+                  <AnimatePresence>
                     {hoveredButton === "chat" && (
                         <motion.p
                             className="absolute ml-2 -left-32 text-white font-bold"
@@ -141,29 +145,31 @@ const DJInfoComponent: React.FC<{
                             {isChatVisible ? "Hide Chat" : "Open Chat"}
                         </motion.p>
                     )}
-                    </AnimatePresence>
-                    <button
-                      onClick={() => setIsChatVisible(!isChatVisible)}
-                      onMouseEnter={() => handleMouseEnter("chat")}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      <Image
-                        src={"/icons/chat2.png"}
-                        height={60}
-                        width={60}
-                        alt="Open Chat"
-                        className="invert"
-                      />
-                    </button>
+                  </AnimatePresence>
+                  <button
+                    aria-label="Open Chat"
+                    onClick={() => setIsChatVisible(!isChatVisible)}
+                    onMouseEnter={() => handleMouseEnter("chat")}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <Image
+                      src={chatIcon}
+                      height={60}
+                      width={60}
+                      alt="Open Chat"
+                      className="invert"
+                    />
+                  </button>
                 </div>
             </div>
             {djInfo?.qr_code && (
               <Image
+                onClick={() => setIsQRModalOpen(true)}
                 src={djInfo.qr_code}
                 width={150}
                 height={150}
                 alt="QR Code"
-                className="w-52 h-52 ml-8"
+                className="w-52 h-52 ml-8 cursor-pointer"
               />
             )}
           </div>

@@ -65,8 +65,8 @@ const SignupPage: React.FC = () => {
         <Link href='/' className='font-bold'>Home</Link>
         <Link href='/login' className='ml-10 font-bold'>Login</Link>
       </div>
-      <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl space-y-6 p-6 flex flex-col items-center w-[550px]'>
-        <p className="text-4xl font-extrabold">Sign Up</p>
+      <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-6 flex flex-col items-center w-[550px]'>
+        <p className="text-4xl font-extrabold mb-6">Sign Up</p>
         <form onSubmit={handleSignup} className="space-y-6 w-full max-w-lg flex flex-col items-center">
           <Input
             type="text"
@@ -93,12 +93,13 @@ const SignupPage: React.FC = () => {
             type="submit"
             padding='py-4'
             fontWeight="font-bold"
+            bgColor='bg-gradient-to-r from-emerald-500 to-cyan-500'
             className="w-full text-xl"
           >
             Sign Me Up
           </Button>
         </form>
-        <div className="flex flex-row items-center justify-center text-lg relative w-full">
+        <div className="flex flex-row items-center justify-center text-lg relative w-full mt-5">
           <p className="mr-3 font-semibold">Already have an account?</p>
           <Link href="/login" className="font-bold text-link">Login</Link>
         </div>

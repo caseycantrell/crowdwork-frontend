@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { DJInfo } from '@/types/types';
+import { instagramIcon, twitterIcon, venmoIcon, cashappIcon} from '@/icons';
 
 interface SongRequest {
   id: string;
@@ -117,7 +118,7 @@ const MobileView: React.FC<Props> = ({
             <div className="grid grid-cols-2 font-semibold mt-3.5 gap-1 mx-2">
               <div className="flex flex-row items-center">
                 <Image 
-                  src={'/icons/instagram.png'} 
+                  src={instagramIcon} 
                   className="invert" 
                   width={24} 
                   height={24} 
@@ -139,7 +140,7 @@ const MobileView: React.FC<Props> = ({
               </div>
               <div className="flex flex-row items-center">
                 <Image 
-                  src={'/icons/twitter.png'} 
+                  src={twitterIcon} 
                   className="invert" 
                   width={24} 
                   height={24} 
@@ -161,7 +162,7 @@ const MobileView: React.FC<Props> = ({
               </div>
               <div className="flex flex-row items-center">
                 <Image 
-                  src={'/icons/venmo.png'} 
+                  src={venmoIcon} 
                   className="invert rounded-md" 
                   width={24} 
                   height={24} 
@@ -183,7 +184,7 @@ const MobileView: React.FC<Props> = ({
               </div>
               <div className="flex flex-row items-center">
                   <Image 
-                    src={'/icons/cashapp.png'} 
+                    src={cashappIcon} 
                     width={24} 
                     height={24} 
                     alt="Cash App" 
@@ -204,11 +205,12 @@ const MobileView: React.FC<Props> = ({
               </div>
             </div>
 
-            <div className="bg-gray-800 flex justify-center mt-2">
+            <div className="bg-gray-800 flex justify-center mt-2.5">
               <Button
-                padding="py-4"
+                padding="py-3"
                 fontWeight="font-semibold"
-                className="w-full mx-2 bg-gradient-to-r from-emerald-400 to-cyan-500 rounded"
+                bgColor='bg-gradient-to-r from-emerald-400 to-cyan-500 '
+                className="w-full text-xl mx-2 rounded"
                 onClick={(e) => {
                   e.preventDefault();
                   void router.push(`/dancefloor/${dancefloorId}/request`);

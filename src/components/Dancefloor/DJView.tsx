@@ -81,6 +81,11 @@ const DJView: React.FC<Props> = ({
 }) => {
   const [ isChatVisible, setIsChatVisible ] = useState<boolean>(false);
   const [ isStopDancefloorModalOpen, setIsStopDancefloorModalOpen ] = useState<boolean>(false);
+  const [ isQRModalOpen, setIsQRModalOpen ] = useState<boolean>(false);
+
+  const closeQRModal = () => {
+    setIsQRModalOpen(false)
+  }
 
   return (
     <div className="flex min-h-screen bg-gray-800">
@@ -110,6 +115,7 @@ const DJView: React.FC<Props> = ({
           isChatVisible={isChatVisible}
           setIsChatVisible={setIsChatVisible}
           setIsStopDancefloorModalOpen={setIsStopDancefloorModalOpen}
+          setIsQRModalOpen={setIsQRModalOpen}
         />
         <SongRequests
           dancefloorId={dancefloorId}
@@ -147,6 +153,7 @@ const DJView: React.FC<Props> = ({
         )}
       </AnimatePresence>
 
+      {/* confirm stop dancefloor modal */}
       <Modal isOpen={isStopDancefloorModalOpen} onClose={() => setIsStopDancefloorModalOpen(false)} >
         <div className='mr-8 w-full'>
           <p className='font-extrabold text-2xl '>Really stop this dancefloor?</p>
@@ -157,6 +164,32 @@ const DJView: React.FC<Props> = ({
           </div>
         </div>
       </Modal>
+
+      {/* QR code modal */}
+      <Modal isOpen={isQRModalOpen} onClose={closeQRModal}>
+        <div className="w-full pt-6 relative">
+          <p className='absolute -top-3 left-0 text-lg font-bold'>Your QR Code</p>
+          {djInfo?.qr_code && (
+            <div className='w-full'>
+              <img
+                src={djInfo?.qr_code}
+                alt="DJ QR Code"
+                className="object-contain rounded-sm mb-4"
+                style={{ width: '500px', height: '500px' }}
+              />
+              <Button padding='py-3' className='w-full text-lg'>
+                <a
+                  href={djInfo?.qr_code}
+                  download="DJ-QR-Code.png"
+                >
+                  Save QR Code
+                </a>
+              </Button>
+            </div>
+          )}
+        </div>
+      </Modal>
+
     </div>
   );
 };

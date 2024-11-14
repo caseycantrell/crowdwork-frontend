@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { requeueIcon, completeIcon, likeIconAlt } from '@/icons';
 
 interface Props {
     id: string;
@@ -78,12 +79,13 @@ const NowPlaying: React.FC<Props> = ({
 
                     <div style={{ width: 30, height: 30 }}>
                         <button
+                            aria-label='Requeue Request'
                             className="overflow-visible"
                             onClick={() => updateStatus(id, 'queued')}
                             onMouseEnter={() => handleMouseEnter('requeue')}
                         >
                             <Image
-                                src={'/icons/requeue2.png'}
+                                src={requeueIcon}
                                 height={50}
                                 width={50}
                                 alt="Requeue Icon"
@@ -92,12 +94,13 @@ const NowPlaying: React.FC<Props> = ({
                     </div>
                     <div style={{ width: 30, height: 30 }}>
                         <button
+                            aria-label='Mark As Completed'
                             className="overflow-visible" 
                             onClick={() => updateStatus(id, 'completed')}
                             onMouseEnter={() => handleMouseEnter('complete')}
                         >
                             <Image
-                                src={'/icons/complete.png'}
+                                src={completeIcon}
                                 height={50}
                                 width={50}
                                 alt="Complete Icon"
@@ -106,12 +109,13 @@ const NowPlaying: React.FC<Props> = ({
                     </div>
                     <div style={{ width: 30, height: 30 }}>
                         <button
+                            aria-label='Like Request'
                             className="overflow-visible"
                             onClick={() => handleLike(id, dancefloorId)}
                             onMouseEnter={() => handleMouseEnter('like')}
                         >
                             <Image
-                                src={'/icons/like2.png'}
+                                src={likeIconAlt}
                                 height={50}
                                 width={50}
                                 alt="Like Icon"

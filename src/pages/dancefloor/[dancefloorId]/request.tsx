@@ -18,7 +18,7 @@ const customStyles: StylesConfig<SongOption, false, GroupBase<SongOption>> = {
     backgroundColor: '#1F2937',
     color: 'white',
     borderRadius: '0.375rem',
-    border: '1px solid #4ADE80',
+    border: '1px solid #0ce471',
     padding: '0.25rem',
     boxShadow: state.isFocused ? '0 0 0 1px #4ADE80' : undefined,
   }),
@@ -93,7 +93,7 @@ const SongRequestPage: React.FC = () => {
 
     timeoutId = setTimeout(() => {
       router.back();
-    }, 4000);
+    }, 3500);
   };
 
   useEffect(() => {
@@ -110,7 +110,7 @@ const SongRequestPage: React.FC = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="text-main text-3xl mb-4"
+            className="text-success text-3xl mb-4"
           >
           Success!
           </motion.p>
@@ -128,7 +128,7 @@ const SongRequestPage: React.FC = () => {
           initial={{ scale: 0.8, rotate: -10 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ type: 'spring', stiffness: 500, damping: 20 }}
-          className="text-main h-20 w-20 mb-1"
+          className="text-success h-20 w-20 mb-1"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -156,16 +156,13 @@ const SongRequestPage: React.FC = () => {
           <button className="absolute top-8 left-8 font-bold" onClick={() => router.back()}>
             Cancel
           </button>
-          <h1 className="text-white text-2xl font-bold mb-4">Request a Song</h1>
-
-          {error && <p className="text-red-500 mb-2">{error}</p>}
-
+          <p className="text-white text-2xl font-bold mb-4">Request a Song</p>
           <div className="w-full max-w-sm px-4">
             <AsyncSelect
               cacheOptions
               loadOptions={loadOptions}
               onChange={handleChange}
-              placeholder="Search for a song..."
+              placeholder={error ? error : "Search for a song..."}
               styles={customStyles}
               isClearable
             />

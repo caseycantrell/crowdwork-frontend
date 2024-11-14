@@ -239,7 +239,7 @@ const Dancefloor: React.FC = () => {
     if (notification) {
       const timer = setTimeout(() => {
         setNotification(null);
-      }, 3000);
+      }, 3500);
   
       return () => clearTimeout(timer);
     }
@@ -256,7 +256,7 @@ const Dancefloor: React.FC = () => {
             ...prevErrors,
             [requestId]: null,
           }));
-        }, 3000);
+        }, 3500);
   
         timers.push(timer);
       }

@@ -13,7 +13,7 @@ const Notification: FC<NotificationProps> = ({ notificationMessage, isError = fa
     if (showNotification) {
       const timer = setTimeout(() => {
         onClose();
-      }, 4000);
+      }, 3500);
       return () => clearTimeout(timer);
     }
   }, [showNotification, onClose]);
@@ -42,7 +42,7 @@ const Notification: FC<NotificationProps> = ({ notificationMessage, isError = fa
                 initial={{ scale: 0.8, rotate: -10 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ type: 'spring', stiffness: 500, damping: 20 }}
-                className="text-red-500 h-10 w-10"
+                className="text-error/90 h-10 w-10"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -84,7 +84,7 @@ const Notification: FC<NotificationProps> = ({ notificationMessage, isError = fa
                 initial={{ scale: 0.8, rotate: -10 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ type: 'spring', stiffness: 500, damping: 20 }}
-                className="text-main h-10 w-10 mb-1"
+                className="text-success/80 h-10 w-10 mb-1"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -108,7 +108,7 @@ const Notification: FC<NotificationProps> = ({ notificationMessage, isError = fa
               </motion.svg>
              }
         </div>
-        <p className={`mt-2 font-bold ${isError ? 'text-red-500' : 'text-main/90'}`}>{notificationMessage}</p>
+        <p className={`mt-2 font-bold ${isError ? 'text-error/90' : 'text-success/80'}`}>{notificationMessage}</p>
         </motion.div>
       )}
     </AnimatePresence>

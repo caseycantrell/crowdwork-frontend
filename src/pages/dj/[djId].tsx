@@ -10,6 +10,7 @@ import Modal from '../../components/UI/Modal';
 import { useSession, signOut } from 'next-auth/react';
 import Notification from '../../components/UI/Notification';
 import { AnimatePresence, motion } from 'framer-motion';
+import { infoIcon } from '@/icons';
 
 interface Dancefloor {
   id: string;
@@ -55,7 +56,7 @@ const DjIdPage: React.FC = () => {
 
   const showNotification = (message: string, isError = false) => {
     setNotification({ message, isVisible: true, isError });
-    setTimeout(() => setNotification((prev) => ({ ...prev, isVisible: false })), 3000);
+    setTimeout(() => setNotification((prev) => ({ ...prev, isVisible: false })), 3500);
   };
   
   useEffect(() => {
@@ -298,7 +299,7 @@ const handleLogout = async () => {
     } catch {
       showNotification("An error occurred during logout. Please try again.", true);
     }
-  }, 2000);
+  }, 3500);
 };
 
 
@@ -317,36 +318,37 @@ const handleLogout = async () => {
         </div>
       }
       <div className="w-full max-w-6xl bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
-        <div className='flex flex-row items-center absolute top-4 right-4'>
-          <AnimatePresence>
-            {isHowItWorksHovered && (
-              <motion.p
-                className="font-semibold text-sm text-gray-100 mr-4"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{
-                  type: 'tween',
-                  duration: 0.5,
-                  ease: 'easeInOut',
-                }}
-                >
-                How It Works
-              </motion.p>
-            )}
-          </AnimatePresence>
-          <Image 
-            src={'/icons/info.svg'} 
-            width={25}
-            height={25}
-            alt="How It Works"
-            aria-label="How It Works"
-            className='invert cursor-pointer'
-            onClick={() => setIsInfoModalOpen(true)}
-            onMouseEnter={() => setIsHowItWorksHovered(true)}
-            onMouseLeave={() => setIsHowItWorksHovered(false)}
-            />
-        </div>
+        {session &&   
+            <div className='flex flex-row items-center absolute top-4 right-4'>
+              <AnimatePresence>
+                {isHowItWorksHovered && (
+                  <motion.p
+                    className="font-semibold text-sm text-gray-100 mr-4"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    transition={{
+                      type: 'tween',
+                      duration: 0.5,
+                      ease: 'easeInOut',
+                    }}
+                    >
+                    How It Works
+                  </motion.p>
+                )}
+              </AnimatePresence>
+              <Image 
+                src={infoIcon} 
+                width={25}
+                height={25}
+                alt="How It Works"
+                aria-label="How It Works"
+                className='invert cursor-pointer'
+                onClick={() => setIsInfoModalOpen(true)}
+                onMouseEnter={() => setIsHowItWorksHovered(true)}
+                onMouseLeave={() => setIsHowItWorksHovered(false)}
+                />
+            </div>}
         
         <div className="flex flex-col items-center md:w-1/3">
           {session && <p className="text-4xl font-semibold text-center mb-0 xl:mb-8">{djName || 'Your DJ Profile'}</p>}
@@ -365,7 +367,8 @@ const handleLogout = async () => {
               onClick={() => setIsEditingProfilePic(true)}
               className="w-60"
               fontWeight='font-semibold'
-              bgColor="bg-gradient-to-r from-cyan-500 to-blue-500"
+              bgColor="bg-gradient-to-r from-indigo-400/80 to-cyan-500/80"
+              padding='py-3'
             >
               Update Profile Pic
             </Button>
@@ -379,7 +382,7 @@ const handleLogout = async () => {
               />
               <label
                 htmlFor="file-upload"
-                className="flex button-effect justify-center bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white font-semibold py-2 px-4 rounded-md mb-4 cursor-pointer w-60"
+                className="flex button-effect justify-center bg-gradient-to-r from-indigo-400/80 to-cyan-500/80 text-white font-bold py-3 px-4 rounded-md mb-4 cursor-pointer w-60"
               >
                 Choose File
               </label>
@@ -387,15 +390,18 @@ const handleLogout = async () => {
                 onClick={saveProfilePic}
                 disabled={uploading}
                 fontWeight='font-semibold'
+                bgColor='bg-gradient-to-r from-green-500/80 to-green-600/80'
                 className="w-60"
+                padding='py-3'
               >
                 {uploading ? 'Uploading...' : 'Save Profile Picture'}
               </Button>
               <Button
                 onClick={() => setIsEditingProfilePic(false)}
-                bgColor="bg-red-500"
+                bgColor="bg-gradient-to-r from-red-500/80 to-orange-600/80"
                 fontWeight='font-semibold'
                 className="mt-4 w-60"
+                padding='py-3'
               >
                 Cancel
               </Button>
@@ -403,8 +409,8 @@ const handleLogout = async () => {
           ) : null}
 
           {session && qrCodeUrl && (
-            <div className="flex flex-col items-center mt-16 absolute bottom-80">
-              <p className="font-semibold text-lg mb-2">Your QR code</p>
+            <div className="flex flex-col items-center absolute bottom-64">
+              <p className="font-bold text-xl mb-2">Your QR Code</p>
               <Image
                 src={qrCodeUrl}
                 alt="DJ QR Code"
@@ -584,18 +590,18 @@ const handleLogout = async () => {
               {isEditing ? (
                 <div className="w-full grid grid-cols-2 gap-4">
                   <Button
-                    onClick={() => setIsEditing(false)}
-                    padding="p-4"
-                    bgColor="bg-gradient-to-r from-red-500/90 to-orange-600/90"
-                  >
-                    Cancel Edit
-                  </Button>
-                  <Button
                     onClick={handleEditInfo}
                     padding="p-4"
-                    bgColor="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500"
+                    bgColor="bg-gradient-to-r from-green-500/80 to-green-600/80"
                   >
                     Save Info
+                  </Button>
+                  <Button
+                    onClick={() => setIsEditing(false)}
+                    padding="p-4"
+                    bgColor="bg-gradient-to-r from-red-500/80 to-orange-600/80"
+                  >
+                    Cancel Edit
                   </Button>
                 </div>
               ) : (
@@ -603,11 +609,11 @@ const handleLogout = async () => {
                   <Button
                     onClick={() => setIsEditing(true)}
                     padding="p-4"
-                    bgColor="bg-gradient-to-r from-blue-500 to-cyan-500"
+                    bgColor="bg-gradient-to-r from-indigo-400/80 to-cyan-500/80"
                   >
                     Edit Info
                   </Button>
-                  <Button onClick={() => setIsConfirmationModalOpen(true)} padding="p-4" bgColor="bg-gradient-to-r from-red-500/90 to-orange-600/90">
+                  <Button onClick={() => setIsConfirmationModalOpen(true)} padding="p-4" bgColor="bg-gradient-to-r from-red-500/80 to-orange-600/80">
                     Delete Account
                   </Button>
                 </div>
@@ -621,7 +627,7 @@ const handleLogout = async () => {
                 <Button
                   disabled={isLoading}
                   padding="p-4"
-                  bgColor="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500"
+                  bgColor="bg-gradient-to-r from-emerald-500/80 to-cyan-500/80"
                   className="w-full"
                 >
                   Go to Active Dancefloor
@@ -632,7 +638,7 @@ const handleLogout = async () => {
                 onClick={startDancefloor}
                 className="w-full"
                 padding="p-4"
-                bgColor="bg-gradient-to-r from-emerald-400 to-cyan-400"
+                bgColor="bg-gradient-to-r from-emerald-500/80 to-cyan-500/80"
                 disabled={isLoading}
               >
                 {isLoading ? "Starting..." : "Start Dancefloor"}
@@ -649,7 +655,7 @@ const handleLogout = async () => {
                     <li key={dancefloor.id}>
                       <Link
                         href={`/dancefloor/${dancefloor.id}/details`}
-                        className="text-main font-bold text-xl"
+                        className="text-success/80 font-bold text-xl"
                       >
                         Dancefloor {dancefloor.id}
                       </Link>
@@ -676,8 +682,8 @@ const handleLogout = async () => {
           <p className="font-bold text-3xl text-center mb-4">Getting Started</p>
           <p className="text-center text-lg">Welcome to Crowdwork. Here’s a quick guide to help get you spinning:</p>
           <ol className="list-decimal list-outside pl-5 space-y-2 text-lg hanging-indent ">
-            <li><strong>Create Your Account:</strong> After signing up, you&apos;ll receive a unique QR code for your DJ profile &#40;you already did this&#41;.</li>
-            <li><strong>Display the QR Code:</strong> Have guests scan your QR code to access your DJ profile, view your info, and more.</li>
+            <li><strong>Fill Out Your Info:</strong> After signing up, fill out your info so users can see who you are. You also received a QR code tied to this profile.</li>
+            <li><strong>Display the QR Code:</strong> Have guests scan your QR code to access your DJ profile and view your information.</li>
             <li><strong>Start a Dancefloor:</strong> When you&apos;re ready to engage with your audience, activate a dancefloor. Now your guests can use the QR code to join the party!</li>
             <li><strong>Accept Song Requests:</strong> Guests can make song requests through Crowdwork, with tracks pulled directly from Spotify. Add requests to your queue, set a song as currently playing, or decline as needed.</li>
             <li><strong>Chat in Real-Time:</strong> Keep the vibe going with a live chat feature, making it easy to stay connected with your guests throughout the event.</li>
@@ -712,7 +718,7 @@ const handleLogout = async () => {
           <Button
             onClick={handleDeleteAccount}
             disabled={isDeleting}
-            bgColor="bg-gradient-to-r from-red-500/90 to-orange-600/90"
+            bgColor="bg-error/80"
             padding='py-4'
             fontWeight='font-semibold'
             className="w-full"
@@ -724,25 +730,26 @@ const handleLogout = async () => {
 
       {/* QR code modal */}
       <Modal isOpen={isQRModalOpen} onClose={closeQRModal}>
-        <div className="w-full p-4">
-        {qrCodeUrl && (
-          <div className='w-full'>
-            <img
-              src={qrCodeUrl}
-              alt="DJ QR Code"
-              className="object-contain mb-4"
-              style={{ width: '500px', height: '500px' }}
-            />
-            <Button padding='py-3' className='w-full'>
-              <a
-                href={qrCodeUrl}
-                download="DJ-QR-Code.png"
-              >
-                Save QR Code
-              </a>
-            </Button>
-          </div>
-        )}
+        <div className="w-full pt-6 relative">
+          <p className='absolute -top-3 left-0 text-lg font-bold'>Your QR Code</p>
+          {qrCodeUrl && (
+            <div className='w-full'>
+              <img
+                src={qrCodeUrl}
+                alt="DJ QR Code"
+                className="object-contain rounded-sm mb-4"
+                style={{ width: '500px', height: '500px' }}
+              />
+              <Button padding='py-3' className='w-full text-lg'>
+                <a
+                  href={qrCodeUrl}
+                  download="DJ-QR-Code.png"
+                >
+                  Save QR Code
+                </a>
+              </Button>
+            </div>
+          )}
         </div>
       </Modal>
 

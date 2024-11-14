@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { playIcon, declineIcon, likeIconAlt } from '@/icons';
 
 interface Props {
     id: string;
@@ -81,9 +82,10 @@ const ActiveRequest: React.FC<Props> = ({
                             className="overflow-visible"
                             onClick={() => updateStatus(id, 'playing')}
                             onMouseEnter={() => handleMouseEnter('play')}
+                            aria-label='Set as Now Playing'
                         >
                             <Image
-                                src={'/icons/play.png'}
+                                src={playIcon}
                                 height={50}
                                 width={50}
                                 alt="Play Icon"
@@ -95,9 +97,10 @@ const ActiveRequest: React.FC<Props> = ({
                             className="overflow-visible"
                             onClick={() => updateStatus(id, 'declined')}
                             onMouseEnter={() => handleMouseEnter('decline')}
+                            aria-label='Decline Request'
                         >
                             <Image
-                                src={'/icons/decline.png'}
+                                src={declineIcon}
                                 height={50}
                                 width={50}
                                 alt="Decline Icon"
@@ -109,9 +112,10 @@ const ActiveRequest: React.FC<Props> = ({
                             className="overflow-visible"
                             onClick={() => handleLike(id, dancefloorId)}
                             onMouseEnter={() => handleMouseEnter('like')}
+                            aria-label='Like Request'
                         >
                             <Image
-                                src={'/icons/like2.png'}
+                                src={likeIconAlt}
                                 height={50}
                                 width={50}
                                 alt="Like Icon"
