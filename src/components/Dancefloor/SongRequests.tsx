@@ -67,7 +67,7 @@ const SongRequests: React.FC<Props> = ({
               {completedRequests.length > 0 ? (
                 completedRequests.map((request, index) => (
                   <div key={index}>
-                    <CompletedRequest id={request.id} song={request.song} likes={request.likes} updateStatus={updateStatus} />
+                    <CompletedRequest index={index} id={request.id} song={request.song} likes={request.likes} updateStatus={updateStatus} />
                   </div>
                 ))
               ) : (
@@ -79,7 +79,7 @@ const SongRequests: React.FC<Props> = ({
               {declinedRequests.length > 0 ? (
                   declinedRequests.map((request, index) => (
                     <div key={index}>
-                      <DeclinedRequest id={request.id} song={request.song} likes={request.likes} updateStatus={updateStatus} />
+                      <DeclinedRequest id={request.id} index={index} song={request.song} likes={request.likes} updateStatus={updateStatus} />
                     </div>
                   ))
                 ) : (

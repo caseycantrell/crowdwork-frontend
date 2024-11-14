@@ -5,6 +5,7 @@ import { requeueIcon } from '@/icons';
 
 interface Props {
     id: string;
+    index: number;
     song: string;
     likes: number | 0;
     updateStatus: (requestId: string, status: 'queued' | 'playing' | 'completed' | 'declined') => Promise<void>;
@@ -12,6 +13,7 @@ interface Props {
 
 const DeclinedRequest: React.FC<Props> = ({
     id,
+    index,
     song,
     likes,
     updateStatus,
@@ -24,7 +26,7 @@ const DeclinedRequest: React.FC<Props> = ({
     };   
 
     return (
-        <div className="flex flex-row items-center justify-between bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border border-black py-2 relative">
+    <div className="flex flex-row items-center justify-between bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-b-[1.5px] border-r-[1.5px] border-l-[1.5px] border-black py-2 relative">
         <div className='flex flex-row items-center min-w-0'>
             <div className='mx-4'>
                 <svg    
