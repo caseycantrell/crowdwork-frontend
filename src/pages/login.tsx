@@ -76,7 +76,7 @@ const LoginPage: React.FC = () => {
               className='p-4 placeholder:text-md'
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Button type="submit" padding='py-4' fontWeight="font-bold" className="w-full text-xl">
+            <Button type="submit" padding='py-4' bgColor='bg-gradient-to-r from-emerald-400 to-cyan-500' fontWeight="font-bold" className="w-full text-xl">
               Log Me In
             </Button>
           </form>

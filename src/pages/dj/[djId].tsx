@@ -367,7 +367,7 @@ const handleLogout = async () => {
               onClick={() => setIsEditingProfilePic(true)}
               className="w-60"
               fontWeight='font-semibold'
-              bgColor="bg-main/80"
+              bgColor="bg-gradient-to-r from-indigo-400/80 to-cyan-500/80"
               padding='py-3'
             >
               Update Profile Pic
@@ -382,7 +382,7 @@ const handleLogout = async () => {
               />
               <label
                 htmlFor="file-upload"
-                className="flex button-effect justify-center bg-main/80 text-white font-bold py-3 px-4 rounded-md mb-4 cursor-pointer w-60"
+                className="flex button-effect justify-center bg-gradient-to-r from-indigo-400/80 to-cyan-500/80 text-white font-bold py-3 px-4 rounded-md mb-4 cursor-pointer w-60"
               >
                 Choose File
               </label>
@@ -390,7 +390,7 @@ const handleLogout = async () => {
                 onClick={saveProfilePic}
                 disabled={uploading}
                 fontWeight='font-semibold'
-                bgColor='bg-success/80'
+                bgColor='bg-gradient-to-r from-green-500/80 to-green-600/80'
                 className="w-60"
                 padding='py-3'
               >
@@ -398,7 +398,7 @@ const handleLogout = async () => {
               </Button>
               <Button
                 onClick={() => setIsEditingProfilePic(false)}
-                bgColor="bg-error/80"
+                bgColor="bg-gradient-to-r from-red-500/80 to-orange-600/80"
                 fontWeight='font-semibold'
                 className="mt-4 w-60"
                 padding='py-3'
@@ -592,14 +592,14 @@ const handleLogout = async () => {
                   <Button
                     onClick={handleEditInfo}
                     padding="p-4"
-                    bgColor="bg-success/80"
+                    bgColor="bg-gradient-to-r from-green-500/80 to-green-600/80"
                   >
                     Save Info
                   </Button>
                   <Button
                     onClick={() => setIsEditing(false)}
                     padding="p-4"
-                    bgColor="bg-error/80"
+                    bgColor="bg-gradient-to-r from-red-500/80 to-orange-600/80"
                   >
                     Cancel Edit
                   </Button>
@@ -609,11 +609,11 @@ const handleLogout = async () => {
                   <Button
                     onClick={() => setIsEditing(true)}
                     padding="p-4"
-                    bgColor="bg-main/80"
+                    bgColor="bg-gradient-to-r from-indigo-400/80 to-cyan-500/80"
                   >
                     Edit Info
                   </Button>
-                  <Button onClick={() => setIsConfirmationModalOpen(true)} padding="p-4" bgColor="bg-error/80">
+                  <Button onClick={() => setIsConfirmationModalOpen(true)} padding="p-4" bgColor="bg-gradient-to-r from-red-500/80 to-orange-600/80">
                     Delete Account
                   </Button>
                 </div>
@@ -627,7 +627,7 @@ const handleLogout = async () => {
                 <Button
                   disabled={isLoading}
                   padding="p-4"
-                  bgColor="bg-success/80"
+                  bgColor="bg-gradient-to-r from-emerald-500 to-cyan-500"
                   className="w-full"
                 >
                   Go to Active Dancefloor
@@ -638,7 +638,7 @@ const handleLogout = async () => {
                 onClick={startDancefloor}
                 className="w-full"
                 padding="p-4"
-                bgColor="bg-gradient-to-r from-emerald-400 to-cyan-400"
+                bgColor="bg-gradient-to-r from-emerald-500 to-cyan-500"
                 disabled={isLoading}
               >
                 {isLoading ? "Starting..." : "Start Dancefloor"}
@@ -718,7 +718,7 @@ const handleLogout = async () => {
           <Button
             onClick={handleDeleteAccount}
             disabled={isDeleting}
-            bgColor="bg-gradient-to-r from-red-500/90 to-orange-600/90"
+            bgColor="bg-error/80"
             padding='py-4'
             fontWeight='font-semibold'
             className="w-full"

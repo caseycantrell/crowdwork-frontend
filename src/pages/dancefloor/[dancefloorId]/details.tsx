@@ -146,10 +146,7 @@ const DancefloorDetails: React.FC = () => {
         <div className="flex flex-col md:flex-row md:justify-between md:items-center pb-4">
           <p className="text-2xl font-bold text-white">Dancefloor ID: {dancefloorId}</p>
           <Link href={`/dj/${dancefloor.dj_id}`}>
-            <Button 
-              bgColor='bg-main/80'
-              padding='px-5 py-3'
-            >
+            <Button padding='px-5 py-3'>
               Back to DJ Page
             </Button>
           </Link>

@@ -13,6 +13,7 @@ const musicChatIcon: string = '/icons/music-chat.svg';
 const playIcon: string = '/icons/play.png';
 const qrCodeIcon: string = '/icons/qr-code.svg';
 const requeueIcon: string = '/icons/requeue.png';
+const startIcon: string = '/icons/start.svg';
 const stopIcon: string = '/icons/stop.png';
 const stopIconAlt: string = '/icons/stop2.png';
 const successIcon: string = '/icons/success.png';
@@ -35,6 +36,7 @@ export {
   playIcon,
   qrCodeIcon,
   requeueIcon,
+  startIcon,
   stopIcon,
   stopIconAlt,
   successIcon,

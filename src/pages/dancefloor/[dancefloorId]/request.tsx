@@ -110,7 +110,7 @@ const SongRequestPage: React.FC = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="text-main text-3xl mb-4"
+            className="text-success text-3xl mb-4"
           >
           Success!
           </motion.p>
@@ -128,7 +128,7 @@ const SongRequestPage: React.FC = () => {
           initial={{ scale: 0.8, rotate: -10 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ type: 'spring', stiffness: 500, damping: 20 }}
-          className="text-main h-20 w-20 mb-1"
+          className="text-success h-20 w-20 mb-1"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"

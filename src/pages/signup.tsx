@@ -93,6 +93,7 @@ const SignupPage: React.FC = () => {
             type="submit"
             padding='py-4'
             fontWeight="font-bold"
+            bgColor='bg-gradient-to-r from-emerald-500 to-cyan-500'
             className="w-full text-xl"
           >
             Sign Me Up

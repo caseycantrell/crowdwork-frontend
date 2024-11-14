@@ -4,7 +4,7 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import Button from '../UI/Button'
 import { DJInfo } from "@/types/types";
-import { instagramIcon, twitterIcon, venmoIcon, cashappIcon, stopIcon, chatIcon } from "@/icons";
+import { instagramIcon, twitterIcon, venmoIcon, cashappIcon, stopIconAlt, chatIcon } from "@/icons";
 
 const DJInfoComponent: React.FC<{
   djInfo: DJInfo | null;
@@ -124,7 +124,7 @@ const DJInfoComponent: React.FC<{
                       onMouseLeave={handleMouseLeave}
                     >
                       <Image
-                        src={stopIcon}
+                        src={stopIconAlt}
                         height={60}
                         width={60}
                         alt="Stop Dancefloor"

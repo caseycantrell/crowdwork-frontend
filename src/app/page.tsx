@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { motion, useAnimation } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { downIcon, dancefloorIcon, qrCodeIcon, musicChatIcon } from '@/icons';
+import { downIcon, startIcon, qrCodeIcon, musicChatIcon } from '@/icons';
 
 const Home: React.FC = () => {
   const [ isDownArrowVisible, setIsDownArrowVisible ] = useState(true);
@@ -97,10 +97,10 @@ const Home: React.FC = () => {
             className="w-full max-w-xs flex flex-col items-center justify-center p-8"
             initial={{ opacity: 0, y: 50 }}
             animate={controls}
-            transition={{ duration: 0.75, delay: 0 }}
+            transition={{ duration: 1, delay: 0 }}
           >
             <div className='w-40 h-40'>
-            <Image src={dancefloorIcon} width={350} height={350} alt="QR Code" className='invert'/>
+            <Image src={startIcon} width={350} height={350} alt="QR Code" className='invert'/>
             </div>
             <p className="text-center text-xl font-bold mt-4">First, start a new dancefloor...</p>
           </motion.div>
@@ -111,7 +111,7 @@ const Home: React.FC = () => {
             className="w-full max-w-xs flex flex-col items-center justify-center p-8"
             initial={{ opacity: 0, y: 50 }}
             animate={controls}
-            transition={{ duration: 0.75, delay: 1.5 }}
+            transition={{ duration: 1, delay: 1.5 }}
           >
             <div className='w-48 h-48'>
             <Image src={qrCodeIcon} width={200} height={200} alt="QR Code" className='invert'/>
@@ -125,7 +125,7 @@ const Home: React.FC = () => {
             className="w-full max-w-xs flex flex-col items-center justify-center p-8"
             initial={{ opacity: 0, y: 50 }}
             animate={controls}
-            transition={{ duration: 0.75, delay: 3 }}
+            transition={{ duration: 1, delay: 3 }}
           >
             <div className='w-48 h-48'>
             <Image src={musicChatIcon} width={200} height={200} alt="QR Code" className='invert'/>
