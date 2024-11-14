@@ -42,7 +42,7 @@ const SongRequests: React.FC<Props> = ({
           </div>
         ) : (
           <div className='py-6 ml-8'>  
-            <p className='text-xl italic text-gray-500'>No song is currently set as playing.</p>
+            <p className='text-xl italic text-gray-400'>No song is currently set as playing.</p>
           </div>
         )}
       <div>
@@ -59,7 +59,7 @@ const SongRequests: React.FC<Props> = ({
                   </div>
                 ))
               ) : (
-                <p className='italic ml-8 text-gray-500 my-6'>No active requests.</p>
+                <p className='italic ml-8 text-gray-400 my-6'>No active requests.</p>
               )}
             </div>
             <div className=''>
@@ -71,7 +71,7 @@ const SongRequests: React.FC<Props> = ({
                   </div>
                 ))
               ) : (
-                <p className='italic ml-8 text-gray-500 my-6'>No completed requests.</p>
+                <p className='italic ml-8 text-gray-400 my-6'>No completed requests.</p>
               )}
             </div>
             <div className=''>
@@ -83,7 +83,7 @@ const SongRequests: React.FC<Props> = ({
                     </div>
                   ))
                 ) : (
-                  <p className='italic ml-8 text-gray-500 my-6'>No declined requests.</p>
+                  <p className='italic ml-8 text-gray-400 my-6'>No declined requests.</p>
                 )}
             </div>
           </>

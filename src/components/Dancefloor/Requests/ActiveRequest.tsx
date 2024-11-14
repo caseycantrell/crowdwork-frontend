@@ -59,15 +59,13 @@ const ActiveRequest: React.FC<Props> = ({
                     <motion.circle cx="19" cy="12" r="1.5" animate={{ y: [0, -3, 0] }} transition={{ repeat: Infinity, duration: 1, delay: 0.6 }} />
                 </svg>
             </div>
-            <div className="flex flex-col space-y-1 py-1 min-w-0">
+            <div className="flex flex-col space-y-1 py-1 min-w-0 font-semibold">
                 <div className="flex items-center min-w-0">
-                    <p className="font-semibold text-lg truncate overflow-hidden text-ellipsis min-w-0">
+                    <p className="text-lg truncate overflow-hidden text-ellipsis min-w-0">
                         <strong>Song:</strong> {song}
                     </p>
                 </div>
-                <div className="flex items-center text-md">
-                    Likes: {likes}
-                </div>
+                <p className="text-md text-gray-300">Likes: {likes}</p>
             </div>
         </div>
     
@@ -75,7 +73,7 @@ const ActiveRequest: React.FC<Props> = ({
             <AnimatePresence>
                 {displayMessage && (
                     <motion.p
-                        className={`font-semibold text-lg ${likeErrors[id] && 'italic text-gray-800'}`}
+                        className={`font-semibold text-lg ${likeErrors[id] && 'italic text-gray-200'}`}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -10 }}

@@ -62,7 +62,7 @@ const NowPlaying: React.FC<Props> = ({
                     <AnimatePresence>
                         {displayMessage && (
                             <motion.p
-                                className={`font-bold text-lg ${likeErrors[id] && 'italic text-gray-800'}`}
+                                className={`font-bold text-lg ${likeErrors[id] && 'italic text-gray-200'}`}
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -10 }}

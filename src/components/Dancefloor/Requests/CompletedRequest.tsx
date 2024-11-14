@@ -39,16 +39,14 @@ const CompletedRequest: React.FC<Props> = ({
                         <path d="M5 13l4 4L19 7" />
                     </svg>
                 </div>
-                <div className="flex flex-col space-y-1 py-1 min-w-0 text-gray-400 italic line-through">
-                <div className="flex items-center min-w-0">
-                    <p className="font-semibold text-lg truncate overflow-hidden text-ellipsis min-w-0">
-                        <strong>Song:</strong> {song}
-                    </p>
+                <div className="flex flex-col space-y-1 py-1 min-w-0 text-gray-400 font-semibold italic line-through">
+                    <div className="flex items-center min-w-0">
+                        <p className="text-lg truncate overflow-hidden text-ellipsis min-w-0">
+                            <strong>Song:</strong> {song}
+                        </p>
+                    </div>
+                    <p className="text-md"> Likes: {likes}</p>
                 </div>
-                <div className="flex items-center text-md">
-                    Likes: {likes}
-                </div>
-            </div>
             </div>
             <div className="flex flex-row items-center gap-x-12 mr-16 ml-2">
                 <AnimatePresence>

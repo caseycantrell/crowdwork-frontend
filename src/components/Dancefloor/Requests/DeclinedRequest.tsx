@@ -39,15 +39,13 @@ const DeclinedRequest: React.FC<Props> = ({
                     <path d="M6 18L18 6M18 18L6 6" />
                 </svg>
             </div>
-            <div className="flex flex-col space-y-1 py-1 min-w-0 text-gray-400 italic line-through">
+            <div className="flex flex-col space-y-1 py-1 min-w-0 text-gray-400 font-semibold italic line-through">
                 <div className="flex items-center min-w-0">
-                    <p className="font-semibold text-lg truncate overflow-hidden text-ellipsis min-w-0">
+                    <p className="text-lg truncate overflow-hidden text-ellipsis min-w-0">
                         <strong>Song:</strong> {song}
                     </p>
                 </div>
-                <div className="flex items-center text-md">
-                    Likes: {likes}
-                </div>
+                <p className="text-md">Likes: {likes}</p>
             </div>
         </div>
 
