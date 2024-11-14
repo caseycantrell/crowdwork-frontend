@@ -45,86 +45,103 @@ const ActiveRequest: React.FC<Props> = ({
     const displayMessage = likeErrors[id] || getHoverMessage();
 
     return (
-        <div className="bg-gradient-to-r from-purple-600 to-fuchsia-600 border border-black px-4 py-2 relative">
-            <div className="flex items-center justify-between">
-                <div className="flex flex-col space-y-2 min-w-0">
-                    <div className="flex items-center min-w-0">
-                        <p className="font-bold text-2xl mr-1 whitespace-nowrap">Song:</p>
-                        <p className="font-semibold text-xl text-gray-200 truncate overflow-hidden text-ellipsis min-w-0">
-                            {song}
-                        </p>
-                    </div>
-                    <div className="flex items-center">
-                        Likes: {likes}
-                    </div>
+    
+    <div className="flex flex-row items-center justify-between bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border border-black py-2 relative">
+        <div className='flex flex-row items-center min-w-0'>
+            <div className='mx-4'>
+                <svg
+                    className="text-active h-8 w-8"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                >
+                    <motion.circle cx="5" cy="12" r="1.5" animate={{ y: [0, -3, 0] }} transition={{ repeat: Infinity, duration: 1, delay: 0 }} />
+                    <motion.circle cx="12" cy="12" r="1.5" animate={{ y: [0, -3, 0] }} transition={{ repeat: Infinity, duration: 1, delay: 0.3 }} />
+                    <motion.circle cx="19" cy="12" r="1.5" animate={{ y: [0, -3, 0] }} transition={{ repeat: Infinity, duration: 1, delay: 0.6 }} />
+                </svg>
+            </div>
+            <div className="flex flex-col space-y-1 py-1 min-w-0">
+                <div className="flex items-center min-w-0">
+                    <p className="font-bold text-lg mr-1 whitespace-nowrap">Song:</p>
+                    <p className="font-semibold text-lg text-gray-200 truncate overflow-hidden text-ellipsis min-w-0">
+                        {song}
+                    </p>
                 </div>
-                <div className="flex flex-row items-center gap-x-12 mr-12 ml-2">
-                    <AnimatePresence>
-                        {displayMessage && (
-                            <motion.p
-                                className={`font-semibold text-lg ${likeErrors[id] && 'italic text-gray-800'}`}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: -10 }}
-                                transition={{
-                                    type: 'tween',
-                                    duration: 0.5,
-                                    ease: 'easeInOut',
-                                }}
-                            >
-                                {displayMessage}
-                            </motion.p>
-                        )}
-                    </AnimatePresence>
-
-                    <div style={{ width: 30, height: 30 }}>
-                        <button
-                            className="overflow-visible"
-                            onClick={() => updateStatus(id, 'playing')}
-                            onMouseEnter={() => handleMouseEnter('play')}
-                            aria-label='Set as Now Playing'
-                        >
-                            <Image
-                                src={playIcon}
-                                height={50}
-                                width={50}
-                                alt="Play Icon"
-                            />
-                        </button>
-                    </div>
-                    <div style={{ width: 30, height: 30 }}>
-                        <button
-                            className="overflow-visible"
-                            onClick={() => updateStatus(id, 'declined')}
-                            onMouseEnter={() => handleMouseEnter('decline')}
-                            aria-label='Decline Request'
-                        >
-                            <Image
-                                src={declineIcon}
-                                height={50}
-                                width={50}
-                                alt="Decline Icon"
-                            />
-                        </button>
-                    </div>
-                    <div style={{ width: 30, height: 30 }}>
-                        <button
-                            className="overflow-visible"
-                            onClick={() => handleLike(id, dancefloorId)}
-                            onMouseEnter={() => handleMouseEnter('like')}
-                            aria-label='Like Request'
-                        >
-                            <Image
-                                src={likeIconAlt}
-                                height={50}
-                                width={50}
-                                alt="Like Icon"
-                            />
-                        </button>
-                    </div>
+                <div className="flex items-center text-md font-semibold text-gray-400">
+                    Likes: {likes}
                 </div>
             </div>
         </div>
+    
+        <div className="flex flex-row items-center gap-x-12 mr-16 ml-2">
+            <AnimatePresence>
+                {displayMessage && (
+                    <motion.p
+                        className={`font-semibold text-lg ${likeErrors[id] && 'italic text-gray-800'}`}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -10 }}
+                        transition={{
+                            type: 'tween',
+                            duration: 0.5,
+                            ease: 'easeInOut',
+                        }}
+                    >
+                        {displayMessage}
+                    </motion.p>
+                )}
+            </AnimatePresence>
+    
+            <div style={{ width: 30, height: 30 }}>
+                <button
+                    className="overflow-visible"
+                    onClick={() => updateStatus(id, 'playing')}
+                    onMouseEnter={() => handleMouseEnter('play')}
+                    aria-label='Set as Now Playing'
+                >
+                    <Image
+                        src={playIcon}
+                        height={50}
+                        width={50}
+                        alt="Play Icon"
+                        className='invert'
+                    />
+                </button>
+            </div>
+            <div style={{ width: 30, height: 30 }}>
+                <button
+                    className="overflow-visible"
+                    onClick={() => updateStatus(id, 'declined')}
+                    onMouseEnter={() => handleMouseEnter('decline')}
+                    aria-label='Decline Request'
+                >
+                    <Image
+                        src={declineIcon}
+                        height={50}
+                        width={50}
+                        alt="Decline Icon"
+                        className='invert'
+                    />
+                </button>
+            </div>
+            <div style={{ width: 30, height: 30 }}>
+                <button
+                    className="overflow-visible"
+                    onClick={() => handleLike(id, dancefloorId)}
+                    onMouseEnter={() => handleMouseEnter('like')}
+                    aria-label='Like Request'
+                >
+                    <Image
+                        src={likeIconAlt}
+                        height={50}
+                        width={50}
+                        alt="Like Icon"
+                        className='invert'
+                    />
+                </button>
+            </div>
+        </div>
+     </div>
+     
     );
 };
 
