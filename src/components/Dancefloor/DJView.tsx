@@ -46,21 +46,6 @@ interface Props {
   updateStatus: (requestId: string, status: 'queued' | 'playing' | 'completed' | 'declined') => Promise<void>;
 }
 
-const variants = {
-  hidden: { y: '-100%', opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { type: 'spring', stiffness: 100, damping: 10 },
-  },
-  exit: {
-    y: '-100%',
-    opacity: 0,
-    transition: { type: 'spring', stiffness: 80, damping: 12 },
-  },
-};
-
-
 const DJView: React.FC<Props> = ({
   notificationMessage,
   isError,
@@ -97,12 +82,12 @@ const DJView: React.FC<Props> = ({
   return (
     <div className="flex min-h-screen justify-center">
       <div className='gradient-background-variation'></div>
-      <Notification
-        notificationMessage={notificationMessage}
-        isError={isError}
-        showNotification={showNotification}
-        onClose={onClose}
-      />
+        <Notification
+          notificationMessage={notificationMessage}
+          isError={isError}
+          showNotification={showNotification}
+          onClose={onClose}
+        />
       <motion.div
         className="flex-grow flex flex-col h-screen overflow-y-auto scrollbar-hide"
         animate={{ width: isChatVisible ? '75%' : '100%' }}
