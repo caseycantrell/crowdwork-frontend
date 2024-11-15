@@ -2,7 +2,7 @@ import Button from "../../UI/Button";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
-import { likeIcon } from "@/icons";
+import { likeIcon, likeIconAlt } from "@/icons";
 
 interface SongRequest {
   id: string;
@@ -49,7 +49,7 @@ const SongRequestsMobile: React.FC<Props> = ({
     <div className="overflow-y-scroll scrollbar-hide pb-0">
        <p className='text-xs font-bold pl-2 py-1 bg-gray-900'>Now Playing</p>
        {nowPlayingSong ? (
-          <div className="flex items-center justify-between px-2 py-6">
+          <div className="flex items-center justify-between px-2 py-4">
             <div className="flex flex-row items-center min-w-0">
               <svg
                   className="h-12 w-12"
@@ -160,7 +160,7 @@ const SongRequestsMobile: React.FC<Props> = ({
               ariaLabel="Like Request"
               bgColor=""
               padding=""
-              className="flex-shrink-0 mx-2"
+              className="flex-shrink-0 px-2"
               onClick={() => handleLike(nowPlayingSong.id, dancefloorId)}
             >
               <Image src={likeIcon} width={22} height={22} alt="Like" />
@@ -221,9 +221,7 @@ const SongRequestsMobile: React.FC<Props> = ({
                         </div>
                       </div>
                     </div>
-                    <Button bgColor="" padding="" ariaLabel="Like Request" className="flex-shrink-0 mr-1.5" onClick={() => handleLike(request.id, dancefloorId)}>
-                      <Image src={likeIcon} width={22} height={22} alt="Like" />
-                    </Button>
+                      <Image src={likeIcon} width={22} height={22} alt="Like" className="cursor-pointer mr-1.5" onClick={() => handleLike(request.id, dancefloorId)} />
                   </div>
                 ))
               ) : (
@@ -278,9 +276,7 @@ const SongRequestsMobile: React.FC<Props> = ({
                       </div>
                     </div>
                     </div>
-                      <Button ariaLabel="Like Request" bgColor="" padding="" className="flex-shrink-0 mr-1.5" onClick={() => handleLike(request.id, dancefloorId)}>
-                        <Image src={likeIcon} width={22} height={22} alt="Like" />
-                      </Button>
+                      <Image src={likeIcon} width={22} height={22} alt="Like" className="cursor-pointer mr-1.5" onClick={() => handleLike(request.id, dancefloorId)}/>
                   </div>
                 ))
               ) : (
@@ -333,9 +329,7 @@ const SongRequestsMobile: React.FC<Props> = ({
                       </div>
                     </div>
                     </div>
-                      <Button ariaLabel="Like Request" bgColor="" padding="" className="flex-shrink-0 mr-1.5" onClick={() => handleLike(request.id, dancefloorId)}>
-                        <Image src={likeIcon} width={22} height={22} alt="Like" />
-                      </Button>
+                      <Image src={likeIcon} width={22} height={22} alt="Like" className="cursor-pointer mr-1.5" onClick={() => handleLike(request.id, dancefloorId)} />
                   </div>
                 ))
               ) : (

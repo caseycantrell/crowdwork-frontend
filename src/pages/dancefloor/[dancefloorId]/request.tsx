@@ -18,9 +18,12 @@ const customStyles: StylesConfig<SongOption, false, GroupBase<SongOption>> = {
     backgroundColor: '#1F2937',
     color: 'white',
     borderRadius: '0.375rem',
-    border: '1px solid #0ce471',
+    border: state.isFocused ? '1px solid #0ce471' : '1px solid #0ce471',
     padding: '0.5rem',
-    boxShadow: state.isFocused ? '0 0 0 1px #4ADE80' : undefined,
+    boxShadow: state.isFocused ? '0 0 0 1px #0ce471' : undefined,
+    '&:hover': {
+      border: '1px solid #0ce471',
+    },
   }),
   singleValue: (provided) => ({
     ...provided,
@@ -37,11 +40,20 @@ const customStyles: StylesConfig<SongOption, false, GroupBase<SongOption>> = {
   }),
   option: (provided, state) => ({
     ...provided,
-    backgroundColor: state.isFocused ? '#4ADE80' : '#1F2937',
-    color: state.isFocused ? 'black' : 'white',
+    backgroundColor: state.isSelected
+      ? '#0ce471'
+      : state.isFocused
+      ? '#4ADE80'
+      : '#1F2937',
+    color: state.isSelected
+      ? 'white'
+      : state.isFocused
+      ? 'black'
+      : 'white',
     padding: 10,
   }),
 };
+
 
 const SongRequestPage: React.FC = () => {
   const router = useRouter();
@@ -104,7 +116,7 @@ const SongRequestPage: React.FC = () => {
   if (!isMounted) return null;
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col justify-center items-center">
+    <div className="h-[100dvh] bg-gray-900 flex flex-col justify-center items-center">
       {submitted ? (
         <div className="flex flex-col items-center">
           <motion.p
