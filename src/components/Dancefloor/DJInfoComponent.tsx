@@ -32,7 +32,7 @@ const DJInfoComponent: React.FC<{
   };
 
   return (
-    <div className="col-span-1 lg:col-span-3 bg-gray-700 p-4">
+    <div className="col-span-1 lg:col-span-3 bg-gray-800/90 p-4">
       {djInfo ? (
         <div className="flex flex-row items-center justify-between h-full">
           <div className="flex flex-row items-center">

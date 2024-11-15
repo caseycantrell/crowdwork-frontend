@@ -88,7 +88,8 @@ const DJView: React.FC<Props> = ({
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-800">
+    <div className="flex min-h-screen">
+      <div className='gradient-background-variation'></div>
       <AnimatePresence>
         {notification && (
           <motion.div

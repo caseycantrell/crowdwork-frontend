@@ -83,7 +83,8 @@ const MobileView: React.FC<Props> = ({
       </div>
 
       <div className="lg:hidden h-screen overflow-hidden flex flex-col">
-        <div className="flex-none h-[13rem] bg-gray-800">
+        <div className='gradient-background-variation'></div>
+        <div className="flex-none h-[13rem] bg-gray-900/70">
           <div className="flex flex-col w-full h-full">
             <div className="flex flex-row items-center mt-2">
               <div className="w-16 h-16 flex flex-col mx-2">
@@ -205,7 +206,7 @@ const MobileView: React.FC<Props> = ({
               </div>
             </div>
 
-            <div className="bg-gray-800 flex justify-center mt-2.5">
+            <div className=" flex justify-center mt-2.5">
               <Button
                 padding="py-3"
                 fontWeight="font-semibold"
@@ -222,7 +223,7 @@ const MobileView: React.FC<Props> = ({
           </div>
         </div>
 
-        <div className="flex-grow overflow-y-auto bg-gray-800">
+        <div className="flex-grow overflow-y-scroll">
           <SongRequestsMobile
             dancefloorId={dancefloorId}
             songRequestsError={songRequestsError}

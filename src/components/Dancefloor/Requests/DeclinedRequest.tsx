@@ -24,56 +24,68 @@ const DeclinedRequest: React.FC<Props> = ({
     };   
 
     return (
-        <div className="bg-gradient-to-r from-red-500 to-orange-500 border border-black px-4 py-2 relative">
-            <div className="flex flex-row items-center justify-between">
-                <div className="flex flex-col space-y-2 min-w-0 italic line-through">
-                    <div className="flex items-center min-w-0">
-                        <p className="font-bold text-2xl mr-1 whitespace-nowrap">Song:</p>
-                        <p className="font-semibold text-xl text-gray-200 truncate overflow-hidden text-ellipsis min-w-0">
-                            {song}
-                        </p>
-                    </div>
-                    <div className="flex items-center">
-                        Likes: {likes}
-                    </div>
+    <div className="flex flex-row items-center justify-between bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-b-[1.5px] border-r-[1.5px] border-l-[1.5px] border-black/80 py-2 relative">
+        <div className='flex flex-row items-center min-w-0'>
+            <div className='mx-4'>
+                <svg    
+                    className="text-error/70 h-8 w-8"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <path d="M6 18L18 6M18 18L6 6" />
+                </svg>
+            </div>
+            <div className="flex flex-col space-y-1 py-1 min-w-0 text-gray-400 font-semibold italic line-through">
+                <div className="flex items-center min-w-0">
+                    <p className="text-lg truncate overflow-hidden text-ellipsis min-w-0">
+                        <strong>Song:</strong> {song}
+                    </p>
                 </div>
-                <div className="flex flex-row items-center gap-x-12 mr-12 ml-2">
-                    <AnimatePresence>
-                        {isHovered && (
-                            <motion.p
-                                className="text-white font-bold text-lg"
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: -10 }}
-                                transition={{
-                                    type: 'tween',
-                                    duration: 0.5,
-                                    ease: 'easeInOut',
-                                }}
-                            >
-                            Requeue
-                            </motion.p>
-                        )}
-                    </AnimatePresence>
-
-                    <div style={{ width: 30, height: 30 }}>
-                        <button
-                            className="overflow-visible"
-                            onClick={() => updateStatus(id, 'queued')}
-                            onMouseEnter={handleMouseEnter}
-                            aria-label='Requeue Request'
-                        >
-                            <Image
-                                src={requeueIcon}
-                                height={40}
-                                width={50}
-                                alt="Requeue Icon"
-                            />
-                        </button>
-                    </div>
-                </div>
+                <p className="text-md">Likes: {likes}</p>
             </div>
         </div>
+
+        <div className="flex flex-row items-center gap-x-12 mr-16 ml-2">
+            <AnimatePresence>
+                {isHovered && (
+                    <motion.p
+                        className="text-white font-bold text-lg"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -10 }}
+                        transition={{
+                            type: 'tween',
+                            duration: 0.5,
+                            ease: 'easeInOut',
+                        }}
+                    >
+                        Requeue
+                    </motion.p>
+                )}
+            </AnimatePresence>
+
+            <div style={{ width: 30, height: 30 }}>
+                <button
+                    className="overflow-visible"
+                    onClick={() => updateStatus(id, 'queued')}
+                    onMouseEnter={handleMouseEnter}
+                    aria-label='Requeue Request'
+                >
+                    <Image
+                        src={requeueIcon}
+                        height={40}
+                        width={50}
+                        alt="Requeue Icon"
+                        className='invert'
+                    />
+                </button>
+            </div>
+        </div>
+    </div>
     );
 };
 
