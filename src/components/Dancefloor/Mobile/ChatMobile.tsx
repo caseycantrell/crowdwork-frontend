@@ -68,7 +68,7 @@ const ChatMobile: React.FC<{
               </div>
             ))
           ) : (
-            <p className="text-gray-300 mt-3 italic text-center text-xs">No messages yet.</p>
+            <p className="text-gray-300 font-semibold mt-3 italic text-center text-xs">No messages yet.</p>
           )}
 
           {/* invisible div to track end of messages */}

@@ -52,7 +52,7 @@ const CompletedRequest: React.FC<Props> = ({
                 <AnimatePresence>
                     {isHovered && (
                         <motion.p
-                            className="text-white font-bold text-lg"
+                            className="text-white/80 font-bold text-lg"
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -10 }}
@@ -78,7 +78,7 @@ const CompletedRequest: React.FC<Props> = ({
                             height={50}
                             width={50}
                             alt="Requeue Icon"
-                            className='invert bg-red-500'
+                            className='invert opacity-90'
                         />
                     </button>
                 </div>
