@@ -28,7 +28,7 @@ const ChatMobile: React.FC<{
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // scroll to bottom of messages when new messages arrive
+  // scroll to bottom of chat when new messages arrive
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -42,19 +42,19 @@ const ChatMobile: React.FC<{
   };
 
   return (
-    <div className="bg-gray-900 flex flex-col h-[12.5rem]">
+    <div className="flex flex-col h-[12.5rem]">
       <div className="flex flex-row items-center justify-between">
-        <p className="font-bold text-sm ml-2 py-0.5">Dancefloor Chat</p>
+        <p className="font-bold text-sm pl-2 py-0.5 bg-gray-900/90 w-full">Dancefloor Chat</p>
       </div>
 
-      <div className="flex-1 bg-gray-800 overflow-y-auto scrollbar-thin">
+      <div className="flex-1 overflow-y-auto scrollbar-thin">
           {messagesError ? (
             <p style={{ color: "red" }}>{messagesError}</p>
           ) : messages.length > 0 ? (
             messages.map((msg, index) => (
               <div
                 key={index}
-                className={`flex flex-row justify-end p-0.5 ${
+                className={`flex flex-row justify-end bg-gray-900/90 p-0.5 ${
                   index !== 0 ? 'border-t border-gray-900' : ''
                 } ${index === messages.length - 1 ? 'border-b border-gray-900' : ''}`}
               >
@@ -75,7 +75,7 @@ const ChatMobile: React.FC<{
           <div ref={messagesEndRef} />
         </div>
 
-      <div className="flex-none flex flex-row items-center px-2 py-2 sticky bottom-0 bg-gray-900 relative">
+      <div className="flex-none flex flex-row items-center px-2 py-2 sticky bottom-0 bg-gray-900/90 relative">
         {messageError && (
           <div className="flex flex-row w-full justify-center items-center absolute bg-gradient-to-r from-red-500 to-orange-500 h-12 -top-12 left-0 right-0 text-white text-lg font-semibold">
             {messageError}
@@ -100,7 +100,6 @@ const ChatMobile: React.FC<{
         />
         <Button
           onClick={handleSendMessage}
-          bgColor="bg-main/80"
           className="flex justify-center"
         >
           Send

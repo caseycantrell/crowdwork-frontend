@@ -7,7 +7,6 @@ interface Props {
     id: string;
     song: string;
     likes: number | 0;
-    index: number;
     updateStatus: (requestId: string, status: 'queued' | 'playing' | 'completed' | 'declined') => Promise<void>;
 }
 
@@ -15,7 +14,6 @@ const CompletedRequest: React.FC<Props> = ({
     id,
     song,
     likes,
-    index, 
     updateStatus,
 }) => {
     const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -26,7 +24,7 @@ const CompletedRequest: React.FC<Props> = ({
     };
 
     return (
-        <div className={`flex flex-row items-center justify-between bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-b-[1.5px] border-r-[1.5px] border-l-[1.5px] border-black py-2 relative ${index > 0 && 'border-b'}`}>
+        <div className='flex flex-row items-center justify-between bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-b-[1.5px] border-r-[1.5px] border-l-[1.5px] border-black/80 py-2 relative'>
             <div className='flex flex-row items-center min-w-0'>
                 <div className='mx-4'>
                     <svg
@@ -80,7 +78,7 @@ const CompletedRequest: React.FC<Props> = ({
                             height={50}
                             width={50}
                             alt="Requeue Icon"
-                            className='invert'
+                            className='invert bg-red-500'
                         />
                     </button>
                 </div>

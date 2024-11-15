@@ -46,66 +46,129 @@ const SongRequestsMobile: React.FC<Props> = ({
   }, [nowPlayingSong?.song]);
 
   return (
-    <div className="bg-gray-900 overflow-y-scroll scrollbar-hide pb-0">
-       <p className='text-sm font-bold ml-2 py-'>Now Playing</p>
+    <div className="overflow-y-scroll scrollbar-hide pb-0">
+       <p className='text-sm font-bold pl-2 py-0.5 bg-gray-900'>Now Playing</p>
        {nowPlayingSong ? (
-          <div className="animated-rainbow flex items-center justify-between px-2 py-4">
-            <div className="flex flex-col max-w-[88%] font-medium">
-              <div className="flex items-center">
-                <div
-                  ref={containerRef}
-                  className="relative overflow-hidden ml-1"
-                  style={{ maxWidth: "calc(100%)" }}
+          <div className="flex items-center justify-between px-2 py-6">
+            <div className="flex flex-row items-center min-w-0">
+              <svg
+                  className="h-12 w-12"
+                  viewBox="0 0 40 40"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <motion.div
-                    ref={textRef}
-                    className="inline-block whitespace-nowrap"
-                    initial={{ x: 0 }}
-                    animate={{
-                      x: scrollDistance ? [0, -scrollDistance - 50, 0] : 0,
-                    }}
+                  <motion.rect
+                    x="4"
+                    y="10"
+                    width="6"
+                    height="20"
+                    rx="3"
+                    animate={{ scaleY: [1, 1.4, 1] }}
                     transition={{
-                      duration: 10,
                       repeat: Infinity,
-                      repeatType: "mirror",
-                      ease: "linear",
-                      repeatDelay: 2,
+                      duration: 0.6,
+                      ease: "easeInOut",
+                      delay: 0,
                     }}
+                    style={{ originY: "center" }}
+                  />
+                  <motion.rect
+                    x="16"
+                    y="5"
+                    width="6"
+                    height="30"
+                    rx="3"
+                    animate={{ scaleY: [1, 1.2, 1] }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 0.6,
+                      ease: "easeInOut",
+                      delay: 0.3,
+                    }}
+                    style={{ originY: "center" }}
+                  />
+                  <motion.rect
+                    x="28"
+                    y="10"
+                    width="6"
+                    height="20"
+                    rx="3"
+                    animate={{ scaleY: [1, 1.4, 1] }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 0.6,
+                      ease: "easeInOut",
+                      delay: 0,
+                    }}
+                    style={{ originY: "center" }}
+                  />
+              </svg>
+              <div className="flex flex-col max-w-[81%] font-medium ml-2">
+                <div className="flex items-center">
+                  <div
+                    ref={containerRef}
+                    className="relative overflow-hidden"
+                    style={{ maxWidth: "calc(100%)" }}
                   >
-                    <p className="text-md font-semibold">{nowPlayingSong.song}</p>
-                  </motion.div>
-                </div>
-              </div>
-
-              <div className="flex items-center mt-0">
-                <p className="text-sm font-semibold ml-1">Likes: {nowPlayingSong.likes}</p>
-                <AnimatePresence>
-                  {likeErrors[nowPlayingSong.id] && (
-                    <motion.p
-                      className="text-gray-800 text-xs ml-16 font-semibold"
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -10 }}
+                    <motion.div
+                      ref={textRef}
+                      className="inline-block whitespace-nowrap"
+                      initial={{ x: 0 }}
+                      animate={{
+                        x: scrollDistance ? [0, -scrollDistance - 50, 0] : 0,
+                      }}
                       transition={{
-                        type: "tween",
-                        duration: 0.3,
-                        ease: "easeInOut",
+                        duration: 10,
+                        repeat: Infinity,
+                        repeatType: "mirror",
+                        ease: "linear",
+                        repeatDelay: 2,
                       }}
                     >
-                      {likeErrors[nowPlayingSong.id]}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
+                      <div className="flex flex-row items-center">
+                        <p className="font-bold mr-1.5 text-lg">Song:</p>
+                        <p className="font-semibold text-lg truncate">{nowPlayingSong.song}</p>
+                      </div>
+                    </motion.div>
+                  </div>
+                </div>
+      
+                <div className="flex flex-row items-center">
+                  <p className="text-md font-semibold ml-0.5 text-gray-300">Likes: {nowPlayingSong.likes}</p>
+                  <AnimatePresence>
+                    {likeErrors[nowPlayingSong.id] && (
+                      <motion.p
+                        className="text-gray-800 text-xs ml-10 font-semibold"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -10 }}
+                        transition={{
+                          type: "tween",
+                          duration: 0.3,
+                          ease: "easeInOut",
+                        }}
+                      >
+                        {likeErrors[nowPlayingSong.id]}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
             </div>
-
-            <Button ariaLabel="Like Request" bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(nowPlayingSong.id, dancefloorId)}>
+      
+            <Button
+              ariaLabel="Like Request"
+              bgColor=""
+              padding=""
+              className="flex-shrink-0 mx-2"
+              onClick={() => handleLike(nowPlayingSong.id, dancefloorId)}
+            >
               <Image src={likeIcon} width={22} height={22} alt="Like" />
             </Button>
           </div>
         ) : (
-          <div className="p-4 bg-gray-800">
-            <p className="italic text-xs text-gray-500 text-center">
+          <div className="p-4">
+            <p className="italic text-xs font-semibold text-gray-300 text-center">
               No song is currently set as playing.
             </p>
           </div>
@@ -115,64 +178,79 @@ const SongRequestsMobile: React.FC<Props> = ({
           <p style={{ color: 'red' }}>{songRequestsError}</p>
         ) : (
           <>
-            <div>
-            <p className='text-sm font-bold ml-2 py-0.5'>Active Requests</p>
+            <div className="">
+            <p className='text-sm font-bold pl-2 py-0.5 bg-gray-900 w-full'>Active Requests</p>
               {activeRequests.length > 0 ? (
                 activeRequests.map((request, index) => (
-                  <div key={index} className={`bg-gradient-to-r from-purple-600 to-fuchsia-600 border-gray-800 ${index > 0 && "border-t-[0.5px]"} flex flex-row items-center justify-between px-2 py-1`}>
-                    <div className="flex flex-col max-w-[90%]">
-                      <div className="flex flex-row items-center">
-                        <p className="font-bold mr-1.5 text-sm">Song:</p>
-                        <p className="font-semibold text-xs truncate">{request.song}</p>
-                      </div>
-                      <div className="flex flex-row items-center text-xs ">
-                        <p className="font-bold mr-1.5">Likes:</p>
-                        <p className="font-semibold">{request.likes}</p>
-                        <AnimatePresence>
-                          {likeErrors[request.id] && (
-                            <motion.p
-                              className="text-gray-800 text-xs ml-16 font-semibold"
-                              initial={{ opacity: 0, x: -10 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              exit={{ opacity: 0, x: -10 }}
-                              transition={{
-                                  type: 'tween',
-                                  duration: 0.3,
-                                  ease: 'easeInOut',
-                              }}
-                            >
-                            {likeErrors[request.id]}
-                            </motion.p>
-                        )}
-                        </AnimatePresence>
+                  <div key={index} className={`bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-gray-800 ${index > 0 && "border-t-[0.5px]"} flex flex-row items-center justify-between pr-2 py-1`}>
+                    <div className="flex flex-row items-center min-w-0">
+                      <div className="w-2 h-2 bg-orange-500 rounded-full animate-ping mx-3"></div>
+                      <div className="flex flex-col max-w-[88%]">
+                        <div className="flex flex-row items-center">
+                          <p className="font-bold mr-1.5 text-sm">Song:</p>
+                          <p className="font-semibold text-xs truncate">{request.song}</p>
+                        </div>
+                        <div className="flex flex-row items-center text-xs text-gray-300">
+                          <p className="font-bold mr-1.5">Likes:</p>
+                          <p className="font-semibold">{request.likes}</p>
+                          <AnimatePresence>
+                            {likeErrors[request.id] && (
+                              <motion.p
+                                className="text-gray-800 text-xs ml-10 font-semibold"
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -10 }}
+                                transition={{
+                                    type: 'tween',
+                                    duration: 0.3,
+                                    ease: 'easeInOut',
+                                }}
+                              >
+                              {likeErrors[request.id]}
+                              </motion.p>
+                          )}
+                          </AnimatePresence>
+                        </div>
                       </div>
                     </div>
-                      <Button bgColor="" padding="" ariaLabel="Like Request" className="mr-1.5" onClick={() => handleLike(request.id, dancefloorId)}>
-                        <Image src={likeIcon} width={22} height={22} alt="Like" />
-                      </Button>
+                    <Button bgColor="" padding="" ariaLabel="Like Request" className="flex-shrink-0 mr-1.5" onClick={() => handleLike(request.id, dancefloorId)}>
+                      <Image src={likeIcon} width={22} height={22} alt="Like" />
+                    </Button>
                   </div>
                 ))
               ) : (
-                <div className='p-4 bg-gray-800'>  
-                  <p className='italic text-xs text-gray-500 text-center'>No active requests.</p>
+                <div className='p-4'>  
+                  <p className='italic text-xs text-gray-300 text-center'>No active requests.</p>
                 </div>
               )}
             </div>
             <div>
-              <p className='text-sm font-bold ml-2 py-0.5'>Completed Requests</p>
+              <p className='text-sm font-bold pl-2 bg-gray-900 py-0.5'>Completed Requests</p>
               {completedRequests.length > 0 ? (
                 completedRequests.map((request, index) => (
-                  <div key={index} className={`bg-gradient-to-r from-indigo-400 to-cyan-400 border-gray-800 ${index > 0 && "border-t-[0.5px]"} flex flex-row items-center justify-between px-2 py-1`}>
-                    <div className="flex flex-col max-w-[90%] font-medium">
+                  <div key={index} className={`bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-gray-800 ${index > 0 && "border-t-[0.5px]"} flex flex-row items-center justify-between pr-2 py-1`}>
+                    <div className="flex flex-row items-center min-w-0">
+                      <svg
+                        className="text-success/80 h-6 w-6 mx-1"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M5 13l4 4L19 7" />
+                      </svg>
+                    <div className="flex flex-col max-w-[88%] font-medium">
                       <div className="flex flex-row items-center">
                         <p className="text-sm italic line-through truncate"> Song: {request.song}</p>
                       </div>
-                      <div className="flex flex-row items-center">
+                      <div className="flex flex-row items-center text-gray-300">
                         <p className="text-xs italic line-through"> Likes: {request.likes}</p>
                         <AnimatePresence>
                           {likeErrors[request.id] && (
                               <motion.p
-                                  className="text-gray-800 text-xs ml-16 font-semibold"
+                                  className="text-gray-800 text-xs ml-10 font-semibold"
                                   initial={{ opacity: 0, x: -10 }}
                                   animate={{ opacity: 1, x: 0 }}
                                   exit={{ opacity: 0, x: -10 }}
@@ -188,32 +266,45 @@ const SongRequestsMobile: React.FC<Props> = ({
                         </AnimatePresence>
                       </div>
                     </div>
-                      <Button ariaLabel="Like Request" bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(request.id, dancefloorId)}>
+                    </div>
+                      <Button ariaLabel="Like Request" bgColor="" padding="" className="flex-shrink-0 mr-1.5" onClick={() => handleLike(request.id, dancefloorId)}>
                         <Image src={likeIcon} width={22} height={22} alt="Like" />
                       </Button>
                   </div>
                 ))
               ) : (
-                <div className='p-4 bg-gray-800'>  
-                  <p className='italic text-xs text-gray-500 text-center'>No completed requests.</p>
+                <div className='p-4'>  
+                  <p className='italic text-xs text-gray-300 text-center'>No completed requests.</p>
                 </div>
               )}
             </div>
             <div>
-            <p className='text-sm font-bold ml-2 py-0.5'>Declined Requests</p>
+            <p className='text-sm font-bold pl-2 bg-gray-900 py-0.5'>Declined Requests</p>
             {declinedRequests.length > 0 ? (
                 declinedRequests.map((request, index) => (
-                  <div key={index} className={`bg-gradient-to-r from-red-500 to-orange-500 border-gray-800 ${index > 0 && "border-t-[0.5px]"} flex flex-row items-center justify-between px-2 py-1`}>
-                    <div className="flex flex-col max-w-[90%] font-medium">
+                  <div key={index} className={`bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-gray-800 ${index > 0 && "border-t-[0.5px]"} flex flex-row items-center justify-between pr-2 py-1`}>
+                    <div className="flex flex-row items-center min-w-0">
+                      <svg    
+                        className="text-error/70 h-6 w-6 mx-1"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M6 18L18 6M18 18L6 6" />
+                      </svg>
+                    <div className="flex flex-col max-w-[88%] font-medium">
                       <div className="flex flex-row items-center">
                         <p className="text-sm italic line-through truncate"> Song: {request.song}</p>
                       </div>
-                      <div className="flex flex-row items-center">
+                      <div className="flex flex-row items-center text-gray-300">
                         <p className="text-xs italic line-through"> Likes: {request.likes}</p>
                         <AnimatePresence>
                           {likeErrors[request.id] && (
                               <motion.p
-                                className="text-gray-800 text-xs ml-16 font-semibold"
+                                className="text-gray-800 text-xs ml-10 font-semibold"
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -10 }}
@@ -229,14 +320,15 @@ const SongRequestsMobile: React.FC<Props> = ({
                         </AnimatePresence>
                       </div>
                     </div>
-                      <Button ariaLabel="Like Request" bgColor="" padding="" className="mr-1.5" onClick={() => handleLike(request.id, dancefloorId)}>
+                    </div>
+                      <Button ariaLabel="Like Request" bgColor="" padding="" className="flex-shrink-0 mr-1.5" onClick={() => handleLike(request.id, dancefloorId)}>
                         <Image src={likeIcon} width={22} height={22} alt="Like" />
                       </Button>
                   </div>
                 ))
               ) : (
-                <div className='p-4 bg-gray-800'>  
-                  <p className='italic text-xs text-gray-500 text-center'>No declined requests.</p>
+                <div className='p-4'>  
+                  <p className='italic text-xs text-gray-300 text-center'>No declined requests.</p>
                 </div>
               )}
             </div>

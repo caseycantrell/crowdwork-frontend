@@ -157,11 +157,11 @@ const DancefloorDetails: React.FC = () => {
             </div>
             <div className="flex flex-row items-center">
               <p className="font-bold">Status:</p>
-              <p className={`font-semibold ml-1 ${dancefloor.status === 'active' ? 'text-main' : 'text-gray-400'}`}>
+              <p className={`font-semibold ml-1 ${dancefloor.status === 'active' ? 'text-success' : 'text-gray-400'}`}>
                 {dancefloor.status ? dancefloor.status.charAt(0).toUpperCase() + dancefloor.status.slice(1) : ''}
               </p>
               {dancefloor.status === 'active' && (
-                <div className="mt-0.5 w-1.5 h-1.5 bg-main rounded-full animate-ping ml-2"></div>
+                <div className="mt-0.5 w-1.5 h-1.5 bg-success rounded-full animate-ping ml-2"></div>
               )}
               {dancefloor.status === 'completed' && (
                 <svg

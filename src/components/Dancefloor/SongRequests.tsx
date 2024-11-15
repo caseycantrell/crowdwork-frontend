@@ -35,7 +35,7 @@ const SongRequests: React.FC<Props> = ({
 }) => {
   return (
     <div className="row-span-4 col-span-1 lg:col-span-3 pb-96">
-       <p className='text-xl font-bold pl-4 py-1 bg-gray-900'>Now Playing</p>
+       <p className='text-xl font-bold pl-4 py-1 bg-gray-900/80'>Now Playing</p>
         {nowPlayingSong ? (
           <div>  
             <NowPlaying id={nowPlayingSong.id} dancefloorId={dancefloorId} song={nowPlayingSong.song} likes={nowPlayingSong.likes} handleLike={handleLike} likeErrors={likeErrors} updateStatus={updateStatus}/>
@@ -51,7 +51,7 @@ const SongRequests: React.FC<Props> = ({
         ) : (
           <>
          <div className=''>
-            <p className='text-xl font-bold pl-4 py-1 bg-gray-900'>Requests Queue</p>
+            <p className='text-xl font-bold pl-4 py-1 bg-gray-900/80'>Active Requests</p>
               {activeRequests.length > 0 ? (
                 activeRequests.map((request, index) => (
                   <div key={index}>
@@ -63,11 +63,11 @@ const SongRequests: React.FC<Props> = ({
               )}
             </div>
             <div className=''>
-              <p className='text-xl font-bold pl-4 py-1 bg-gray-900'>Completed Requests</p>
+              <p className='text-xl font-bold pl-4 py-1 bg-gray-900/80'>Completed Requests</p>
               {completedRequests.length > 0 ? (
                 completedRequests.map((request, index) => (
                   <div key={index}>
-                    <CompletedRequest index={index} id={request.id} song={request.song} likes={request.likes} updateStatus={updateStatus} />
+                    <CompletedRequest id={request.id} song={request.song} likes={request.likes} updateStatus={updateStatus} />
                   </div>
                 ))
               ) : (
@@ -75,11 +75,11 @@ const SongRequests: React.FC<Props> = ({
               )}
             </div>
             <div className=''>
-              <p className='text-xl font-bold pl-4 py-1 bg-gray-900'>Declined Requests</p>
+              <p className='text-xl font-bold pl-4 py-1 bg-gray-900/80'>Declined Requests</p>
               {declinedRequests.length > 0 ? (
                   declinedRequests.map((request, index) => (
                     <div key={index}>
-                      <DeclinedRequest id={request.id} index={index} song={request.song} likes={request.likes} updateStatus={updateStatus} />
+                      <DeclinedRequest id={request.id} song={request.song} likes={request.likes} updateStatus={updateStatus} />
                     </div>
                   ))
                 ) : (
