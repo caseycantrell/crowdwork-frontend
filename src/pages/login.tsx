@@ -45,7 +45,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center relative">
-      <div className="gradient-background"></div>
+      <div className="gradient-background-variation"></div>
       <Notification
           showNotification={notification.isVisible}
           isError={notification.isError}
