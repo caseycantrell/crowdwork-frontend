@@ -84,10 +84,10 @@ const MobileView: React.FC<Props> = ({
 
       <div className="lg:hidden h-[100dvh] overflow-hidden flex flex-col">
         <div className='gradient-background-variation'></div>
-        <div className="flex-none h-[13rem] bg-gray-900/70">
-          <div className="flex flex-col w-full h-full">
-            <div className="flex flex-row items-center mt-2">
-              <div className="w-16 h-16 flex flex-col mx-2">
+        <div className="flex-none h-[12.9rem] bg-gray-900/70 p-2">
+          <div className="flex flex-col w-full h-full space-y-2">
+            <div className="flex flex-row items-center">
+              <div className="w-16 h-16 flex flex-col">
                 <Link href={`/dj/${djInfo?.id}`}>
                   <Image
                     src={djInfo?.profile_pic_url || '/images/profile_placeholder.jpg'}
@@ -99,7 +99,7 @@ const MobileView: React.FC<Props> = ({
                   />
                 </Link>
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col ml-2">
                 <Link href={`/dj/${djInfo?.id}`}>
                   <p className="font-semibold">{djInfo?.name || 'No DJ name set.'}</p>
                 </Link>
@@ -116,7 +116,7 @@ const MobileView: React.FC<Props> = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-2 font-semibold mt-3.5 gap-1 mx-2">
+            <div className="grid grid-cols-2 font-semibold gap-2 pt-1">
               <div className="flex flex-row items-center">
                 <Image 
                   src={instagramIcon} 
@@ -206,12 +206,12 @@ const MobileView: React.FC<Props> = ({
               </div>
             </div>
 
-            <div className=" flex justify-center mt-2.5">
+            <div className=" flex justify-center">
               <Button
                 padding="py-3"
                 fontWeight="font-semibold"
                 bgColor='bg-gradient-to-r from-emerald-400 to-cyan-500'
-                className="w-full text-xl mx-2 rounded"
+                className="w-full text-xl rounded"
                 onClick={(e) => {
                   e.preventDefault();
                   void router.push(`/dancefloor/${dancefloorId}/request`);
