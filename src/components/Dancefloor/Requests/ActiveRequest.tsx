@@ -46,7 +46,7 @@ const ActiveRequest: React.FC<Props> = ({
 
     return (
     
-    <div className="flex flex-row items-center justify-between bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-b-[1.5px] border-r-[1.5px] border-l-[1.5px] border-black/80 py-2 relative">
+    <div className="flex flex-row items-center justify-between bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-b-[1.5px] border-r-[1.5px] border-l-[1.5px] border-black/30 py-2 relative">
         <div className='flex flex-row items-center min-w-0'>
             <div className='mx-4'>
                 <svg
@@ -73,7 +73,7 @@ const ActiveRequest: React.FC<Props> = ({
             <AnimatePresence>
                 {displayMessage && (
                     <motion.p
-                        className={`font-semibold text-lg ${likeErrors[id] && 'italic text-gray-200'}`}
+                        className={`font-semibold text-lg text-white/80 ${likeErrors[id] && 'italic text-gray-200'}`}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -10 }}
@@ -100,7 +100,7 @@ const ActiveRequest: React.FC<Props> = ({
                         height={50}
                         width={50}
                         alt="Play Icon"
-                        className='invert'
+                        className='invert opacity-90'
                     />
                 </button>
             </div>
@@ -116,7 +116,7 @@ const ActiveRequest: React.FC<Props> = ({
                         height={50}
                         width={50}
                         alt="Decline Icon"
-                        className='invert'
+                        className='invert opacity-90'
                     />
                 </button>
             </div>
@@ -132,7 +132,7 @@ const ActiveRequest: React.FC<Props> = ({
                         height={50}
                         width={50}
                         alt="Like Icon"
-                        className='invert'
+                        className='invert opacity-90'
                     />
                 </button>
             </div>

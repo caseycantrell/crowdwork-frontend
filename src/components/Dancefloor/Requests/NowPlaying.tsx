@@ -95,7 +95,7 @@ const NowPlaying: React.FC<Props> = ({
                 <AnimatePresence>
                     {displayMessage && (
                         <motion.p
-                            className={`font-bold text-lg ${likeErrors[id] && 'italic text-gray-200'}`}
+                            className={`font-bold text-white/80 text-lg ${likeErrors[id] && 'italic text-gray-200'}`}
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -10 }}
@@ -121,7 +121,7 @@ const NowPlaying: React.FC<Props> = ({
                             src={requeueIcon}
                             height={50}
                             width={50}
-                            className='invert'
+                            className='invert opacity-90'
                             alt="Requeue Icon"
                         />
                     </button>
@@ -137,7 +137,7 @@ const NowPlaying: React.FC<Props> = ({
                             src={completeIcon}
                             height={50}
                             width={50}
-                            className='invert'
+                            className='invert opacity-90'
                             alt="Complete Icon"
                         />
                     </button>
@@ -153,7 +153,7 @@ const NowPlaying: React.FC<Props> = ({
                             src={likeIconAlt}
                             height={50}
                             width={50}
-                            className='invert'
+                            className='invert opacity-90'
                             alt="Like Icon"
                         />
                     </button>

@@ -24,7 +24,7 @@ const DeclinedRequest: React.FC<Props> = ({
     };   
 
     return (
-    <div className="flex flex-row items-center justify-between bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-b-[1.5px] border-r-[1.5px] border-l-[1.5px] border-black/80 py-2 relative">
+    <div className="flex flex-row items-center justify-between bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-b-[1.5px] border-r-[1.5px] border-l-[1.5px] border-black/30 py-2 relative">
         <div className='flex flex-row items-center min-w-0'>
             <div className='mx-4'>
                 <svg    
@@ -53,7 +53,7 @@ const DeclinedRequest: React.FC<Props> = ({
             <AnimatePresence>
                 {isHovered && (
                     <motion.p
-                        className="text-white font-bold text-lg"
+                        className="text-white/80 font-bold text-lg"
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -10 }}
@@ -80,7 +80,7 @@ const DeclinedRequest: React.FC<Props> = ({
                         height={40}
                         width={50}
                         alt="Requeue Icon"
-                        className='invert'
+                        className='invert opacity-90'
                     />
                 </button>
             </div>

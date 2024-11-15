@@ -6,6 +6,7 @@ import DJInfoComponent from './DJInfoComponent';
 import SongRequests from './SongRequests';
 import { AnimatePresence, motion } from 'framer-motion';
 import { DJInfo } from '@/types/types';
+import Notification from '../UI/Notification';
 
 interface SongRequest {
   id: string;
@@ -20,7 +21,10 @@ interface Message {
 }
 
 interface Props {
-  notification: string | null;
+  notificationMessage: string | null;
+  isError: boolean;
+  showNotification: boolean;
+  onClose: () => void;
   dancefloorId: string;
   djInfo: DJInfo | null;
   djInfoError: string | null;
@@ -42,23 +46,11 @@ interface Props {
   updateStatus: (requestId: string, status: 'queued' | 'playing' | 'completed' | 'declined') => Promise<void>;
 }
 
-const variants = {
-  hidden: { y: '-100%', opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { type: 'spring', stiffness: 100, damping: 10 },
-  },
-  exit: {
-    y: '-100%',
-    opacity: 0,
-    transition: { type: 'spring', stiffness: 80, damping: 12 },
-  },
-};
-
-
 const DJView: React.FC<Props> = ({
-  notification,
+  notificationMessage,
+  isError,
+  showNotification,
+  onClose,
   dancefloorId,
   djInfo,
   djInfoError,
@@ -88,23 +80,14 @@ const DJView: React.FC<Props> = ({
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen justify-center">
       <div className='gradient-background-variation'></div>
-      <AnimatePresence>
-        {notification && (
-          <motion.div
-            className="z-50 fixed inset-x-0 top-16 mt-4 mx-auto bg-gradient-to-r from-teal-500/40 to-blue-500/40 backdrop-blur-md backdrop-brightness-75 text-white p-4 text-center rounded-lg shadow-lg"
-            style={{ maxWidth: '22rem' }}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            variants={variants}
-            key="notification"
-          >
-            <p className='font-semibold text-xl'>{notification}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        <Notification
+          notificationMessage={notificationMessage}
+          isError={isError}
+          showNotification={showNotification}
+          onClose={onClose}
+        />
       <motion.div
         className="flex-grow flex flex-col h-screen overflow-y-auto scrollbar-hide"
         animate={{ width: isChatVisible ? '75%' : '100%' }}

@@ -2,7 +2,7 @@ import { FC, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 interface NotificationProps {
-  notificationMessage: string;
+  notificationMessage: string | null;
   isError?: boolean;
   showNotification: boolean;
   onClose: () => void;
@@ -22,7 +22,7 @@ const Notification: FC<NotificationProps> = ({ notificationMessage, isError = fa
     <AnimatePresence>
       {showNotification && (
         <motion.div
-          className={`backdrop-blur max-w-[600px] p-8 shadow-lg shadow-gray-800/30 rounded-md absolute top-12 xl:top-20 2xl:top-16 text-center font-semibold z-50`}
+          className={`backdrop-blur max-w-[600px] p-8 shadow-lg shadow-gray-800/30 rounded-md absolute top-12 xl:top-12 text-center font-semibold z-50`}
           initial={{ opacity: 0, y: -100 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -100 }}

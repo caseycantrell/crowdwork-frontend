@@ -47,7 +47,7 @@ const SongRequestsMobile: React.FC<Props> = ({
 
   return (
     <div className="overflow-y-scroll scrollbar-hide pb-0">
-       <p className='text-sm font-bold pl-2 py-0.5 bg-gray-900'>Now Playing</p>
+       <p className='text-xs font-bold pl-2 py-1 bg-gray-900'>Now Playing</p>
        {nowPlayingSong ? (
           <div className="flex items-center justify-between px-2 py-6">
             <div className="flex flex-row items-center min-w-0">
@@ -103,7 +103,7 @@ const SongRequestsMobile: React.FC<Props> = ({
                     style={{ originY: "center" }}
                   />
               </svg>
-              <div className="flex flex-col max-w-[81%] font-medium ml-2">
+              <div className="flex flex-col max-w-[82%] font-medium ml-2">
                 <div className="flex items-center">
                   <div
                     ref={containerRef}
@@ -133,12 +133,12 @@ const SongRequestsMobile: React.FC<Props> = ({
                   </div>
                 </div>
       
-                <div className="flex flex-row items-center">
+                <div className="flex flex-row items-center relative">
                   <p className="text-md font-semibold ml-0.5 text-gray-300">Likes: {nowPlayingSong.likes}</p>
                   <AnimatePresence>
                     {likeErrors[nowPlayingSong.id] && (
                       <motion.p
-                        className="text-gray-800 text-xs ml-10 font-semibold"
+                        className="text-gray-800 text-xs font-semibold absolute right-0 top-1.5"
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -10 }}
@@ -179,10 +179,18 @@ const SongRequestsMobile: React.FC<Props> = ({
         ) : (
           <>
             <div className="">
-            <p className='text-sm font-bold pl-2 py-0.5 bg-gray-900 w-full'>Active Requests</p>
+            <p className='text-xs font-bold pl-2 py-1 bg-gray-900 w-full'>Active Requests</p>
               {activeRequests.length > 0 ? (
                 activeRequests.map((request, index) => (
-                  <div key={index} className={`bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-gray-800 ${index > 0 && "border-t-[0.5px]"} flex flex-row items-center justify-between pr-2 py-1`}>
+                  <div
+                    key={index}
+                    className={`bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-gray-800/80 flex flex-row items-center justify-between pr-2 py-1 ${
+                      index === 0 ? "" : "border-t-[0.5px]"
+                    } ${
+                      index !== declinedRequests.length - 1 ? "border-b-[0.5px]" : ""
+                    }`}
+                  >
+
                     <div className="flex flex-row items-center min-w-0">
                       <div className="w-2 h-2 bg-orange-500 rounded-full animate-ping mx-3"></div>
                       <div className="flex flex-col max-w-[88%]">
@@ -190,13 +198,13 @@ const SongRequestsMobile: React.FC<Props> = ({
                           <p className="font-bold mr-1.5 text-sm">Song:</p>
                           <p className="font-semibold text-xs truncate">{request.song}</p>
                         </div>
-                        <div className="flex flex-row items-center text-xs text-gray-300">
+                        <div className="flex flex-row items-center text-xs text-gray-300 relative">
                           <p className="font-bold mr-1.5">Likes:</p>
                           <p className="font-semibold">{request.likes}</p>
                           <AnimatePresence>
                             {likeErrors[request.id] && (
                               <motion.p
-                                className="text-gray-800 text-xs ml-10 font-semibold"
+                                className="text-gray-800 text-xs font-semibold absolute left-24 top-0 whitespace-nowrap"
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -10 }}
@@ -220,15 +228,18 @@ const SongRequestsMobile: React.FC<Props> = ({
                 ))
               ) : (
                 <div className='p-4'>  
-                  <p className='italic text-xs text-gray-300 text-center'>No active requests.</p>
+                  <p className='italic text-xs font-semibold text-gray-300 text-center'>No active requests.</p>
                 </div>
               )}
             </div>
             <div>
-              <p className='text-sm font-bold pl-2 bg-gray-900 py-0.5'>Completed Requests</p>
+              <p className='text-xs font-bold pl-2 bg-gray-900 py-1'>Completed Requests</p>
               {completedRequests.length > 0 ? (
                 completedRequests.map((request, index) => (
-                  <div key={index} className={`bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-gray-800 ${index > 0 && "border-t-[0.5px]"} flex flex-row items-center justify-between pr-2 py-1`}>
+                  <div 
+                    key={index}
+                    className={`bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-gray-800/80 flex flex-row items-center justify-between pr-2 py-1 ${
+                      index === 0 ? "" : "border-t-[0.5px]"} ${index !== completedRequests.length - 1 ? "border-b-[0.5px]" : ""}`}>
                     <div className="flex flex-row items-center min-w-0">
                       <svg
                         className="text-success/80 h-6 w-6 mx-1"
@@ -245,12 +256,12 @@ const SongRequestsMobile: React.FC<Props> = ({
                       <div className="flex flex-row items-center">
                         <p className="text-sm italic line-through truncate"> Song: {request.song}</p>
                       </div>
-                      <div className="flex flex-row items-center text-gray-300">
+                      <div className="flex flex-row items-center text-gray-300 relative">
                         <p className="text-xs italic line-through"> Likes: {request.likes}</p>
                         <AnimatePresence>
                           {likeErrors[request.id] && (
                               <motion.p
-                                  className="text-gray-800 text-xs ml-10 font-semibold"
+                                  className="text-gray-800 text-xs font-semibold absolute left-24 top-0 whitespace-nowrap"
                                   initial={{ opacity: 0, x: -10 }}
                                   animate={{ opacity: 1, x: 0 }}
                                   exit={{ opacity: 0, x: -10 }}
@@ -274,15 +285,16 @@ const SongRequestsMobile: React.FC<Props> = ({
                 ))
               ) : (
                 <div className='p-4'>  
-                  <p className='italic text-xs text-gray-300 text-center'>No completed requests.</p>
+                  <p className='italic text-xs font-semibold text-gray-300 text-center'>No completed requests.</p>
                 </div>
               )}
             </div>
             <div>
-            <p className='text-sm font-bold pl-2 bg-gray-900 py-0.5'>Declined Requests</p>
-            {declinedRequests.length > 0 ? (
+            <p className='text-xs font-bold pl-2 bg-gray-900 py-1'>Declined Requests</p>
+              {declinedRequests.length > 0 ? (
                 declinedRequests.map((request, index) => (
-                  <div key={index} className={`bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-gray-800 ${index > 0 && "border-t-[0.5px]"} flex flex-row items-center justify-between pr-2 py-1`}>
+                  <div key={index} className={`bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-gray-800/80 flex flex-row items-center justify-between pr-2 py-1 ${
+                    (declinedRequests.length <= 3 || index !== declinedRequests.length - 1) && "border-b-[0.25px]"}`}>
                     <div className="flex flex-row items-center min-w-0">
                       <svg    
                         className="text-error/70 h-6 w-6 mx-1"
@@ -299,12 +311,12 @@ const SongRequestsMobile: React.FC<Props> = ({
                       <div className="flex flex-row items-center">
                         <p className="text-sm italic line-through truncate"> Song: {request.song}</p>
                       </div>
-                      <div className="flex flex-row items-center text-gray-300">
+                      <div className="flex flex-row items-center text-gray-300 relative">
                         <p className="text-xs italic line-through"> Likes: {request.likes}</p>
                         <AnimatePresence>
                           {likeErrors[request.id] && (
                               <motion.p
-                                className="text-gray-800 text-xs ml-10 font-semibold"
+                                className="text-gray-800 text-xs font-semibold absolute left-24 top-0 whitespace-nowrap"
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -10 }}
@@ -328,7 +340,7 @@ const SongRequestsMobile: React.FC<Props> = ({
                 ))
               ) : (
                 <div className='p-4'>  
-                  <p className='italic text-xs text-gray-300 text-center'>No declined requests.</p>
+                  <p className='italic text-xs font-semibold text-gray-300 text-center'>No declined requests.</p>
                 </div>
               )}
             </div>

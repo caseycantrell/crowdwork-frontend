@@ -128,7 +128,7 @@ const DJInfoComponent: React.FC<{
                         height={60}
                         width={60}
                         alt="Stop Dancefloor"
-                        className="invert mr-1"
+                        className="invert opacity-90 mr-1"
                       />
                     </button>
                 </div>
@@ -157,7 +157,7 @@ const DJInfoComponent: React.FC<{
                       height={60}
                       width={60}
                       alt="Open Chat"
-                      className="invert"
+                      className="invert opacity-90"
                     />
                   </button>
                 </div>
