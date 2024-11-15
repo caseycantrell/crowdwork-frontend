@@ -42,9 +42,9 @@ const ChatMobile: React.FC<{
   };
 
   return (
-    <div className="flex flex-col h-[12.5rem]">
+    <div className={`bg-gray-900/90 flex flex-col h-[12.5rem]`}>
       <div className="flex flex-row items-center justify-between">
-        <p className="font-bold text-sm pl-2 py-0.5 bg-gray-900/90 w-full">Dancefloor Chat</p>
+        <p className="font-bold text-xs pl-2 py-1 bg-gray-900/90 w-full">Dancefloor Chat</p>
       </div>
 
       <div className="flex-1 overflow-y-auto scrollbar-thin">
@@ -54,7 +54,7 @@ const ChatMobile: React.FC<{
             messages.map((msg, index) => (
               <div
                 key={index}
-                className={`flex flex-row justify-end bg-gray-900/90 p-0.5 ${
+                className={`flex flex-row justify-end p-0.5 ${
                   index !== 0 ? 'border-t border-gray-900' : ''
                 } ${index === messages.length - 1 ? 'border-b border-gray-900' : ''}`}
               >
@@ -68,7 +68,7 @@ const ChatMobile: React.FC<{
               </div>
             ))
           ) : (
-            <p className="text-gray-500 mt-3 italic text-center text-xs">No messages yet.</p>
+            <p className="text-gray-300 mt-3 italic text-center text-xs">No messages yet.</p>
           )}
 
           {/* invisible div to track end of messages */}
