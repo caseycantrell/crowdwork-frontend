@@ -57,10 +57,16 @@ const Dancefloor: React.FC = () => {
   const [ djInfo, setDjInfo ] = useState<DJInfo | null>(null);
   const [ djInfoError, setDjInfoError ] = useState<string | null>(null);
   const [ notification, setNotification ] = useState<string | null>(null);
+  const [ isError, setIsError ] = useState<boolean>(false);
   const [ requestsCount, setRequestsCount ] = useState<number>(0);
   const [ messagesCount, setMessagesCount ] = useState<number>(0);
  
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  const handleNotificationClose = () => {
+    setNotification(null);
+    setIsError(false);
+  };
 
   // TODO: decide to show these or not
   console.log("requestsCount", requestsCount)
@@ -236,19 +242,16 @@ const Dancefloor: React.FC = () => {
 
   
   useEffect(() => {
+    const timers: NodeJS.Timeout[] = [];
+
     if (notification) {
       const timer = setTimeout(() => {
         setNotification(null);
+        setIsError(false);
       }, 3500);
-  
-      return () => clearTimeout(timer);
+      timers.push(timer);
     }
-  }, [notification]);
-  
 
-  useEffect(() => {
-    const timers: NodeJS.Timeout[] = [];
-  
     Object.keys(likeErrors).forEach((requestId) => {
       if (likeErrors[requestId]) {
         const timer = setTimeout(() => {
@@ -257,15 +260,15 @@ const Dancefloor: React.FC = () => {
             [requestId]: null,
           }));
         }, 3500);
-  
         timers.push(timer);
       }
     });
-  
+
     return () => {
       timers.forEach((timer) => clearTimeout(timer));
     };
-  }, [likeErrors]);
+  }, [notification, likeErrors]);
+  
 
   const activeRequests = songRequests.filter((request) => request.status === 'queued');
   const nowPlayingSong = songRequests.find((request) => request.status === 'playing');
@@ -275,7 +278,10 @@ const Dancefloor: React.FC = () => {
   return ( 
     session ? (
       <DJView 
-        notification={notification} 
+        notificationMessage={notification}
+        isError={isError}
+        showNotification={!!notification}
+        onClose={handleNotificationClose}
         dancefloorId={dancefloorId}
         djInfo={djInfo} 
         djInfoError={djInfoError}
