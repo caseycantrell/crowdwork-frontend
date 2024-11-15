@@ -210,7 +210,7 @@ const MobileView: React.FC<Props> = ({
               <Button
                 padding="py-3"
                 fontWeight="font-semibold"
-                bgColor='bg-gradient-to-r from-emerald-400 to-cyan-500 '
+                bgColor='bg-gradient-to-r from-emerald-400 to-cyan-500'
                 className="w-full text-xl mx-2 rounded"
                 onClick={(e) => {
                   e.preventDefault();

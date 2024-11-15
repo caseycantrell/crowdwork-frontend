@@ -19,7 +19,7 @@ const customStyles: StylesConfig<SongOption, false, GroupBase<SongOption>> = {
     color: 'white',
     borderRadius: '0.375rem',
     border: '1px solid #0ce471',
-    padding: '0.25rem',
+    padding: '0.5rem',
     boxShadow: state.isFocused ? '0 0 0 1px #4ADE80' : undefined,
   }),
   singleValue: (provided) => ({
@@ -33,6 +33,7 @@ const customStyles: StylesConfig<SongOption, false, GroupBase<SongOption>> = {
   menu: (provided) => ({
     ...provided,
     backgroundColor: '#1F2937',
+    padding: '0.5rem',
   }),
   option: (provided, state) => ({
     ...provided,
@@ -168,9 +169,10 @@ const SongRequestPage: React.FC = () => {
             />
             <Button
               onClick={handleSendSongRequest}
-              className="w-full bg-gradient-to-r from-emerald-400 to-cyan-500 text-white py-4 mt-4 rounded-md"
+              bgColor='bg-gradient-to-r from-emerald-400 to-cyan-500'
+              className="w-full text-white py-4 mt-4 rounded-md"
             >
-              Submit Request
+              Send That Thang
             </Button>
           </div>
         </>
