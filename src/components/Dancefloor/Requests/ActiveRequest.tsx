@@ -73,7 +73,7 @@ const ActiveRequest: React.FC<Props> = ({
             <AnimatePresence>
                 {displayMessage && (
                     <motion.p
-                        className={`font-semibold text-lg text-white/80 ${likeErrors[id] && 'italic text-gray-200'}`}
+                        className={`font-bold text-lg text-white/80 ${likeErrors[id] && 'italic text-gray-200'}`}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -10 }}

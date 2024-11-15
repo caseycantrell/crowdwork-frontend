@@ -53,7 +53,7 @@ const DJInfoComponent: React.FC<{
               </Link>
             </div>
           </div>
-            <div className="flex flex-col justify-center ml-6 font-medium gap-y-1">
+            <div className="flex flex-col justify-center ml-4 font-medium gap-y-1">
               <p className="text-3xl font-bold">
                 {djInfo.name ? djInfo.name : "No name for this DJ yet."}
               </p>

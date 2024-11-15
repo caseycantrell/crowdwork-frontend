@@ -358,7 +358,7 @@ const handleLogout = async () => {
             alt="Profile Picture"
             width={200}
             height={200}
-            className="w-40 h-40 xl:w-60 xl:h-60 rounded-lg border-2 border-gray-700 object-cover mb-0 xl:mb-4"
+            className="w-40 h-40 xl:w-60 xl:h-60 rounded-lg border border-gray-700/80 object-cover mb-0 xl:mb-4"
             priority
           />
 
