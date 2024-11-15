@@ -2,7 +2,7 @@ import Button from "../../UI/Button";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
-import { likeIcon, likeIconAlt } from "@/icons";
+import { likeIcon } from "@/icons";
 
 interface SongRequest {
   id: string;
