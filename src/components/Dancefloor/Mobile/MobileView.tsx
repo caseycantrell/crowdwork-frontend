@@ -84,8 +84,8 @@ const MobileView: React.FC<Props> = ({
 
       <div className="lg:hidden h-[100dvh] overflow-hidden flex flex-col">
         <div className='gradient-background-variation'></div>
-        <div className="flex-none h-[12.9rem] bg-gray-900/70 p-2">
-          <div className="flex flex-col w-full h-full space-y-2">
+        <div className="flex-none h-[11.85rem] bg-gray-900/70 p-1">
+          <div className="flex flex-col w-full h-full space-y-1">
             <div className="flex flex-row items-center">
               <div className="w-16 h-16 flex flex-col">
                 <Link href={`/dj/${djInfo?.id}`}>
@@ -99,7 +99,7 @@ const MobileView: React.FC<Props> = ({
                   />
                 </Link>
               </div>
-              <div className="flex flex-col ml-2">
+              <div className="flex flex-col ml-1">
                 <Link href={`/dj/${djInfo?.id}`}>
                   <p className="font-semibold">{djInfo?.name || 'No DJ name set.'}</p>
                 </Link>
@@ -116,7 +116,7 @@ const MobileView: React.FC<Props> = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-2 font-semibold gap-2 pt-1">
+            <div className="grid grid-cols-2 font-semibold gap-1 pt-1.5">
               <div className="flex flex-row items-center">
                 <Image 
                   src={instagramIcon} 
@@ -130,13 +130,13 @@ const MobileView: React.FC<Props> = ({
                     href={`https://www.instagram.com/${djInfo.instagram_handle.replace(/^@/, '')}`} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="ml-2 text-white truncate"
+                    className="ml-1 text-white truncate"
                     style={{ maxWidth: '155px' }}
                   >
                     {djInfo.instagram_handle}
                   </a>
                 ) : (
-                  <p className="ml-2 text-gray-400 text-xs italic">No IG info.</p>
+                  <p className="ml-1 text-gray-400 text-xs italic">No IG info.</p>
                 )}
               </div>
               <div className="flex flex-row items-center">
@@ -152,13 +152,13 @@ const MobileView: React.FC<Props> = ({
                     href={`https://x.com/${djInfo.twitter_handle.replace(/^@/, '')}`} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="ml-2 text-white truncate"
+                    className="ml-1 text-white truncate"
                     style={{ maxWidth: '155px' }}
                   >
                     {djInfo.twitter_handle}
                   </a>
                 ) : (
-                  <p className="ml-2 text-gray-400 text-xs italic">No Twitter info.</p>
+                  <p className="ml-1 text-gray-400 text-xs italic">No Twitter info.</p>
                 )}
               </div>
               <div className="flex flex-row items-center">
@@ -174,13 +174,13 @@ const MobileView: React.FC<Props> = ({
                     href={`https://account.venmo.com/u/${djInfo.venmo_handle.replace(/^@/, '')}`} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="ml-2 text-white truncate"
+                    className="ml-1 text-white truncate"
                     style={{ maxWidth: '155px' }}
                   >
                     {djInfo.venmo_handle}
                   </a>
                 ) : (
-                  <p className="ml-2 text-gray-400 text-xs italic">No Venmo info.</p>
+                  <p className="ml-1 text-gray-400 text-xs italic">No Venmo info.</p>
                 )}
               </div>
               <div className="flex flex-row items-center">
@@ -195,7 +195,7 @@ const MobileView: React.FC<Props> = ({
                       href={`https://cash.app/${djInfo.cashapp_handle.replace(/^\$/, '')}`} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="ml-2.5 text-white truncate"
+                      className="ml-1.5 text-white truncate"
                       style={{ maxWidth: '155px' }}
                     >
                       {djInfo.cashapp_handle}
