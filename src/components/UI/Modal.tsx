@@ -23,7 +23,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
           transition={{ duration: 0.4 }}
         >
           <motion.div
-            className="relative bg-gray-800 backdrop-filter backdrop-blur-lg bg-opacity-30 rounded-md p-6 shadow-lg shadow-gray-700/40"
+            className="relative bg-gray-900/50 backdrop-filter rounded-md p-6 shadow-lg shadow-gray-700/40"
             onClick={(e) => e.stopPropagation()} // prevents closing when clicked inside
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}

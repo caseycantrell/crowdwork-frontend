@@ -22,9 +22,11 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <SessionProvider session={session}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <div className="antialiased">
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </div>
       </SessionProvider>
     </>
   );

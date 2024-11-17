@@ -52,6 +52,13 @@ body {
   scrollbar-width: none;  /* firefox */
 }
 
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #6b7280 #4b5563;
+  scrollbar-gutter: stable both-edges;
+  overflow-y: scroll;
+}
+
 .scrollbar-thin::-webkit-scrollbar {
   width: 8px;
   -webkit-appearance: none;
@@ -76,12 +83,8 @@ body {
   background-color: #d1d5db;
 }
 
-/* Support for Firefox */
-.scrollbar-thin {
-  scrollbar-width: thin;
-  scrollbar-color: #6b7280 #4b5563;
-  scrollbar-gutter: stable both-edges;
-  overflow-y: scroll;
+.scrollbar-thin:empty {
+  overflow-y: hidden;
 }
 
 @keyframes rotate {
@@ -164,7 +167,7 @@ body {
   .gradient-background-variation {
     --size: 2000px;
     top: 25%;
-    left: 0%;
+    left: 10%;
   }
 }
 

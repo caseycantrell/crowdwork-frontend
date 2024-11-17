@@ -129,7 +129,7 @@ const DancefloorDetails: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="gradient-background"></div>
+      <div className="gradient-background-variation"></div>
       {session && 
         <div className="absolute top-8 right-14">
           <LogoutButton handleLogout={handleLogout} />
@@ -213,7 +213,7 @@ const DancefloorDetails: React.FC = () => {
               ) : (
                 <Button
                   onClick={() => setIsReactivateModalOpen(true)}
-                  bgColor="bg-purple-600"
+                  bgColor="bg-purple-500/70"
                   padding="w-64 py-4"
                   className="text-lg"
                 >
@@ -223,9 +223,9 @@ const DancefloorDetails: React.FC = () => {
             </div>
             <Button
               onClick={() => setIsDeleteModalOpen(true)}
-              bgColor="bg-error/80"
+              bgColor="bg-error/70"
               padding="w-64 py-4"
-              className="text-lg "
+              className="text-lg"
             >
               Delete Dancefloor
             </Button>

@@ -37,7 +37,7 @@ const DJInfoComponent: React.FC<{
         <div className="flex flex-row items-center justify-between h-full">
           <div className="flex flex-row items-center">
           <div className="flex flex-col items-center">
-            <div className="w-40 h-40 overflow-hidden rounded-lg">
+            <div className="w-40 h-40 overflow-hidden rounded-md">
               <Image
                 src={djInfo.profile_pic_url || '/images/profile_placeholder.jpg'}
                 width={160}
@@ -49,7 +49,7 @@ const DJInfoComponent: React.FC<{
             </div>
             <div className="mt-2">
               <Link href={`/dj/${djInfo.id}`}>
-                <Button className="w-40" bgColor="bg-gradient-to-r from-emerald-400 to-cyan-500 ">Back to DJ Page</Button>
+                <Button className="w-40" bgColor="bg-gradient-to-r from-emerald-400/80 to-cyan-500/80">Back to DJ Page</Button>
               </Link>
             </div>
           </div>
