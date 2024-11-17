@@ -13,6 +13,7 @@ interface DJ {
 
 interface Message {
   id: string;
+  dj_id: string;
   created_at: string;
   message: string;
 }
@@ -198,7 +199,7 @@ const Dancefloor: React.FC = () => {
         setMessageError('');
       }
   
-      socket.emit('sendMessage', { dancefloorId, message });
+      socket.emit('sendMessage', { dancefloorId, message, djId: session?.user?.id || null });
       setMessage('');
     }
   };

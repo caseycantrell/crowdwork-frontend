@@ -16,6 +16,7 @@ interface SongRequest {
 }
 
 interface Message {
+  dj_id: string | null;
   message: string;
   created_at: string;
 }
@@ -84,7 +85,7 @@ const MobileView: React.FC<Props> = ({
 
       <div className="lg:hidden h-[100dvh] overflow-hidden flex flex-col">
         <div className='gradient-background-variation'></div>
-        <div className="flex-none h-[11.85rem] bg-gray-900/70 p-1">
+        <div className="flex-none h-[11.75rem] bg-gray-900/70 p-1">
           <div className="flex flex-col w-full h-full space-y-1">
             <div className="flex flex-row items-center">
               <div className="w-16 h-16 flex flex-col">
@@ -94,7 +95,7 @@ const MobileView: React.FC<Props> = ({
                     width={160}
                     height={160}
                     alt="Profile Pic"
-                    className="object-cover w-full h-full rounded-sm"
+                    className="object-cover rounded-sm"
                     priority
                   />
                 </Link>
@@ -116,7 +117,7 @@ const MobileView: React.FC<Props> = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-2 font-semibold gap-1 pt-1.5">
+            <div className="grid grid-cols-2 font-semibold gap-1 pt-1">
               <div className="flex flex-row items-center">
                 <Image 
                   src={instagramIcon} 
@@ -141,28 +142,6 @@ const MobileView: React.FC<Props> = ({
               </div>
               <div className="flex flex-row items-center">
                 <Image 
-                  src={twitterIcon} 
-                  className="invert" 
-                  width={24} 
-                  height={24} 
-                  alt="Twitter" 
-                />
-                {djInfo?.twitter_handle ? (
-                  <a 
-                    href={`https://x.com/${djInfo.twitter_handle.replace(/^@/, '')}`} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="ml-1 text-white truncate"
-                    style={{ maxWidth: '155px' }}
-                  >
-                    {djInfo.twitter_handle}
-                  </a>
-                ) : (
-                  <p className="ml-1 text-gray-400 text-xs italic">No Twitter info.</p>
-                )}
-              </div>
-              <div className="flex flex-row items-center">
-                <Image 
                   src={venmoIcon} 
                   className="invert rounded-md" 
                   width={24} 
@@ -181,6 +160,28 @@ const MobileView: React.FC<Props> = ({
                   </a>
                 ) : (
                   <p className="ml-1 text-gray-400 text-xs italic">No Venmo info.</p>
+                )}
+              </div>
+              <div className="flex flex-row items-center">
+                <Image 
+                  src={twitterIcon} 
+                  className="invert" 
+                  width={24} 
+                  height={24} 
+                  alt="Twitter" 
+                />
+                {djInfo?.twitter_handle ? (
+                  <a 
+                    href={`https://x.com/${djInfo.twitter_handle.replace(/^@/, '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="ml-1 text-white truncate"
+                    style={{ maxWidth: '155px' }}
+                  >
+                    {djInfo.twitter_handle}
+                  </a>
+                ) : (
+                  <p className="ml-1 text-gray-400 text-xs italic">No Twitter info.</p>
                 )}
               </div>
               <div className="flex flex-row items-center">

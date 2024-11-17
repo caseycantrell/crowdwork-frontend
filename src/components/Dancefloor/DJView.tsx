@@ -16,6 +16,7 @@ interface SongRequest {
 }
 
 interface Message {
+  dj_id: string | null;
   message: string;
   created_at: string;
 }
