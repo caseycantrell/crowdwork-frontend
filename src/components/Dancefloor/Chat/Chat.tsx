@@ -1,8 +1,10 @@
+import { useEffect, useRef } from "react";
 import ChatMessage from "./ChatMessage";
 import Button from '../../UI/Button';
-import Input from '../../UI/Input'
+import Input from '../../UI/Input';
 
 interface Message {
+  dj_id: string | null;
   message: string;
   created_at: string;
 }
@@ -24,6 +26,15 @@ const Chat: React.FC<{
   setMessageError,
   messagesError,
 }) => {
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  
+  // scroll to bottom of chat when new messages arrive
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && message.trim()) {
       handleSendMessage();
@@ -43,13 +54,15 @@ const Chat: React.FC<{
           messages.length > 0 ? (
             messages.map((msg, index) => (
               <div key={index}>
-                <ChatMessage message={msg.message} createdAt={msg.created_at} />
+                <ChatMessage message={msg.message} djId={msg.dj_id} createdAt={msg.created_at} />
               </div>
             ))
           ) : (
             <p className="font-semibold text-gray-400 m-2 italic">No messages yet...</p>
           )
         )}
+        {/* invisible div to track end of chat msgs */}
+        <div ref={messagesEndRef} />
       </div>
 
       <div className="flex-none flex flex-row items-center p-2 sticky bottom-0 relative">

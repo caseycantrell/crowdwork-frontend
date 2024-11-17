@@ -4,6 +4,7 @@ import Input from "../../UI/Input";
 import { formatDistanceToNow } from 'date-fns';
 
 interface Message {
+  dj_id: string | null;
   message: string;
   created_at: string;
 }
@@ -48,32 +49,41 @@ const ChatMobile: React.FC<{
       </div>
 
       <div className="flex-1 overflow-y-auto scrollbar-thin">
-          {messagesError ? (
-            <p style={{ color: "red" }}>{messagesError}</p>
-          ) : messages.length > 0 ? (
-            messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`flex flex-row justify-end p-0.5 ${
-                  index !== 0 ? 'border-t border-gray-900' : ''
-                } ${index === messages.length - 1 ? 'border-b border-gray-900' : ''}`}
-              >
-                <div className="flex flex-col items-end mx-1.5">
-                  <p className="text-[0.8rem] text-gray-300">{msg.message}</p>
-                  <p className="text-[0.65rem] italic text-gray-500">
-                    {"- "}
-                    {formatDistanceToNow(new Date(msg.created_at), { addSuffix: true })}
-                  </p>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-300 font-semibold mt-3 italic text-center text-xs">No messages yet.</p>
-          )}
+        {messagesError ? (
+          <p style={{ color: "red" }}>{messagesError}</p>
+        ) : messages.length > 0 ? (
+          messages.map((msg, index) => (
+            <div
+              key={index}
+              className={`flex flex-row items-center justify-end p-0.5 ${
+                index !== 0 ? 'border-t border-gray-900' : ''
+              } ${index === messages.length - 1 ? 'border-b border-gray-900' : ''}`}
+            >
 
-          {/* invisible div to track end of messages */}
-          <div ref={messagesEndRef} />
-        </div>
+              {msg.dj_id && (
+                <div className="text-success/50 font-semibold text-xs mr-auto pl-2 flex-shrink-0">
+                  host
+                </div>
+              )}
+
+              <div className="flex flex-col items-end mx-1.5">
+                <p className="text-[0.8rem] text-gray-300">{msg.message}</p>
+                <p className="text-[0.65rem] italic text-gray-500">
+                  {"- "}
+                  {formatDistanceToNow(new Date(msg.created_at), { addSuffix: true })}
+                </p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-300 font-semibold mt-3 italic text-center text-xs">
+            No messages yet.
+          </p>
+        )}
+
+        {/* invisible div to track end of messages */}
+        <div ref={messagesEndRef} />
+      </div>
 
       <div className="flex-none flex flex-row items-center px-2 py-2 sticky bottom-0 bg-gray-900/90 relative">
         {messageError && (
