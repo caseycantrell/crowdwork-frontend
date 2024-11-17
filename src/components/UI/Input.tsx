@@ -27,7 +27,7 @@ const Input: React.FC<InputProps> = ({
       value={value}
       onChange={onChange}
       onKeyDown={onKeyDown}
-      className={`w-full rounded-md backdrop-blur bg-gray-700/40 text-white p-2 text-gray-800 font-semibold focus:outline-none focus:ring-2 focus:ring-success/80 placeholder:text-gray-500 ${className}`}
+      className={`w-full rounded-md bg-gray-700/40 text-white p-2 text-gray-800 font-semibold focus:outline-none focus:ring-2 focus:ring-success/70 placeholder:text-gray-500 ${className}`}
     />
   );
 };

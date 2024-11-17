@@ -102,7 +102,7 @@ const Home: React.FC = () => {
             <div className='w-40 h-40'>
             <Image src={startIcon} width={350} height={350} alt="QR Code" className='invert'/>
             </div>
-            <p className="text-center text-xl font-bold mt-4">First, start a new dancefloor...</p>
+            <p className="text-center text-xl font-bold mt-4">First, you can activate a new dancefloor...</p>
           </motion.div>
         </div>
 

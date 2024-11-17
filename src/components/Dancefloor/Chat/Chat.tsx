@@ -31,12 +31,12 @@ const Chat: React.FC<{
   };
 
   return (
-    <div className="bg-gray-900 flex flex-col h-full">
+    <div className="bg-gray-900/80 flex flex-col h-full">
       <div className="flex flex-row items-center justify-between m-2">
         <p className="text-xl 2xl:text-2xl font-bold text-white">Dancefloor Chat</p>
       </div>
       
-      <div className="flex-1 bg-gray-800 rounded-md mx-2 p-2 overflow-y-auto scrollbar-thin">
+      <div className="flex-1 bg-gray-700/40 rounded-md mx-2 p-2 overflow-y-auto scrollbar-thin">
         {messagesError ? (
           <p style={{ color: 'red' }}>{messagesError}</p>
         ) : (
@@ -52,7 +52,7 @@ const Chat: React.FC<{
         )}
       </div>
 
-      <div className="flex-none flex flex-row items-center p-2 sticky bottom-0 bg-black relative">
+      <div className="flex-none flex flex-row items-center p-2 sticky bottom-0 relative">
         {messageError && <div className="flex flex-row w-full justify-center items-center absolute bg-gradient-to-r from-red-500 to-orange-500 h-12 -top-12 left-0 right-0 text-white text-lg font-semibold">{messageError}</div>}
         <Input
           type="text"
@@ -67,11 +67,12 @@ const Chat: React.FC<{
           }}
           onKeyDown={handleKeyDown}
           placeholder="Enter your message..."
-          className="mr-2 p-3"
+          className="mr-2 p-3 bg-gray-600/50"
         />
         <Button
           onClick={handleSendMessage}
           textSize="text-xl"
+          className="flex justify-center"
         >
           Send
         </Button>

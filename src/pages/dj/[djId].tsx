@@ -358,7 +358,7 @@ const handleLogout = async () => {
             alt="Profile Picture"
             width={200}
             height={200}
-            className="w-40 h-40 xl:w-60 xl:h-60 rounded-lg border border-gray-700/80 object-cover mb-0 xl:mb-4"
+            className="w-40 h-40 xl:w-60 xl:h-60 rounded-md border border-gray-700/50 object-cover mb-0 xl:mb-4"
             priority
           />
 
@@ -366,7 +366,7 @@ const handleLogout = async () => {
             <Button
               onClick={() => setIsEditingProfilePic(true)}
               className="w-60"
-              fontWeight='font-semibold'
+              fontWeight='font-bold'
               bgColor="bg-gradient-to-r from-indigo-400/80 to-cyan-500/80"
               padding='py-3'
             >
@@ -389,7 +389,7 @@ const handleLogout = async () => {
               <Button
                 onClick={saveProfilePic}
                 disabled={uploading}
-                fontWeight='font-semibold'
+                fontWeight='font-bold'
                 bgColor='bg-gradient-to-r from-green-500/80 to-green-600/80'
                 className="w-60"
                 padding='py-3'
@@ -399,7 +399,7 @@ const handleLogout = async () => {
               <Button
                 onClick={() => setIsEditingProfilePic(false)}
                 bgColor="bg-gradient-to-r from-red-500/80 to-orange-600/80"
-                fontWeight='font-semibold'
+                fontWeight='font-bold'
                 className="mt-4 w-60"
                 padding='py-3'
               >
@@ -416,7 +416,7 @@ const handleLogout = async () => {
                 alt="DJ QR Code"
                 width={200}
                 height={200}
-                className="w-60 h-60 object-contain cursor-pointer"
+                className="w-60 h-60 object-contain cursor-pointer rounded-sm"
                 onClick={() => setIsQRModalOpen(true)} 
                 priority
               />
@@ -647,31 +647,38 @@ const handleLogout = async () => {
           </div>
 
           {session && (
-            <>
-              <p className="text-2xl font-bold">Past Dancefloors</p>
+            <div>
+              <div className='flex flex-row items-center mb-2'>
+                <p className="text-2xl font-bold">Past Dancefloors</p>
+                <p className="text-md font-semibold text-gray-300 mt-1 ml-2">&#40;click to view details&#41;</p>
+              </div>
               <ul className="space-y-2 h-96 pb-16 overflow-y-scroll scrollbar-thin">
                 {pastDancefloors.length > 0 ? (
                   pastDancefloors.map((dancefloor) => (
-                    <li key={dancefloor.id}>
+                    <li key={dancefloor.id} className='p-2'>
                       <Link
                         href={`/dancefloor/${dancefloor.id}/details`}
                         className="text-success/80 font-bold text-xl"
                       >
                         Dancefloor {dancefloor.id}
+                        <div className="italic font-semibold text-sm text-white grid grid-cols-4">
+                          <div className='col-span-1'>
+                          <p>- Requests: {dancefloor.requests_count}</p>
+                          <p>- Messages: {dancefloor.messages_count}</p>
+                          </div>
+                          <div className='col-span-3'>
+                          <p>- Ended: {format(new Date(dancefloor.ended_at), 'MMMM d, yyyy, h:mm a')}</p>
+                          <p>- Started: {format(new Date(dancefloor.created_at), 'MMMM d, yyyy, h:mm a')}</p>
+                          </div>
+                        </div>
                       </Link>
-                      <div className="ml-0 md:ml-0">
-                        <p className="italic">- Started: {format(new Date(dancefloor.created_at), 'MMMM d, yyyy, h:mm a')}</p>
-                        <p className="italic">- Ended: {format(new Date(dancefloor.ended_at), 'MMMM d, yyyy, h:mm a')}</p>
-                        <p className="italic">- Requests: {dancefloor.requests_count}</p>
-                        <p className="italic">- Messages: {dancefloor.messages_count}</p>
-                      </div>
                     </li>
                   ))
                 ) : (
                   <p className="text-gray-500 italic ml-6">No past dancefloors found yet...</p>
                 )}
               </ul>
-            </>
+            </div>
           )}
         </div>
       </div>
