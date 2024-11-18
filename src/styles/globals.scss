@@ -124,8 +124,9 @@ body {
   left: -20%;
   width: var(--size);
   height: var(--size);
-  filter: blur(var(--blur));
+  filter: blur(var(--blur)) saturate(1.2);
   -webkit-filter: blur(var(--blur));
+  opacity: 0.9;
   background-image: linear-gradient(
     45deg,
     #ff6ec7 0%,   /* neon pink */
@@ -139,7 +140,7 @@ body {
 
   border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
   position: fixed;
-  transform: translate(-50%, -50%);
+  transform: translate3d(-50%, -50%, 0);
   will-change: transform;
   z-index: -1;
   pointer-events: none;

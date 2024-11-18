@@ -47,8 +47,8 @@ const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen overflow-hidden">
-      <div className="gradient-background-variation fixed inset-0 z-0"></div>
-      <div className="relative z-10 flex flex-col items-center min-h-screen">
+      <div className="gradient-background-variation"></div>
+      <div className="relative flex flex-col items-center">
         <div className="flex flex-row items-center text-xl absolute top-12 right-16">
           <Link href='/login' className='font-bold'>Login</Link>
           <Link href='/signup' className='ml-10 font-bold'>Sign Up</Link>
