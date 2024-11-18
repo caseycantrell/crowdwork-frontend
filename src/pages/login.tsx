@@ -81,8 +81,8 @@ const LoginPage: React.FC = () => {
             </Button>
           </form>
           <div className="flex flex-row items-center justify-center text-lg relative w-full mt-5">
-            <p className="mr-3 font-semibold">Don&apos;t have an account yet?</p>
-            <Link href="/signup" className="font-bold text-link">
+            <p className="mr-3 font-bold">Don&apos;t have an account yet?</p>
+            <Link href="/signup" className="font-extrabold text-link">
               <p>Sign Up</p>
             </Link>
           </div>
