@@ -47,7 +47,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen overflow-hidden">
-      <div className="gradient-background-variation"></div>
+      <div className="gradient-background-variation backdrop-blur"></div>
       <div className="relative flex flex-col items-center">
         <div className="flex flex-row items-center text-xl absolute top-12 right-16">
           <Link href='/login' className='font-bold'>Login</Link>
@@ -60,7 +60,7 @@ const Home: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0, duration: 1.5 }}
-            className='font-extrabold text-8xl relative'
+            className='font-extrabold text-5xl lg:text-8xl relative'
           >
             CROWDWORK
           </motion.p>
@@ -68,7 +68,7 @@ const Home: React.FC = () => {
             initial={{ opacity: 0, x: 150 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 1.25, duration: 1 }}
-            className='font-extrabold text-2xl absolute top-20 right-0 mt-1'
+            className='font-extrabold text-xl lg:text-2xl absolute top-12 lg:top-20 right-0 mt-1'
           >
             Real-time song requesting and chat for DJ&apos;s.
           </motion.p>

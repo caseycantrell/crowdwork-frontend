@@ -130,7 +130,7 @@ const DancefloorDetails: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="gradient-background-variation"></div>
+      <div className="gradient-background-variation backdrop-blur"></div>
       {session && 
         <div className="absolute top-8 right-14">
           <LogoutButton handleLogout={handleLogout} />
@@ -182,11 +182,11 @@ const DancefloorDetails: React.FC = () => {
             </div>
             <div className="flex flex-col">
               <div className='flex flex-row items-center'>
-                <p className='font-bold'>Created At:</p> 
+                <p className='font-bold'>Started:</p> 
                 <p className='font-medium ml-1'>{new Date(dancefloor.created_at).toLocaleString()}</p>
               </div>
               <div className='flex flex-row items-center'>
-                <p className='font-bold'>Ended At:</p> 
+                <p className='font-bold'>Ended:</p> 
                 <p className='font-medium ml-1'>{new Date(dancefloor.ended_at).toLocaleString()}</p>
               </div>
               <div className='flex flex-row items-center'>
