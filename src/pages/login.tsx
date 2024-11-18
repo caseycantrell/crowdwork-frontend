@@ -56,7 +56,7 @@ const LoginPage: React.FC = () => {
         <Link href='/' className='font-bold'>Home</Link>
         <Link href='/signup' className='ml-10 font-bold'>Sign Up</Link>
       </div>
-        <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-6 flex flex-col items-center w-[550px]'>
+      <div className='backdrop-blur bg-gray-600/30 border-1 border-gray-500 rounded-md shadow-xl p-6 flex flex-col items-center w-[550px]'>
           <p className="text-4xl font-extrabold mb-6">Login</p>
           <form
             onSubmit={handleSubmit}

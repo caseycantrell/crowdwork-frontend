@@ -60,7 +60,7 @@ const Home: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0, duration: 1.5 }}
-            className='font-extrabold text-8xl relative'
+            className='font-extrabold text-5xl lg:text-8xl relative'
           >
             CROWDWORK
           </motion.p>
@@ -68,7 +68,7 @@ const Home: React.FC = () => {
             initial={{ opacity: 0, x: 150 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 1.25, duration: 1 }}
-            className='font-extrabold text-2xl absolute top-20 right-0 mt-1'
+            className='font-extrabold text-xl lg:text-2xl absolute top-12 lg:top-20 right-0 mt-1'
           >
             Real-time song requesting and chat for DJ&apos;s.
           </motion.p>
