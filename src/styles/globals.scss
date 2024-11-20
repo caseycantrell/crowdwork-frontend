@@ -211,11 +211,11 @@ body {
   position: relative;
   overflow: hidden;
   box-shadow: 0 0 0 0 transparent;
-  transition: all 0.2s ease-in;
+  transition: box-shadow 0.2s ease-in;
 
   &:hover {
     box-shadow: 0 0 0px 0 rgba(255, 255, 255, 0.5);
-    transition: all 0.2s ease-out;
+    transition: box-shadow 0.2s ease-out;
 
     &:before {
       animation: shine 0.5s linear;
