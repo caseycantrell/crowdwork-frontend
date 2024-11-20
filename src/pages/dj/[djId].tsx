@@ -428,7 +428,17 @@ const handleLogout = async () => {
         <div className="flex-1 space-y-4 xl:space-y-6">
           <div className='absolute top-36 right-32 opacity-80'>
             {dancefloorId && !isEditing && 
-              <div className='flex flex-col items-center'>
+              <motion.div 
+                className='flex flex-col items-center'
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 12,
+                  duration: 0.6,
+                  delay: 1
+                }}>
                 <svg
                   className="h-16 w-16"
                   viewBox="0 0 40 40"
@@ -482,7 +492,7 @@ const handleLogout = async () => {
                   />
               </svg>
                 <p className='font-bold text-lg'>Dancefloor is live...</p>
-              </div>
+              </motion.div>
             }
           </div>
           <div>
