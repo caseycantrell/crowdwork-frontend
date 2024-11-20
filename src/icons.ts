@@ -5,6 +5,7 @@ const completeIcon: string = '/icons/complete.png';
 const dancefloorIcon: string = '/icons/dancefloor.png';
 const declineIcon: string = '/icons/decline.png';
 const downIcon: string = '/icons/down.svg';
+const editIcon: string = '/icons/edit.svg';
 const infoIcon: string = '/icons/info.svg';
 const instagramIcon: string = '/icons/instagram.png';
 const likeIcon: string = '/icons/like.png';
@@ -28,6 +29,7 @@ export {
   dancefloorIcon,
   declineIcon,
   downIcon,
+  editIcon,
   infoIcon,
   instagramIcon,
   likeIcon,
