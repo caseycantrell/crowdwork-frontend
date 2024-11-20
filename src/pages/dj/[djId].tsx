@@ -10,7 +10,7 @@ import Modal from '../../components/UI/Modal';
 import { useSession, signOut } from 'next-auth/react';
 import Notification from '../../components/UI/Notification';
 import { AnimatePresence, motion } from 'framer-motion';
-import { infoIcon } from '@/icons';
+import { infoIcon, editIcon } from '@/icons';
 
 interface Dancefloor {
   id: string;
@@ -304,7 +304,7 @@ const handleLogout = async () => {
 
 
   return (
-    <div className="min-h-screen flex xl:items-center justify-center px-2 xl:px-6 py-2 xl:py-8 relative">
+    <div className="min-h-screen flex flex-col xl:items-center justify-center px-2 xl:px-6 py-2 xl:py-8 relative">
       <Notification
         showNotification={notification.isVisible}
         isError={notification.isError}
@@ -426,6 +426,75 @@ const handleLogout = async () => {
         </div>
 
         <div className="flex-1 space-y-4 xl:space-y-6">
+          <div className='absolute top-36 right-32 opacity-80'>
+            {dancefloorId && !isEditing && 
+              <motion.div 
+                className='flex flex-col items-center'
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 12,
+                  duration: 0.6,
+                  delay: 1
+                }}>
+                <svg
+                  className="h-16 w-16"
+                  viewBox="0 0 40 40"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <motion.rect
+                    x="4"
+                    y="10"
+                    width="6"
+                    height="20"
+                    rx="3"
+                    animate={{ scaleY: [1, 1.4, 1] }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 0.6,
+                      ease: "easeInOut",
+                      delay: 0,
+                    }}
+                    style={{ originY: "center" }}
+                  />
+                  <motion.rect
+                    x="16"
+                    y="5"
+                    width="6"
+                    height="30"
+                    rx="3"
+                    animate={{ scaleY: [1, 1.2, 1] }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 0.6,
+                      ease: "easeInOut",
+                      delay: 0.3,
+                    }}
+                    style={{ originY: "center" }}
+                  />
+                  <motion.rect
+                    x="28"
+                    y="10"
+                    width="6"
+                    height="20"
+                    rx="3"
+                    animate={{ scaleY: [1, 1.4, 1] }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 0.6,
+                      ease: "easeInOut",
+                      delay: 0,
+                    }}
+                    style={{ originY: "center" }}
+                  />
+              </svg>
+                <p className='font-bold text-lg'>Dancefloor is live...</p>
+              </motion.div>
+            }
+          </div>
           <div>
             <p className="text-xl xl:text-2xl font-bold">Name</p>
             {session && isEditing ? (
@@ -605,46 +674,49 @@ const handleLogout = async () => {
                   </Button>
                 </div>
               ) : (
-                <div className="w-full grid grid-cols-2 gap-4">
+                <div className="flex flex-row items-center cursor-pointer" onClick={() => setIsEditing(true)}>
+                  <Image src={editIcon} width={28} height={28} alt="Edit Icon" className='invert' />
                   <Button
                     onClick={() => setIsEditing(true)}
-                    padding="p-4"
-                    bgColor="bg-gradient-to-r from-indigo-400/80 to-cyan-500/80"
+                    padding=""
+                    bgColor=""
+                    className='text-link ml-3' 
+                    disableHoverEffect={true}
                   >
-                    Edit Info
+                    Edit Profile Info
                   </Button>
-                  <Button onClick={() => setIsConfirmationModalOpen(true)} padding="p-4" bgColor="bg-gradient-to-r from-red-500/80 to-orange-600/80">
-                    Delete Account
-                  </Button>
+                  
                 </div>
               )}
             </div>
           )}
 
-          <div className="flex text-xl text-white font-bold">
-            {dancefloorId ? (
-              <Link href={`/dancefloor/${dancefloorId}`} className="w-full">
+         {!isEditing &&  
+            <div className="flex text-xl text-white font-bold">
+              {dancefloorId ? (
+                <Link href={`/dancefloor/${dancefloorId}`} className="w-full">
+                  <Button
+                    disabled={isLoading}
+                    padding="p-4"
+                    bgColor="bg-gradient-to-r from-emerald-500/80 to-cyan-500/80"
+                    className="w-full"
+                  >
+                    Go to Active Dancefloor
+                  </Button>
+                </Link>
+              ) : session ? (
                 <Button
-                  disabled={isLoading}
+                  onClick={startDancefloor}
+                  className="w-full"
                   padding="p-4"
                   bgColor="bg-gradient-to-r from-emerald-500/80 to-cyan-500/80"
-                  className="w-full"
+                  disabled={isLoading}
                 >
-                  Go to Active Dancefloor
+                  {isLoading ? "Starting..." : "Start Dancefloor"}
                 </Button>
-              </Link>
-            ) : session ? (
-              <Button
-                onClick={startDancefloor}
-                className="w-full"
-                padding="p-4"
-                bgColor="bg-gradient-to-r from-emerald-500/80 to-cyan-500/80"
-                disabled={isLoading}
-              >
-                {isLoading ? "Starting..." : "Start Dancefloor"}
-              </Button>
-            ) : null}
-          </div>
+              ) : null}
+            </div>
+          }
 
           {session && (
             <div>
@@ -681,8 +753,17 @@ const handleLogout = async () => {
             </div>
           )}
         </div>
-      </div>
 
+        {session && 
+          <div className='absolute -bottom-10 right-2'>
+            <Button onClick={() => setIsConfirmationModalOpen(true)} disableHoverEffect={true} className='bg-transparent bg-none bg-opacity-0 text-link text-xl' fontWeight='font-bold' padding='' bgColor='' >
+              Delete Account
+            </Button>
+          </div>
+        }
+
+      </div>
+     
       {/* how-to info modal */}
       <Modal isOpen={isInfoModalOpen} onClose={closeInfoModal}>
         <div className="w-full max-w-2xl mx-auto space-y-4 text-gray-200 font-semibold">
@@ -706,6 +787,7 @@ const handleLogout = async () => {
         <div className="relative space-y-4">
           <div className='flex flex-col items-start'>
             <p className="text-3xl font-bold">You sure?</p>
+            <p className="text-sm font-bold">This will delete all of your dancefloors, including requests and messages.</p>
             <p className="font-semibold text-sm">Please enter your email and password to confirm.</p>
           </div>
           <Input
