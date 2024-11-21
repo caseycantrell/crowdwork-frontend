@@ -408,26 +408,8 @@ const handleLogout = async () => {
             </>
           ) : null}
 
-          {session && qrCodeUrl && (
-            <div className="flex flex-col items-center absolute bottom-64">
-              <p className="font-bold text-xl mb-2">Your QR Code</p>
-              <Image
-                src={qrCodeUrl}
-                alt="DJ QR Code"
-                width={200}
-                height={200}
-                className="w-60 h-60 object-contain cursor-pointer rounded-sm"
-                onClick={() => setIsQRModalOpen(true)} 
-                priority
-              />
-              <p className='font-semibold mt-2 text-sm'>Click to enlarge/save.</p>
-            </div>
-          )}
-        </div>
-
-        <div className="flex-1 space-y-4 xl:space-y-6">
-          <div className='absolute top-36 right-32 opacity-80'>
-            {dancefloorId && !isEditing && 
+          <div className='pt-16 opacity-90'>
+            {dancefloorId && !isEditingProfilePic && 
               <motion.div 
                 className='flex flex-col items-center'
                 initial={{ scale: 0, opacity: 0 }}
@@ -437,7 +419,7 @@ const handleLogout = async () => {
                   stiffness: 100,
                   damping: 12,
                   duration: 0.6,
-                  delay: 1
+                  delay: 0.25
                 }}>
                 <svg
                   className="h-16 w-16"
@@ -495,6 +477,25 @@ const handleLogout = async () => {
               </motion.div>
             }
           </div>
+
+          {session && qrCodeUrl && (
+            <div className="flex flex-col items-center absolute bottom-64">
+              <p className="font-bold text-xl mb-2">Your QR Code</p>
+              <Image
+                src={qrCodeUrl}
+                alt="DJ QR Code"
+                width={200}
+                height={200}
+                className="w-60 h-60 object-contain cursor-pointer rounded-sm"
+                onClick={() => setIsQRModalOpen(true)} 
+                priority
+              />
+              <p className='font-semibold mt-2 text-sm'>Click to enlarge/save.</p>
+            </div>
+          )}
+        </div>
+
+        <div className="flex-1 space-y-4 xl:space-y-6">
           <div>
             <p className="text-xl xl:text-2xl font-bold">Name</p>
             {session && isEditing ? (
