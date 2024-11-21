@@ -508,6 +508,7 @@ const handleLogout = async () => {
               >
                 <Input
                   value={djName}
+                  maxLength={50}
                   placeholder="Enter DJ name..."
                   className="placeholder:text-sm"
                   onChange={(e) => setDjName(e.target.value)}

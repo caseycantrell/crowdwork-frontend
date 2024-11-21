@@ -8,6 +8,7 @@ interface InputProps {
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   className?: string;
   id?: string;
+  maxLength?: number;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -18,6 +19,7 @@ const Input: React.FC<InputProps> = ({
   onKeyDown,
   className = '',
   id,
+  maxLength
 }) => {
   return (
     <input
@@ -27,6 +29,7 @@ const Input: React.FC<InputProps> = ({
       value={value}
       onChange={onChange}
       onKeyDown={onKeyDown}
+      maxLength={maxLength}
       className={`w-full rounded-md bg-gray-700/40 text-white p-2 text-gray-800 font-semibold focus:outline-none focus:ring-2 focus:ring-success/70 placeholder:text-gray-400 ${className}`}
     />
   );
