@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Advent_Pro } from "next/font/google";
 import "../styles/globals.scss";
 
 const geistSans = localFont({
