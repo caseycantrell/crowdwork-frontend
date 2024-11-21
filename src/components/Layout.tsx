@@ -1,4 +1,10 @@
-import React from 'react';
+import React from "react";
+import localFont from "next/font/local";
+
+const geistSans = localFont({
+  src: "../app/fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+});
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -6,9 +12,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <>
-      <main>{children}</main>
-    </>
+    <main  className={geistSans.variable}>{children}</main>
   );
 };
 

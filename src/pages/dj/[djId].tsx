@@ -317,38 +317,39 @@ const handleLogout = async () => {
           <LogoutButton handleLogout={handleLogout} />
         </div>
       }
-      <div className="w-full max-w-6xl bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
+      <div className="w-full mb-32 max-w-6xl bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
         {session &&   
-            <div className='flex flex-row items-center absolute top-4 right-4'>
-              <AnimatePresence>
-                {isHowItWorksHovered && (
-                  <motion.p
-                    className="font-semibold text-sm text-gray-100 mr-4"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -10 }}
-                    transition={{
-                      type: 'tween',
-                      duration: 0.5,
-                      ease: 'easeInOut',
-                    }}
-                    >
-                    How It Works
-                  </motion.p>
-                )}
-              </AnimatePresence>
-              <Image 
-                src={infoIcon} 
-                width={25}
-                height={25}
-                alt="How It Works"
-                aria-label="How It Works"
-                className='invert cursor-pointer'
-                onClick={() => setIsInfoModalOpen(true)}
-                onMouseEnter={() => setIsHowItWorksHovered(true)}
-                onMouseLeave={() => setIsHowItWorksHovered(false)}
-                />
-            </div>}
+          <div className='flex flex-row items-center absolute top-4 right-4'>
+            <AnimatePresence>
+              {isHowItWorksHovered && (
+                <motion.p
+                  className="font-semibold text-sm text-gray-100 mr-4"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{
+                    type: 'tween',
+                    duration: 0.5,
+                    ease: 'easeInOut',
+                  }}
+                  >
+                  How It Works
+                </motion.p>
+              )}
+            </AnimatePresence>
+            <Image 
+              src={infoIcon} 
+              width={25}
+              height={25}
+              alt="How It Works"
+              aria-label="How It Works"
+              className='invert cursor-pointer'
+              onClick={() => setIsInfoModalOpen(true)}
+              onMouseEnter={() => setIsHowItWorksHovered(true)}
+              onMouseLeave={() => setIsHowItWorksHovered(false)}
+              />
+          </div>
+        }
         
         <div className="flex flex-col items-center md:w-1/3">
           {session && <p className="text-4xl font-semibold text-center mb-0 xl:mb-8">{djName || 'Your DJ Profile'}</p>}
@@ -386,48 +387,30 @@ const handleLogout = async () => {
               >
                 Choose File
               </label>
+             <div className={`grid grid-cols-2 gap-4 w-60 ${isEditingProfilePic && dancefloorId && 'pb-16'}`}>
               <Button
-                onClick={saveProfilePic}
-                disabled={uploading}
-                fontWeight='font-bold'
-                bgColor='bg-gradient-to-r from-green-500/80 to-green-600/80'
-                className="w-60"
-                padding='py-3'
-              >
-                {uploading ? 'Uploading...' : 'Save Profile Picture'}
-              </Button>
-              <Button
-                onClick={() => setIsEditingProfilePic(false)}
-                bgColor="bg-gradient-to-r from-red-500/80 to-orange-600/80"
-                fontWeight='font-bold'
-                className="mt-4 w-60"
-                padding='py-3'
-              >
-                Cancel
-              </Button>
+                  onClick={saveProfilePic}
+                  disabled={uploading}
+                  fontWeight='font-bold'
+                  bgColor='bg-gradient-to-r from-green-500/80 to-green-600/80'
+                  padding='py-3'
+                >
+                  Save
+                </Button>
+                <Button
+                  onClick={() => setIsEditingProfilePic(false)}
+                  bgColor="bg-gradient-to-r from-red-500/80 to-orange-600/80"
+                  fontWeight='font-bold'
+                  padding='py-3'
+                >
+                  Cancel
+                </Button>
+             </div>
             </>
           ) : null}
 
-          {session && qrCodeUrl && (
-            <div className="flex flex-col items-center absolute bottom-64">
-              <p className="font-bold text-xl mb-2">Your QR Code</p>
-              <Image
-                src={qrCodeUrl}
-                alt="DJ QR Code"
-                width={200}
-                height={200}
-                className="w-60 h-60 object-contain cursor-pointer rounded-sm"
-                onClick={() => setIsQRModalOpen(true)} 
-                priority
-              />
-              <p className='font-semibold mt-2 text-sm'>Click to enlarge/save.</p>
-            </div>
-          )}
-        </div>
-
-        <div className="flex-1 space-y-4 xl:space-y-6">
-          <div className='absolute top-36 right-32 opacity-80'>
-            {dancefloorId && !isEditing && 
+          <div className={`${isEditingProfilePic ? 'py-8' : 'py-[50px]'} opacity-90`}>
+            {dancefloorId && !isEditingProfilePic && 
               <motion.div 
                 className='flex flex-col items-center'
                 initial={{ scale: 0, opacity: 0 }}
@@ -437,7 +420,7 @@ const handleLogout = async () => {
                   stiffness: 100,
                   damping: 12,
                   duration: 0.6,
-                  delay: 1
+                  delay: 0.25
                 }}>
                 <svg
                   className="h-16 w-16"
@@ -495,24 +478,54 @@ const handleLogout = async () => {
               </motion.div>
             }
           </div>
+
+          {session && qrCodeUrl && (
+            <div className={`flex flex-col items-center ${!dancefloorId && isEditingProfilePic && '-mt-[28px]'}`}>
+              <p className="font-bold text-xl mb-2">Your QR Code</p>
+              <Image
+                src={qrCodeUrl}
+                alt="DJ QR Code"
+                width={200}
+                height={200}
+                className="w-60 h-60 object-contain cursor-pointer rounded-sm"
+                onClick={() => setIsQRModalOpen(true)} 
+                priority
+              />
+              <p className='font-semibold mt-2 text-sm'>Click to enlarge/save.</p>
+            </div>
+          )}
+        </div>
+
+        <div className="flex-1 space-y-4 xl:space-y-6">
           <div>
             <p className="text-xl xl:text-2xl font-bold">Name</p>
             {session && isEditing ? (
-              <Input
-                value={djName}
-                placeholder='Enter DJ name...'
-                className='placeholder:text-sm'
-                onChange={(e) => setDjName(e.target.value)}
-              />
+              <motion.div
+                initial={{ opacity: 0, width: '10px' }}
+                animate={{ opacity: 1, width: '100%' }}
+                exit={{ opacity: 0, width: '10px' }}
+                transition={{ duration: 0.5 }}
+              >
+                <Input
+                  value={djName}
+                  maxLength={50}
+                  placeholder="Enter DJ name..."
+                  className="placeholder:text-sm"
+                  onChange={(e) => setDjName(e.target.value)}
+                />
+              </motion.div>
             ) : (
               <p className={`font-semibold text-gray-400 ${!djName && 'italic ml-1 text-sm'}`}>{djName || 'No DJ Name entered.'}</p>
             )}
           </div>
-
           <div>
             <p className="text-xl xl:text-2xl font-bold">Bio</p>
             {session && isEditing ? (
-              <textarea
+              <motion.textarea
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
                 placeholder='Enter bio (500 character maximum)...'
@@ -525,18 +538,23 @@ const handleLogout = async () => {
               </p>
             )}
           </div>
-
-
           <div>
             <p className="text-xl xl:text-2xl font-bold">Website</p>
             {session && isEditing ? (
-              <Input
-                type="text"
-                value={website}
-                placeholder='Enter valid website...'
-                onChange={(e) => setWebsite(e.target.value)}
-                className="w-full placeholder:text-sm"
-              />
+              <motion.div
+                initial={{ opacity: 0, width: '10px' }}
+                animate={{ opacity: 1, width: '100%' }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Input
+                  type="text"
+                  value={website}
+                  placeholder='Enter valid website...'
+                  onChange={(e) => setWebsite(e.target.value)}
+                  className="w-full placeholder:text-sm"
+                />
+              </motion.div>
             ) : website ? (
               <a
                 href={website}
@@ -556,6 +574,13 @@ const handleLogout = async () => {
               <div className="flex flex-row items-baseline">
                 <p className="text-gray-400">Instagram:</p>
                 {session && isEditing ? (
+                  <motion.div
+                    className='w-full'
+                    initial={{ opacity: 0, width: '10px' }}
+                    animate={{ opacity: 1, width: '100%' }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
                   <Input
                     type="text"
                     value={instagramHandle}
@@ -563,6 +588,7 @@ const handleLogout = async () => {
                     placeholder={`Instagram handle (include @ symbol)...`}
                     onChange={(e) => setInstagramHandle(e.target.value)}
                   />
+                  </motion.div>
                 ) : instagramHandle ? (
                   <a 
                     href={`https://www.instagram.com/${instagramHandle.replace(/^@/, '')}`} 
@@ -579,13 +605,21 @@ const handleLogout = async () => {
               <div className="flex flex-row items-baseline">
                 <p className="text-gray-400">Twitter:</p>
                 {session && isEditing ? (
-                  <Input
-                    type="text"
-                    value={twitterHandle}
-                    className='ml-2 placeholder:text-sm'
-                    placeholder={`Twitter handle (include @ symbol)...`}
-                    onChange={(e) => setTwitterHandle(e.target.value)}
-                  />
+                  <motion.div
+                    className='w-full'
+                    initial={{ opacity: 0, width: '10px' }}
+                    animate={{ opacity: 1, width: '100%' }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Input
+                      type="text"
+                      value={twitterHandle}
+                      className='ml-2 placeholder:text-sm'
+                      placeholder={`Twitter handle (include @ symbol)...`}
+                      onChange={(e) => setTwitterHandle(e.target.value)}
+                    />
+                  </motion.div>
                 ) : twitterHandle ? (
                   <a 
                     href={`https://x.com/${twitterHandle.replace(/^@/, '')}`} 
@@ -601,20 +635,27 @@ const handleLogout = async () => {
               </div>
             </div>
           </div>
-
           <div>
             <p className="text-xl xl:text-2xl font-bold">Payment Handles</p>
             <div className="font-semibold">
               <div className="flex flex-row items-baseline">
                 <p className="text-gray-400">Venmo:</p>
                 {session && isEditing ? (
-                  <Input
-                    type="text"
-                    value={venmoHandle}
-                    className='ml-2 mb-2 placeholder:text-sm'
-                    placeholder={`Venmo handle (include @ symbol)...`}
-                    onChange={(e) => setVenmoHandle(e.target.value)}
-                  />
+                  <motion.div
+                    className='w-full'
+                    initial={{ opacity: 0, width: '10px' }}
+                    animate={{ opacity: 1, width: '100%' }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Input
+                      type="text"
+                      value={venmoHandle}
+                      className='ml-2 mb-2 placeholder:text-sm'
+                      placeholder={`Venmo handle (include @ symbol)...`}
+                      onChange={(e) => setVenmoHandle(e.target.value)}
+                    />
+                  </motion.div>
                 ) : venmoHandle ? (
                   <a 
                     href={`https://account.venmo.com/u/${venmoHandle.replace(/^@/, '')}`} 
@@ -631,13 +672,21 @@ const handleLogout = async () => {
               <div className="flex flex-row items-baseline">
                 <p className="text-gray-400">CashApp:</p>
                 {session && isEditing ? (
-                  <Input
-                    type="text"
-                    value={cashappHandle}
-                    className='ml-2 placeholder:text-sm'
-                    placeholder={`CashApp Cashtag (include $ symbol)...`}
-                    onChange={(e) => setCashappHandle(e.target.value)}
-                  />
+                  <motion.div
+                    className='w-full'
+                    initial={{ opacity: 0, width: '10px' }}
+                    animate={{ opacity: 1, width: '100%' }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Input
+                      type="text"
+                      value={cashappHandle}
+                      className='ml-2 placeholder:text-sm'
+                      placeholder={`CashApp Cashtag (include $ symbol)...`}
+                      onChange={(e) => setCashappHandle(e.target.value)}
+                    />
+                  </motion.div>
                 ) : cashappHandle ? (
                   <a 
                     href={`https://cash.app/${cashappHandle.replace(/^\$/, '')}`} 
@@ -691,7 +740,7 @@ const handleLogout = async () => {
             </div>
           )}
 
-         {!isEditing &&  
+          {!isEditing &&  
             <div className="flex text-xl text-white font-bold">
               {dancefloorId ? (
                 <Link href={`/dancefloor/${dancefloorId}`} className="w-full">
@@ -757,13 +806,12 @@ const handleLogout = async () => {
         {session && 
           <div className='absolute -bottom-10 right-2'>
             <Button onClick={() => setIsConfirmationModalOpen(true)} disableHoverEffect={true} className='bg-transparent bg-none bg-opacity-0 text-link text-xl' fontWeight='font-bold' padding='' bgColor='' >
-              Delete Account
+              Delete Account&#63;
             </Button>
           </div>
         }
-
       </div>
-     
+      
       {/* how-to info modal */}
       <Modal isOpen={isInfoModalOpen} onClose={closeInfoModal}>
         <div className="w-full max-w-2xl mx-auto space-y-4 text-gray-200 font-semibold">
@@ -841,7 +889,6 @@ const handleLogout = async () => {
           )}
         </div>
       </Modal>
-
 
     </div>
   );
