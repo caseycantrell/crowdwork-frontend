@@ -12,7 +12,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <main  className={geistSans.variable}>{children}</main>
+    <main className={`${geistSans.variable} antialiased`}>{children}</main>
   );
 };
 
