@@ -317,7 +317,7 @@ const handleLogout = async () => {
           <LogoutButton handleLogout={handleLogout} />
         </div>
       }
-      <div className="w-full mb-32 max-w-6xl bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
+      <div className="w-full my-16 max-w-6xl bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
         {session &&   
           <div className='flex flex-row items-center absolute top-4 right-4'>
             <AnimatePresence>

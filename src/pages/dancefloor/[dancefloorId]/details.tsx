@@ -130,7 +130,7 @@ const DancefloorDetails: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="gradient-background-variation backdrop-blur"></div>
+      <div className="gradient-background-variation"></div>
       {session && 
         <div className="absolute top-8 right-14">
           <LogoutButton handleLogout={handleLogout} />
