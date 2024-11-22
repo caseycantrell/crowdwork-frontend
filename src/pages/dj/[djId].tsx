@@ -311,7 +311,7 @@ const handleLogout = async () => {
         notificationMessage={notification.message}
         onClose={() => setNotification((prev) => ({ ...prev, isVisible: false }))}
       />
-      <div className='gradient-background-variation'></div>
+      <div className='gradient-background-variation backdrop-blur'></div>
       {session && 
         <div className="absolute top-8 right-14">
           <LogoutButton handleLogout={handleLogout} />

@@ -54,7 +54,7 @@ const SignupPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center relative">
-      <div className="gradient-background-variation"></div>
+      <div className="gradient-background-variation backdrop-blur"></div>
       <Notification
           showNotification={notification.isVisible}
           isError={notification.isError}

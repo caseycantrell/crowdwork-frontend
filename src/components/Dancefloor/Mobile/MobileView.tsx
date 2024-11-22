@@ -84,7 +84,7 @@ const MobileView: React.FC<Props> = ({
       </div>
 
       <div className="lg:hidden h-[100dvh] overflow-hidden flex flex-col">
-        <div className='gradient-background-variation'></div>
+        <div className='gradient-background-variation backdrop-blur'></div>
         <div className="flex-none h-[11.75rem] bg-gray-900/70 p-1">
           <div className="flex flex-col w-full h-full space-y-1">
             <div className="flex flex-row items-center">
