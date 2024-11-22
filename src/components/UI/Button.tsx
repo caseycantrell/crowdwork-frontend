@@ -43,7 +43,7 @@ const Button: React.FC<ButtonProps> = ({
       onMouseLeave={onMouseLeave}
       className={`${textColor} ${textSize} ${bgColor} ${disabled ? disabledColor : ""} ${padding} ${fontWeight} ${
         disableHoverEffect ? "no-hover" : "button-effect"
-      } rounded-md ${className}`}
+      } rounded-md border-[1px] border-gray-900/30 ${className}`}
     >
       {children}
     </button>

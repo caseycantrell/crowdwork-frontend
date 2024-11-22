@@ -318,7 +318,7 @@ const handleLogout = async () => {
           <LogoutButton handleLogout={handleLogout} />
         </div>
       }
-      <div className="w-full my-16 max-w-6xl bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow-xl rounded-lg p-4 xl:p-8 space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
+      <div className="w-full md:my-16 max-w-6xl bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 shadow-xl rounded-lg p-4 xl:p-8 md:space-y-4 xl:space-y-8 md:flex md:space-x-8 relative">
         {session &&   
           <div className='flex flex-row items-center absolute top-4 right-4'>
             <AnimatePresence>
@@ -352,7 +352,7 @@ const handleLogout = async () => {
           </div>
         }
         
-        <div className="flex flex-col items-center md:w-1/3">
+        <div className="flex flex-col items-center md:w-1/3 relative">
           {session && <p className="text-4xl font-semibold text-center mb-0 xl:mb-8">{djName || 'Your DJ Profile'}</p>}
 
           <Image
@@ -410,10 +410,10 @@ const handleLogout = async () => {
             </>
           ) : null}
 
-          <div className={`${isEditingProfilePic ? 'py-8' : 'py-[50px]'} opacity-90`}>
+          <div className={`${isEditingProfilePic ? 'py-[18px]' : 'py-[10px] md:py-[50px]'} opacity-90`}>
             {dancefloorId && !isEditingProfilePic && 
               <motion.div 
-                className='flex flex-col items-center'
+                className='flex flex-row items-center'
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{
@@ -424,7 +424,7 @@ const handleLogout = async () => {
                   delay: 0.25
                 }}>
                 <svg
-                  className="h-16 w-16"
+                  className="h-6 md:h-16 w-6 md:w-16 mr-1"
                   viewBox="0 0 40 40"
                   fill="currentColor"
                   xmlns="http://www.w3.org/2000/svg"
@@ -475,13 +475,13 @@ const handleLogout = async () => {
                     style={{ originY: "center" }}
                   />
               </svg>
-                <p className='font-bold text-lg'>Dancefloor is live...</p>
+                <p className='font-bold text-xs md:text-lg'>Dancefloor is live...</p>
               </motion.div>
             }
           </div>
 
           {session && qrCodeUrl && (
-            <div className={`flex flex-col items-center ${!dancefloorId && isEditingProfilePic && '-mt-[28px]'}`}>
+            <div className='flex flex-col items-center'>
               <p className="font-bold text-xl mb-2">Your QR Code</p>
               <Image
                 src={qrCodeUrl}
@@ -495,6 +495,14 @@ const handleLogout = async () => {
               <p className='font-semibold mt-2 text-sm'>Click to enlarge/save.</p>
             </div>
           )}
+
+          {session && 
+            <div className='absolute bottom-0 opacity-90'>
+              <Button onClick={() => setIsConfirmationModalOpen(true)} disableHoverEffect={true} className='bg-transparent bg-none bg-opacity-0 text-link text-xl' fontWeight='font-bold' padding='' bgColor='' >
+                Delete Account&#63;
+              </Button>
+            </div>
+          }
         </div>
 
         <div className="flex-1 space-y-4 xl:space-y-6">
@@ -803,14 +811,6 @@ const handleLogout = async () => {
             </div>
           )}
         </div>
-
-        {session && 
-          <div className='absolute -bottom-10 right-2'>
-            <Button onClick={() => setIsConfirmationModalOpen(true)} disableHoverEffect={true} className='bg-transparent bg-none bg-opacity-0 text-link text-xl' fontWeight='font-bold' padding='' bgColor='' >
-              Delete Account&#63;
-            </Button>
-          </div>
-        }
       </div>
       
       {/* how-to info modal */}
