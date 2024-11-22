@@ -572,7 +572,7 @@ const handleLogout = async () => {
             <p className="text-xl xl:text-2xl font-bold">Social Media</p>
             <div className="font-semibold">
               <div className="flex flex-row items-baseline">
-                <p className="text-gray-400">Instagram:</p>
+                <p className="text-gray-400 mr-2">Instagram:</p>
                 {session && isEditing ? (
                   <motion.div
                     className='w-full'
@@ -584,7 +584,7 @@ const handleLogout = async () => {
                   <Input
                     type="text"
                     value={instagramHandle}
-                    className='ml-2 mb-2 placeholder:text-sm'
+                    className='mb-2 placeholder:text-sm'
                     placeholder={`Instagram handle (include @ symbol)...`}
                     onChange={(e) => setInstagramHandle(e.target.value)}
                   />
@@ -603,7 +603,7 @@ const handleLogout = async () => {
                 )}
               </div>
               <div className="flex flex-row items-baseline">
-                <p className="text-gray-400">Twitter:</p>
+                <p className="text-gray-400 mr-2">Twitter:</p>
                 {session && isEditing ? (
                   <motion.div
                     className='w-full'
@@ -615,7 +615,7 @@ const handleLogout = async () => {
                     <Input
                       type="text"
                       value={twitterHandle}
-                      className='ml-2 placeholder:text-sm'
+                      className='placeholder:text-sm'
                       placeholder={`Twitter handle (include @ symbol)...`}
                       onChange={(e) => setTwitterHandle(e.target.value)}
                     />
@@ -639,7 +639,7 @@ const handleLogout = async () => {
             <p className="text-xl xl:text-2xl font-bold">Payment Handles</p>
             <div className="font-semibold">
               <div className="flex flex-row items-baseline">
-                <p className="text-gray-400">Venmo:</p>
+                <p className="text-gray-400 mr-2">Venmo:</p>
                 {session && isEditing ? (
                   <motion.div
                     className='w-full'
@@ -651,7 +651,7 @@ const handleLogout = async () => {
                     <Input
                       type="text"
                       value={venmoHandle}
-                      className='ml-2 mb-2 placeholder:text-sm'
+                      className='mb-2 placeholder:text-sm'
                       placeholder={`Venmo handle (include @ symbol)...`}
                       onChange={(e) => setVenmoHandle(e.target.value)}
                     />
@@ -670,7 +670,7 @@ const handleLogout = async () => {
                 )}
               </div>
               <div className="flex flex-row items-baseline">
-                <p className="text-gray-400">CashApp:</p>
+                <p className="text-gray-400 mr-2">CashApp:</p>
                 {session && isEditing ? (
                   <motion.div
                     className='w-full'
@@ -682,7 +682,7 @@ const handleLogout = async () => {
                     <Input
                       type="text"
                       value={cashappHandle}
-                      className='ml-2 placeholder:text-sm'
+                      className='placeholder:text-sm'
                       placeholder={`CashApp Cashtag (include $ symbol)...`}
                       onChange={(e) => setCashappHandle(e.target.value)}
                     />
