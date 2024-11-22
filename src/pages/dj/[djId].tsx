@@ -498,7 +498,7 @@ const handleLogout = async () => {
 
           {session && 
             <div className='absolute bottom-0 opacity-90'>
-              <Button onClick={() => setIsConfirmationModalOpen(true)} disableHoverEffect={true} className='bg-transparent bg-none bg-opacity-0 text-link text-xl' fontWeight='font-bold' padding='' bgColor='' >
+              <Button onClick={() => setIsConfirmationModalOpen(true)} disableHoverEffect={true} className='bg-transparent bg-none bg-opacity-0 text-link text-xl border-none' fontWeight='font-bold' padding='' bgColor='' >
                 Delete Account&#63;
               </Button>
             </div>
@@ -738,7 +738,7 @@ const handleLogout = async () => {
                     onClick={() => setIsEditing(true)}
                     padding=""
                     bgColor=""
-                    className='text-link ml-3' 
+                    className='text-link ml-3 border-none' 
                     disableHoverEffect={true}
                   >
                     Edit Profile Info

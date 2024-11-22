@@ -13,7 +13,7 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({ handleLogout }) => {
       padding=''
       bgColor=''
       disableHoverEffect={true}
-      className='text-right w-full bg-transparent bg-none bg-opacity-0 text-link'>
+      className='text-right w-full bg-transparent bg-none bg-opacity-0 text-link border-none'>
       Logout
     </Button>
   );
