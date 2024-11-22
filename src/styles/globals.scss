@@ -116,34 +116,48 @@ body {
 
 .gradient-background-variation {
   --size: 650px;
-  --blur: calc(var(--size) / 7.5);
-  --speed: 12s;
+  --speed: 12s; 
+  --blur: 80px; 
   --easing: cubic-bezier(0.8, 0.3, 0.3, 0.8);
 
-  top: 10%;
+  position: fixed;
+  top: 10%; 
   left: -20%;
   width: var(--size);
   height: var(--size);
-  filter: blur(var(--blur)) saturate(1.2);
-  -webkit-filter: blur(var(--blur));
-  opacity: 0.9;
   background-image: linear-gradient(
     45deg,
-    #ff6ec7 0%,   /* neon pink */
-    #f3a683 25%,  /* soft coral */
-    #82589f 50%,  /* deep purple */
-    #63cdda 75%,  /* aqua */
-    #546de5 100%  /* vaporwave blue */
+    #ff6ec7 0%,    /* Neon pink */
+    #f3a683 25%,   /* Soft coral */
+    #82589f 50%,   /* Deep purple */
+    #63cdda 75%,   /* Aqua */
+    #546de5 100%   /* Vaporwave blue */
   );
-  animation: rotate var(--speed) var(--easing) alternate infinite;
-  -webkit-animation: rotate var(--speed) var(--easing) alternate infinite;
-
+  filter: blur(var(--blur));
+  opacity: 0.9;
   border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
-  position: fixed;
-  transform: translate3d(-50%, -50%, 0);
-  will-change: transform;
   z-index: -1;
   pointer-events: none;
+  animation: gradient-move var(--speed) var(--easing) alternate infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes gradient-move {
+  0% {
+    transform: translate(-25px, -25px) scale(1);
+  }
+  25% {
+    transform: translate(-20px, -10px) scale(1.1);
+  }
+  50% {
+    transform: translate(25px, 20px) scale(1.05);
+  }
+  75% {
+    transform: translate(10px, 30px) scale(1.08);
+  }
+  100% {
+    transform: translate(-25px, -25px) scale(1);
+  }
 }
 
 
@@ -151,7 +165,7 @@ body {
   .gradient-background-variation {
     --size: 850px;
     top: 20%;
-    left: 0%;
+    right: 10%;
   }
 }
 
