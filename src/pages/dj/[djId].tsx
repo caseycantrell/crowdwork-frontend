@@ -14,6 +14,7 @@ import { infoIcon, editIcon } from '@/icons';
 
 interface Dancefloor {
   id: string;
+  name: string;
   dj_id: string;
   created_at: string;
   ended_at: string;
@@ -781,7 +782,7 @@ const handleLogout = async () => {
                         href={`/dancefloor/${dancefloor.id}/details`}
                         className="text-success/80 font-bold text-xl cursor-pointer"
                       >
-                        Dancefloor {dancefloor.id}
+                        Dancefloor: {dancefloor.name || dancefloor.id}
                         <div className="italic font-semibold text-sm text-white grid grid-cols-4">
                           <div className='col-span-1'>
                           <p>- Requests: {dancefloor.requests_count}</p>

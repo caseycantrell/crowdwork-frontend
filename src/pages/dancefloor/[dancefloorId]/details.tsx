@@ -133,7 +133,7 @@ const DancefloorDetails: React.FC = () => {
           },
           body: JSON.stringify({
             dancefloorId,
-            name: newName.trim() === '' ? null : newName.trim(), // Send null for blank input
+            name: newName.trim() === '' ? null : newName.trim(), // sending null for blank input
           }),
         });
   
