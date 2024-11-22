@@ -82,7 +82,7 @@ const DJView: React.FC<Props> = ({
 
   return (
     <div className="flex min-h-screen justify-center">
-      <div className='gradient-background-variation'></div>
+      <div className='gradient-background-variation backdrop-blur'></div>
         <Notification
           notificationMessage={notificationMessage}
           isError={isError}
