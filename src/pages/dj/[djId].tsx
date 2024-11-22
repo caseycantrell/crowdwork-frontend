@@ -774,15 +774,15 @@ const handleLogout = async () => {
                 <p className="text-2xl font-bold">Past Dancefloors</p>
                 <p className="text-md font-semibold text-gray-300 mt-1 ml-2">&#40;click to view details&#41;</p>
               </div>
-              <ul className="space-y-2 h-96 pb-4 overflow-y-scroll scrollbar-thin">
+              <ul className="h-96 pb-4 overflow-y-scroll scrollbar-thin">
                 {pastDancefloors.length > 0 ? (
                   pastDancefloors.map((dancefloor) => (
-                    <li key={dancefloor.id} className='p-2'>
+                    <li key={dancefloor.id} className='px-3 pb-3 pt-2 hover:bg-gray-800/10 ease-in-out duration-300 rounded-md'>
                       <Link
                         href={`/dancefloor/${dancefloor.id}/details`}
                         className="text-success/80 font-bold text-xl cursor-pointer"
                       >
-                        Dancefloor: {dancefloor.name || dancefloor.id}
+                        <p className='whitespace-nowrap truncate text-ellipses max-w-[640px]'>Dancefloor: {dancefloor.name || dancefloor.id}</p>
                         <div className="italic font-semibold text-sm text-white grid grid-cols-4">
                           <div className='col-span-1'>
                           <p>- Requests: {dancefloor.requests_count}</p>
