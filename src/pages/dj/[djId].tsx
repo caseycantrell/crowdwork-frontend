@@ -789,7 +789,7 @@ const handleLogout = async () => {
                         href={`/dancefloor/${dancefloor.id}/details`}
                         className="text-success/80 font-bold text-xl cursor-pointer"
                       >
-                        <p className='whitespace-nowrap truncate text-ellipses max-w-[640px]'>Dancefloor: {dancefloor.name || dancefloor.id}</p>
+                        <p className='whitespace-nowrap truncate text-ellipses max-w-[640px]'>Dancefloor{dancefloor.name ? '' : ' ID'}: {dancefloor.name || dancefloor.id}</p>
                         <div className="italic font-semibold text-sm text-white grid grid-cols-4">
                           <div className='col-span-1'>
                           <p>- Requests: {dancefloor.requests_count}</p>
