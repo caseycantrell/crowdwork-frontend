@@ -45,6 +45,19 @@ const SongRequestsMobile: React.FC<Props> = ({
     }
   }, [nowPlayingSong?.song]);
 
+  const dotVariants = {
+    animate: (i: number) => ({
+      scale: [0, 1, 0],
+      opacity: [0.3, 1, 0.3],
+      transition: {
+        delay: i * 0.25,
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    }),
+  };
+
   return (
     <div className="overflow-y-scroll scrollbar-hide pb-0">
        <p className='text-xs font-bold pl-2 py-1 bg-gray-900'>Now Playing</p>
@@ -178,8 +191,8 @@ const SongRequestsMobile: React.FC<Props> = ({
           <p style={{ color: 'red' }}>{songRequestsError}</p>
         ) : (
           <>
-            <div className="">
-            <p className='text-xs font-bold pl-2 py-1 bg-gray-900 w-full'>Active Requests</p>
+            <div className="">  
+              <p className='text-xs font-bold pl-2 py-1 bg-gray-900 w-full'>Active Requests</p>
               {activeRequests.length > 0 ? (
                 activeRequests.map((request, index) => (
                   <div
@@ -190,9 +203,18 @@ const SongRequestsMobile: React.FC<Props> = ({
                       index !== declinedRequests.length - 1 ? "border-b-[0.5px]" : ""
                     }`}
                   >
-
                     <div className="flex flex-row items-center min-w-0">
-                      <div className="w-2 h-2 bg-orange-500 rounded-full animate-ping mx-3"></div>
+                      <div className="flex flex-row items-center mx-1">
+                      {[0, 1, 2].map((i) => (
+                        <motion.div
+                          key={i}
+                          className="w-2 h-2 bg-white/80 rounded-full"
+                          custom={i}
+                          variants={dotVariants}
+                          animate="animate"
+                        />
+                      ))}
+                      </div>
                       <div className="flex flex-col max-w-[88%]">
                         <div className="flex flex-row items-center">
                           <p className="font-bold mr-1.5 text-sm">Song:</p>
