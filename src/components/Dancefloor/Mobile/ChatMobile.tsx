@@ -43,7 +43,7 @@ const ChatMobile: React.FC<{
   };
 
   return (
-    <div className="bg-orange-900/90 flex flex-col h-[188px]">
+    <div className="bg-gray-900/90 flex flex-col h-[189px]">
       <div className="flex flex-row items-center justify-between">
         <p className="font-bold text-xs pl-2 py-1 bg-gray-900/90 w-full">Dancefloor Chat</p>
       </div>
