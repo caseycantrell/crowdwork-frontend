@@ -43,7 +43,7 @@ const ChatMobile: React.FC<{
   };
 
   return (
-    <div className={`bg-gray-900/90 flex flex-col h-[12.25rem]`}>
+    <div className={`bg-gray-900/90 flex flex-col h-[12.4rem]`}>
       <div className="flex flex-row items-center justify-between">
         <p className="font-bold text-xs pl-2 py-1 bg-gray-900/90 w-full">Dancefloor Chat</p>
       </div>
@@ -85,7 +85,7 @@ const ChatMobile: React.FC<{
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="flex-none flex flex-row items-center px-2 py-2 sticky bottom-0 bg-gray-900/90 relative">
+      <div className="flex-none flex flex-row items-center p-1 sticky bottom-0 bg-gray-800/90 relative">
         {messageError && (
           <div className="flex flex-row w-full justify-center items-center absolute bg-gradient-to-r from-red-500 to-orange-500 h-12 -top-12 left-0 right-0 text-white text-lg font-semibold">
             {messageError}
@@ -106,7 +106,7 @@ const ChatMobile: React.FC<{
           }}
           onKeyDown={handleKeyDown}
           placeholder="Enter chat message..."
-          className="mr-2"
+          className="mr-1"
         />
         <Button
           onClick={handleSendMessage}
