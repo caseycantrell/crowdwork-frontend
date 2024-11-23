@@ -497,8 +497,8 @@ const handleLogout = async () => {
           )}
 
           {session && 
-            <div className='absolute bottom-0 opacity-90'>
-              <Button onClick={() => setIsConfirmationModalOpen(true)} disableHoverEffect={true} className='bg-transparent bg-none bg-opacity-0 text-link text-xl border-none' fontWeight='font-bold' padding='' bgColor='' >
+            <div className='absolute -bottom-2 opacity-80'>
+              <Button onClick={() => setIsConfirmationModalOpen(true)} disableHoverEffect={true} className='bg-transparent bg-none bg-opacity-0 text-link text-md border-none' fontWeight='font-bold' padding='' bgColor='' >
                 Delete Account&#63;
               </Button>
             </div>
@@ -715,7 +715,7 @@ const handleLogout = async () => {
           {session && (
             <div className="flex text-white font-bold text-xl w-full">
               {isEditing ? (
-                <div className="w-full grid grid-cols-2 gap-4">
+                <div className="w-full grid grid-cols-2 gap-x-4">
                   <Button
                     onClick={handleEditInfo}
                     padding="p-4"
@@ -728,22 +728,21 @@ const handleLogout = async () => {
                     padding="p-4"
                     bgColor="bg-gradient-to-r from-red-500/80 to-orange-600/80"
                   >
-                    Cancel Edit
+                    Cancel
                   </Button>
                 </div>
               ) : (
-                <div className="flex flex-row items-center cursor-pointer" onClick={() => setIsEditing(true)}>
-                  <Image src={editIcon} width={28} height={28} alt="Edit Icon" className='invert' />
+                <div className="flex flex-row items-center cursor-pointer opacity-70 -my-2" onClick={() => setIsEditing(true)}>
+                  <Image src={editIcon} width={20} height={20} alt="Edit Icon" className='invert' />
                   <Button
                     onClick={() => setIsEditing(true)}
                     padding=""
                     bgColor=""
-                    className='text-link ml-3 border-none' 
+                    className='text-sm ml-2 border-none' 
                     disableHoverEffect={true}
                   >
                     Edit Profile Info
                   </Button>
-                  
                 </div>
               )}
             </div>
@@ -797,8 +796,8 @@ const handleLogout = async () => {
                           <p>- Messages: {dancefloor.messages_count}</p>
                           </div>
                           <div className='col-span-3'>
-                          <p>- Ended: {format(new Date(dancefloor.ended_at), 'MMMM d, yyyy, h:mm a')}</p>
                           <p>- Started: {format(new Date(dancefloor.created_at), 'MMMM d, yyyy, h:mm a')}</p>
+                          <p>- Ended: {format(new Date(dancefloor.ended_at), 'MMMM d, yyyy, h:mm a')}</p>
                           </div>
                         </div>
                       </Link>
@@ -837,7 +836,7 @@ const handleLogout = async () => {
           <div className='flex flex-col items-start'>
             <p className="text-3xl font-bold">You sure?</p>
             <p className="text-sm font-bold">This will delete all of your dancefloors, including requests and messages.</p>
-            <p className="font-semibold text-sm">Please enter your email and password to confirm.</p>
+            <p className="font-semibold text-sm">Please enter your email and password to confirm. Miss you already.</p>
           </div>
           <Input
             type="email"

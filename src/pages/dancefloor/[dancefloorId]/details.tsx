@@ -10,6 +10,7 @@ import { formatDate } from 'date-fns';
 import LogoutButton from '../../../components/LogoutButton';
 import { useSession, signOut } from 'next-auth/react';
 import { editIcon } from '@/icons';
+import { motion } from 'framer-motion';
 
 interface DJ {
   id: string;
@@ -203,27 +204,33 @@ const DancefloorDetails: React.FC = () => {
                     }}
                   >
                     <Image src={editIcon} width={18} height={18} alt="Edit Icon" className="invert" />
-                    <p className="font-bold text-xs ml-0.5 mt-0.5">Rename</p>
+                    <p className="font-bold text-xs ml-1 mt-0.5">Rename</p>
                   </div>
                 </>
               ) : (
-                <>
+                <motion.div
+                  className='flex flex-row items-center w-full'
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
                   <Input
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
                     maxLength={56}
                     placeholder="Enter new name"
-                    className="ml-2 w-full"
+                    className="w-full"
                   />
-                  <div className="flex space-x-2">
-                    <Button onClick={handleSaveName} bgColor="bg-success/70">
+                  <div>
+                    <Button onClick={handleSaveName} bgColor="bg-success/70" className='mx-2'>
                       Save
                     </Button>
                     <Button onClick={handleCancelEdit} bgColor="bg-error/70">
                       Cancel
                     </Button>
                   </div>
-                </>
+                </motion.div>
               )}
             </div>
             <Link href={`/dj/${dancefloor.dj_id}`}>
@@ -239,7 +246,7 @@ const DancefloorDetails: React.FC = () => {
               </div>
               <div className="flex flex-row items-center">
                 <p className="font-bold">Status:</p>
-                <p className={`font-semibold ml-1 ${dancefloor.status === 'active' ? 'text-success' : 'text-gray-400'}`}>
+                <p className={`font-semibold ml-1 ${dancefloor.status === 'active' ? 'text-success' : 'text-gray-300'}`}>
                   {dancefloor.status ? dancefloor.status.charAt(0).toUpperCase() + dancefloor.status.slice(1) : ''}
                 </p>
                 {dancefloor.status === 'active' && (
@@ -264,19 +271,19 @@ const DancefloorDetails: React.FC = () => {
               <div className="flex flex-col">
                 <div className='flex flex-row items-center'>
                   <p className='font-bold'>Started:</p> 
-                  <p className='font-medium ml-1'>{new Date(dancefloor.created_at).toLocaleString()}</p>
+                  <p className='font-semibold ml-1 text-gray-300'>{new Date(dancefloor.created_at).toLocaleString()}</p>
                 </div>
                 <div className='flex flex-row items-center'>
                   <p className='font-bold'>Ended:</p> 
-                  <p className='font-medium ml-1'>{new Date(dancefloor.ended_at).toLocaleString()}</p>
+                  <p className='font-semibold ml-1 text-gray-300'>{new Date(dancefloor.ended_at).toLocaleString()}</p>
                 </div>
                 <div className='flex flex-row items-center'>
                   <p className='font-bold'>Total Requests:</p> 
-                  <p className='font-medium ml-1'>{dancefloor.requests_count}</p>
+                  <p className='font-semibold ml-1 text-gray-300'>{dancefloor.requests_count}</p>
                 </div>
                 <div className='flex flex-row items-center'>
                   <p className='font-bold'>Total Messages:</p> 
-                  <p className='font-medium ml-1'>{dancefloor.messages_count}</p>
+                  <p className='font-semibold ml-1 text-gray-300'>{dancefloor.messages_count}</p>
                 </div>
               </div>
             </div>
@@ -359,9 +366,9 @@ const DancefloorDetails: React.FC = () => {
                 {dancefloor.songRequests && dancefloor.songRequests.length > 0 ? (
                   <ul className="list-disc list-inside space-y-2">
                     {dancefloor.songRequests.map((request: SongRequest) => (
-                      <li key={request.id} className="py-3 px-2 bg-gray-800 bg-opacity-30 shadow rounded flex flex-row items-center">
-                        <p className='text-xs text-gray-400 mr-2 text-nowrap'>{formatDate(request.created_at, "h:mm a")} </p>
-                        <p className='flex-1 truncate overflow-hidden text-ellipsis whitespace-nowrap font-semibold'>{request.song} </p>
+                      <li key={request.id} className="py-3 px-2 bg-gray-800 bg-opacity-30 shadow rounded flex flex-row items-center font-semibold">
+                        <p className='text-xs text-gray-400 mr-2 text-nowrap mt-0.5'>{formatDate(request.created_at, "h:mm a")} </p>
+                        <p className='flex-1 truncate overflow-hidden text-ellipsis whitespace-nowrap'>{request.song} </p>
                         <p className='text-xs ml-2 text-gray-400 text-nowrap'>(Likes: {request.likes})</p>
                       </li>
                     ))}
@@ -377,9 +384,12 @@ const DancefloorDetails: React.FC = () => {
                 {dancefloor.messages && dancefloor.messages.length > 0 ? (
                   <ul className="space-y-2">
                     {dancefloor.messages.map((msg: Message) => (
-                      <li key={msg.id} className="py-3 px-2 bg-gray-800 bg-opacity-30 shadow rounded flex flex-row items-center">
-                        <p className='text-xs text-gray-400 mr-2 text-nowrap'>{formatDate(msg.created_at, "h:mm a")} </p>
-                        <p className='font-semibold'>{msg.message}</p>
+                      <li key={msg.id} className="py-3 px-2 bg-gray-800 bg-opacity-30 shadow rounded flex flex-row items-center justify-between">
+                        <div className='flex flex-row items-center font-semibold'>
+                          <p className='text-xs text-gray-400 mr-2 text-nowrap mt-0.5'>{formatDate(msg.created_at, "h:mm a")} </p>
+                          <p>{msg.message}</p>
+                        </div>
+                        <p className='text-xs font-bold text-gray-400 ml-1'>{msg.dj_id ? "host" : ""}</p>
                       </li>
                     ))}
                   </ul>
