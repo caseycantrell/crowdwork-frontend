@@ -36,7 +36,7 @@ const Notification: FC<NotificationProps> = ({ notificationMessage, isError = fa
           }}
         >
         <div className='flex flex-row items-center justify-center'>
-            <p className='text-xl font-bold mr-2'>{isError ? "WOMP WOMP." : "Noice."}</p>
+            <p className='text-xl font-bold mr-2'>{isError ? "WOMP WOMP." : "NICE."}</p>
             {isError ?  
               <motion.svg
                 initial={{ scale: 0.8, rotate: -10 }}
