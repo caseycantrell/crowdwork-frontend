@@ -100,9 +100,9 @@ const Home: React.FC = () => {
             transition={{ duration: 1, delay: 0 }}
           >
             <div className='w-40 h-40'>
-            <Image src={startIcon} width={350} height={350} alt="QR Code" className='invert'/>
+              <Image src={startIcon} width={350} height={350} alt="QR Code" className='invert'/>
             </div>
-            <p className="text-center text-xl font-bold mt-4">First, you can activate a new dancefloor...</p>
+            <p className="text-center text-xl font-bold mt-4">Activate a new dancefloor to get started.</p>
           </motion.div>
         </div>
 
@@ -114,9 +114,9 @@ const Home: React.FC = () => {
             transition={{ duration: 1, delay: 1.5 }}
           >
             <div className='w-48 h-48'>
-            <Image src={qrCodeIcon} width={200} height={200} alt="QR Code" className='invert'/>
+              <Image src={qrCodeIcon} width={200} height={200} alt="QR Code" className='invert'/>
             </div>
-            <p className="text-center text-xl font-extrabold">Guests can then join your dancefloor with your QR.</p>
+            <p className="text-center text-xl font-extrabold">Share your QR code so your guests can join in.</p>
           </motion.div>
         </div>
 
@@ -128,9 +128,9 @@ const Home: React.FC = () => {
             transition={{ duration: 1, delay: 3 }}
           >
             <div className='w-48 h-48'>
-            <Image src={musicChatIcon} width={200} height={200} alt="QR Code" className='invert'/>
+              <Image src={musicChatIcon} width={200} height={200} alt="QR Code" className='invert'/>
             </div>
-            <p className="text-center text-xl font-bold">There they can make song requests and chat.</p>
+            <p className="text-center text-xl font-bold">Guests can chat live and request songs together.</p>
           </motion.div>
         </div>
 

@@ -57,7 +57,7 @@ const NowPlaying: React.FC<Props> = ({
       };
 
     return (
-        <div className="flex flex-row items-center justify-between bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 py-8 relative">
+        <div className="flex flex-row items-center justify-between bg-gray-700/50 py-8 relative">
             <div className='flex flex-row items-center min-w-0'>
                 <div className='mx-4'>
                     <svg

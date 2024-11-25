@@ -36,23 +36,23 @@ const DJInfoComponent: React.FC<{
       {djInfo ? (
         <div className="flex flex-row items-center justify-between h-full">
           <div className="flex flex-row items-center">
-          <div className="flex flex-col items-center">
-            <div className="w-40 h-40 overflow-hidden rounded-md">
-              <Image
-                src={djInfo.profile_pic_url || '/images/profile_placeholder.jpg'}
-                width={160}
-                height={160}
-                alt="Profile Pic"
-                className="object-cover w-full h-full"
-                priority
-              />
+            <div className="flex flex-col items-center">
+              <div className="w-40 h-40 overflow-hidden rounded-md">
+                <Image
+                  src={djInfo.profile_pic_url || '/images/profile_placeholder.jpg'}
+                  width={160}
+                  height={160}
+                  alt="Profile Pic"
+                  className="object-cover w-full h-full"
+                  priority
+                />
+              </div>
+              <div className="mt-2">
+                <Link href={`/dj/${djInfo.id}`}>
+                  <Button className="w-40" bgColor="bg-gradient-to-r from-emerald-400/80 to-cyan-500/80">Back to DJ Page</Button>
+                </Link>
+              </div>
             </div>
-            <div className="mt-2">
-              <Link href={`/dj/${djInfo.id}`}>
-                <Button className="w-40" bgColor="bg-gradient-to-r from-emerald-400/80 to-cyan-500/80">Back to DJ Page</Button>
-              </Link>
-            </div>
-          </div>
             <div className="flex flex-col justify-center ml-4 font-medium gap-y-1">
               <p className="text-3xl font-bold">
                 {djInfo.name ? djInfo.name : "No name for this DJ yet."}
